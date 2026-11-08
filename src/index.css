@@ -236,3 +236,41 @@ p { margin: 0 0 8px; }
 .disconnect-row { margin-top: 16px; border-top: 1px solid var(--border); border-bottom: 0; padding-top: 14px; }
 .text-btn { font: inherit; font-size: 15px; font-weight: 600; color: var(--muted); background: none; border: 1px solid var(--border);
   border-radius: 99px; padding: 6px 14px; width: auto; display: inline-block; }
+
+/* ---------- header ---------- */
+.appbar { position: sticky; top: 0; z-index: 4; display: flex; align-items: center; gap: 10px;
+  padding: calc(env(safe-area-inset-top) + 10px) 16px 10px; background: var(--bg); border-bottom: 1px solid var(--border);
+  font-weight: 700; font-size: 17px; }
+.appbar img { border-radius: 7px; display: block; }
+.appbar + .screen { padding-top: 12px; }
+.appbar + .screen h1 { margin-top: 4px; }
+
+/* ---------- grammar topics ---------- */
+.topic { margin-bottom: 28px; }
+.topic-title { font-size: 21px; margin: 8px 0 12px; display: flex; align-items: center; gap: 10px; }
+.topic-n { display: inline-flex; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff;
+  font-size: 15px; align-items: center; justify-content: center; flex: none; }
+.card h3 { font-size: 16px; margin: 0 0 6px; }
+.rule { border-left: 4px solid var(--accent); }
+.tip { border-left: 4px solid #a15c00; }
+.table-wrap { overflow-x: auto; margin: 0 -4px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th { text-align: left; color: var(--muted); font-weight: 600; font-size: 13px; padding: 6px 8px; border-bottom: 2px solid var(--border); }
+td { padding: 9px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+td:not(:first-child) { font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+.practise-topic { text-align: center; }
+
+/* ---------- practice tab ---------- */
+.label { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin: 16px 0 6px; }
+.filters.wrap { flex-wrap: wrap; overflow: visible; }
+.segmented { display: flex; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.segmented button { flex: 1; text-align: center; font: inherit; font-weight: 600; padding: 10px; border: 0; background: var(--card); color: var(--text); border-right: 1px solid var(--border); }
+.segmented button:last-child { border-right: 0; }
+.segmented button.on { background: var(--accent); color: #fff; }
+.resume { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+.resume .btn { flex: 1; margin: 0; }
+.part-row { margin-bottom: 10px; }
+.part-row .row { border: 0; padding: 4px 0; }
+.part-row .progress { margin-top: 2px; }
+.weak-bar { background: #b3261e !important; }

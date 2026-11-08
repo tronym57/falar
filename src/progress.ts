@@ -1,5 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { db, type PracticeSession, type StepProgress } from './db'
+import { db, type StepProgress } from './db'
 import { unitSteps } from './units'
 import { syncCards } from './review'
 
@@ -18,11 +18,6 @@ export async function markStepDone(unit: number, step: string, score?: number) {
   // Finishing phrases or vocab puts those items into the daily review.
   if (step === 'phrases' || step === 'vocab') await syncCards()
 }
-
-export const getSession = (unit: number, step: string) => db.sessions.get(key(unit, step))
-export const saveSession = (s: PracticeSession) => db.sessions.put(s)
-export const clearSession = (unit: number, step: string) => db.sessions.delete(key(unit, step))
-export const newSessionKey = key
 
 export async function logAttempt(unit: number, step: string, exerciseId: string, correct: boolean, answer: string) {
   await db.attempts.add({ unit, step, exerciseId, correct, answer, at: now() })

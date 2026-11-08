@@ -2,9 +2,7 @@ import { Link } from 'react-router-dom'
 import { a1Units } from '../units'
 import { a1Content } from '../content'
 import { nextStep, useAllProgress } from '../progress'
-import { useLiveQuery } from 'dexie-react-hooks'
-import { db } from '../db'
-import { buildQueue, cardFaces } from '../review'
+import { useDue } from '../review'
 import { useToast } from '../toast'
 
 const standalone =
@@ -14,11 +12,7 @@ const standalone =
 export default function Home() {
   const toast = useToast()
   const all = useAllProgress()
-  const due = useLiveQuery(async () => {
-    const faces = cardFaces(await db.customWords.toArray())
-    const cards = (await db.cards.toArray()).filter(c => faces[c.id])
-    return { count: buildQueue(cards, new Date()).length, total: cards.length }
-  })
+  const due = useDue()
 
   // First unit with content that still has an unfinished step.
   const target = all && a1Units

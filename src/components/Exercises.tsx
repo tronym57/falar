@@ -33,7 +33,8 @@ function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'choose'>) {
   const { playing } = useAudio()
   const listen = ex.type === 'listen-choose'
 
-  useEffect(() => { if (listen) audio.autoplay(ex.id) }, [ex.id, listen])
+  const clip = ex.type === 'listen-choose' ? ex.audio ?? ex.id : ''
+  useEffect(() => { if (clip) audio.autoplay(clip) }, [clip])
 
   const pick = (i: number) => {
     if (locked) return
@@ -47,8 +48,8 @@ function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'choose'>) {
       {listen ? (
         <>
           <p className="ex-label">Listen. What does it mean?</p>
-          <button className={'big-play tap' + (playing === ex.id ? ' playing' : '')} onClick={() => audio.play(ex.id)} aria-label="Play audio">
-            {playing === ex.id ? '🔊' : '▶'}
+          <button className={'big-play tap' + (playing === clip ? ' playing' : '')} onClick={() => audio.play(clip)} aria-label="Play audio">
+            {playing === clip ? '🔊' : '▶'}
           </button>
           {locked && <p className="reveal">{ex.pt}</p>}
         </>

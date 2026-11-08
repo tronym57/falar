@@ -4,6 +4,7 @@ import { unitSteps } from '../units'
 import { audio, useAudio } from '../audio'
 import { AudioRow, SlowToggle } from '../components/AudioRow'
 import type { Dialogue, Unit } from '../content/types'
+import { GrammarTopicView } from '../components/Grammar'
 import Practice from './Practice'
 import { markStepDone } from '../progress'
 import { useToast } from '../toast'
@@ -15,7 +16,9 @@ export default function UnitStep() {
   const meta = unitSteps.find(s => s.slug === step)
   if (!unit || !meta?.ready) return <Navigate to={`/unit/${n}`} replace />
 
-  if (step === 'exercises' || step === 'check') return <Practice key={step} unit={unit} mode={step} />
+  if (step === 'exercises' || step === 'check') {
+    return <Practice key={step} sessionKey={`${unit.n}:${step}`} items={step === 'exercises' ? unit.exercises : unit.check} mode={step} unit={unit.n} closeTo={`/unit/${unit.n}`} />
+  }
 
   const i = unitSteps.indexOf(meta)
   const next = unitSteps[i + 1]
@@ -84,23 +87,5 @@ function Vocab({ unit }: { unit: Unit }) {
 }
 
 function GrammarView({ unit }: { unit: Unit }) {
-  const g = unit.grammar
-  return (
-    <>
-      <section className="card grammar">
-        <h2>{g.title}</h2>
-        {g.body.map((p, i) => <p key={i}>{p}</p>)}
-      </section>
-      <section className="card">
-        <h2>Examples</h2>
-        {g.examples.map(e => <AudioRow key={e.id} id={e.id} pt={e.pt} en={e.en} />)}
-      </section>
-      {g.epNote && (
-        <section className="card ep-note">
-          <h2>🇵🇹 Portugal vs Brazil</h2>
-          <p>{g.epNote}</p>
-        </section>
-      )}
-    </>
-  )
+  return <>{unit.grammar.topics.map((t, i) => <GrammarTopicView key={t.id} unit={unit.n} topic={t} index={i} />)}</>
 }

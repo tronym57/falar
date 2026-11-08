@@ -1,35 +1,49 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import type { Exercise, Unit } from '../content/types'
-import type { PracticeSession } from '../db'
+import type { Exercise } from '../content/types'
+import { db, type PracticeSession } from '../db'
 import { ExerciseView, type Answer } from '../components/Exercises'
 import { audio } from '../audio'
-import { PASS_MARK, clearSession, getSession, logAttempt, markStepDone, newSessionKey, saveSession } from '../progress'
+import { PASS_MARK, logAttempt, markStepDone } from '../progress'
 import { unitSteps } from '../units'
+import { PARTS, scoreByPart } from '../test'
 import { useToast } from '../toast'
 
-type Mode = 'exercises' | 'check'
+/**
+ * exercises: a unit's exercise step (wrong answers come back at the end)
+ * check:     the unit check (one pass, 80% to pass)
+ * drill:     practise a grammar topic (wrong answers come back)
+ * test:      a mixed test from the Practice tab (one pass, score per part)
+ */
+export type Mode = 'exercises' | 'check' | 'drill' | 'test'
+
+type Props = {
+  sessionKey: string
+  items: Exercise[]
+  mode: Mode
+  unit?: number // for exercises/check: marks the step done
+  closeTo: string
+}
 
 /**
  * Runs a list of exercises. Position is saved after every answer, so closing the app
- * returns you to the same exercise. In "exercises", wrong answers come back at the end;
- * the unit check goes through once and is scored.
+ * returns you to the same exercise.
  */
-export default function Practice({ unit, mode }: { unit: Unit; mode: Mode }) {
+export default function Practice({ sessionKey, items, mode, unit, closeTo }: Props) {
   const toast = useToast()
-  const items = mode === 'exercises' ? unit.exercises : unit.check
   const byId = Object.fromEntries(items.map(x => [x.id, x])) as Record<string, Exercise>
+  const requeue = mode === 'exercises' || mode === 'drill'
 
   const [session, setSession] = useState<PracticeSession | null>(null)
   const [answer, setAnswer] = useState<Answer | null>(null)
-  const [finished, setFinished] = useState<{ score: number; missed: Exercise[] } | null>(null)
+  const [finished, setFinished] = useState<{ score: number; firstTry: Record<string, boolean> } | null>(null)
 
   const start = async (fresh = false) => {
-    let s = fresh ? undefined : await getSession(unit.n, mode)
-    // Start over if there's no session or the unit's exercises changed since.
+    let s = fresh ? undefined : await db.sessions.get(sessionKey)
+    // Start over if there's no session or the exercises changed since.
     if (!s || !s.queue.length || s.queue.some(id => !byId[id])) {
-      s = { key: newSessionKey(unit.n, mode), queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString() }
-      await saveSession(s)
+      s = { key: sessionKey, queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items: mode === 'test' ? items : undefined }
+      await db.sessions.put(s)
     }
     setAnswer(null)
     setFinished(null)
@@ -39,9 +53,11 @@ export default function Practice({ unit, mode }: { unit: Unit; mode: Mode }) {
   useEffect(() => {
     start().catch(e => toast(`Couldn't load your progress: ${e.message}`, 'error'))
     return () => audio.stop()
-  }, [unit.n, mode]) // eslint-disable-line react-hooks/exhaustive-deps -- run once per unit/mode
+  }, [sessionKey]) // eslint-disable-line react-hooks/exhaustive-deps -- once per session
 
-  if (finished) return <Results unit={unit} mode={mode} {...finished} onRetry={() => start(true)} />
+  if (finished) {
+    return <Results mode={mode} unit={unit} items={items} closeTo={closeTo} {...finished} onRetry={() => start(true)} />
+  }
   if (!session) return <main className="screen"><p className="muted">Loading…</p></main>
 
   const current = byId[session.queue[0]]
@@ -50,9 +66,9 @@ export default function Practice({ unit, mode }: { unit: Unit; mode: Mode }) {
 
   const onAnswer = (a: Answer) => {
     setAnswer(a)
-    logAttempt(unit.n, mode, current.id, a.result.ok, a.given).catch(() => {})
+    logAttempt(unit ?? -1, mode, current.id, a.result.ok, a.given).catch(() => {})
     // Replay the Portuguese for listening exercises so you hear it again with the answer.
-    if (current.type === 'listen-choose') audio.play(current.id)
+    if (current.type === 'listen-choose') audio.play(current.audio ?? current.id)
   }
 
   const next = async () => {
@@ -60,18 +76,17 @@ export default function Practice({ unit, mode }: { unit: Unit; mode: Mode }) {
       const ok = answer!.result.ok
       const firstTry = current.id in session.firstTry ? session.firstTry : { ...session.firstTry, [current.id]: ok }
       const queue = session.queue.slice(1)
-      if (!ok && mode === 'exercises') queue.push(current.id)
+      if (!ok && requeue) queue.push(current.id)
       const s = { ...session, queue, firstTry }
 
       if (!queue.length) {
-        const right = Object.values(firstTry).filter(Boolean).length
-        const score = right / session.total
-        await markStepDone(unit.n, mode, score)
-        await clearSession(unit.n, mode)
-        setFinished({ score, missed: items.filter(x => firstTry[x.id] === false) })
+        const score = Object.values(firstTry).filter(Boolean).length / session.total
+        if (unit !== undefined && (mode === 'exercises' || mode === 'check')) await markStepDone(unit, mode, score)
+        await db.sessions.delete(sessionKey)
+        setFinished({ score, firstTry })
         return
       }
-      await saveSession(s)
+      await db.sessions.put(s)
       setSession(s)
       setAnswer(null)
     } catch (e) {
@@ -82,7 +97,7 @@ export default function Practice({ unit, mode }: { unit: Unit; mode: Mode }) {
   return (
     <main className="screen practice">
       <div className="practice-head">
-        <Link className="close tap" to={`/unit/${unit.n}`} aria-label="Close (progress is saved)">✕</Link>
+        <Link className="close tap" to={closeTo} aria-label="Close (progress is saved)">✕</Link>
         <div className="progress grow"><div style={{ width: `${progress * 100}%` }} /></div>
         <span className="muted count">{session.total - remaining + 1}/{session.total}</span>
       </div>
@@ -94,7 +109,7 @@ export default function Practice({ unit, mode }: { unit: Unit; mode: Mode }) {
           <b>{answer.result.ok ? 'Correct! ✓' : 'Not quite'}</b>
           {!answer.result.ok && <p>Correct answer: <b>{answer.result.expected}</b></p>}
           {answer.result.ok && answer.result.note && <p>{answer.result.note}</p>}
-          {!answer.result.ok && mode === 'exercises' && <p className="small">This one comes back at the end.</p>}
+          {!answer.result.ok && requeue && <p className="small">This one comes back at the end.</p>}
           <button className="btn" onClick={next}>Continue</button>
         </div>
       )}
@@ -102,38 +117,61 @@ export default function Practice({ unit, mode }: { unit: Unit; mode: Mode }) {
   )
 }
 
-function Results({ unit, mode, score, missed, onRetry }: { unit: Unit; mode: Mode; score: number; missed: Exercise[]; onRetry: () => void }) {
+type ResultsProps = { mode: Mode; unit?: number; items: Exercise[]; closeTo: string; score: number; firstTry: Record<string, boolean>; onRetry: () => void }
+
+function Results({ mode, unit, items, closeTo, score, firstTry, onRetry }: ResultsProps) {
   const navigate = useNavigate()
   const pct = Math.round(score * 100)
   const passed = score >= PASS_MARK
+  const missed = items.filter(x => firstTry[x.id] === false)
   const i = unitSteps.findIndex(s => s.slug === mode)
-  const nextReady = unitSteps.slice(i + 1).find(s => s.ready)
+  const nextReady = mode === 'exercises' ? unitSteps.slice(i + 1).find(s => s.ready) : undefined
+  const byPart = mode === 'test' ? scoreByPart(items, firstTry) : null
+
+  const title = { exercises: 'Exercises done ✓', check: passed ? 'Passed! 🎉' : 'Not yet', drill: 'Practice done ✓', test: 'Test done ✓' }[mode]
 
   return (
     <main className="screen">
-      <h1>{mode === 'check' ? (passed ? 'Passed! 🎉' : 'Not yet') : 'Exercises done ✓'}</h1>
+      <h1>{title}</h1>
       <div className="card">
         <p className="score">{pct}%</p>
         <p className="muted">
           {mode === 'check'
-            ? passed
-              ? `Unit ${unit.n} is complete.`
-              : `You need ${Math.round(PASS_MARK * 100)}% to pass. Review the answers below and try again.`
+            ? passed ? `Unit ${unit} is complete.` : `You need ${Math.round(PASS_MARK * 100)}% to pass. Review the answers below and try again.`
             : 'Right on the first try.'}
         </p>
       </div>
+
+      {byPart && (
+        <div className="card">
+          <h2>By part</h2>
+          {PARTS.filter(p => byPart[p.id]).map(p => {
+            const r = byPart[p.id]!
+            const v = Math.round((r.right / r.total) * 100)
+            return (
+              <div key={p.id} className="part-row">
+                <div className="row"><span>{p.title}</span><span className={v < 70 ? 'bad-text' : 'muted'}>{r.right}/{r.total} · {v}%</span></div>
+                <div className="progress"><div className={v < 70 ? 'weak-bar' : ''} style={{ width: `${v}%` }} /></div>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
       {missed.length > 0 && (
         <div className="card">
           <h2>To review</h2>
           {missed.map(x => <p key={x.id} className="missed">{describe(x)}</p>)}
         </div>
       )}
+
       {mode === 'check' && !passed && <button className="btn" onClick={onRetry}>Try the check again</button>}
-      {mode === 'exercises' && nextReady && (
-        <button className="btn" onClick={() => navigate(`/unit/${unit.n}/${nextReady.slug}`)}>Next: {nextReady.title} ›</button>
+      {nextReady && unit !== undefined && (
+        <button className="btn" onClick={() => navigate(`/unit/${unit}/${nextReady.slug}`)}>Next: {nextReady.title} ›</button>
       )}
-      {mode === 'exercises' && <button className="btn secondary-btn" onClick={onRetry}>Practise again</button>}
-      <Link className="btn secondary-btn" to={`/unit/${unit.n}`} style={{ textDecoration: 'none' }}>Back to Unit {unit.n}</Link>
+      {(mode === 'exercises' || mode === 'drill') && <button className="btn secondary-btn" onClick={onRetry}>Practise again</button>}
+      {mode === 'test' && <button className="btn" onClick={() => navigate('/practice')}>New test</button>}
+      <Link className="btn secondary-btn" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>
     </main>
   )
 }

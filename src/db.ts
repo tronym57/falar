@@ -18,6 +18,7 @@ export type PracticeSession = {
   total: number
   firstTry: Record<string, boolean> // exercise id → right on the first try?
   startedAt: string
+  items?: import('./content/types').Exercise[] // generated questions (mixed tests)
 }
 
 export type Attempt = {

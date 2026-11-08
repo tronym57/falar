@@ -17,21 +17,31 @@ export type Phrase = { id: string; pt: string; en: string; note?: string }
 
 export type VocabItem = { id: string; pt: string; en: string; gender?: 'm' | 'f'; note?: string }
 
-export type Grammar = {
-  title: string
-  body: string[]
-  examples: Phrase[]
-  epNote?: string
-}
+/** One building block of a grammar topic. */
+export type GrammarSection =
+  | { type: 'rule'; title?: string; text: string }
+  | { type: 'table'; caption?: string; head: string[]; rows: string[][] }
+  | { type: 'examples'; items: Phrase[] }
+  | { type: 'tip'; text: string }
+  | { type: 'ep-note'; text: string }
+
+export type GrammarTopic = { id: string; title: string; sections: GrammarSection[]; exercises: Exercise[] }
+
+export type Grammar = { topics: GrammarTopic[] }
+
+/** Which skill an exercise trains; used to score mixed tests per part. */
+export type Part = 'vocab' | 'listening' | 'grammar' | 'sentences'
 
 /** Answers are compared loosely: case, punctuation and accents are ignored. */
-export type Exercise =
-  | { id: string; type: 'listen-choose'; pt: string; options: string[]; answer: number }
+export type Exercise = ({ part?: Part } & (
+  // `audio`: id of the clip to play (defaults to the exercise id).
+  | { id: string; type: 'listen-choose'; pt: string; options: string[]; answer: number; audio?: string }
   | { id: string; type: 'choose'; prompt: string; options: string[]; answer: number }
   | { id: string; type: 'gap-fill'; pt: string; en: string; answers: string[]; options?: string[] }
   | { id: string; type: 'sentence-builder'; en: string; tiles: string[]; answer: string }
   | { id: string; type: 'translate'; en: string; answers: string[] }
   | { id: string; type: 'conjugation'; verb: string; person: string; answers: string[] }
+))
 
 export type SpeakingPrompt = { id: string; prompt: string; answers: string[]; pt: string }
 

@@ -55,6 +55,11 @@ function loadUnits() {
   return units
 }
 
+const grammarExamples = u => (u.grammar?.topics ?? []).flatMap(t => (t.sections ?? []).filter(s => s.type === 'examples').flatMap(s => s.items ?? []))
+const allExercises = u => [...(u.exercises ?? []), ...(u.check ?? []), ...(u.grammar?.topics ?? []).flatMap(t => t.exercises ?? [])]
+const PARTS = ['vocab', 'listening', 'grammar', 'sentences']
+const SECTION_TYPES = ['rule', 'table', 'examples', 'tip', 'ep-note']
+
 /** Every Portuguese string that gets an audio file, with the voice to use. */
 function audioItems(u) {
   const items = []
@@ -63,9 +68,9 @@ function audioItems(u) {
   }
   for (const p of u.phrases ?? []) items.push({ id: p.id, text: p.pt, voice: 'raquel' })
   for (const v of u.vocab ?? []) items.push({ id: v.id, text: v.pt, voice: 'raquel' })
-  for (const g of u.grammar?.examples ?? []) items.push({ id: g.id, text: g.pt, voice: 'raquel' })
-  for (const x of [...(u.exercises ?? []), ...(u.check ?? [])]) {
-    if (x.type === 'listen-choose') items.push({ id: x.id, text: x.pt, voice: 'raquel' })
+  for (const g of grammarExamples(u)) items.push({ id: g.id, text: g.pt, voice: 'raquel' })
+  for (const x of allExercises(u)) {
+    if (x.type === 'listen-choose' && !x.audio) items.push({ id: x.id, text: x.pt, voice: 'raquel' })
   }
   for (const s of u.speaking ?? []) items.push({ id: s.id, text: s.pt, voice: 'raquel' })
   return items
@@ -105,15 +110,30 @@ function validate(u, errors, seenIds) {
     if (v.gender === 'm' && !/^(o|os|um) /.test(v.pt)) err(v.id, 'masculine noun should start with "o"')
     if (v.gender === 'f' && !/^(a|as|uma) /.test(v.pt)) err(v.id, 'feminine noun should start with "a"')
   }
-  if (!u.grammar) err('grammar', 'missing')
-  else {
-    str(u.grammar.title, 'grammar title')
-    if (!u.grammar.body?.length) err('grammar', 'body is empty')
-    for (const g of u.grammar.examples ?? []) { id(g.id, 'grammar example'); pt(g.pt, g.id); str(g.en, `${g.id} en`) }
+  if (!u.grammar?.topics?.length) err('grammar', 'needs at least one topic')
+  for (const t of u.grammar?.topics ?? []) {
+    id(t.id, 'grammar topic'); str(t.title, `${t.id} title`)
+    if (!t.sections?.length) err(t.id, 'topic has no sections')
+    for (const [i, sec] of (t.sections ?? []).entries()) {
+      const where = `${t.id} section ${i + 1}`
+      if (!SECTION_TYPES.includes(sec.type)) { err(where, `unknown section type "${sec.type}"`); continue }
+      if (sec.type === 'table') {
+        if (!sec.head?.length) err(where, 'table needs a head row')
+        for (const r of sec.rows ?? []) {
+          if (r.length !== sec.head?.length) err(where, `row has ${r.length} cells, head has ${sec.head?.length}`)
+          for (const c of r) for (const p of bpProblems(c)) err(where, p)
+        }
+      } else if (sec.type === 'examples') {
+        if (!sec.items?.length) err(where, 'no examples')
+        for (const g of sec.items ?? []) { id(g.id, 'grammar example'); pt(g.pt, g.id); str(g.en, `${g.id} en`) }
+      } else str(sec.text, where)
+    }
+    if (!t.exercises?.length) err(t.id, 'topic needs practice exercises')
   }
 
-  for (const x of [...(u.exercises ?? []), ...(u.check ?? [])]) {
+  for (const x of allExercises(u)) {
     id(x.id, 'exercise')
+    if (x.part && !PARTS.includes(x.part)) err(x.id, `unknown part "${x.part}"`)
     switch (x.type) {
       case 'listen-choose':
       case 'choose':

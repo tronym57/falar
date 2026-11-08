@@ -1,6 +1,7 @@
 import { createEmptyCard, fsrs, generatorParameters, Rating, State, type Card, type Grade } from 'ts-fsrs'
 import { a1Content } from './content'
 import { db, type CustomWord, type ReviewCard } from './db'
+import { useLiveQuery } from 'dexie-react-hooks'
 
 export { Rating, State }
 export type { Grade }
@@ -83,6 +84,15 @@ export async function syncCards() {
   }
   if (toAdd.length) await db.cards.bulkAdd(toAdd)
   return toAdd.length
+}
+
+/** How many cards are due now (`count`) and how many cards exist (`total`). */
+export function useDue() {
+  return useLiveQuery(async () => {
+    const faces = cardFaces(await db.customWords.toArray())
+    const cards = (await db.cards.toArray()).filter(c => faces[c.id])
+    return { count: buildQueue(cards, new Date()).length, total: cards.length }
+  })
 }
 
 export async function addCustomWord(pt: string, en: string) {
