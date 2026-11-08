@@ -33,7 +33,7 @@ export type GrammarTopic = { id: string; title: string; sections: GrammarSection
 export type Grammar = { topics: GrammarTopic[] }
 
 /** Which skill an exercise trains; used to score mixed tests per part. */
-export type Part = 'vocab' | 'listening' | 'grammar' | 'sentences' | 'verbs'
+export type Part = 'vocab' | 'listening' | 'grammar' | 'sentences' | 'verbs' | 'reading'
 
 /** Answers are compared loosely: case, punctuation and accents are ignored. */
 export type Exercise = ({ part?: Part } & (
@@ -49,6 +49,8 @@ export type Exercise = ({ part?: Part } & (
   | { id: string; type: 'dictation'; audio: string; answers: string[] } // hear it, type it
   | { id: string; type: 'listen-pick'; audio: string; options: string[]; answer: number } // hear it, pick the Portuguese
   | { id: string; type: 'listen-gap'; audio: string; pt: string; answers: string[] } // hear it, type the missing word
+  // Reading: a question about a text, shown with the text above it.
+  | { id: string; type: 'read-choose'; title: string; paragraphs: string[]; question: string; options: string[]; answer: number }
   | { id: string; type: 'listen-dialogue'; clips: string[]; title: string; lines: { name: string; pt: string }[]; question: string; options: string[]; answer: number }
 ))
 
@@ -72,3 +74,14 @@ export type Unit = {
 export type VerbExample = { id: string; pt: string; en: string; person: number }
 export type Verb = { id: string; inf: string; en: string; kind: string; forms: string[]; note?: string; examples: VerbExample[] }
 export type VerbSet = { id: string; level: string; tense: string; title: string; persons: string[]; verbs: Verb[] }
+
+/** A reading text, content/reading/a1-*.json. Every word has a meaning in its glossary or the shared one. */
+export type ReadingText = {
+  id: string
+  emoji: string
+  title: string
+  en: string
+  paragraphs: { id: string; pt: string; en: string }[] // each paragraph has audio: public/audio/<id>.mp3
+  questions: { id: string; q: string; options: string[]; answer: number }[] // options shuffled when shown
+  glossary: Record<string, string>
+}

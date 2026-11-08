@@ -1,0 +1,110 @@
+{
+  "id": "r08",
+  "emoji": "📞",
+  "title": "Um telefonema",
+  "en": "A delivery driver can't find the house.",
+  "paragraphs": [
+    {
+      "id": "r08-p1",
+      "pt": "O telemóvel toca. É um estafeta com uma encomenda. — Estou? — Boa tarde. Fala o estafeta. Tenho aqui uma encomenda para si. Está em casa?",
+      "en": "The phone rings. It's a delivery driver with a parcel. “Hello?” “Good afternoon. This is the delivery driver. I have a parcel for you here. Are you at home?”"
+    },
+    {
+      "id": "r08-p2",
+      "pt": "— Estou, sim. Não encontra a casa? — Não. Estou na rua principal, ao pé da farmácia. — A minha casa é a terceira à direita, com a porta azul.",
+      "en": "“Yes, I am. Can't you find the house?” “No. I'm on the main street, next to the pharmacy.” “My house is the third one on the right, with the blue door.”"
+    },
+    {
+      "id": "r08-p3",
+      "pt": "— Ah, já vejo! Chego daqui a dois minutos. — Obrigado. Espero lá fora. Dois minutos depois, a encomenda está na mão. Fácil!",
+      "en": "“Ah, I can see it now! I'll be there in two minutes.” “Thanks. I'll wait outside.” Two minutes later, the parcel is in your hand. Easy!"
+    }
+  ],
+  "questions": [
+    {
+      "id": "r08-q1",
+      "q": "Who is calling?",
+      "options": [
+        "A delivery driver",
+        "A neighbour",
+        "The bank",
+        "A friend"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r08-q2",
+      "q": "What is the problem?",
+      "options": [
+        "He can't find the house",
+        "The parcel is broken",
+        "Nobody is home",
+        "He is very late"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r08-q3",
+      "q": "Where is the driver?",
+      "options": [
+        "On the main street, next to the pharmacy",
+        "At the beach",
+        "At the post office",
+        "In Lisbon"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r08-q4",
+      "q": "Which house is yours?",
+      "options": [
+        "The third on the right, with the blue door",
+        "The first on the left",
+        "The one with the red door",
+        "The one next to the café"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r08-q5",
+      "q": "What does “Estou?” mean when you answer the phone?",
+      "options": [
+        "Hello?",
+        "I'm at home",
+        "Wait a moment",
+        "Goodbye"
+      ],
+      "answer": 0
+    }
+  ],
+  "glossary": {
+    "ah": "ah",
+    "azul": "blue",
+    "boa": "good (feminine)",
+    "chego": "I arrive (chegar)",
+    "daqui": "from here (daqui a dois minutos = in two minutes)",
+    "direita": "right (à direita = on the right)",
+    "encomenda": "parcel, order",
+    "encontra": "you find (encontrar)",
+    "espero": "I wait (esperar)",
+    "estafeta": "delivery driver, courier",
+    "estou": "I am (estar); Estou? = Hello? on the phone",
+    "fala": "speaks (falar); Fala o … = This is … on the phone",
+    "farmácia": "pharmacy",
+    "fora": "out, outside (lá fora = outside)",
+    "fácil": "easy",
+    "lá": "there (lá fora = outside)",
+    "minha": "my (feminine)",
+    "mão": "hand",
+    "obrigado": "thank you (said by a man)",
+    "porta": "door",
+    "principal": "main",
+    "pé": "foot (ao pé de = next to)",
+    "rua": "street",
+    "si": "you (polite: para si = for you)",
+    "sim": "yes",
+    "tenho": "I have (ter)",
+    "terceira": "third (feminine)",
+    "toca": "rings (tocar)"
+  }
+}

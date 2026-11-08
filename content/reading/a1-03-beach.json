@@ -1,0 +1,106 @@
+{
+  "id": "r03",
+  "emoji": "🏖️",
+  "title": "Um dia de praia",
+  "en": "Rita and Tiago spend Saturday at the beach.",
+  "paragraphs": [
+    {
+      "id": "r03-p1",
+      "pt": "No sábado, a Rita e o Tiago vão à praia do Baleal. Levam toalhas, protetor solar, água e sandes.",
+      "en": "On Saturday, Rita and Tiago go to Baleal beach. They take towels, sun cream, water and sandwiches."
+    },
+    {
+      "id": "r03-p2",
+      "pt": "A água está fria, mas a Rita gosta de nadar. O Tiago prefere ler um livro debaixo do chapéu de sol. Na praia há uma bandeira verde: pode-se nadar.",
+      "en": "The water is cold, but Rita likes swimming. Tiago prefers reading a book under the sunshade. There's a green flag on the beach: you can swim."
+    },
+    {
+      "id": "r03-p3",
+      "pt": "Ao meio-dia, comem as sandes na esplanada do café. Depois, bebem um café e voltam para a areia. Às sete da tarde vão para casa, cansados mas contentes.",
+      "en": "At noon they eat the sandwiches on the café terrace. Then they have a coffee and go back to the sand. At seven in the evening they go home, tired but happy."
+    }
+  ],
+  "questions": [
+    {
+      "id": "r03-q1",
+      "q": "Where do Rita and Tiago go?",
+      "options": [
+        "To Baleal beach",
+        "To Supertubos",
+        "To Lisbon",
+        "To the market"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r03-q2",
+      "q": "What does Tiago like to do on the beach?",
+      "options": [
+        "Read under the sunshade",
+        "Swim",
+        "Surf",
+        "Sleep in the car"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r03-q3",
+      "q": "What does the green flag mean?",
+      "options": [
+        "You can swim",
+        "You can't swim",
+        "The beach is closed",
+        "The water is warm"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r03-q4",
+      "q": "Where do they eat lunch?",
+      "options": [
+        "On the café terrace",
+        "On the sand",
+        "At home",
+        "In a restaurant in Peniche"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r03-q5",
+      "q": "When do they go home?",
+      "options": [
+        "At seven in the evening",
+        "At noon",
+        "At five",
+        "In the morning"
+      ],
+      "answer": 0
+    }
+  ],
+  "glossary": {
+    "areia": "sand",
+    "bandeira": "flag",
+    "cansados": "tired (plural)",
+    "chapéu": "hat (chapéu de sol = sunshade, beach umbrella)",
+    "contentes": "happy, pleased (plural)",
+    "debaixo": "under (debaixo de)",
+    "esplanada": "café terrace, outdoor seating",
+    "gosta": "likes (gostar de)",
+    "ler": "to read",
+    "levam": "they take (levar)",
+    "livro": "book",
+    "meio-dia": "noon, midday",
+    "nadar": "to swim",
+    "pode-se": "you can, one may",
+    "prefere": "prefers (preferir)",
+    "protetor": "protector (protetor solar = sun cream)",
+    "rita": "Rita (a name)",
+    "sandes": "sandwich(es)",
+    "solar": "sun (protetor solar = sun cream)",
+    "sábado": "Saturday",
+    "tiago": "Tiago (a name)",
+    "toalhas": "towels",
+    "voltam": "they go back (voltar)",
+    "vão": "they go (ir)"
+  }
+}

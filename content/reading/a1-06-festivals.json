@@ -1,0 +1,114 @@
+{
+  "id": "r06",
+  "emoji": "🎉",
+  "title": "Os Santos Populares",
+  "en": "June street festivals in Lisbon and Porto.",
+  "paragraphs": [
+    {
+      "id": "r06-p1",
+      "pt": "Em junho, há festas em muitas cidades de Portugal: são os Santos Populares. Em Lisboa, a festa maior é no dia 13, o dia de Santo António.",
+      "en": "In June there are festivals in many Portuguese towns: the Santos Populares (popular saints). In Lisbon the biggest party is on the 13th, Saint Anthony's day."
+    },
+    {
+      "id": "r06-p2",
+      "pt": "Nas ruas há música, luzes e bandeiras de muitas cores. As pessoas dançam, cantam e comem sardinhas assadas no pão. Também bebem vinho, cerveja ou sumo.",
+      "en": "In the streets there's music, lights and flags of many colours. People dance, sing and eat grilled sardines on bread. They also drink wine, beer or juice."
+    },
+    {
+      "id": "r06-p3",
+      "pt": "No Porto, a festa é no dia 24, o São João. À noite, as pessoas batem na cabeça dos amigos com martelos de plástico! É uma tradição muito divertida.",
+      "en": "In Porto the party is on the 24th, São João (Saint John). At night people hit their friends on the head with plastic hammers! It's a very fun tradition."
+    }
+  ],
+  "questions": [
+    {
+      "id": "r06-q1",
+      "q": "When are the Santos Populares?",
+      "options": [
+        "In June",
+        "In December",
+        "In August",
+        "At Easter"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r06-q2",
+      "q": "Whose day is the 13th in Lisbon?",
+      "options": [
+        "Santo António",
+        "São João",
+        "São Pedro",
+        "São Martinho"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r06-q3",
+      "q": "How do people eat the sardines?",
+      "options": [
+        "On bread",
+        "With rice",
+        "In a soup",
+        "Raw"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r06-q4",
+      "q": "What do people do in Porto on São João night?",
+      "options": [
+        "Hit friends on the head with plastic hammers",
+        "Swim in the sea",
+        "Go to bed early",
+        "Eat cake"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r06-q5",
+      "q": "When is São João?",
+      "options": [
+        "On the 24th",
+        "On the 13th",
+        "On the 1st",
+        "On the 31st"
+      ],
+      "answer": 0
+    }
+  ],
+  "glossary": {
+    "amigos": "friends",
+    "antónio": "Anthony (Santo António = Saint Anthony)",
+    "bandeiras": "flags",
+    "batem": "they hit (bater)",
+    "cabeça": "head",
+    "cantam": "they sing (cantar)",
+    "cerveja": "beer",
+    "cidades": "towns, cities",
+    "cores": "colours",
+    "dançam": "they dance (dançar)",
+    "divertida": "fun (feminine)",
+    "dos": "of the (de + os)",
+    "festa": "party, festival",
+    "festas": "parties, festivals",
+    "joão": "John (São João = Saint John)",
+    "junho": "June",
+    "luzes": "lights",
+    "maior": "biggest, bigger",
+    "martelos": "hammers",
+    "música": "music",
+    "nas": "in the (em + as)",
+    "noite": "night (à noite = at night)",
+    "ou": "or",
+    "plástico": "plastic",
+    "populares": "popular, of the people",
+    "portugal": "Portugal",
+    "ruas": "streets",
+    "santo": "saint",
+    "santos": "saints",
+    "sumo": "juice",
+    "tradição": "tradition",
+    "vinho": "wine"
+  }
+}

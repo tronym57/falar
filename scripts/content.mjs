@@ -84,9 +84,49 @@ function validateVerbs(set, errors, seenIds) {
   }
 }
 
+// ---------- reading texts (content/reading/a1-*.json + glossary.json) ----------
+const readingDir = join(contentDir, 'reading')
+const readJson = path => { try { return { path, data: JSON.parse(readFileSync(path, 'utf8')) } } catch (e) { return { path, parseError: e.message } } }
+function loadReading() {
+  if (!existsSync(readingDir)) return { texts: [], glossary: { data: { words: {} } } }
+  const texts = readdirSync(readingDir).filter(f => /^a1-.*\.json$/.test(f)).sort().map(f => readJson(join(readingDir, f)))
+  return { texts, glossary: readJson(join(readingDir, 'glossary.json')) }
+}
+/** Same word split as the app (src/content/reading.ts): letters, with hyphenated forms kept whole. */
+const readingWords = s => (s.match(/[\p{L}]+(?:-[\p{L}]+)*/gu) ?? []).map(w => w.toLowerCase())
+const readingAudioItems = t => (t.paragraphs ?? []).map(p => ({ id: p.id, text: p.pt.replace(/—\s*/g, ''), voice: 'raquel' }))
+
+function validateReading(t, common, errors, seenIds) {
+  const err = (where, msg) => errors.push(`${t.id ?? '?'} ${where}: ${msg}`)
+  const str = (v, where) => { if (typeof v !== 'string' || !v.trim()) err(where, 'missing text') }
+  const id = (v, where) => {
+    if (typeof v !== 'string' || !/^[a-z0-9-]+$/.test(v)) return err(where, `bad id "${v}"`)
+    if (seenIds.has(v)) err(where, `duplicate id "${v}"`)
+    seenIds.set(v, t.id)
+  }
+  id(t.id, 'text'); for (const k of ['title', 'en', 'emoji']) str(t[k], k)
+  if (!t.paragraphs?.length) err('paragraphs', 'needs at least one paragraph')
+  const missing = new Set()
+  for (const p of t.paragraphs ?? []) {
+    id(p.id, 'paragraph'); str(p.pt, p.id); str(p.en, `${p.id} en`)
+    for (const b of bpProblems(p.pt ?? '')) err(p.id, b)
+    for (const w of readingWords(p.pt ?? '')) if (!t.glossary?.[w] && !common[w]) missing.add(w)
+  }
+  // Every word must be tappable, so every word needs a meaning.
+  if (missing.size) err('glossary', `no meaning for: ${[...missing].join(', ')}`)
+  const qs = t.questions ?? []
+  if (qs.length < 4 || qs.length > 6) err('questions', 'needs 4–6 questions')
+  for (const q of qs) {
+    id(q.id, 'question'); str(q.q, `${q.id} q`)
+    if (!Array.isArray(q.options) || q.options.length < 2) err(q.id, 'needs at least 2 options')
+    else if (new Set(q.options).size !== q.options.length) err(q.id, 'options must be different')
+    if (!Number.isInteger(q.answer) || !q.options?.[q.answer]) err(q.id, 'answer must be the index of an option')
+  }
+}
+
 function loadUnits() {
   const units = []
-  for (const level of readdirSync(contentDir).filter(d => d !== 'verbs').sort()) {
+  for (const level of readdirSync(contentDir).filter(d => d !== 'verbs' && d !== 'reading').sort()) {
     const dir = join(contentDir, level)
     for (const file of readdirSync(dir).filter(f => f.endsWith('.json')).sort()) {
       const path = join(dir, file)
@@ -230,9 +270,11 @@ const [cmd, ...flags] = process.argv.slice(2)
 const units = loadUnits()
 
 const verbSets = loadVerbSets()
+const reading = loadReading()
+const readingTexts = reading.texts.filter(t => t.data).map(t => t.data)
 
 if (cmd === 'audio-items') {
-  const items = [...units.filter(u => u.data).flatMap(u => audioItems(u.data)), ...verbSets.filter(v => v.data).flatMap(v => verbAudioItems(v.data))]
+  const items = [...units.filter(u => u.data).flatMap(u => audioItems(u.data)), ...verbSets.filter(v => v.data).flatMap(v => verbAudioItems(v.data)), ...readingTexts.flatMap(readingAudioItems)]
   process.stdout.write(JSON.stringify(items, null, 1))
 } else if (cmd === 'lint') {
   const errors = []
@@ -253,13 +295,22 @@ if (cmd === 'audio-items') {
       for (const a of verbAudioItems(v.data)) if (!existsSync(join(audioDir, `${a.id}.mp3`))) errors.push(`${v.data.id} ${a.id}: audio file missing (run npm run audio)`)
     }
   }
+  if (reading.glossary.parseError) errors.push(`${reading.glossary.path}: invalid JSON: ${reading.glossary.parseError}`)
+  const common = reading.glossary.data?.words ?? {}
+  for (const t of reading.texts) {
+    if (t.parseError) { errors.push(`${t.path}: invalid JSON: ${t.parseError}`); continue }
+    validateReading(t.data, common, errors, seenIds)
+    if (!flags.includes('--no-audio')) {
+      for (const a of readingAudioItems(t.data)) if (!existsSync(join(audioDir, `${a.id}.mp3`))) errors.push(`${t.data.id} ${a.id}: audio file missing (run npm run audio)`)
+    }
+  }
   if (errors.length) {
     console.error(errors.map(e => '✗ ' + e).join('\n'))
     console.error(`\n${errors.length} problem(s) in ${units.length} unit file(s).`)
     process.exit(1)
   }
-  const n = units.reduce((s, u) => s + audioItems(u.data).length, 0) + verbSets.reduce((s, v) => s + verbAudioItems(v.data).length, 0)
-  console.log(`✓ ${units.length} unit file(s), ${verbSets.length} verb set(s) OK, ${n} audio items.`)
+  const n = units.reduce((s, u) => s + audioItems(u.data).length, 0) + verbSets.reduce((s, v) => s + verbAudioItems(v.data).length, 0) + readingTexts.reduce((s, t) => s + readingAudioItems(t).length, 0)
+  console.log(`✓ ${units.length} unit file(s), ${verbSets.length} verb set(s), ${readingTexts.length} reading text(s) OK, ${n} audio items.`)
 } else {
   console.error('Usage: node scripts/content.mjs lint [--no-audio] | audio-items')
   process.exit(2)

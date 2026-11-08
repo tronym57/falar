@@ -1,0 +1,114 @@
+{
+  "id": "r04",
+  "emoji": "🐟",
+  "title": "No mercado",
+  "en": "Buying fish and vegetables at the morning market.",
+  "paragraphs": [
+    {
+      "id": "r04-p1",
+      "pt": "Todas as manhãs, o mercado de Peniche abre às sete. Há bancas de fruta, legumes, pão e, claro, muito peixe fresco.",
+      "en": "Every morning, the Peniche market opens at seven. There are stalls with fruit, vegetables, bread and, of course, lots of fresh fish."
+    },
+    {
+      "id": "r04-p2",
+      "pt": "A Dona Rosa vende peixe há trinta anos. Hoje tem sardinhas, carapaus e polvo. — Bom dia! Quanto custam as sardinhas? — Custam seis euros o quilo. — Então quero meio quilo, por favor.",
+      "en": "Dona Rosa has sold fish for thirty years. Today she has sardines, horse mackerel and octopus. “Good morning! How much are the sardines?” “Six euros a kilo.” “Then I'd like half a kilo, please.”"
+    },
+    {
+      "id": "r04-p3",
+      "pt": "Depois do peixe, compro tomates, cebolas e uma alface. No fim, pago tudo e vou para casa. O almoço de hoje vai ser sardinhas assadas com salada.",
+      "en": "After the fish, I buy tomatoes, onions and a lettuce. At the end I pay for everything and go home. Today's lunch is going to be grilled sardines with salad."
+    }
+  ],
+  "questions": [
+    {
+      "id": "r04-q1",
+      "q": "When does the market open?",
+      "options": [
+        "At seven",
+        "At nine",
+        "At noon",
+        "At six in the evening"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r04-q2",
+      "q": "How long has Dona Rosa sold fish?",
+      "options": [
+        "Thirty years",
+        "Three years",
+        "Thirteen years",
+        "Since yesterday"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r04-q3",
+      "q": "How much do the sardines cost?",
+      "options": [
+        "€6 a kilo",
+        "€3 a kilo",
+        "€6 each",
+        "€16 a kilo"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r04-q4",
+      "q": "How many sardines do you buy?",
+      "options": [
+        "Half a kilo",
+        "One kilo",
+        "Six",
+        "Two kilos"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r04-q5",
+      "q": "What is for lunch today?",
+      "options": [
+        "Grilled sardines with salad",
+        "Octopus with rice",
+        "Bread and cheese",
+        "Soup"
+      ],
+      "answer": 0
+    }
+  ],
+  "glossary": {
+    "abre": "opens (abrir)",
+    "alface": "lettuce",
+    "almoço": "lunch",
+    "anos": "years",
+    "bancas": "market stalls",
+    "carapaus": "horse mackerel (a small fish)",
+    "cebolas": "onions",
+    "claro": "of course; clear",
+    "compro": "I buy (comprar)",
+    "custam": "they cost (custar)",
+    "dona": "Mrs (polite title before a first name)",
+    "então": "then, so",
+    "euros": "euros",
+    "favor": "favour (por favor = please)",
+    "fruta": "fruit",
+    "legumes": "vegetables",
+    "manhãs": "mornings (todas as manhãs = every morning)",
+    "mercado": "market",
+    "pago": "I pay (pagar)",
+    "polvo": "octopus",
+    "por": "by, for (por favor = please)",
+    "quanto": "how much (quanto custam? = how much are they?)",
+    "quero": "I want, I'd like (querer)",
+    "quilo": "kilo",
+    "rosa": "Rosa (a name); pink; rose",
+    "salada": "salad",
+    "ser": "to be (vai ser = is going to be)",
+    "todas": "all, every (feminine)",
+    "tomates": "tomatoes",
+    "trinta": "thirty",
+    "vende": "sells (vender)",
+    "vou": "I go (ir)"
+  }
+}

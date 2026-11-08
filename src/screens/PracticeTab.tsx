@@ -9,6 +9,7 @@ import { SlowToggle } from '../components/AudioRow'
 import Practice from './Practice'
 import { PARTS, generateTest, listeningDrill } from '../test'
 import { useDue } from '../review'
+import { readingTexts } from '../content/reading'
 import { useToast } from '../toast'
 
 const TEST_KEY = 'test'
@@ -20,6 +21,7 @@ export default function PracticeHub() {
   const navigate = useNavigate()
   const due = useDue()
   const openTest = useLiveQuery(() => db.sessions.get(TEST_KEY))
+  const readCount = useLiveQuery(() => db.progress.where('unit').equals(-1).count())
   const units = Object.values(a1Content).sort((a, b) => a.n - b.n)
 
   const [picked, setPicked] = useState<number[]>(() => units.map(u => u.n))
@@ -91,7 +93,6 @@ export default function PracticeHub() {
           {PARTS.map(p => (
             <button key={p.id} className={'btn btn-sm rounded-full ' + (parts.includes(p.id) ? 'btn-primary' : 'btn-soft')} onClick={() => setParts(cur => toggle(cur, p.id))}>{p.title}</button>
           ))}
-          <button className="btn btn-sm rounded-full btn-soft" onClick={() => toast('Reading arrives with the reading texts (coming soon).')}>Reading · soon</button>
         </div>
 
         <p className="section-label">Length</p>
@@ -129,10 +130,11 @@ export default function PracticeHub() {
         <h2>🔤 Verb trainer</h2>
         <p className="muted">21 common verbs: tables with audio, drills, weak verbs first</p>
       </Link>
-      <button className="card tap locked" onClick={() => toast('Reading texts come after the verb trainer (M5c).')}>
-        <h2>📰 Reading<span className="badge badge-sm badge-ghost ml-2 align-middle">Soon</span></h2>
-        <p className="muted">Short texts with questions</p>
-      </button>
+      <Link className="card tap" to="/reading">
+        <span className="chev">›</span>
+        <h2>📰 Reading</h2>
+        <p className="muted">{readingTexts.length} short texts about Peniche, the beach, food and festivals{readCount ? ` · ${readCount} done` : ''}</p>
+      </Link>
     </main>
   )
 }

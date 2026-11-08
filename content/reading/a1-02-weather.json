@@ -1,0 +1,104 @@
+{
+  "id": "r02",
+  "emoji": "🌫️",
+  "title": "O tempo",
+  "en": "Fog in the morning, sun in the afternoon, rain tomorrow.",
+  "paragraphs": [
+    {
+      "id": "r02-p1",
+      "pt": "Hoje de manhã está nevoeiro em Peniche. Não vejo o mar da janela! Está fresco e húmido, com quinze graus.",
+      "en": "This morning it's foggy in Peniche. I can't see the sea from the window! It's cool and damp, fifteen degrees."
+    },
+    {
+      "id": "r02-p2",
+      "pt": "À tarde, o sol aparece e está mais calor. Mas também há vento. Aqui, no verão, a nortada é forte quase todos os dias.",
+      "en": "In the afternoon the sun comes out and it's warmer. But it's also windy. Here, in summer, the nortada (north wind) is strong almost every day."
+    },
+    {
+      "id": "r02-p3",
+      "pt": "Amanhã vai chover. Preciso de levar um casaco e um guarda-chuva. No domingo vai estar sol outra vez, com vinte e dois graus.",
+      "en": "Tomorrow it's going to rain. I need to take a coat and an umbrella. On Sunday it'll be sunny again, twenty-two degrees."
+    }
+  ],
+  "questions": [
+    {
+      "id": "r02-q1",
+      "q": "What is the weather like this morning?",
+      "options": [
+        "Foggy",
+        "Sunny",
+        "Rainy",
+        "Snowy"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r02-q2",
+      "q": "How warm is it this morning?",
+      "options": [
+        "15 degrees",
+        "22 degrees",
+        "5 degrees",
+        "30 degrees"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r02-q3",
+      "q": "What is the nortada?",
+      "options": [
+        "A strong wind in summer",
+        "A kind of rain",
+        "A beach",
+        "A fish"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r02-q4",
+      "q": "What will the weather be like tomorrow?",
+      "options": [
+        "Rain",
+        "Sun",
+        "Fog",
+        "Snow"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r02-q5",
+      "q": "What does the writer need to take tomorrow?",
+      "options": [
+        "A coat and an umbrella",
+        "Sunglasses",
+        "A surfboard",
+        "Nothing"
+      ],
+      "answer": 0
+    }
+  ],
+  "glossary": {
+    "amanhã": "tomorrow",
+    "aparece": "appears, comes out (aparecer)",
+    "calor": "heat (está calor = it's warm)",
+    "casaco": "coat, jacket",
+    "chover": "to rain",
+    "dias": "days",
+    "domingo": "Sunday",
+    "estar": "to be (estar)",
+    "forte": "strong",
+    "guarda-chuva": "umbrella",
+    "húmido": "damp, humid",
+    "janela": "window",
+    "levar": "to take, to bring",
+    "manhã": "morning (de manhã = in the morning)",
+    "nevoeiro": "fog",
+    "nortada": "strong summer north wind on the coast",
+    "outra": "another (outra vez = again)",
+    "preciso": "I need (precisar de)",
+    "quase": "almost",
+    "quinze": "fifteen",
+    "todos": "all, every (todos os dias = every day)",
+    "vez": "time, occasion (outra vez = again)"
+  }
+}

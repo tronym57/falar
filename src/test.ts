@@ -1,6 +1,7 @@
 // Mixed tests: build a quiz across units and parts from the unit content.
 import type { Exercise, Part, Unit } from './content/types'
 import { listeningExtras, dialogueQuestions, lineExercise } from './listening'
+import { readingQuestions, readingTexts } from './content/reading'
 import { verbQuestions, verbs } from './verbs'
 
 export const PARTS: { id: Part; title: string }[] = [
@@ -9,11 +10,13 @@ export const PARTS: { id: Part; title: string }[] = [
   { id: 'grammar', title: 'Grammar' },
   { id: 'sentences', title: 'Sentences' },
   { id: 'verbs', title: 'Verbs' },
+  { id: 'reading', title: 'Reading' },
 ]
 
 /** The part an exercise counts towards. */
 export function partOf(x: Exercise): Part {
   if (x.part) return x.part
+  if (x.type === 'read-choose') return 'reading'
   if (x.type === 'listen-choose' || x.type === 'dictation' || x.type === 'listen-pick' || x.type === 'listen-gap' || x.type === 'listen-dialogue') return 'listening'
   return 'sentences'
 }
@@ -57,7 +60,9 @@ export function questionPool(units: Unit[], rand: () => number): Record<Part, Ex
   // Verbs aren't tied to a unit: all A1 verbs are in the pool (single forms and sentences, no full tables).
   const verbPool = verbs.flatMap(v => { const q = verbQuestions(v, rand); return [...q.type, ...q.pick, ...q.gap] })
   listening.push(...listeningExtras(units, rand).flat())
-  const pool: Record<Part, Exercise[]> = { vocab, listening, grammar: [], sentences: [], verbs: verbPool }
+  // Reading texts aren't tied to a unit: all of them are in the pool.
+  const reading = readingTexts.flatMap(readingQuestions)
+  const pool: Record<Part, Exercise[]> = { vocab, listening, grammar: [], sentences: [], verbs: verbPool, reading }
   for (const x of authored) pool[partOf(x)].push(x)
   return pool
 }

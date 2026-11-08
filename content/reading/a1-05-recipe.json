@@ -1,0 +1,115 @@
+{
+  "id": "r05",
+  "emoji": "🥣",
+  "title": "Caldo verde",
+  "en": "How to make Portugal's famous green soup.",
+  "paragraphs": [
+    {
+      "id": "r05-p1",
+      "pt": "O caldo verde é uma sopa muito portuguesa. É simples e barata. Precisamos de batatas, uma cebola, um dente de alho, couve, chouriço e azeite.",
+      "en": "Caldo verde is a very Portuguese soup. It's simple and cheap. We need potatoes, an onion, a clove of garlic, kale, chouriço and olive oil."
+    },
+    {
+      "id": "r05-p2",
+      "pt": "Primeiro, cortamos as batatas, a cebola e o alho. Cozemos tudo em água com sal durante vinte minutos. Depois, passamos a sopa com a varinha mágica.",
+      "en": "First we cut the potatoes, the onion and the garlic. We boil everything in salted water for twenty minutes. Then we blend the soup with the hand blender."
+    },
+    {
+      "id": "r05-p3",
+      "pt": "A seguir, juntamos a couve cortada muito fina e deixamos cozer mais cinco minutos. No fim, pomos uma rodela de chouriço e um fio de azeite em cada prato. Bom apetite!",
+      "en": "Next we add the kale, cut very thin, and let it cook five more minutes. At the end we put a slice of chouriço and a drizzle of olive oil on each plate. Enjoy your meal!"
+    }
+  ],
+  "questions": [
+    {
+      "id": "r05-q1",
+      "q": "What is caldo verde?",
+      "options": [
+        "A soup",
+        "A salad",
+        "A cake",
+        "A drink"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r05-q2",
+      "q": "Is caldo verde expensive?",
+      "options": [
+        "No, it's cheap",
+        "Yes, very expensive",
+        "Only in restaurants",
+        "The text doesn't say"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r05-q3",
+      "q": "How long do the potatoes cook?",
+      "options": [
+        "Twenty minutes",
+        "Five minutes",
+        "An hour",
+        "Two minutes"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r05-q4",
+      "q": "How is the kale cut?",
+      "options": [
+        "Very thin",
+        "In big pieces",
+        "It isn't cut",
+        "In squares"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r05-q5",
+      "q": "What goes on each plate at the end?",
+      "options": [
+        "A slice of chouriço and a drizzle of olive oil",
+        "Cheese",
+        "Bread",
+        "An egg"
+      ],
+      "answer": 0
+    }
+  ],
+  "glossary": {
+    "alho": "garlic",
+    "apetite": "appetite (bom apetite = enjoy your meal)",
+    "azeite": "olive oil",
+    "barata": "cheap (feminine)",
+    "batatas": "potatoes",
+    "cada": "each",
+    "caldo": "broth (caldo verde = kale soup)",
+    "cebola": "onion",
+    "chouriço": "chouriço (smoked pork sausage)",
+    "cinco": "five",
+    "cortada": "cut (feminine)",
+    "cortamos": "we cut (cortar)",
+    "couve": "kale, cabbage",
+    "cozemos": "we boil (cozer)",
+    "cozer": "to boil, to cook",
+    "deixamos": "we let, we leave (deixar)",
+    "dente": "tooth (dente de alho = clove of garlic)",
+    "fina": "thin, fine (feminine)",
+    "fio": "thread (um fio de azeite = a drizzle of olive oil)",
+    "juntamos": "we add (juntar)",
+    "mágica": "magic (varinha mágica = hand blender)",
+    "passamos": "we blend, we pass (passar)",
+    "pomos": "we put (pôr)",
+    "portuguesa": "Portuguese (feminine)",
+    "prato": "plate; dish",
+    "precisamos": "we need (precisar de)",
+    "primeiro": "first",
+    "rodela": "round slice",
+    "sal": "salt",
+    "seguir": "to follow (a seguir = next)",
+    "simples": "simple",
+    "sopa": "soup",
+    "varinha": "little wand (varinha mágica = hand blender)"
+  }
+}

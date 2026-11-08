@@ -1,0 +1,109 @@
+{
+  "id": "r01",
+  "emoji": "⚓",
+  "title": "Peniche",
+  "en": "A short portrait of the town by the sea.",
+  "paragraphs": [
+    {
+      "id": "r01-p1",
+      "pt": "Peniche é uma cidade pequena perto do mar. Fica a uma hora e meia de Lisboa. Muitas pessoas trabalham no porto, com os barcos de pesca.",
+      "en": "Peniche is a small town near the sea. It's an hour and a half from Lisbon. Many people work in the port, with the fishing boats."
+    },
+    {
+      "id": "r01-p2",
+      "pt": "No centro há lojas, cafés e restaurantes de peixe. A Fortaleza de Peniche é muito antiga e hoje é um museu. Do porto saem barcos para as Berlengas, umas ilhas bonitas.",
+      "en": "In the centre there are shops, cafés and fish restaurants. The Peniche Fortress is very old and today it's a museum. Boats leave the port for the Berlengas, some beautiful islands."
+    },
+    {
+      "id": "r01-p3",
+      "pt": "Perto de Peniche ficam o Baleal e a praia de Supertubos. São boas praias para o surf. No verão, a cidade tem muitos turistas, mas no inverno é calma.",
+      "en": "Near Peniche are Baleal and Supertubos beach. They're good beaches for surfing. In summer the town has many tourists, but in winter it's quiet."
+    }
+  ],
+  "questions": [
+    {
+      "id": "r01-q1",
+      "q": "Where do many people work?",
+      "options": [
+        "In the port, with the fishing boats",
+        "In the museum",
+        "In Lisbon",
+        "In the shops in Baleal"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r01-q2",
+      "q": "How far is Lisbon from Peniche?",
+      "options": [
+        "An hour and a half",
+        "Half an hour",
+        "Three hours",
+        "Ten minutes"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r01-q3",
+      "q": "What is the fortress today?",
+      "options": [
+        "A museum",
+        "A hotel",
+        "A school",
+        "A restaurant"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r01-q4",
+      "q": "How do you get to the Berlengas?",
+      "options": [
+        "By boat from the port",
+        "By bus",
+        "On foot",
+        "By train"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r01-q5",
+      "q": "What is Peniche like in winter?",
+      "options": [
+        "Quiet",
+        "Full of tourists",
+        "Very hot",
+        "Closed"
+      ],
+      "answer": 0
+    }
+  ],
+  "glossary": {
+    "antiga": "old, ancient (feminine)",
+    "barcos": "boats",
+    "berlengas": "the Berlengas (islands off Peniche)",
+    "bonitas": "beautiful (feminine plural)",
+    "cafés": "cafés",
+    "calma": "calm, quiet",
+    "centro": "centre",
+    "cidade": "town, city",
+    "fica": "is (located), lies (ficar)",
+    "ficam": "are (located) (ficar)",
+    "fortaleza": "fortress",
+    "hora": "hour",
+    "ilhas": "islands",
+    "inverno": "winter",
+    "lojas": "shops",
+    "muitos": "many (masculine)",
+    "museu": "museum",
+    "pequena": "small (feminine)",
+    "perto": "near (perto de = near)",
+    "pesca": "fishing (barcos de pesca = fishing boats)",
+    "praias": "beaches",
+    "restaurantes": "restaurants",
+    "saem": "leave, go out (sair)",
+    "surf": "surfing",
+    "trabalham": "they work (trabalhar)",
+    "turistas": "tourists",
+    "umas": "some (feminine)"
+  }
+}

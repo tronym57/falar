@@ -17,7 +17,7 @@ import { useToast } from '../toast'
  * test:      a mixed test from the Practice tab (one pass, score per part)
  * lesson:    practise a reading step right after it; 80% marks the step done
  */
-export type Mode = 'exercises' | 'check' | 'drill' | 'test' | 'lesson'
+export type Mode = 'exercises' | 'check' | 'drill' | 'test' | 'lesson' | 'reading'
 
 type Props = {
   sessionKey: string
@@ -87,6 +87,7 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo 
         const score = Object.values(firstTry).filter(Boolean).length / session.total
         if (unit !== undefined && (mode === 'exercises' || mode === 'check')) await markStepDone(unit, mode, score)
         if (unit !== undefined && mode === 'lesson' && step && score >= PASS_MARK) await markStepDone(unit, step, score)
+        if (mode === 'reading' && step) await markStepDone(-1, step, score)
         await db.sessions.delete(sessionKey)
         setFinished({ score, firstTry })
         return
@@ -138,7 +139,7 @@ function Results({ mode, unit, step, items, closeTo, score, firstTry, onRetry }:
   const stepTitle = unitSteps[i]?.title
   const byPart = mode === 'test' ? scoreByPart(items, firstTry) : null
 
-  const title = { exercises: 'Exercises done ✓', check: passed ? 'Passed! 🎉' : 'Not yet', drill: 'Practice done ✓', test: 'Test done ✓', lesson: passed ? 'Lesson complete ✓' : 'Almost there' }[mode]
+  const title = { exercises: 'Exercises done ✓', check: passed ? 'Passed! 🎉' : 'Not yet', drill: 'Practice done ✓', test: 'Test done ✓', reading: 'Questions done ✓', lesson: passed ? 'Lesson complete ✓' : 'Almost there' }[mode]
 
   return (
     <main className="screen">
@@ -193,7 +194,7 @@ function Results({ mode, unit, step, items, closeTo, score, firstTry, onRetry }:
       {nextReady && unit !== undefined && (mode !== 'lesson' || passed) && (
         <button className="btn btn-primary btn-block btn-big" onClick={() => navigate(`/unit/${unit}/${nextReady.slug}`)}>Next: {nextReady.title} ›</button>
       )}
-      {(mode === 'exercises' || mode === 'drill' || (mode === 'lesson' && passed)) && <button className="btn btn-tonal btn-block btn-big" onClick={onRetry}>Practise again</button>}
+      {(mode === 'exercises' || mode === 'drill' || mode === 'reading' || (mode === 'lesson' && passed)) && <button className="btn btn-tonal btn-block btn-big" onClick={onRetry}>Practise again</button>}
       {mode === 'test' && <button className="btn btn-primary btn-block btn-big" onClick={() => navigate('/practice')}>New test</button>}
       <Link className="btn btn-tonal btn-block btn-big" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>
     </main>
@@ -213,6 +214,7 @@ function describe(x: Exercise) {
     case 'dictation': return `🎧 ${x.answers[0]}`
     case 'listen-pick': return `🎧 ${x.options[x.answer]}`
     case 'listen-gap': return `🎧 ${x.pt.replace('___', x.answers[0])}`
+    case 'read-choose': return `${x.title}: ${x.question} → ${x.options[x.answer]}`
     case 'listen-dialogue': return `${x.title}: ${x.question} → ${x.options[x.answer]}`
   }
 }

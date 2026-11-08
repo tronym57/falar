@@ -46,6 +46,8 @@ export function ExerciseView({ ex, locked, onAnswer }: { ex: Exercise; locked: b
       return <ListenTyped ex={ex} locked={locked} onAnswer={onAnswer} />
     case 'listen-gap':
       return <ListenTyped ex={ex} locked={locked} onAnswer={onAnswer} />
+    case 'read-choose':
+      return <ReadChoose ex={ex} locked={locked} onAnswer={onAnswer} />
     case 'listen-dialogue':
       return <ListenDialogue ex={ex} locked={locked} onAnswer={onAnswer} />
   }
@@ -142,6 +144,31 @@ function ListenDialogue({ ex, locked, onAnswer }: Props<'listen-dialogue'>) {
           {ex.lines.map((l, i) => <p key={i}><span className="muted">{l.name}:</span> {l.pt}</p>)}
         </div>
       )}
+    </>
+  )
+}
+
+// ---------- a question about a reading text (text shown above, scrollable) ----------
+function ReadChoose({ ex, locked, onAnswer }: Props<'read-choose'>) {
+  const [picked, setPicked] = useState<number | null>(null)
+  const pick = (i: number) => {
+    if (locked) return
+    setPicked(i)
+    const expected = ex.options[ex.answer]
+    onAnswer({ given: ex.options[i], result: i === ex.answer ? { ok: true, expected } : { ok: false, expected } })
+  }
+  return (
+    <>
+      <div className="read-box" lang="pt-PT">
+        <p className="section-label" style={{ marginTop: 0 }}>{ex.title}</p>
+        {ex.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+      </div>
+      <p className="ex-label"><span className="ex-prompt">{ex.question}</span></p>
+      <div className="options">
+        {ex.options.map((o, i) => (
+          <Option key={i} state={locked && i === ex.answer ? 'right' : locked && i === picked ? 'wrong' : null} onClick={() => pick(i)}>{o}</Option>
+        ))}
+      </div>
     </>
   )
 }

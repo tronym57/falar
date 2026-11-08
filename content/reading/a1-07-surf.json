@@ -1,0 +1,112 @@
+{
+  "id": "r07",
+  "emoji": "🏄",
+  "title": "Uma manhã de surf",
+  "en": "Miguel's early session at Supertubos.",
+  "paragraphs": [
+    {
+      "id": "r07-p1",
+      "pt": "O Miguel acorda às seis e meia. Bebe um café, come uma torrada e olha para a previsão no telemóvel: ondas de um metro e meio, vento fraco. Perfeito!",
+      "en": "Miguel wakes up at half past six. He has a coffee, eats a piece of toast and looks at the forecast on his phone: waves of a metre and a half, light wind. Perfect!"
+    },
+    {
+      "id": "r07-p2",
+      "pt": "Às sete já está em Supertubos com a prancha e o fato. A água está fria, só dezasseis graus. No mar já há dez surfistas à espera das ondas.",
+      "en": "At seven he's already at Supertubos with his board and wetsuit. The water is cold, only sixteen degrees. In the sea there are already ten surfers waiting for the waves."
+    },
+    {
+      "id": "r07-p3",
+      "pt": "O Miguel apanha boas ondas durante duas horas. Depois sai da água, cansado e com fome. Vai à padaria e pede um galão e um pastel de nata.",
+      "en": "Miguel catches good waves for two hours. Then he gets out of the water, tired and hungry. He goes to the bakery and orders a galão (milky coffee) and a custard tart."
+    }
+  ],
+  "questions": [
+    {
+      "id": "r07-q1",
+      "q": "When does Miguel wake up?",
+      "options": [
+        "At 6:30",
+        "At 7:00",
+        "At 8:30",
+        "At noon"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r07-q2",
+      "q": "What does the forecast say?",
+      "options": [
+        "1.5 m waves and light wind",
+        "A big storm",
+        "No waves",
+        "Strong wind"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r07-q3",
+      "q": "How cold is the water?",
+      "options": [
+        "16 degrees",
+        "6 degrees",
+        "26 degrees",
+        "12 degrees"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r07-q4",
+      "q": "How long does Miguel surf?",
+      "options": [
+        "Two hours",
+        "Half an hour",
+        "All day",
+        "Ten minutes"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r07-q5",
+      "q": "What does he order at the bakery?",
+      "options": [
+        "A galão and a pastel de nata",
+        "A beer",
+        "Soup",
+        "A sandwich"
+      ],
+      "answer": 0
+    }
+  ],
+  "glossary": {
+    "acorda": "wakes up (acordar)",
+    "apanha": "catches (apanhar)",
+    "bebe": "drinks (beber)",
+    "cansado": "tired",
+    "come": "eats (comer)",
+    "das": "of the (de + as)",
+    "dez": "ten",
+    "dezasseis": "sixteen",
+    "duas": "two (feminine)",
+    "espera": "waiting (à espera de = waiting for)",
+    "fato": "wetsuit; suit",
+    "fome": "hunger (com fome = hungry)",
+    "fraco": "weak, light",
+    "galão": "milky coffee in a glass",
+    "horas": "hours",
+    "metro": "metre",
+    "miguel": "Miguel (a name)",
+    "nata": "cream (pastel de nata = custard tart)",
+    "olha": "looks (olhar para = to look at)",
+    "ondas": "waves",
+    "padaria": "bakery",
+    "pastel": "pastry (pastel de nata = custard tart)",
+    "pede": "orders, asks for (pedir)",
+    "perfeito": "perfect",
+    "prancha": "surfboard",
+    "previsão": "forecast",
+    "sai": "gets out, leaves (sair)",
+    "surfistas": "surfers",
+    "só": "only",
+    "torrada": "toast"
+  }
+}
