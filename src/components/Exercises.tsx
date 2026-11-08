@@ -24,6 +24,8 @@ export function ExerciseView({ ex, locked, onAnswer }: { ex: Exercise; locked: b
       return <Typed ex={ex} locked={locked} onAnswer={onAnswer} prompt={<>Translate into Portuguese:<span className="ex-prompt">{ex.en}</span></>} answers={ex.answers} />
     case 'conjugation':
       return <Typed ex={ex} locked={locked} onAnswer={onAnswer} prompt={<>Conjugate <b>{ex.verb}</b>:<span className="ex-prompt">{ex.person} …</span></>} answers={ex.answers} />
+    case 'verb-table':
+      return <VerbTable ex={ex} locked={locked} onAnswer={onAnswer} />
   }
 }
 
@@ -79,7 +81,7 @@ function GapFill({ ex, locked, onAnswer }: Props<'gap-fill'>) {
   const submit = (v: string) => {
     if (locked) return
     setValue(v)
-    onAnswer({ given: v, result: check(v, ex.answers) })
+    onAnswer({ given: v, result: check(v, ex.answers, { strict: ex.part === 'verbs' }) })
   }
 
   return (
@@ -153,12 +155,75 @@ function Typed({ ex, locked, onAnswer, prompt, answers }: Props<'translate' | 'c
   return (
     <>
       <p className="ex-label">{prompt}</p>
-      <TypedInput key={ex.id} locked={locked} onSubmit={v => onAnswer({ given: v, result: check(v, answers) })} />
+      <TypedInput key={ex.id} locked={locked} onSubmit={v => onAnswer({ given: v, result: check(v, answers, { strict: ex.part === 'verbs' }) })} />
     </>
   )
 }
 
 const ACCENTS = ['ã', 'õ', 'á', 'é', 'í', 'ó', 'ú', 'â', 'ê', 'ô', 'à', 'ç']
+
+// ---------- fill in a whole conjugation table ----------
+function VerbTable({ ex, locked, onAnswer }: Props<'verb-table'>) {
+  const toast = useToast()
+  const [values, setValues] = useState(() => ex.persons.map(() => ''))
+  const [results, setResults] = useState<boolean[] | null>(null)
+  const refs = useRef<(HTMLInputElement | null)[]>([])
+  const focused = useRef(0)
+
+  const insert = (ch: string) => {
+    const i = focused.current
+    const el = refs.current[i]
+    if (!el || locked) return
+    const s = el.selectionStart ?? values[i].length
+    const e = el.selectionEnd ?? values[i].length
+    setValues(v => v.map((x, j) => (j === i ? x.slice(0, s) + ch + x.slice(e) : x)))
+    requestAnimationFrame(() => { el.focus(); el.setSelectionRange(s + 1, s + 1) })
+  }
+  const submit = () => {
+    if (locked) return
+    if (values.some(v => !v.trim())) return toast('Fill in every form first.')
+    const r = values.map((v, i) => check(v, [ex.answers[i]], { strict: true }))
+    setResults(r.map(x => x.ok))
+    const ok = r.every(x => x.ok)
+    onAnswer({ given: values.join(', '), result: { ok, expected: ex.answers.join(' · ') } })
+  }
+
+  return (
+    <>
+      <p className="ex-label">Fill in the table:<span className="ex-prompt">{ex.verb} (present)</span></p>
+      <div className="verb-table">
+        {ex.persons.map((p, i) => (
+          <label key={p} className={'verb-row' + (results ? (results[i] ? ' right' : ' wrong') : '')}>
+            <span className="person">{p}</span>
+            <input
+              ref={el => { refs.current[i] = el }}
+              className="input w-full"
+              value={values[i]}
+              onFocus={() => { focused.current = i }}
+              onChange={e => setValues(v => v.map((x, j) => (j === i ? e.target.value : x)))}
+              onKeyDown={e => { if (e.key === 'Enter') (i < ex.persons.length - 1 ? refs.current[i + 1]?.focus() : submit()) }}
+              readOnly={locked}
+              lang="pt-PT"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              enterKeyHint={i < ex.persons.length - 1 ? 'next' : 'done'}
+            />
+            {results && !results[i] && <span className="fix">{ex.answers[i]}</span>}
+          </label>
+        ))}
+      </div>
+      {!locked && (
+        <>
+          <div className="accents">
+            {ACCENTS.map(a => <button key={a} className="btn btn-sm tile" onPointerDown={e => e.preventDefault()} onClick={() => insert(a)}>{a}</button>)}
+          </div>
+          <button className="btn btn-primary btn-block btn-big check-btn" onClick={submit}>Check</button>
+        </>
+      )}
+    </>
+  )
+}
 
 function TypedInput({ locked, onSubmit }: { locked: boolean; onSubmit: (v: string) => void }) {
   const toast = useToast()

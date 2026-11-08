@@ -36,6 +36,12 @@ describe('check', () => {
     expect(check('   ', answers).ok).toBe(false)
   })
 
+  it('strict mode (verbs) does not forgive accents or single letters', () => {
+    expect(check('chamamos-nos', ['chamamo-nos'], { strict: true }).ok).toBe(false)
+    expect(check('vem', ['vêm'], { strict: true }).ok).toBe(false)
+    expect(check('Chamo-me', ['chamo-me'], { strict: true }).ok).toBe(true)
+  })
+
   it('rejects answers that differ by a whole word', () => {
     expect(check('Pode repetir', ['Pode repetir mais devagar']).ok).toBe(false)
   })

@@ -8,6 +8,7 @@ import Unit from './screens/Unit'
 import UnitStep from './screens/UnitStep'
 import Review from './screens/Review'
 import PracticeHub, { GrammarDrill, GrammarReference, GrammarTopicScreen, TestRunner } from './screens/PracticeTab'
+import VerbTrainer, { DrillRunner, VerbScreen } from './screens/Verbs'
 import { syncCards } from './review'
 import { audio } from './audio'
 import { useToast } from './toast'
@@ -71,6 +72,9 @@ export default function App() {
         <Route path="/practice/grammar" element={<GrammarReference />} />
         <Route path="/grammar/:n/:topic" element={<GrammarTopicScreen />} />
         <Route path="/drill/grammar/:n/:topic" element={<GrammarDrill />} />
+        <Route path="/practice/verbs" element={<VerbTrainer />} />
+        <Route path="/verbs/:id" element={<VerbScreen />} />
+        <Route path="/drill/run/:key" element={<DrillRunner />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {!immersive && <nav className="dock">
@@ -80,7 +84,7 @@ export default function App() {
             to={t.to}
             end
             // Inside a unit, keep the Course tab highlighted.
-            className={({ isActive }) => (isActive || (t.to === '/course' && pathname.startsWith('/unit/')) || (t.to === '/practice' && /^\/(practice|grammar)\//.test(pathname)) ? 'dock-active' : '')}
+            className={({ isActive }) => (isActive || (t.to === '/course' && pathname.startsWith('/unit/')) || (t.to === '/practice' && /^\/(practice|grammar|verbs)\//.test(pathname)) ? 'dock-active' : '')}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{t.icon}</svg>
             <span className="dock-label">{t.label}</span>

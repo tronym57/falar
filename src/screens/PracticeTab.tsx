@@ -78,7 +78,7 @@ export default function PracticeHub() {
         <p className="section-label">Units</p>
         <div className="filters wrap">
           {units.map(u => (
-            <button key={u.n} className={'btn btn-sm rounded-full ' + (picked.includes(u.n) ? 'btn-primary' : 'btn-soft')} onClick={() => setPicked(toggle(picked, u.n))}>
+            <button key={u.n} className={'btn btn-sm rounded-full ' + (picked.includes(u.n) ? 'btn-primary' : 'btn-soft')} onClick={() => setPicked(cur => toggle(cur, u.n))}>
               Unit {u.n}
             </button>
           ))}
@@ -88,9 +88,8 @@ export default function PracticeHub() {
         <p className="section-label">Parts</p>
         <div className="filters wrap">
           {PARTS.map(p => (
-            <button key={p.id} className={'btn btn-sm rounded-full ' + (parts.includes(p.id) ? 'btn-primary' : 'btn-soft')} onClick={() => setParts(toggle(parts, p.id))}>{p.title}</button>
+            <button key={p.id} className={'btn btn-sm rounded-full ' + (parts.includes(p.id) ? 'btn-primary' : 'btn-soft')} onClick={() => setParts(cur => toggle(cur, p.id))}>{p.title}</button>
           ))}
-          <button className="btn btn-sm rounded-full btn-soft" onClick={() => toast('Verbs arrive with the verb trainer (next update).')}>Verbs · soon</button>
           <button className="btn btn-sm rounded-full btn-soft" onClick={() => toast('Reading arrives with the reading texts (coming soon).')}>Reading · soon</button>
         </div>
 
@@ -112,10 +111,11 @@ export default function PracticeHub() {
         <p className="muted">All grammar topics, each with its own practice</p>
       </Link>
 
-      <button className="card tap locked" onClick={() => toast('The verb trainer is the next update (M5b).')}>
-        <h2>🔤 Verb trainer<span className="badge badge-sm badge-ghost ml-2 align-middle">Soon</span></h2>
-        <p className="muted">Conjugate the 20 most common verbs</p>
-      </button>
+      <Link className="card tap" to="/practice/verbs">
+        <span className="chev">›</span>
+        <h2>🔤 Verb trainer</h2>
+        <p className="muted">21 common verbs: tables with audio, drills, weak verbs first</p>
+      </Link>
       <button className="card tap locked" onClick={() => toast('Reading texts come after the verb trainer (M5c).')}>
         <h2>📰 Reading<span className="badge badge-sm badge-ghost ml-2 align-middle">Soon</span></h2>
         <p className="muted">Short texts with questions</p>

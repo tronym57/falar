@@ -250,3 +250,12 @@ p { margin: 0 0 8px; }
 .app-toast { bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 8px); width: min(608px, calc(100% - 32px)); z-index: 50; white-space: normal; }
 .app-toast .alert { animation: slide-up 160ms ease-out; font-size: 15px; box-shadow: 0 6px 20px rgb(0 0 0 / .25); }
 .app-toast-info { background: var(--color-neutral); color: var(--color-neutral-content); border-color: var(--color-neutral); }
+
+/* ---------- verbs ---------- */
+.verb-table { display: flex; flex-direction: column; gap: 8px; }
+.verb-row { display: grid; grid-template-columns: 7.5rem 1fr; align-items: center; gap: 4px 10px; }
+.verb-row .person { font-weight: 600; color: var(--muted); font-size: 15px; }
+.verb-row.right .input { box-shadow: inset 0 0 0 2px var(--color-success); background: color-mix(in oklab, var(--color-success) 10%, var(--card)); }
+.verb-row.wrong .input { box-shadow: inset 0 0 0 2px var(--color-error); background: color-mix(in oklab, var(--color-error) 10%, var(--card)); }
+.verb-row .fix { grid-column: 2; color: var(--color-error); font-weight: 700; font-size: 15px; }
+.forms-table td:first-child { color: var(--muted); width: 8rem; }

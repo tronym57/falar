@@ -1,11 +1,13 @@
 // Mixed tests: build a quiz across units and parts from the unit content.
 import type { Exercise, Part, Unit } from './content/types'
+import { verbQuestions, verbs } from './verbs'
 
 export const PARTS: { id: Part; title: string }[] = [
   { id: 'vocab', title: 'Vocabulary & phrases' },
   { id: 'listening', title: 'Listening' },
   { id: 'grammar', title: 'Grammar' },
   { id: 'sentences', title: 'Sentences' },
+  { id: 'verbs', title: 'Verbs' },
 ]
 
 /** The part an exercise counts towards. */
@@ -51,7 +53,9 @@ export function questionPool(units: Unit[], rand: () => number): Record<Part, Ex
   }
 
   const authored = units.flatMap(u => [...u.exercises, ...u.check, ...u.grammar.topics.flatMap(t => t.exercises)])
-  const pool: Record<Part, Exercise[]> = { vocab, listening, grammar: [], sentences: [] }
+  // Verbs aren't tied to a unit: all A1 verbs are in the pool (single forms and sentences, no full tables).
+  const verbPool = verbs.flatMap(v => { const q = verbQuestions(v, rand); return [...q.type, ...q.pick, ...q.gap] })
+  const pool: Record<Part, Exercise[]> = { vocab, listening, grammar: [], sentences: [], verbs: verbPool }
   for (const x of authored) pool[partOf(x)].push(x)
   return pool
 }

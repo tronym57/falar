@@ -30,13 +30,15 @@ function distance(a: string, b: string) {
  * Compare an answer against the accepted answers.
  * Exact (ignoring case/punctuation) → correct. Only accents differ → correct, with a note.
  * One typo in a longer answer → correct, with a note. Anything else → wrong.
+ * `strict` (verb forms): accents and single letters ARE the point (vem/vêm, chamamo-nos), so no leniency.
  */
-export function check(input: string, answers: string[]): MatchResult {
+export function check(input: string, answers: string[], { strict = false } = {}): MatchResult {
   const got = normalize(input)
   const expected = answers[0]
   if (!got) return { ok: false, expected }
 
   for (const a of answers) if (normalize(a) === got) return { ok: true, expected: a }
+  if (strict) return { ok: false, expected }
 
   for (const a of answers) {
     if (stripAccents(normalize(a)) === stripAccents(got)) {

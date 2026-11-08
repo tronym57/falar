@@ -185,5 +185,6 @@ function describe(x: Exercise) {
     case 'sentence-builder': return `${x.en} → ${x.answer}`
     case 'translate': return `${x.en} → ${x.answers[0]}`
     case 'conjugation': return `${x.verb}, ${x.person} → ${x.answers[0]}`
+    case 'verb-table': return `${x.verb}: ${x.answers.join(', ')}`
   }
 }

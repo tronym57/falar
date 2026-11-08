@@ -1,0 +1,603 @@
+{
+  "id": "a1-present",
+  "level": "A1",
+  "tense": "Presente",
+  "title": "Present tense",
+  "persons": [
+    "eu",
+    "tu",
+    "ele/ela/você",
+    "nós",
+    "eles/elas/vocês"
+  ],
+  "verbs": [
+    {
+      "id": "ser",
+      "inf": "ser",
+      "en": "to be (permanent: who/what/where from)",
+      "kind": "irregular",
+      "forms": [
+        "sou",
+        "és",
+        "é",
+        "somos",
+        "são"
+      ],
+      "note": "Identity, origin, profession, characteristics. Compare estar.",
+      "examples": [
+        {
+          "id": "vb-ser-x1",
+          "pt": "Sou da Alemanha.",
+          "en": "I'm from Germany.",
+          "person": 0
+        },
+        {
+          "id": "vb-ser-x2",
+          "pt": "A Ana é muito simpática.",
+          "en": "Ana is very nice.",
+          "person": 2
+        }
+      ]
+    },
+    {
+      "id": "estar",
+      "inf": "estar",
+      "en": "to be (temporary: state, location)",
+      "kind": "irregular",
+      "forms": [
+        "estou",
+        "estás",
+        "está",
+        "estamos",
+        "estão"
+      ],
+      "note": "Mood, weather, where something is right now. Also: estar a + infinitive = doing right now.",
+      "examples": [
+        {
+          "id": "vb-estar-x1",
+          "pt": "Estou em Peniche.",
+          "en": "I'm in Peniche.",
+          "person": 0
+        },
+        {
+          "id": "vb-estar-x2",
+          "pt": "O mar está calmo hoje.",
+          "en": "The sea is calm today.",
+          "person": 2
+        }
+      ]
+    },
+    {
+      "id": "ter",
+      "inf": "ter",
+      "en": "to have",
+      "kind": "irregular",
+      "forms": [
+        "tenho",
+        "tens",
+        "tem",
+        "temos",
+        "têm"
+      ],
+      "note": "Ter de + infinitive = to have to: Tenho de ir.",
+      "examples": [
+        {
+          "id": "vb-ter-x1",
+          "pt": "Tens tempo amanhã?",
+          "en": "Do you have time tomorrow?",
+          "person": 1
+        },
+        {
+          "id": "vb-ter-x2",
+          "pt": "Nós temos um cão.",
+          "en": "We have a dog.",
+          "person": 3
+        }
+      ]
+    },
+    {
+      "id": "ir",
+      "inf": "ir",
+      "en": "to go",
+      "kind": "irregular",
+      "forms": [
+        "vou",
+        "vais",
+        "vai",
+        "vamos",
+        "vão"
+      ],
+      "note": "Ir + infinitive = near future: Vou comer.",
+      "examples": [
+        {
+          "id": "vb-ir-x1",
+          "pt": "Vou à praia.",
+          "en": "I'm going to the beach.",
+          "person": 0
+        },
+        {
+          "id": "vb-ir-x2",
+          "pt": "Vamos ao Baleal?",
+          "en": "Shall we go to Baleal?",
+          "person": 3
+        }
+      ]
+    },
+    {
+      "id": "fazer",
+      "inf": "fazer",
+      "en": "to do, to make",
+      "kind": "irregular",
+      "forms": [
+        "faço",
+        "fazes",
+        "faz",
+        "fazemos",
+        "fazem"
+      ],
+      "note": "Fazer surf = to surf.",
+      "examples": [
+        {
+          "id": "vb-fazer-x1",
+          "pt": "O que fazes hoje?",
+          "en": "What are you doing today?",
+          "person": 1
+        },
+        {
+          "id": "vb-fazer-x2",
+          "pt": "Faço surf de manhã.",
+          "en": "I surf in the morning.",
+          "person": 0
+        }
+      ]
+    },
+    {
+      "id": "querer",
+      "inf": "querer",
+      "en": "to want",
+      "kind": "irregular",
+      "forms": [
+        "quero",
+        "queres",
+        "quer",
+        "queremos",
+        "querem"
+      ],
+      "note": "Ordering politely, say queria (I would like): Queria um café.",
+      "examples": [
+        {
+          "id": "vb-querer-x1",
+          "pt": "Queres um café?",
+          "en": "Do you want a coffee?",
+          "person": 1
+        },
+        {
+          "id": "vb-querer-x2",
+          "pt": "Eles querem ir à praia.",
+          "en": "They want to go to the beach.",
+          "person": 4
+        }
+      ]
+    },
+    {
+      "id": "poder",
+      "inf": "poder",
+      "en": "can, to be able to",
+      "kind": "irregular",
+      "forms": [
+        "posso",
+        "podes",
+        "pode",
+        "podemos",
+        "podem"
+      ],
+      "note": "Only the eu form is irregular: posso.",
+      "examples": [
+        {
+          "id": "vb-poder-x1",
+          "pt": "Posso pagar com cartão?",
+          "en": "Can I pay by card?",
+          "person": 0
+        },
+        {
+          "id": "vb-poder-x2",
+          "pt": "Pode repetir, por favor?",
+          "en": "Can you repeat, please?",
+          "person": 2
+        }
+      ]
+    },
+    {
+      "id": "falar",
+      "inf": "falar",
+      "en": "to speak",
+      "kind": "regular -ar",
+      "forms": [
+        "falo",
+        "falas",
+        "fala",
+        "falamos",
+        "falam"
+      ],
+      "note": "Model for regular -ar verbs: -o, -as, -a, -amos, -am.",
+      "examples": [
+        {
+          "id": "vb-falar-x1",
+          "pt": "Falas inglês?",
+          "en": "Do you speak English?",
+          "person": 1
+        },
+        {
+          "id": "vb-falar-x2",
+          "pt": "Falamos um bocadinho de português.",
+          "en": "We speak a little Portuguese.",
+          "person": 3
+        }
+      ]
+    },
+    {
+      "id": "morar",
+      "inf": "morar",
+      "en": "to live (somewhere)",
+      "kind": "regular -ar",
+      "forms": [
+        "moro",
+        "moras",
+        "mora",
+        "moramos",
+        "moram"
+      ],
+      "note": "Morar em = to live in: Moro em Peniche.",
+      "examples": [
+        {
+          "id": "vb-morar-x1",
+          "pt": "Moro perto de Peniche.",
+          "en": "I live near Peniche.",
+          "person": 0
+        },
+        {
+          "id": "vb-morar-x2",
+          "pt": "Onde moras?",
+          "en": "Where do you live?",
+          "person": 1
+        }
+      ]
+    },
+    {
+      "id": "gostar",
+      "inf": "gostar",
+      "en": "to like",
+      "kind": "regular -ar",
+      "forms": [
+        "gosto",
+        "gostas",
+        "gosta",
+        "gostamos",
+        "gostam"
+      ],
+      "note": "Always with de: gostar de alguma coisa. De + o = do: Gosto do mar.",
+      "examples": [
+        {
+          "id": "vb-gostar-x1",
+          "pt": "Gosto muito de café.",
+          "en": "I really like coffee.",
+          "person": 0
+        },
+        {
+          "id": "vb-gostar-x2",
+          "pt": "Gostas de surf?",
+          "en": "Do you like surfing?",
+          "person": 1
+        }
+      ]
+    },
+    {
+      "id": "precisar",
+      "inf": "precisar",
+      "en": "to need",
+      "kind": "regular -ar",
+      "forms": [
+        "preciso",
+        "precisas",
+        "precisa",
+        "precisamos",
+        "precisam"
+      ],
+      "note": "Always with de before a noun: Preciso de um saco.",
+      "examples": [
+        {
+          "id": "vb-precisar-x1",
+          "pt": "Preciso de um saco.",
+          "en": "I need a bag.",
+          "person": 0
+        },
+        {
+          "id": "vb-precisar-x2",
+          "pt": "Precisas de ajuda?",
+          "en": "Do you need help?",
+          "person": 1
+        }
+      ]
+    },
+    {
+      "id": "chamarse",
+      "inf": "chamar-se",
+      "en": "to be called",
+      "kind": "regular -ar (reflexive)",
+      "forms": [
+        "chamo-me",
+        "chamas-te",
+        "chama-se",
+        "chamamo-nos",
+        "chamam-se"
+      ],
+      "note": "In Portugal the pronoun goes after the verb: chamo-me (not me chamo). In questions it moves forward: Como te chamas?",
+      "examples": [
+        {
+          "id": "vb-chamarse-x1",
+          "pt": "Chamo-me Miguel.",
+          "en": "My name is Miguel.",
+          "person": 0
+        },
+        {
+          "id": "vb-chamarse-x2",
+          "pt": "Ele chama-se João.",
+          "en": "His name is João.",
+          "person": 2
+        }
+      ]
+    },
+    {
+      "id": "comer",
+      "inf": "comer",
+      "en": "to eat",
+      "kind": "regular -er",
+      "forms": [
+        "como",
+        "comes",
+        "come",
+        "comemos",
+        "comem"
+      ],
+      "note": "Model for regular -er verbs: -o, -es, -e, -emos, -em.",
+      "examples": [
+        {
+          "id": "vb-comer-x1",
+          "pt": "Comemos peixe ao almoço.",
+          "en": "We eat fish for lunch.",
+          "person": 3
+        },
+        {
+          "id": "vb-comer-x2",
+          "pt": "O que comes ao pequeno-almoço?",
+          "en": "What do you eat for breakfast?",
+          "person": 1
+        }
+      ]
+    },
+    {
+      "id": "perceber",
+      "inf": "perceber",
+      "en": "to understand",
+      "kind": "regular -er",
+      "forms": [
+        "percebo",
+        "percebes",
+        "percebe",
+        "percebemos",
+        "percebem"
+      ],
+      "note": "The everyday word for \"understand\" in Portugal.",
+      "examples": [
+        {
+          "id": "vb-perceber-x1",
+          "pt": "Não percebo.",
+          "en": "I don't understand.",
+          "person": 0
+        },
+        {
+          "id": "vb-perceber-x2",
+          "pt": "Percebes português?",
+          "en": "Do you understand Portuguese?",
+          "person": 1
+        }
+      ]
+    },
+    {
+      "id": "viver",
+      "inf": "viver",
+      "en": "to live",
+      "kind": "regular -er",
+      "forms": [
+        "vivo",
+        "vives",
+        "vive",
+        "vivemos",
+        "vivem"
+      ],
+      "note": "Like morar, but also \"to be alive\" or \"to live a life\".",
+      "examples": [
+        {
+          "id": "vb-viver-x1",
+          "pt": "Vivemos em Portugal.",
+          "en": "We live in Portugal.",
+          "person": 3
+        },
+        {
+          "id": "vb-viver-x2",
+          "pt": "Vives sozinho?",
+          "en": "Do you live alone?",
+          "person": 1
+        }
+      ]
+    },
+    {
+      "id": "dizer",
+      "inf": "dizer",
+      "en": "to say",
+      "kind": "irregular",
+      "forms": [
+        "digo",
+        "dizes",
+        "diz",
+        "dizemos",
+        "dizem"
+      ],
+      "note": "Only eu (digo) and ele (diz) are irregular.",
+      "examples": [
+        {
+          "id": "vb-dizer-x1",
+          "pt": "O que dizes?",
+          "en": "What do you say?",
+          "person": 1
+        },
+        {
+          "id": "vb-dizer-x2",
+          "pt": "Ela diz que sim.",
+          "en": "She says yes.",
+          "person": 2
+        }
+      ]
+    },
+    {
+      "id": "ver",
+      "inf": "ver",
+      "en": "to see",
+      "kind": "irregular",
+      "forms": [
+        "vejo",
+        "vês",
+        "vê",
+        "vemos",
+        "veem"
+      ],
+      "note": "Eles veem has no accent in today's spelling (Acordo Ortográfico); older texts write vêem.",
+      "examples": [
+        {
+          "id": "vb-ver-x1",
+          "pt": "Vês as ondas?",
+          "en": "Do you see the waves?",
+          "person": 1
+        },
+        {
+          "id": "vb-ver-x2",
+          "pt": "Vemos o mar da janela.",
+          "en": "We see the sea from the window.",
+          "person": 3
+        }
+      ]
+    },
+    {
+      "id": "saber",
+      "inf": "saber",
+      "en": "to know (facts, how to)",
+      "kind": "irregular",
+      "forms": [
+        "sei",
+        "sabes",
+        "sabe",
+        "sabemos",
+        "sabem"
+      ],
+      "note": "Saber + infinitive = know how to: Sei nadar.",
+      "examples": [
+        {
+          "id": "vb-saber-x1",
+          "pt": "Não sei.",
+          "en": "I don't know.",
+          "person": 0
+        },
+        {
+          "id": "vb-saber-x2",
+          "pt": "Sabes onde é a farmácia?",
+          "en": "Do you know where the pharmacy is?",
+          "person": 1
+        }
+      ]
+    },
+    {
+      "id": "vir",
+      "inf": "vir",
+      "en": "to come",
+      "kind": "irregular",
+      "forms": [
+        "venho",
+        "vens",
+        "vem",
+        "vimos",
+        "vêm"
+      ],
+      "note": "Watch out: ele vem, eles vêm (with accent).",
+      "examples": [
+        {
+          "id": "vb-vir-x1",
+          "pt": "Venho da Alemanha.",
+          "en": "I come from Germany.",
+          "person": 0
+        },
+        {
+          "id": "vb-vir-x2",
+          "pt": "Vens à praia?",
+          "en": "Are you coming to the beach?",
+          "person": 1
+        }
+      ]
+    },
+    {
+      "id": "dar",
+      "inf": "dar",
+      "en": "to give",
+      "kind": "irregular",
+      "forms": [
+        "dou",
+        "dás",
+        "dá",
+        "damos",
+        "dão"
+      ],
+      "note": "Dar um passeio = to go for a walk.",
+      "examples": [
+        {
+          "id": "vb-dar-x1",
+          "pt": "Dou aulas de inglês.",
+          "en": "I give English lessons.",
+          "person": 0
+        },
+        {
+          "id": "vb-dar-x2",
+          "pt": "Eles dão uma festa hoje.",
+          "en": "They're throwing a party today.",
+          "person": 4
+        }
+      ]
+    },
+    {
+      "id": "sair",
+      "inf": "sair",
+      "en": "to go out, to leave",
+      "kind": "irregular",
+      "forms": [
+        "saio",
+        "sais",
+        "sai",
+        "saímos",
+        "saem"
+      ],
+      "note": "Nós saímos has an accent on the í.",
+      "examples": [
+        {
+          "id": "vb-sair-x1",
+          "pt": "Saio de casa às oito.",
+          "en": "I leave home at eight.",
+          "person": 0
+        },
+        {
+          "id": "vb-sair-x2",
+          "pt": "A que horas sais?",
+          "en": "What time do you leave?",
+          "person": 1
+        }
+      ]
+    }
+  ]
+}

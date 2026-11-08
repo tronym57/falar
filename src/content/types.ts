@@ -30,7 +30,7 @@ export type GrammarTopic = { id: string; title: string; sections: GrammarSection
 export type Grammar = { topics: GrammarTopic[] }
 
 /** Which skill an exercise trains; used to score mixed tests per part. */
-export type Part = 'vocab' | 'listening' | 'grammar' | 'sentences'
+export type Part = 'vocab' | 'listening' | 'grammar' | 'sentences' | 'verbs'
 
 /** Answers are compared loosely: case, punctuation and accents are ignored. */
 export type Exercise = ({ part?: Part } & (
@@ -41,6 +41,7 @@ export type Exercise = ({ part?: Part } & (
   | { id: string; type: 'sentence-builder'; en: string; tiles: string[]; answer: string }
   | { id: string; type: 'translate'; en: string; answers: string[] }
   | { id: string; type: 'conjugation'; verb: string; person: string; answers: string[] }
+  | { id: string; type: 'verb-table'; verb: string; persons: string[]; answers: string[] }
 ))
 
 export type SpeakingPrompt = { id: string; prompt: string; answers: string[]; pt: string }
@@ -58,3 +59,8 @@ export type Unit = {
   speaking: SpeakingPrompt[]
   check: Exercise[]
 }
+
+/** A verb set, e.g. content/verbs/a1-present.json. */
+export type VerbExample = { id: string; pt: string; en: string; person: number }
+export type Verb = { id: string; inf: string; en: string; kind: string; forms: string[]; note?: string; examples: VerbExample[] }
+export type VerbSet = { id: string; level: string; tense: string; title: string; persons: string[]; verbs: Verb[] }

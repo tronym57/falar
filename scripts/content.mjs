@@ -41,9 +41,52 @@ function bpProblems(text) {
 }
 
 // ---------- loading ----------
+const verbsDir = join(contentDir, 'verbs')
+const PRONOUNS = ['eu', 'tu', 'ele', 'nós', 'eles']
+
+function loadVerbSets() {
+  return readdirSync(verbsDir).filter(f => f.endsWith('.json')).sort().map(f => {
+    const path = join(verbsDir, f)
+    try { return { path, data: JSON.parse(readFileSync(path, 'utf8')) } } catch (e) { return { path, parseError: e.message } }
+  })
+}
+
+/** Audio for verb sets: every form said with its pronoun ("eu sou"), plus example sentences. */
+function verbAudioItems(set) {
+  return (set.verbs ?? []).flatMap(v => [
+    ...(v.forms ?? []).map((f, i) => ({ id: `vb-${v.id}-f${i}`, text: `${PRONOUNS[i]} ${f}`, voice: 'raquel' })),
+    ...(v.examples ?? []).map(x => ({ id: x.id, text: x.pt, voice: 'raquel' })),
+  ])
+}
+
+const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+/** The verb form as a whole word inside the sentence (so the gap can replace it). */
+const formInSentence = (form, pt) => new RegExp(`(^|[^\\p{L}-])(${escapeRe(form)})(?=$|[^\\p{L}-])`, 'iu').test(pt)
+
+function validateVerbs(set, errors, seenIds) {
+  const err = (where, msg) => errors.push(`${set.id ?? '?'} ${where}: ${msg}`)
+  if (!Array.isArray(set.persons) || set.persons.length !== 5) err('persons', 'needs 5 persons')
+  for (const v of set.verbs ?? []) {
+    if (!/^[a-z]+$/.test(v.id ?? '')) err(v.inf ?? '?', `verb id "${v.id}" must be lowercase letters only`)
+    if (seenIds.has(v.id)) err(v.id, 'duplicate verb id')
+    seenIds.set(v.id, set.id)
+    for (const k of ['inf', 'en', 'kind']) if (typeof v[k] !== 'string' || !v[k].trim()) err(v.id, `missing ${k}`)
+    if (!Array.isArray(v.forms) || v.forms.length !== 5) err(v.id, 'needs exactly 5 forms')
+    for (const f of v.forms ?? []) for (const p of bpProblems(f)) err(v.id, p)
+    if (!v.examples?.length) err(v.id, 'needs at least one example')
+    for (const x of v.examples ?? []) {
+      if (seenIds.has(x.id)) err(x.id, 'duplicate id')
+      seenIds.set(x.id, set.id)
+      for (const p of bpProblems(x.pt ?? '')) err(x.id, p)
+      if (!(x.person >= 0 && x.person < 5)) err(x.id, 'person must be 0–4')
+      else if (!formInSentence(v.forms[x.person], x.pt)) err(x.id, `sentence must contain "${v.forms[x.person]}"`)
+    }
+  }
+}
+
 function loadUnits() {
   const units = []
-  for (const level of readdirSync(contentDir).sort()) {
+  for (const level of readdirSync(contentDir).filter(d => d !== 'verbs').sort()) {
     const dir = join(contentDir, level)
     for (const file of readdirSync(dir).filter(f => f.endsWith('.json')).sort()) {
       const path = join(dir, file)
@@ -57,7 +100,7 @@ function loadUnits() {
 
 const grammarExamples = u => (u.grammar?.topics ?? []).flatMap(t => (t.sections ?? []).filter(s => s.type === 'examples').flatMap(s => s.items ?? []))
 const allExercises = u => [...(u.exercises ?? []), ...(u.check ?? []), ...(u.grammar?.topics ?? []).flatMap(t => t.exercises ?? [])]
-const PARTS = ['vocab', 'listening', 'grammar', 'sentences']
+const PARTS = ['vocab', 'listening', 'grammar', 'sentences', 'verbs']
 const SECTION_TYPES = ['rule', 'table', 'examples', 'tip', 'ep-note']
 
 /** Every Portuguese string that gets an audio file, with the voice to use. */
@@ -179,8 +222,11 @@ function validate(u, errors, seenIds) {
 const [cmd, ...flags] = process.argv.slice(2)
 const units = loadUnits()
 
+const verbSets = loadVerbSets()
+
 if (cmd === 'audio-items') {
-  process.stdout.write(JSON.stringify(units.filter(u => u.data).flatMap(u => audioItems(u.data)), null, 1))
+  const items = [...units.filter(u => u.data).flatMap(u => audioItems(u.data)), ...verbSets.filter(v => v.data).flatMap(v => verbAudioItems(v.data))]
+  process.stdout.write(JSON.stringify(items, null, 1))
 } else if (cmd === 'lint') {
   const errors = []
   const seenIds = new Map()
@@ -193,13 +239,20 @@ if (cmd === 'audio-items') {
       }
     }
   }
+  for (const v of verbSets) {
+    if (v.parseError) { errors.push(`${v.path}: invalid JSON: ${v.parseError}`); continue }
+    validateVerbs(v.data, errors, seenIds)
+    if (!flags.includes('--no-audio')) {
+      for (const a of verbAudioItems(v.data)) if (!existsSync(join(audioDir, `${a.id}.mp3`))) errors.push(`${v.data.id} ${a.id}: audio file missing (run npm run audio)`)
+    }
+  }
   if (errors.length) {
     console.error(errors.map(e => '✗ ' + e).join('\n'))
     console.error(`\n${errors.length} problem(s) in ${units.length} unit file(s).`)
     process.exit(1)
   }
-  const n = units.reduce((s, u) => s + audioItems(u.data).length, 0)
-  console.log(`✓ ${units.length} unit file(s) OK, ${n} audio items.`)
+  const n = units.reduce((s, u) => s + audioItems(u.data).length, 0) + verbSets.reduce((s, v) => s + verbAudioItems(v.data).length, 0)
+  console.log(`✓ ${units.length} unit file(s), ${verbSets.length} verb set(s) OK, ${n} audio items.`)
 } else {
   console.error('Usage: node scripts/content.mjs lint [--no-audio] | audio-items')
   process.exit(2)
