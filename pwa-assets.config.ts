@@ -1,7 +1,7 @@
 import { defineConfig, minimal2023Preset } from '@vite-pwa/assets-generator/config'
 
-// The logo already fills its square, so no padding and the logo's cream background everywhere.
-const bg = { resizeOptions: { background: '#FBF6EC' } }
+// The logo already fills its square, so no padding and the flag's red as background everywhere.
+const bg = { resizeOptions: { background: '#DA291C' } }
 
 export default defineConfig({
   preset: {
