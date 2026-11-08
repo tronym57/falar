@@ -1,4 +1,4 @@
-// A1 unit list (titles only). Real unit content arrives as JSON in M2.
+// A1 unit list (titles only). Unit content lives in content/a1/*.json.
 export const a1Units = [
   { n: 0, title: 'Survival kit', scene: 'Greetings, "I don\'t understand"' },
   { n: 1, title: 'Meeting people', scene: 'Beach car park in Baleal' },
@@ -18,5 +18,13 @@ export const a1Units = [
 
 export const v1UnitCount = 4
 
-// The fixed step sequence every unit follows.
-export const unitSteps = ['Dialogue', 'Key phrases', 'Vocabulary', 'Grammar', 'Exercises', 'Speaking drill', 'Unit check']
+// The fixed step sequence every unit follows. `ready` = the screen for it exists.
+export const unitSteps = [
+  { slug: 'dialogue', title: 'Dialogue', ready: true },
+  { slug: 'phrases', title: 'Key phrases', ready: true },
+  { slug: 'vocab', title: 'Vocabulary', ready: true },
+  { slug: 'grammar', title: 'Grammar', ready: true },
+  { slug: 'exercises', title: 'Exercises', ready: false },
+  { slug: 'speaking', title: 'Speaking drill', ready: false },
+  { slug: 'check', title: 'Unit check', ready: false },
+]

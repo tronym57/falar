@@ -1,9 +1,13 @@
+import { useEffect } from 'react'
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Home from './screens/Home'
 import Course from './screens/Course'
 import Vocab from './screens/Vocab'
 import Settings from './screens/Settings'
 import Unit from './screens/Unit'
+import UnitStep from './screens/UnitStep'
+import { audio } from './audio'
+import { useToast } from './toast'
 
 const tabs = [
   { to: '/', label: 'Home', icon: <path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /> },
@@ -14,6 +18,8 @@ const tabs = [
 
 export default function App() {
   const { pathname } = useLocation()
+  const toast = useToast()
+  useEffect(() => audio.onError(() => toast("Couldn't play this audio. If you're offline, open the app once with a connection.", 'error')), [toast])
   return (
     <>
       <Routes>
@@ -22,6 +28,7 @@ export default function App() {
         <Route path="/vocab" element={<Vocab />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/unit/:n" element={<Unit />} />
+        <Route path="/unit/:n/:step" element={<UnitStep />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <nav className="tabbar">

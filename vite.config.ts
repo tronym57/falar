@@ -32,7 +32,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        // Audio is precached too, so lessons work offline (e.g. at the beach).
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,mp3}'],
       },
     }),
   ],

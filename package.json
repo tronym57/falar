@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint:content": "node scripts/content.mjs lint",
+    "audio": "node scripts/content.mjs audio-items | .venv/bin/python scripts/gen_audio.py",
+    "audio:setup": "python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt"
   },
   "dependencies": {
     "react": "^19.3.1",

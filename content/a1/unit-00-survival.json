@@ -1,0 +1,139 @@
+{
+  "id": "a1-u0",
+  "n": 0,
+  "title": "Survival kit",
+  "scene": "Greetings, \"I don't understand\"",
+  "dialogues": [
+    {
+      "title": "Na rua, de manhã",
+      "en": "In the street, in the morning. You meet your neighbour, Dona Fátima.",
+      "speakers": {
+        "F": { "name": "Dona Fátima", "voice": "raquel" },
+        "Y": { "name": "You", "voice": "duarte" }
+      },
+      "lines": [
+        { "id": "u0-d1-01", "speaker": "F", "pt": "Bom dia!", "en": "Good morning!" },
+        { "id": "u0-d1-02", "speaker": "Y", "pt": "Bom dia! Tudo bem?", "en": "Good morning! All good?" },
+        { "id": "u0-d1-03", "speaker": "F", "pt": "Tudo bem, obrigada. E consigo?", "en": "All good, thank you. And you?" },
+        { "id": "u0-d1-04", "speaker": "Y", "pt": "Tudo bem, obrigado.", "en": "All good, thank you." },
+        { "id": "u0-d1-05", "speaker": "F", "pt": "Hoje está um dia bonito!", "en": "It's a beautiful day today!" },
+        { "id": "u0-d1-06", "speaker": "Y", "pt": "Desculpe, não percebi. Pode repetir mais devagar, por favor?", "en": "Sorry, I didn't understand. Can you repeat more slowly, please?" },
+        { "id": "u0-d1-07", "speaker": "F", "pt": "Hoje... está... um dia bonito.", "en": "Today... it's... a beautiful day." },
+        { "id": "u0-d1-08", "speaker": "Y", "pt": "Ah, pois é! Está um dia muito bonito.", "en": "Ah, that's right! It's a very beautiful day." },
+        { "id": "u0-d1-09", "speaker": "F", "pt": "Até logo!", "en": "See you later!" },
+        { "id": "u0-d1-10", "speaker": "Y", "pt": "Até logo, bom dia!", "en": "See you later, have a good day!" }
+      ]
+    },
+    {
+      "title": "No supermercado",
+      "en": "At the supermarket checkout. The cashier asks you something.",
+      "speakers": {
+        "C": { "name": "Cashier", "voice": "raquel" },
+        "Y": { "name": "You", "voice": "duarte" }
+      },
+      "lines": [
+        { "id": "u0-d2-01", "speaker": "C", "pt": "Boa tarde. Tem cartão de cliente?", "en": "Good afternoon. Do you have a loyalty card?" },
+        { "id": "u0-d2-02", "speaker": "Y", "pt": "Desculpe, não percebi. Fala inglês?", "en": "Sorry, I didn't understand. Do you speak English?" },
+        { "id": "u0-d2-03", "speaker": "C", "pt": "Um bocadinho. Cartão de cliente... tem?", "en": "A little bit. Loyalty card... do you have one?" },
+        { "id": "u0-d2-04", "speaker": "Y", "pt": "Ah, não, não tenho. Obrigado.", "en": "Ah, no, I don't have one. Thank you." },
+        { "id": "u0-d2-05", "speaker": "C", "pt": "Quer saco?", "en": "Do you want a bag?" },
+        { "id": "u0-d2-06", "speaker": "Y", "pt": "Não, obrigado.", "en": "No, thank you." },
+        { "id": "u0-d2-07", "speaker": "C", "pt": "Pronto. Obrigada, boa tarde!", "en": "There you go. Thank you, have a good afternoon!" },
+        { "id": "u0-d2-08", "speaker": "Y", "pt": "Obrigado, igualmente!", "en": "Thank you, you too!" }
+      ]
+    }
+  ],
+  "phrases": [
+    { "id": "u0-p01", "pt": "Bom dia", "en": "Good morning", "note": "Until about lunchtime." },
+    { "id": "u0-p02", "pt": "Boa tarde", "en": "Good afternoon", "note": "From lunch until it gets dark." },
+    { "id": "u0-p03", "pt": "Boa noite", "en": "Good evening / good night", "note": "After dark, both hello and goodbye." },
+    { "id": "u0-p04", "pt": "Olá", "en": "Hello", "note": "Casual hello. \"Oi\" is Brazilian." },
+    { "id": "u0-p05", "pt": "Tudo bem?", "en": "All good? / How are you?" },
+    { "id": "u0-p06", "pt": "Tudo bem, obrigado.", "en": "All good, thank you.", "note": "Women say \"obrigada\"." },
+    { "id": "u0-p07", "pt": "Por favor", "en": "Please" },
+    { "id": "u0-p08", "pt": "De nada", "en": "You're welcome" },
+    { "id": "u0-p09", "pt": "Desculpe", "en": "Sorry / Excuse me", "note": "Polite form. With friends: \"desculpa\"." },
+    { "id": "u0-p10", "pt": "Com licença", "en": "Excuse me (to get past)" },
+    { "id": "u0-p11", "pt": "Não percebi.", "en": "I didn't understand.", "note": "Portugal uses \"perceber\", not \"entender\", in everyday speech." },
+    { "id": "u0-p12", "pt": "Pode repetir, por favor?", "en": "Can you repeat, please?" },
+    { "id": "u0-p13", "pt": "Mais devagar, por favor.", "en": "More slowly, please." },
+    { "id": "u0-p14", "pt": "Como se diz isto em português?", "en": "How do you say this in Portuguese?" },
+    { "id": "u0-p15", "pt": "Fala inglês?", "en": "Do you speak English?" },
+    { "id": "u0-p16", "pt": "Ainda não falo bem português.", "en": "I don't speak Portuguese well yet." },
+    { "id": "u0-p17", "pt": "Pois é.", "en": "That's right. / Indeed.", "note": "Very common filler in Portugal." },
+    { "id": "u0-p18", "pt": "Até logo!", "en": "See you later!" },
+    { "id": "u0-p19", "pt": "Até amanhã!", "en": "See you tomorrow!" },
+    { "id": "u0-p20", "pt": "Igualmente.", "en": "Likewise. / You too." }
+  ],
+  "vocab": [
+    { "id": "u0-v01", "pt": "o dia", "en": "the day", "gender": "m" },
+    { "id": "u0-v02", "pt": "a tarde", "en": "the afternoon", "gender": "f" },
+    { "id": "u0-v03", "pt": "a noite", "en": "the night, the evening", "gender": "f" },
+    { "id": "u0-v04", "pt": "hoje", "en": "today" },
+    { "id": "u0-v05", "pt": "amanhã", "en": "tomorrow" },
+    { "id": "u0-v06", "pt": "sim", "en": "yes" },
+    { "id": "u0-v07", "pt": "não", "en": "no, not" },
+    { "id": "u0-v08", "pt": "obrigado", "en": "thank you (said by a man)" },
+    { "id": "u0-v09", "pt": "obrigada", "en": "thank you (said by a woman)" },
+    { "id": "u0-v10", "pt": "o vizinho", "en": "the neighbour (man)", "gender": "m" },
+    { "id": "u0-v11", "pt": "a vizinha", "en": "the neighbour (woman)", "gender": "f" },
+    { "id": "u0-v12", "pt": "o supermercado", "en": "the supermarket", "gender": "m" },
+    { "id": "u0-v13", "pt": "o saco", "en": "the bag", "gender": "m" },
+    { "id": "u0-v14", "pt": "o cartão", "en": "the card", "gender": "m" },
+    { "id": "u0-v15", "pt": "devagar", "en": "slowly" },
+    { "id": "u0-v16", "pt": "bonito", "en": "beautiful, nice" },
+    { "id": "u0-v17", "pt": "um bocadinho", "en": "a little bit" },
+    { "id": "u0-v18", "pt": "o português", "en": "Portuguese (language)", "gender": "m" },
+    { "id": "u0-v19", "pt": "o inglês", "en": "English (language)", "gender": "m" }
+  ],
+  "grammar": {
+    "title": "Obrigado or obrigada? And how to say \"you\"",
+    "body": [
+      "\"Obrigado\" literally means \"obliged\", so it matches the person speaking: a man says \"obrigado\", a woman says \"obrigada\". It doesn't depend on who you're thanking.",
+      "Portuguese has several ways to say \"you\". Use \"tu\" with friends, people your age, kids and in the surf lineup. The verb ends in -s: \"Podes repetir?\"",
+      "With strangers, older people and shop staff, be polite: leave out the word for \"you\" and use the verb without -s: \"Pode repetir?\" To be extra polite, add \"o senhor\" (to a man) or \"a senhora\" (to a woman).",
+      "Tip: when unsure, use the polite form without a pronoun. You'll never sound rude."
+    ],
+    "examples": [
+      { "id": "u0-g01", "pt": "Obrigado!", "en": "Thank you! (said by a man)" },
+      { "id": "u0-g02", "pt": "Obrigada!", "en": "Thank you! (said by a woman)" },
+      { "id": "u0-g03", "pt": "Podes repetir?", "en": "Can you repeat? (to a friend)" },
+      { "id": "u0-g04", "pt": "Pode repetir?", "en": "Can you repeat? (polite)" },
+      { "id": "u0-g05", "pt": "O senhor fala inglês?", "en": "Do you speak English, sir?" }
+    ],
+    "epNote": "In Brazil \"você\" is the normal word for \"you\". In Portugal it can sound distant or even rude, so skip it: use \"tu\" with friends, and the polite verb form without a pronoun with everyone else."
+  },
+  "exercises": [
+    { "id": "u0-x01", "type": "listen-choose", "pt": "Não percebi.", "options": ["I didn't understand.", "I don't speak Portuguese.", "Not today.", "See you later."], "answer": 0 },
+    { "id": "u0-x02", "type": "listen-choose", "pt": "Até logo!", "options": ["Good morning!", "See you later!", "Thank you!", "Excuse me!"], "answer": 1 },
+    { "id": "u0-x03", "type": "listen-choose", "pt": "Pode repetir mais devagar?", "options": ["Do you speak English?", "How do you say this?", "Can you repeat more slowly?", "Do you have a card?"], "answer": 2 },
+    { "id": "u0-x04", "type": "gap-fill", "pt": "Bom ___!", "en": "Good morning!", "answers": ["dia"], "options": ["dia", "tarde", "noite"] },
+    { "id": "u0-x05", "type": "gap-fill", "pt": "Boa ___!", "en": "Good evening!", "answers": ["noite"], "options": ["dia", "tarde", "noite"] },
+    { "id": "u0-x06", "type": "gap-fill", "pt": "Pode repetir, por ___?", "en": "Can you repeat, please?", "answers": ["favor"], "options": ["favor", "nada", "licença"] },
+    { "id": "u0-x07", "type": "choose", "prompt": "A woman thanks the cashier. What does she say?", "options": ["Obrigado.", "Obrigada.", "De nada."], "answer": 1 },
+    { "id": "u0-x08", "type": "choose", "prompt": "You ask your older neighbour to repeat. Which is right?", "options": ["Podes repetir?", "Pode repetir?"], "answer": 1 },
+    { "id": "u0-x09", "type": "sentence-builder", "en": "Can you repeat more slowly, please?", "tiles": ["Pode", "repetir", "mais", "devagar", "por", "favor", "podes", "logo"], "answer": "Pode repetir mais devagar por favor" },
+    { "id": "u0-x10", "type": "sentence-builder", "en": "How do you say this in Portuguese?", "tiles": ["Como", "se", "diz", "isto", "em", "português", "inglês", "fala"], "answer": "Como se diz isto em português" },
+    { "id": "u0-x11", "type": "translate", "en": "Good afternoon!", "answers": ["Boa tarde"] },
+    { "id": "u0-x12", "type": "translate", "en": "Sorry, I didn't understand.", "answers": ["Desculpe, não percebi", "Desculpa, não percebi"] },
+    { "id": "u0-x13", "type": "translate", "en": "Do you speak English? (polite)", "answers": ["Fala inglês", "O senhor fala inglês", "A senhora fala inglês"] }
+  ],
+  "speaking": [
+    { "id": "u0-s01", "prompt": "Greet your neighbour in the morning.", "answers": ["Bom dia", "Olá, bom dia"], "pt": "Bom dia!" },
+    { "id": "u0-s02", "prompt": "Say you didn't understand.", "answers": ["Não percebi", "Desculpe, não percebi"], "pt": "Desculpe, não percebi." },
+    { "id": "u0-s03", "prompt": "Ask them to repeat more slowly.", "answers": ["Pode repetir mais devagar", "Pode repetir mais devagar, por favor", "Mais devagar, por favor"], "pt": "Pode repetir mais devagar, por favor?" },
+    { "id": "u0-s04", "prompt": "Ask the cashier if she speaks English.", "answers": ["Fala inglês", "A senhora fala inglês"], "pt": "Fala inglês?" },
+    { "id": "u0-s05", "prompt": "Say you don't speak Portuguese well yet.", "answers": ["Ainda não falo bem português"], "pt": "Ainda não falo bem português." },
+    { "id": "u0-s06", "prompt": "Say goodbye: \"See you later!\"", "answers": ["Até logo"], "pt": "Até logo!" }
+  ],
+  "check": [
+    { "id": "u0-c01", "type": "listen-choose", "pt": "Boa noite!", "options": ["Good morning!", "Good afternoon!", "Good evening!", "See you tomorrow!"], "answer": 2 },
+    { "id": "u0-c02", "type": "listen-choose", "pt": "Quer saco?", "options": ["Do you want a bag?", "Do you have a card?", "Do you speak English?", "Is everything OK?"], "answer": 0 },
+    { "id": "u0-c03", "type": "gap-fill", "pt": "Até ___!", "en": "See you tomorrow!", "answers": ["amanhã"], "options": ["amanhã", "logo", "hoje"] },
+    { "id": "u0-c04", "type": "choose", "prompt": "Someone says \"Obrigado!\" to you. What do you answer?", "options": ["Desculpe.", "De nada.", "Com licença."], "answer": 1 },
+    { "id": "u0-c05", "type": "choose", "prompt": "You need to get past someone in a narrow aisle.", "options": ["Com licença.", "Pois é.", "Igualmente."], "answer": 0 },
+    { "id": "u0-c06", "type": "sentence-builder", "en": "I don't speak Portuguese well yet.", "tiles": ["Ainda", "não", "falo", "bem", "português", "inglês", "sim"], "answer": "Ainda não falo bem português" },
+    { "id": "u0-c07", "type": "translate", "en": "More slowly, please.", "answers": ["Mais devagar, por favor"] },
+    { "id": "u0-c08", "type": "translate", "en": "See you later!", "answers": ["Até logo"] }
+  ]
+}

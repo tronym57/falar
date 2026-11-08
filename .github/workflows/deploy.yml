@@ -28,6 +28,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - run: npm run lint:content
       - run: npm run build
         env:
           BASE: /falar/
