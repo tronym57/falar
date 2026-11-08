@@ -7,7 +7,7 @@ import type { Exercise, Part } from '../content/types'
 import { GrammarTopicView } from '../components/Grammar'
 import { SlowToggle } from '../components/AudioRow'
 import Practice from './Practice'
-import { PARTS, generateTest, listeningDrill } from '../test'
+import { PARTS, generateTest, listeningDrill, speakingDrill } from '../test'
 import { useDue } from '../review'
 import { readingTexts } from '../content/reading'
 import { useToast } from '../toast'
@@ -25,7 +25,8 @@ export default function PracticeHub() {
   const units = Object.values(a1Content).sort((a, b) => a.n - b.n)
 
   const [picked, setPicked] = useState<number[]>(() => units.map(u => u.n))
-  const [parts, setParts] = useState<Part[]>(PARTS.map(p => p.id))
+  // Speaking needs the mic, so it's opt-in for tests.
+  const [parts, setParts] = useState<Part[]>(PARTS.map(p => p.id).filter(p => p !== 'speaking'))
   const [length, setLength] = useState(20)
 
   const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter(x => x !== v) : [...list, v])
@@ -117,6 +118,18 @@ export default function PracticeHub() {
         <span className="chev">›</span>
         <h2>🎧 Listening</h2>
         <p className="muted">15 questions: meaning, dictation, what you heard, missing word, whole conversations</p>
+      </button>
+
+      <button className="card tap" onClick={async () => {
+        try {
+          const items = speakingDrill(units, 10)
+          await db.sessions.put({ key: 'speaking', queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items })
+          navigate('/drill/run/speaking')
+        } catch (e) { toast(`Couldn't start speaking practice: ${(e as Error).message}`, 'error') }
+      }}>
+        <span className="chev">›</span>
+        <h2>🎤 Speaking</h2>
+        <p className="muted">10 things to say out loud: prompts and replies from the dialogues</p>
       </button>
 
       <Link className="card tap" to="/practice/grammar">

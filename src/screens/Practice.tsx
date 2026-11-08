@@ -72,6 +72,7 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo 
     logAttempt(unit ?? -1, mode, current.id, a.result.ok, a.given).catch(() => {})
     // Replay the Portuguese for listening exercises so you hear it again with the answer.
     if (current.type === 'listen-choose') audio.play(current.audio ?? current.id)
+    if (current.type === 'speak') audio.play(current.audio) // hear the model answer
     if (current.type === 'dictation' || current.type === 'listen-pick' || current.type === 'listen-gap') audio.play(current.audio)
   }
 
@@ -214,6 +215,7 @@ function describe(x: Exercise) {
     case 'dictation': return `🎧 ${x.answers[0]}`
     case 'listen-pick': return `🎧 ${x.options[x.answer]}`
     case 'listen-gap': return `🎧 ${x.pt.replace('___', x.answers[0])}`
+    case 'speak': return `${x.prompt} → ${x.pt}`
     case 'read-choose': return `${x.title}: ${x.question} → ${x.options[x.answer]}`
     case 'listen-dialogue': return `${x.title}: ${x.question} → ${x.options[x.answer]}`
   }

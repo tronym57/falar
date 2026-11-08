@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { a1Content } from '../content'
 import { unitSteps } from '../units'
@@ -6,7 +6,7 @@ import { audio, useAudio } from '../audio'
 import { AudioRow, SlowToggle } from '../components/AudioRow'
 import type { Dialogue, Exercise, Unit } from '../content/types'
 import { db } from '../db'
-import { LESSON_LENGTH, lessonQuestions } from '../test'
+import { LESSON_LENGTH, lessonQuestions, speakingQuestions } from '../test'
 import { GrammarTopicView } from '../components/Grammar'
 import Practice from './Practice'
 import { PASS_MARK, lessonKey, markStepDone, markStepNotDone, useUnitProgress } from '../progress'
@@ -28,7 +28,8 @@ export default function UnitStep() {
   const next = unitSteps.slice(i + 1).find(s => s.ready)
   const done = !!progress?.[meta.slug]?.done
   const best = progress?.[meta.slug]?.bestScore
-  const count = meta.slug === 'grammar' ? unit.grammar.topics.reduce((n, t) => n + t.exercises.length, 0) : LESSON_LENGTH
+  const count = meta.slug === 'grammar' ? unit.grammar.topics.reduce((n, t) => n + t.exercises.length, 0)
+    : meta.slug === 'speaking' ? speakingQuestions(unit).length : LESSON_LENGTH
 
   const save = async (fn: () => Promise<void>, msg: string) => {
     try { await fn(); toast(msg) } catch (e) { toast(`Couldn't save your progress: ${(e as Error).message}`, 'error') }
@@ -53,11 +54,12 @@ export default function UnitStep() {
       {step === 'phrases' && <Phrases unit={unit} />}
       {step === 'vocab' && <Vocab unit={unit} />}
       {step === 'grammar' && <GrammarView unit={unit} />}
+      {step === 'speaking' && <SpeakingView unit={unit} />}
 
       <section className="card practise-card">
         <h2>{done ? 'Practise again' : 'Practise it now'}</h2>
         <p className="muted">
-          {count} quick questions on this lesson.{!done && ` Get ${Math.round(PASS_MARK * 100)}% and it's marked as done.`}
+          {meta.slug === 'speaking' ? `${count} things to say out loud: ${unit.speaking.length} prompts, then a role-play of the dialogues.` : `${count} quick questions on this lesson.`}{!done && ` Get ${Math.round(PASS_MARK * 100)}% and it's marked as done.`}
         </p>
         <Link className={'btn btn-block btn-big ' + (done ? 'btn-tonal' : 'btn-primary')} to={`/unit/${unit.n}/${meta.slug}/practice`} onClick={() => audio.stop()}>
           {done ? 'Practise again' : 'Practise now'}
@@ -153,4 +155,89 @@ function Vocab({ unit }: { unit: Unit }) {
 
 function GrammarView({ unit }: { unit: Unit }) {
   return <>{unit.grammar.topics.map((t, i) => <GrammarTopicView key={t.id} unit={unit.n} topic={t} index={i} />)}</>
+}
+
+function SpeakingView({ unit }: { unit: Unit }) {
+  return (
+    <>
+      <section className="card tip">
+        <h3>How it works</h3>
+        <p>Tap 🎤 and speak. The app stops listening when you pause, shows what it heard, and counts it as right when most of the words match. In the role-play, the other person speaks first and you reply.</p>
+        <p className="small muted">Your iPhone asks for the microphone again each time the app restarts. That's an iOS rule for home-screen apps.</p>
+      </section>
+      <section className="card">
+        <h2>What you'll say</h2>
+        {unit.speaking.map(s => <AudioRow key={s.id} id={s.id} pt={s.pt} en={s.prompt} />)}
+      </section>
+      {unit.dialogues.map(d => <Shadowing key={d.title} d={d} />)}
+    </>
+  )
+}
+
+/** Shadowing: hear a line, record yourself, then hear both back to back. Recordings stay in memory only. */
+function Shadowing({ d }: { d: Dialogue }) {
+  const toast = useToast()
+  const { playing } = useAudio()
+  const [recording, setRecording] = useState<string | null>(null)
+  const [takes, setTakes] = useState<Record<string, string>>({})
+  const rec = useRef<{ r: MediaRecorder; stream: MediaStream; timer: number } | null>(null)
+  const urls = useRef<string[]>([])
+  useEffect(() => () => {
+    rec.current?.stream.getTracks().forEach(t => t.stop())
+    urls.current.forEach(u => URL.revokeObjectURL(u))
+  }, [])
+
+  const stop = () => { if (rec.current) { clearTimeout(rec.current.timer); rec.current.r.stop() } }
+  const record = async (id: string) => {
+    if (recording) return stop()
+    if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') return toast("Recording isn't available in this browser.")
+    audio.stop()
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const r = new MediaRecorder(stream)
+      const chunks: Blob[] = []
+      r.ondataavailable = e => chunks.push(e.data)
+      r.onstop = () => {
+        stream.getTracks().forEach(t => t.stop())
+        rec.current = null
+        setRecording(null)
+        const url = URL.createObjectURL(new Blob(chunks, { type: r.mimeType }))
+        urls.current.push(url)
+        setTakes(t => ({ ...t, [id]: url }))
+        audio.playAll([id, url]) // compare straight away: Raquel, then you
+      }
+      r.start()
+      rec.current = { r, stream, timer: window.setTimeout(stop, 10_000) }
+      setRecording(id)
+    } catch (e) {
+      const name = (e as Error).name
+      toast(name === 'NotAllowedError' ? 'The microphone is blocked. Allow it when your iPhone asks.' : `Couldn't record: ${(e as Error).message}`, 'error')
+    }
+  }
+
+  return (
+    <section className="card">
+      <h2>🔁 Shadowing: {d.title}</h2>
+      <p className="muted">Listen, record yourself saying the line, then hear both back to back. Copy the rhythm, not just the words.</p>
+      {d.lines.map(l => {
+        const take = takes[l.id]
+        const on = playing === l.id || (!!take && playing === take)
+        return (
+          <div key={l.id} className={'shadow-row' + (on ? ' playing' : '')}>
+            <div className="shadow-text">
+              <span className="pt" lang="pt-PT">{l.pt}</span>
+              <span className="en">{l.en}</span>
+            </div>
+            <div className="shadow-btns">
+              <button className="btn btn-circle btn-sm btn-tonal" onClick={() => audio.play(l.id)} aria-label="Hear the line">{playing === l.id ? '🔊' : '▶'}</button>
+              <button className={'btn btn-circle btn-sm ' + (recording === l.id ? 'btn-miss' : 'btn-tonal')} onClick={() => (recording && recording !== l.id ? toast('Finish the other recording first.') : record(l.id))} aria-label={recording === l.id ? 'Stop recording' : 'Record yourself'}>
+                {recording === l.id ? '■' : '🎙'}
+              </button>
+              <button className="btn btn-circle btn-sm btn-tonal" onClick={() => (take ? audio.playAll([l.id, take]) : toast('Record yourself first (🎙), then compare.'))} aria-label="Compare: the line, then you">⇆</button>
+            </div>
+          </div>
+        )
+      })}
+    </section>
+  )
 }

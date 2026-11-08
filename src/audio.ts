@@ -12,7 +12,8 @@ const emit = () => listeners.forEach(l => l())
 
 let slow = (() => { try { return localStorage.getItem('slowAudio') === '1' } catch { return false } })()
 
-const url = (id: string) => `${import.meta.env.BASE_URL}audio/${id}.mp3`
+// A blob: URL (your own recording) plays as is; anything else is a course clip id.
+const url = (id: string) => (id.startsWith('blob:') ? id : `${import.meta.env.BASE_URL}audio/${id}.mp3`)
 
 // If a clip hasn't started after 10 s (bad connection), treat it as failed instead of hanging.
 let stallTimer: number | undefined

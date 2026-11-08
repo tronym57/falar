@@ -4,6 +4,8 @@ import { audio, useAudio } from '../audio'
 import { check, type MatchResult } from '../match'
 import { useToast } from '../toast'
 import { motion } from 'motion/react'
+import { canRecognise, errorMessage, listen, micBlocked, retryMic, type Heard } from '../speech'
+import { SPEAK_PASS, bestMatch, type SpeakScore } from '../speakMatch'
 
 /** An answer option: a small pop when it's the right one, a gentle shake when your pick was wrong. */
 function Option({ state, children, onClick }: { state: 'right' | 'wrong' | null; children: ReactNode; onClick: () => void }) {
@@ -46,6 +48,8 @@ export function ExerciseView({ ex, locked, onAnswer }: { ex: Exercise; locked: b
       return <ListenTyped ex={ex} locked={locked} onAnswer={onAnswer} />
     case 'listen-gap':
       return <ListenTyped ex={ex} locked={locked} onAnswer={onAnswer} />
+    case 'speak':
+      return <Speak ex={ex} locked={locked} onAnswer={onAnswer} />
     case 'read-choose':
       return <ReadChoose ex={ex} locked={locked} onAnswer={onAnswer} />
     case 'listen-dialogue':
@@ -142,6 +146,103 @@ function ListenDialogue({ ex, locked, onAnswer }: Props<'listen-dialogue'>) {
       {locked && (
         <div className="transcript">
           {ex.lines.map((l, i) => <p key={i}><span className="muted">{l.name}:</span> {l.pt}</p>)}
+        </div>
+      )}
+    </>
+  )
+}
+
+// ---------- say it out loud (speech recognition, with a self-check fallback) ----------
+function Speak({ ex, locked, onAnswer }: Props<'speak'>) {
+  const { playing } = useAudio()
+  const [listening, setListening] = useState(false)
+  const [interim, setInterim] = useState('')
+  const [heard, setHeard] = useState<Heard | null>(null)
+  const [match, setMatch] = useState<SpeakScore | null>(null)
+  const [misses, setMisses] = useState(0)
+  const [selfCheck, setSelfCheck] = useState(!canRecognise() || micBlocked())
+  const stopRef = useRef<() => void>(() => {})
+  useEffect(() => () => stopRef.current(), [])
+  // Role-play: the other person's line plays first.
+  useEffect(() => { if (ex.cue) audio.autoplay(ex.cue.audio) }, [ex.cue])
+
+  const start = () => {
+    if (locked) return
+    if (listening) return stopRef.current()
+    setInterim(''); setHeard(null); setMatch(null); setListening(true)
+    stopRef.current = listen({
+      onInterim: setInterim,
+      onEnd: h => {
+        setListening(false)
+        setHeard(h)
+        if (!h.text) {
+          if (h.error === 'unsupported' || h.error === 'not-allowed' || h.error === 'service-not-allowed') setSelfCheck(true)
+          return setMisses(m => m + 1)
+        }
+        const m = bestMatch(ex.answers, h.alts)
+        setMatch(m)
+        if (m.score >= SPEAK_PASS) {
+          const secs = h.startMs !== undefined ? ` · started after ${(h.startMs / 1000).toFixed(1)} s` : ''
+          onAnswer({ given: h.text, result: { ok: true, expected: ex.pt, note: `Heard: “${h.text}”${secs}` } })
+        } else setMisses(m => m + 1)
+      },
+    })
+  }
+  const self = (ok: boolean) => onAnswer({ given: '(self-checked)', result: ok ? { ok: true, expected: ex.pt, note: 'Marked as correct by you.' } : { ok: false, expected: ex.pt } })
+
+  return (
+    <>
+      {ex.cue ? (
+        <>
+          <div className="chat" style={{ marginBottom: 20 }}>
+            <div className="chat-line them">
+              <span className="chat-name">{ex.cue.name}</span>
+              <button className={'bubble tap' + (playing === ex.cue.audio ? ' playing' : '')} onClick={() => audio.play(ex.cue!.audio)}>
+                <span className="bubble-pt">{ex.cue.pt}</span>
+                <span className="bubble-en">{ex.cue.en}</span>
+                <span className="bubble-play" aria-hidden>{playing === ex.cue.audio ? '🔊' : '▶'}</span>
+              </button>
+            </div>
+          </div>
+          <p className="ex-label">Your reply, out loud:<span className="ex-prompt">{ex.prompt}</span></p>
+        </>
+      ) : (
+        <p className="ex-label">Say it in Portuguese:<span className="ex-prompt">{ex.prompt}</span></p>
+      )}
+
+      {!selfCheck && !locked && (
+        <>
+          <button className={'btn btn-circle big-play mic' + (listening ? ' listening' : '')} onClick={start} aria-label={listening ? 'Stop listening' : 'Start speaking'}>
+            {listening ? '■' : '🎤'}
+          </button>
+          <p className="speak-status">
+            {listening ? (interim ? `“${interim}”` : 'Listening… speak now') : heard && !match ? errorMessage(heard.error) : !heard ? 'Tap the mic and speak. It stops when you pause.' : ''}
+          </p>
+        </>
+      )}
+
+      {match && (
+        <div className={'heard' + (match.score >= SPEAK_PASS ? ' ok' : '')}>
+          <p className="small muted" style={{ margin: 0 }}>We heard: “{heard?.text}”</p>
+          <p className="heard-words" lang="pt-PT">{match.words.map((w, i) => <span key={i} className={w.ok ? 'hit' : 'miss'}>{w.word} </span>)}</p>
+          {!locked && <p className="small" style={{ margin: 0 }}>{Math.round(match.score * 100)}% of the words. Try again: tap the mic.</p>}
+        </div>
+      )}
+
+      {!locked && (selfCheck || misses >= 2) && (
+        <div className="self-check">
+          <p className="small muted">
+            {!canRecognise() ? "Speech recognition isn't available here. " : micBlocked() ? 'The microphone is blocked. ' : ''}
+            Say it out loud, then check yourself against the answer:
+          </p>
+          {canRecognise() && micBlocked() && (
+            <button className="btn btn-ghost btn-sm" onClick={() => { retryMic(); setSelfCheck(false); setMisses(0); setHeard(null) }}>🎤 Try the mic again</button>
+          )}
+          <button className="btn btn-tonal btn-block" onClick={() => audio.play(ex.audio)}>▶ Hear the answer: {ex.pt}</button>
+          <div className="row-btns">
+            <button className="btn btn-primary btn-block btn-big" onClick={() => self(true)}>I said it right</button>
+            <button className="btn btn-tonal btn-block btn-big" onClick={() => self(false)}>Not yet</button>
+          </div>
         </div>
       )}
     </>

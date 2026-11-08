@@ -11,12 +11,14 @@ export const PARTS: { id: Part; title: string }[] = [
   { id: 'sentences', title: 'Sentences' },
   { id: 'verbs', title: 'Verbs' },
   { id: 'reading', title: 'Reading' },
+  { id: 'speaking', title: 'Speaking' },
 ]
 
 /** The part an exercise counts towards. */
 export function partOf(x: Exercise): Part {
   if (x.part) return x.part
   if (x.type === 'read-choose') return 'reading'
+  if (x.type === 'speak') return 'speaking'
   if (x.type === 'listen-choose' || x.type === 'dictation' || x.type === 'listen-pick' || x.type === 'listen-gap' || x.type === 'listen-dialogue') return 'listening'
   return 'sentences'
 }
@@ -62,7 +64,8 @@ export function questionPool(units: Unit[], rand: () => number): Record<Part, Ex
   listening.push(...listeningExtras(units, rand).flat())
   // Reading texts aren't tied to a unit: all of them are in the pool.
   const reading = readingTexts.flatMap(readingQuestions)
-  const pool: Record<Part, Exercise[]> = { vocab, listening, grammar: [], sentences: [], verbs: verbPool, reading }
+  const speaking = units.flatMap(u => speakingQuestions(u))
+  const pool: Record<Part, Exercise[]> = { vocab, listening, grammar: [], sentences: [], verbs: verbPool, reading, speaking }
   for (const x of authored) pool[partOf(x)].push(x)
   return pool
 }
@@ -83,6 +86,26 @@ export function generateTest(units: Unit[], parts: Part[], length: number, seed 
     }
   }
   return shuffle(out, rand)
+}
+
+/**
+ * Speaking: the unit's prompts ("Say you didn't understand"), then a role-play of each dialogue:
+ * the other person's line plays, you answer with your line.
+ */
+export function speakingQuestions(unit: Unit): Exercise[] {
+  const prompts: Exercise[] = unit.speaking.map(s => ({ id: `sp-${s.id}`, type: 'speak', part: 'speaking', prompt: s.prompt, answers: s.answers, pt: s.pt, audio: s.id }))
+  const roleplay = unit.dialogues.flatMap(d => d.lines.flatMap((l, i): Exercise[] => {
+    if (!d.speakers[l.speaker]?.me) return []
+    const prev = d.lines[i - 1]
+    const cue = prev && !d.speakers[prev.speaker]?.me ? { audio: prev.id, pt: prev.pt, en: prev.en, name: d.speakers[prev.speaker].name } : undefined
+    return [{ id: `rp-${l.id}`, type: 'speak', part: 'speaking', prompt: l.en, answers: [l.pt], pt: l.pt, audio: l.id, cue }]
+  }))
+  return [...prompts, ...roleplay]
+}
+
+/** A speaking drill across units: prompts and role-play replies, mixed. */
+export function speakingDrill(units: Unit[], length: number, seed = Date.now()): Exercise[] {
+  return shuffle(units.flatMap(u => speakingQuestions(u)), rng(seed)).slice(0, length)
 }
 
 /** A listening-only drill that rotates through every listening style. */
@@ -126,6 +149,7 @@ export function lessonQuestions(unit: Unit, step: string, seed = Date.now()): Ex
   }
 
   if (step === 'grammar') return shuffle(unit.grammar.topics.flatMap(t => t.exercises), rand)
+  if (step === 'speaking') return speakingQuestions(unit) // in order: role-play follows the dialogue
 
   if (step === 'dialogue') {
     // One comprehension question per conversation, then single lines in four listening styles.

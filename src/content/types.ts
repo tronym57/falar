@@ -33,7 +33,7 @@ export type GrammarTopic = { id: string; title: string; sections: GrammarSection
 export type Grammar = { topics: GrammarTopic[] }
 
 /** Which skill an exercise trains; used to score mixed tests per part. */
-export type Part = 'vocab' | 'listening' | 'grammar' | 'sentences' | 'verbs' | 'reading'
+export type Part = 'vocab' | 'listening' | 'grammar' | 'sentences' | 'verbs' | 'reading' | 'speaking'
 
 /** Answers are compared loosely: case, punctuation and accents are ignored. */
 export type Exercise = ({ part?: Part } & (
@@ -49,6 +49,9 @@ export type Exercise = ({ part?: Part } & (
   | { id: string; type: 'dictation'; audio: string; answers: string[] } // hear it, type it
   | { id: string; type: 'listen-pick'; audio: string; options: string[]; answer: number } // hear it, pick the Portuguese
   | { id: string; type: 'listen-gap'; audio: string; pt: string; answers: string[] } // hear it, type the missing word
+  // Speaking: say it out loud, checked with speech recognition. `audio` = the model answer.
+  // `cue`: role-play, the other person's line, played first.
+  | { id: string; type: 'speak'; prompt: string; answers: string[]; pt: string; audio: string; cue?: { audio: string; pt: string; en: string; name: string } }
   // Reading: a question about a text, shown with the text above it.
   | { id: string; type: 'read-choose'; title: string; paragraphs: string[]; question: string; options: string[]; answer: number }
   | { id: string; type: 'listen-dialogue'; clips: string[]; title: string; lines: { name: string; pt: string }[]; question: string; options: string[]; answer: number }
