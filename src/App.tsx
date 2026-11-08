@@ -34,6 +34,14 @@ export default function App() {
   useEffect(() => {
     registerSW({
       immediate: true,
+      // iOS resumes home-screen apps instead of restarting them, so a check on start alone isn't enough:
+      // also look for a new version whenever the app comes back to the foreground, and every 30 minutes.
+      onRegisteredSW: (_url, reg) => {
+        if (!reg) return
+        const check = () => { if (navigator.onLine) reg.update().catch(() => {}) }
+        document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check() })
+        setInterval(check, 30 * 60_000)
+      },
       onRegisterError: () => toast("Offline mode isn't available in this browser. The app still works while you're online."),
     })
   }, [toast])
