@@ -76,3 +76,14 @@ Surfaces: page `#f3f5f2` / `#0f1312`, card `#ffffff` / `#182019`, raised hover `
 - **Mistakes** use the soft apricot `--miss-*` tokens, never alarm red (and never green). Red stays for real errors (failed save, broken audio).
 - **Panels:** rule = tint + green accent bar; tip = amber; Portugal-vs-Brazil = flag stripe.
 - **Tab bar:** active tab shows a tonal pill behind the icon, green label.
+
+## Motion
+
+Library: [Motion](https://motion.dev/) (`motion/react`). Keep it quick and quiet: movement explains what changed, it never makes you wait.
+
+- **Screens:** fade and rise 10 px, 220 ms. **Next question:** slides in 28 px from the right, 240 ms.
+- **Answer panel:** springs up from the bottom. **Right option:** small pop (scale 1.04). **Wrong pick:** gentle shake.
+- **Tab bar:** the green pill slides to the active tab (shared `layoutId`). **Progress bar:** springs to its new width.
+- Animated wrappers must end at `transform: none`, or `position: fixed` panels inside them break.
+- `MotionConfig reducedMotion="user"`: with iOS Reduce Motion on, nothing moves.
+- Small press feedback (`:active` scale) stays in CSS.

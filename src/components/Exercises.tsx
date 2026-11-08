@@ -3,6 +3,21 @@ import type { Exercise } from '../content/types'
 import { audio, useAudio } from '../audio'
 import { check, type MatchResult } from '../match'
 import { useToast } from '../toast'
+import { motion } from 'motion/react'
+
+/** An answer option: a small pop when it's the right one, a gentle shake when your pick was wrong. */
+function Option({ state, children, onClick }: { state: 'right' | 'wrong' | null; children: ReactNode; onClick: () => void }) {
+  return (
+    <motion.button
+      className={'option' + (state ? ' ' + state : '')}
+      onClick={onClick}
+      animate={state === 'right' ? { scale: [1, 1.04, 1] } : state === 'wrong' ? { x: [0, -7, 7, -4, 4, 0] } : undefined}
+      transition={{ duration: state === 'wrong' ? 0.38 : 0.3, ease: 'easeOut' }}
+    >
+      {children}
+    </motion.button>
+  )
+}
 
 export type Answer = { result: MatchResult; given: string }
 type Props<T extends Exercise['type']> = {
@@ -65,13 +80,7 @@ function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'listen-pick' 
       )}
       <div className="options">
         {ex.options.map((o, i) => (
-          <button
-            key={i}
-            className={'option' + (locked && i === ex.answer ? ' right' : '') + (locked && i === picked && i !== ex.answer ? ' wrong' : '')}
-            onClick={() => pick(i)}
-          >
-            {o}
-          </button>
+          <Option key={i} state={locked && i === ex.answer ? 'right' : locked && i === picked ? 'wrong' : null} onClick={() => pick(i)}>{o}</Option>
         ))}
       </div>
     </>
@@ -125,7 +134,7 @@ function ListenDialogue({ ex, locked, onAnswer }: Props<'listen-dialogue'>) {
       <p className="ex-label" style={{ marginTop: 20 }}><span className="ex-prompt">{ex.question}</span></p>
       <div className="options">
         {ex.options.map((o, i) => (
-          <button key={i} className={'option' + (locked && i === ex.answer ? ' right' : '') + (locked && i === picked && i !== ex.answer ? ' wrong' : '')} onClick={() => pick(i)}>{o}</button>
+          <Option key={i} state={locked && i === ex.answer ? 'right' : locked && i === picked ? 'wrong' : null} onClick={() => pick(i)}>{o}</Option>
         ))}
       </div>
       {locked && (
@@ -155,7 +164,7 @@ function GapFill({ ex, locked, onAnswer }: Props<'gap-fill'>) {
       {ex.options ? (
         <div className="options row-options">
           {ex.options.map(o => (
-            <button key={o} className={'option' + (locked && ex.answers.includes(o) ? ' right' : '') + (locked && o === value && !ex.answers.includes(o) ? ' wrong' : '')} onClick={() => submit(o)}>{o}</button>
+            <Option key={o} state={locked && ex.answers.includes(o) ? 'right' : locked && o === value ? 'wrong' : null} onClick={() => submit(o)}>{o}</Option>
           ))}
         </div>
       ) : (

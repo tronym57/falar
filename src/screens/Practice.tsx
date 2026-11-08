@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react'
+import { motion } from 'motion/react'
 import { Link, useNavigate } from 'react-router-dom'
 import type { Exercise } from '../content/types'
 import { db, type PracticeSession } from '../db'
@@ -102,20 +103,23 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo 
     <main className="screen practice">
       <div className="practice-head">
         <Link className="btn btn-ghost btn-circle btn-sm text-xl" to={closeTo} aria-label="Close (progress is saved)">✕</Link>
-        <progress className="progress progress-primary" value={progress * 100} max={100} />
+        <div className="run-bar"><motion.div className="run-fill" initial={false} animate={{ width: `${progress * 100}%` }} transition={{ type: 'spring', stiffness: 180, damping: 26 }} /></div>
         <span className="muted count">{Math.min(Object.keys(session.firstTry).length + 1, session.total)}/{session.total}</span>
       </div>
 
-      <ExerciseView key={current.id + ':' + session.queue.length} ex={current} locked={!!answer} onAnswer={onAnswer} />
+      {/* The next question slides in from the right. */}
+      <motion.div key={current.id + ':' + session.queue.length} initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}>
+        <ExerciseView ex={current} locked={!!answer} onAnswer={onAnswer} />
+      </motion.div>
 
       {answer && (
-        <div className={'feedback ' + (answer.result.ok ? 'ok' : 'bad')} role="status">
+        <motion.div className={'feedback ' + (answer.result.ok ? 'ok' : 'bad')} role="status" initial={{ y: '100%' }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 420, damping: 36 }}>
           <b>{answer.result.ok ? 'Correct! ✓' : 'Not quite'}</b>
           {!answer.result.ok && <p>Correct answer: <b>{answer.result.expected}</b></p>}
           {answer.result.ok && answer.result.note && <p>{answer.result.note}</p>}
           {!answer.result.ok && requeue && <p className="small">This one comes back at the end.</p>}
           <button className={'btn btn-block btn-big ' + (answer.result.ok ? 'btn-success' : 'btn-miss')} onClick={next}>Continue</button>
-        </div>
+        </motion.div>
       )}
     </main>
   )

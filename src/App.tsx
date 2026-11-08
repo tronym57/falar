@@ -13,6 +13,7 @@ import { syncCards } from './review'
 import { audio } from './audio'
 import { useToast } from './toast'
 import { registerSW } from 'virtual:pwa-register'
+import { MotionConfig, motion } from 'motion/react'
 import { hasLocalData, startAutoBackup } from './backup'
 import { Welcome } from './components/Backup'
 import { LAST_ROUTE, kv } from './kv'
@@ -62,13 +63,16 @@ export default function App() {
 
   const immersive = IMMERSIVE.test(pathname)
   return (
-    <>
+    // reducedMotion="user": no movement when iOS "Reduce Motion" is on.
+    <MotionConfig reducedMotion="user">
       {!immersive && (
         <header className="navbar appbar">
           <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" width={28} height={28} />
           <span>Falo Portuguese</span>
         </header>
       )}
+      {/* Each screen fades and rises in. Ends at transform: none, so fixed panels inside still work. */}
+      <motion.div key={pathname} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/course" element={<Course />} />
@@ -88,20 +92,22 @@ export default function App() {
         <Route path="/drill/run/:key" element={<DrillRunner />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </motion.div>
       {!immersive && <nav className="dock">
-        {tabs.map(t => (
-          <NavLink
-            key={t.to}
-            to={t.to}
-            end
-            // Inside a unit, keep the Course tab highlighted.
-            className={({ isActive }) => (isActive || (t.to === '/course' && pathname.startsWith('/unit/')) || (t.to === '/practice' && /^\/(practice|grammar|verbs)\//.test(pathname)) ? 'dock-active' : '')}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{t.icon}</svg>
+        {tabs.map(t => {
+          // Inside a unit, keep the Course tab highlighted; same for Practice sub-screens.
+          const active = pathname === t.to || (t.to === '/course' && pathname.startsWith('/unit/')) || (t.to === '/practice' && /^\/(practice|grammar|verbs)\//.test(pathname))
+          return (
+          <NavLink key={t.to} to={t.to} end className={active ? 'dock-active' : ''}>
+            <span className="dock-icon">
+              {active && <motion.span layoutId="dock-pill" className="dock-pill" transition={{ type: 'spring', stiffness: 500, damping: 38 }} />}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{t.icon}</svg>
+            </span>
             <span className="dock-label">{t.label}</span>
           </NavLink>
-        ))}
+          )
+        })}
       </nav>}
-    </>
+    </MotionConfig>
   )
 }

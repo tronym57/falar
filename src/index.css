@@ -214,9 +214,10 @@ p { margin: 0 0 10px; }
 .dock a { color: var(--muted); text-decoration: none; transition: transform 90ms ease; gap: 4px; }
 .dock a:active { transform: scale(0.92); }
 .dock a::after { display: none; }
-.dock svg { width: 24px; height: 24px; box-sizing: content-box; padding: 4px 18px; border-radius: 99px; transition: background-color 150ms ease; }
+.dock-icon { position: relative; display: grid; place-items: center; }
+.dock-pill { position: absolute; inset: 0; border-radius: 99px; background: var(--tonal-bg); }
+.dock svg { position: relative; width: 24px; height: 24px; box-sizing: content-box; padding: 4px 18px; }
 .dock a.dock-active { color: var(--tonal-fg); }
-.dock a.dock-active svg { background: var(--tonal-bg); }
 .dock .dock-label { font-size: 11px; font-weight: 600; }
 
 /* ---------- audio rows: tap anywhere on the row to hear it ---------- */
@@ -246,7 +247,6 @@ p { margin: 0 0 10px; }
 /* ---------- exercise player ---------- */
 .practice { padding-bottom: calc(env(safe-area-inset-bottom) + 220px); }
 .practice-head { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
-.practice-head .progress { flex: 1; height: 10px; }
 .practice-head .count { font-size: 14px; min-width: 40px; text-align: right; }
 
 .ex-label { font-size: 16px; color: var(--muted); margin-bottom: 20px; }
@@ -267,6 +267,8 @@ p { margin: 0 0 10px; }
 .transcript { margin-top: 20px; padding: 16px 18px; border-radius: 14px; background: var(--tint); font-size: 16px; }
 .transcript p { margin: 0 0 6px; }
 .transcript p:last-child { margin-bottom: 0; }
+.run-bar { flex: 1; height: 8px; border-radius: 99px; background: color-mix(in oklab, var(--color-primary) 18%, transparent); overflow: hidden; }
+.run-fill { height: 100%; border-radius: inherit; background: var(--color-primary); }
 .gap-sentence { font-size: 26px; font-weight: 600; margin: 8px 0 20px; line-height: 1.45; }
 .gap-slot { display: inline-block; min-width: 90px; border-bottom: 3px solid var(--color-primary); margin: 0 4px; text-align: center; color: var(--color-primary); white-space: pre; }
 
@@ -280,7 +282,7 @@ p { margin: 0 0 10px; }
 .check-btn { margin-top: 20px; }
 
 .feedback { position: fixed; left: 0; right: 0; bottom: 0; padding: 18px 20px calc(env(safe-area-inset-bottom) + 18px);
-  border-top: 2px solid; animation: slide-up 140ms ease-out; z-index: 5; }
+  border-top: 2px solid; z-index: 5; }
 .feedback > * { max-width: 600px; margin-left: auto; margin-right: auto; }
 .feedback > b:first-child { display: block; font-size: 22px; margin-bottom: 6px; }
 .feedback .btn { margin-top: 10px; }
