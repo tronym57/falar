@@ -33,37 +33,40 @@ export default function Home() {
       )}
 
       {!all ? null : target ? (
-        <Link className="btn btn-primary btn-block btn-big" to={`/unit/${target.u.n}/${target.step!.slug}`} style={{ textDecoration: 'none' }}>
-          Continue: Unit {target.u.n} · {target.step!.title}
-          <small>
-            {session
-              ? `Exercise ${session.total - new Set(session.queue).size + 1} of ${session.total}`
-              : `${target.u.title}`}
-          </small>
+        <Link className="hero-cta" to={`/unit/${target.u.n}/${target.step!.slug}`}>
+          <span className="eyebrow">Unit {target.u.n} · {target.u.title}</span>
+          <span className="title">{target.step!.title}</span>
+          <span className="sub">
+            {session ? `Exercise ${session.total - new Set(session.queue).size + 1} of ${session.total}` : target.u.scene}
+          </span>
+          <br />
+          <span className="go">Continue ›</span>
         </Link>
       ) : (
-        <button className="btn btn-primary btn-block btn-big" onClick={() => toast('New units are on their way. Meanwhile, replay any unit from the Course tab.')}>
-          All available units done 🎉
-          <small>More units coming</small>
+        <button className="hero-cta" onClick={() => toast('New units are on their way. Meanwhile, replay any unit from the Course tab.')}>
+          <span className="eyebrow">Course</span>
+          <span className="title">All available units done 🎉</span>
+          <span className="sub">More units are coming</span>
         </button>
       )}
 
+      <p className="section-label">Practice</p>
+
       {due && due.count > 0 ? (
-        <Link className="card tap" to="/review" style={{ marginTop: 12 }}>
+        <Link className="card tap" to="/review">
           <span className="chev">›</span>
-          <h2>Daily review</h2>
-          <p className="muted">{due.count} {due.count === 1 ? 'card' : 'cards'} to review</p>
+          <h2>🗂️ Daily review</h2>
+          <p className="muted">{due.count} {due.count === 1 ? 'card' : 'cards'} · about {Math.max(1, Math.round(due.count / 3))} min</p>
         </Link>
       ) : (
         <button
           className="card tap"
-          style={{ marginTop: 12 }}
           onClick={() => toast(due?.total
             ? 'All caught up. Words come back when it’s time to repeat them.'
             : 'Words enter your review when you finish a unit’s Key phrases or Vocabulary step.')}
         >
           <span className="chev">›</span>
-          <h2>Daily review</h2>
+          <h2>🗂️ Daily review</h2>
           <p className="muted">{due?.total ? 'All caught up ✓' : 'No words yet'}</p>
         </button>
       )}

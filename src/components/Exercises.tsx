@@ -133,7 +133,7 @@ function SentenceBuilder({ ex, locked, onAnswer }: Props<'sentence-builder'>) {
       <div className="built">
         {chosen.length === 0 && <span className="muted">Tap words to add them here</span>}
         {chosen.map(i => (
-          <button key={i} className="btn btn-primary btn-soft tile" onClick={() => !locked && setChosen(c => c.filter(x => x !== i))}>{tiles[i].v}</button>
+          <button key={i} className="btn tile" onClick={() => !locked && setChosen(c => c.filter(x => x !== i))}>{tiles[i].v}</button>
         ))}
       </div>
       <div className="tiles">

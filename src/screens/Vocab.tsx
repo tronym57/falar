@@ -54,7 +54,7 @@ export default function Vocab() {
       </div>
 
       {adding ? <AddWord onDone={() => setAdding(false)} /> : (
-        <button className="btn btn-outline btn-primary btn-block btn-big" style={{ marginBottom: 12 }} onClick={() => setAdding(true)}>+ Add a word you heard</button>
+        <button className="btn btn-tonal btn-block btn-big" style={{ marginBottom: 12 }} onClick={() => setAdding(true)}>+ Add a word you heard</button>
       )}
 
       <section className="card">
@@ -64,7 +64,7 @@ export default function Vocab() {
           const st = status(cards[f.id], now)
           return (
             <div key={f.id}>
-              <AudioRow id={f.id} pt={f.pt} en={f.en} tts={f.custom} extra={<span className={'badge badge-sm badge-soft ' + st.cls}>{st.label}</span>} />
+              <AudioRow id={f.id} pt={f.pt} en={f.en} tts={f.custom} aside={<span className={'badge badge-sm badge-soft ' + st.cls}>{st.label}</span>} />
               {f.custom && (
                 <button className="btn btn-xs btn-ghost text-error px-0" onClick={async () => {
                   if (!confirm(`Delete "${f.pt}" from your words?`)) return
@@ -102,7 +102,7 @@ function AddWord({ onDone }: { onDone: () => void }) {
       <p className="muted" style={{ fontSize: 13 }}>Played with the iPhone voice (Joana), since there's no recording for your own words.</p>
       <div className="row-btns">
         <button className="btn btn-primary btn-block btn-big" onClick={save}>Save</button>
-        <button className="btn btn-outline btn-primary btn-block btn-big" style={{ marginTop: 0 }} onClick={onDone}>Cancel</button>
+        <button className="btn btn-tonal btn-block btn-big" style={{ marginTop: 0 }} onClick={onDone}>Cancel</button>
       </div>
     </div>
   )

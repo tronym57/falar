@@ -108,7 +108,7 @@ export function VerbScreen() {
       <section className="card">
         <div className="step-head" style={{ marginBottom: 4 }}>
           <h3 style={{ margin: 0 }}>Present tense</h3>
-          <button className="btn btn-sm btn-primary btn-soft" onClick={() => (playingTable ? audio.stop() : audio.playAll(allForms))}>
+          <button className="btn btn-sm btn-tonal" onClick={() => (playingTable ? audio.stop() : audio.playAll(allForms))}>
             {playingTable ? '■ Stop' : '▶ Play all'}
           </button>
         </div>
@@ -125,7 +125,7 @@ export function VerbScreen() {
       </section>
 
       <button className="btn btn-primary btn-block btn-big" onClick={() => drill(focusDrill(v))}>Drill {v.inf}<small>Forms, sentences and the full table</small></button>
-      <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => drill([focusDrill(v).at(-1)!])}>Just fill in the table</button>
+      <button className="btn btn-tonal btn-block btn-big" onClick={() => drill([focusDrill(v).at(-1)!])}>Just fill in the table</button>
     </main>
   )
 }

@@ -7,28 +7,40 @@ import { unitSteps } from '../units'
 export default function Course() {
   const toast = useToast()
   const all = useAllProgress()
+  const available = a1Units.filter(u => u.n < v1UnitCount)
+  const later = a1Units.filter(u => u.n >= v1UnitCount)
+
   return (
     <main className="screen">
       <h1>A1 course</h1>
-      {a1Units.map(u =>
-        u.n < v1UnitCount ? (
+      {available.map(u => {
+        const done = !!all?.progress.some(p => p.unit === u.n && p.step === 'check' && p.done)
+        const steps = unitDoneCount(u.n, all?.progress ?? [])
+        return (
           <Link key={u.n} to={`/unit/${u.n}`} className="card tap">
             <span className="chev">›</span>
-            <h2>{u.n} · {u.title}{all?.progress.some(p => p.unit === u.n && p.step === 'check' && p.done) && <span className="done-mark"> ✓</span>}</h2>
-            <p className="muted">{u.scene}</p>
-            <progress className="progress progress-primary mt-2" value={unitDoneCount(u.n, all?.progress ?? [])} max={unitSteps.length} />
+            <div className="unit-head">
+              <span className={'unit-n' + (done ? ' done' : '')}>{done ? '✓' : u.n}</span>
+              <h2>{u.title}</h2>
+            </div>
+            <p className="muted" style={{ marginLeft: 44 }}>{u.scene}</p>
+            <div className="flex items-center gap-3" style={{ marginLeft: 44, marginTop: 10 }}>
+              <progress className="progress progress-primary" value={steps} max={unitSteps.length} />
+              <span className="muted small" style={{ whiteSpace: 'nowrap' }}>{steps}/{unitSteps.length}</span>
+            </div>
           </Link>
-        ) : (
-          <button
-            key={u.n}
-            className="card tap locked"
-            onClick={() => toast(`Unit ${u.n} isn't built yet. Units 0–3 come first.`)}
-          >
-            <h2>{u.n} · {u.title}</h2>
-            <p className="muted">Coming later</p>
+        )
+      })}
+
+      <p className="section-label">Later in A1</p>
+      <div className="card">
+        {later.map(u => (
+          <button key={u.n} className="row tap locked-row" onClick={() => toast(`Unit ${u.n} isn't built yet. Units 0–3 come first.`)}>
+            <span className="flex items-center gap-3"><span className="unit-n">{u.n}</span>{u.title}</span>
+            <span className="badge badge-sm badge-ghost">Soon</span>
           </button>
-        ),
-      )}
+        ))}
+      </div>
     </main>
   )
 }

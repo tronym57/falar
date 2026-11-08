@@ -75,7 +75,7 @@ function RestorePrompt({ summary, onDone, onSkip, skipLabel }: { summary: Backup
       <h2>Backup found on GitHub</h2>
       <SummaryLine s={summary} />
       <button className="btn btn-primary btn-block btn-big" onClick={run}>{busy ? 'Restoring…' : 'Restore this backup'}</button>
-      {onSkip && <button className="btn btn-outline btn-primary btn-block btn-big" onClick={onSkip}>{skipLabel ?? 'Not now'}</button>}
+      {onSkip && <button className="btn btn-tonal btn-block btn-big" onClick={onSkip}>{skipLabel ?? 'Not now'}</button>}
     </div>
   )
 }
@@ -126,7 +126,7 @@ export function BackupSettings() {
           {st.error && <p className="text-error small">{st.error}</p>}
           <p className="muted small">Runs automatically after you practise and when you leave the app.</p>
           <button className="btn btn-primary btn-block btn-big" onClick={() => run()}>Back up now</button>
-          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={async () => {
+          <button className="btn btn-tonal btn-block btn-big" onClick={async () => {
             try { const r = await fetchRemote(); r ? setFound(summarize(r)) : toast('No backup on GitHub yet. Tap “Back up now”.') }
             catch (e) { toast((e as Error).message, 'error') }
           }}>Restore from GitHub…</button>
@@ -139,7 +139,7 @@ export function BackupSettings() {
           <p>The backup on GitHub came from another install (e.g. before you reinstalled the app):</p>
           <SummaryLine s={st.conflict} />
           <button className="btn btn-primary btn-block btn-big" onClick={() => setFound(st.conflict)}>Keep the GitHub backup (restore it)</button>
-          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => { if (confirm('Overwrite the GitHub backup with this phone’s progress? The old backup is lost.')) run(true) }}>Keep this phone's progress</button>
+          <button className="btn btn-tonal btn-block btn-big" onClick={() => { if (confirm('Overwrite the GitHub backup with this phone’s progress? The old backup is lost.')) run(true) }}>Keep this phone's progress</button>
         </div>
       )}
       {found && <RestorePrompt summary={found} onDone={() => setFound(null)} onSkip={() => setFound(null)} skipLabel="Cancel" />}
@@ -164,11 +164,11 @@ function FileBackup() {
     <div style={{ marginTop: 16 }}>
       <p className="muted small">Or keep a file copy (Files / iCloud Drive):</p>
       <div className="row-btns">
-        <button className="btn btn-outline btn-primary btn-block btn-big" style={{ marginTop: 0 }} onClick={async () => {
+        <button className="btn btn-tonal btn-block btn-big" style={{ marginTop: 0 }} onClick={async () => {
           try { const r = await exportFile(); if (r !== 'cancelled') toast('Backup file created ✓') }
           catch (e) { toast(`Export failed: ${(e as Error).message}`, 'error') }
         }}>Export file</button>
-        <button className="btn btn-outline btn-primary btn-block btn-big" style={{ marginTop: 0 }} onClick={() => input.current?.click()}>Import file</button>
+        <button className="btn btn-tonal btn-block btn-big" style={{ marginTop: 0 }} onClick={() => input.current?.click()}>Import file</button>
       </div>
       <input ref={input} type="file" accept="application/json,.json" hidden onChange={async e => {
         const f = e.target.files?.[0]
@@ -185,7 +185,7 @@ function FileBackup() {
             try { await restore(pending); setPending(null); toast('Progress imported ✓') }
             catch (err) { toast(`Import failed: ${(err as Error).message}`, 'error') }
           }}>Import</button>
-          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => setPending(null)}>Cancel</button>
+          <button className="btn btn-tonal btn-block btn-big" onClick={() => setPending(null)}>Cancel</button>
         </div>
       )}
     </div>
@@ -208,8 +208,8 @@ export function Welcome({ onDone }: { onDone: () => void }) {
       {mode === 'choose' && (
         <>
           <button className="btn btn-primary btn-block btn-big" onClick={onDone}>Start fresh<small>First time using Falo Portuguese</small></button>
-          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => setMode('github')}>Restore from GitHub</button>
-          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => input.current?.click()}>Import a backup file</button>
+          <button className="btn btn-tonal btn-block btn-big" onClick={() => setMode('github')}>Restore from GitHub</button>
+          <button className="btn btn-tonal btn-block btn-big" onClick={() => input.current?.click()}>Import a backup file</button>
           <input ref={input} type="file" accept="application/json,.json" hidden onChange={async e => {
             const f = e.target.files?.[0]
             e.target.value = ''
@@ -228,7 +228,7 @@ export function Welcome({ onDone }: { onDone: () => void }) {
             if (existing) setFound(existing)
             else toast('No backup found for this token. You can start fresh; backups will go to this account.', 'error')
           }} />
-          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => setMode('choose')}>Back</button>
+          <button className="btn btn-tonal btn-block btn-big" onClick={() => setMode('choose')}>Back</button>
         </section>
       )}
       {found && <RestorePrompt summary={found} onDone={onDone} onSkip={() => { setFound(null); setMode('choose') }} skipLabel="Back" />}
@@ -241,7 +241,7 @@ export function Welcome({ onDone }: { onDone: () => void }) {
             try { await restore(pending); toast('Progress imported ✓'); onDone() }
             catch (err) { toast(`Import failed: ${(err as Error).message}`, 'error') }
           }}>Import</button>
-          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => { setPending(null); setMode('choose') }}>Back</button>
+          <button className="btn btn-tonal btn-block btn-big" onClick={() => { setPending(null); setMode('choose') }}>Back</button>
         </div>
       )}
     </main>

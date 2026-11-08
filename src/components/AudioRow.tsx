@@ -4,8 +4,8 @@ import { audio, useAudio } from '../audio'
 /** Play a clip: recorded audio, or the phone's voice for your own words (`tts`). */
 export const playItem = (id: string, tts?: string) => (tts ? audio.speak(id, tts) : audio.play(id))
 
-/** A tappable row that plays its audio clip; shows a speaker while playing. */
-export function AudioRow({ id, pt, en, extra, tts }: { id: string; pt: string; en: string; extra?: ReactNode; tts?: boolean }) {
+/** A tappable row that plays its audio clip; shows a speaker while playing. `aside` sits on the right (e.g. a status badge). */
+export function AudioRow({ id, pt, en, extra, aside, tts }: { id: string; pt: string; en: string; extra?: ReactNode; aside?: ReactNode; tts?: boolean }) {
   const { playing } = useAudio()
   const on = playing === id
   return (
@@ -16,6 +16,7 @@ export function AudioRow({ id, pt, en, extra, tts }: { id: string; pt: string; e
         <span className="en">{en}</span>
         {extra}
       </span>
+      {aside && <span className="audio-aside">{aside}</span>}
     </button>
   )
 }

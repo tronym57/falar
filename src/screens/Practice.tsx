@@ -169,9 +169,9 @@ function Results({ mode, unit, items, closeTo, score, firstTry, onRetry }: Resul
       {nextReady && unit !== undefined && (
         <button className="btn btn-primary btn-block btn-big" onClick={() => navigate(`/unit/${unit}/${nextReady.slug}`)}>Next: {nextReady.title} ›</button>
       )}
-      {(mode === 'exercises' || mode === 'drill') && <button className="btn btn-outline btn-primary btn-block btn-big" onClick={onRetry}>Practise again</button>}
+      {(mode === 'exercises' || mode === 'drill') && <button className="btn btn-tonal btn-block btn-big" onClick={onRetry}>Practise again</button>}
       {mode === 'test' && <button className="btn btn-primary btn-block btn-big" onClick={() => navigate('/practice')}>New test</button>}
-      <Link className="btn btn-outline btn-primary btn-block btn-big" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>
+      <Link className="btn btn-tonal btn-block btn-big" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>
     </main>
   )
 }

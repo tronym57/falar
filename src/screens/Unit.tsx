@@ -25,32 +25,40 @@ export default function Unit() {
   return (
     <main className="screen">
       <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/course">‹ Course</Link>
-      <h1>{unit.n} · {unit.title}</h1>
-      <p className="muted" style={{ marginBottom: 16 }}>{unit.scene}</p>
-      {unitSteps.map((step, i) =>
-        hasContent && step.ready ? (
-          <Link key={step.slug} to={`/unit/${unit.n}/${step.slug}`} className="card tap">
-            <span className="chev">›</span>
-            <h2>{i + 1}. {step.title}{progress?.[step.slug]?.done && <span className="done-mark"> ✓</span>}</h2>
-            {progress?.[step.slug]?.bestScore !== undefined && (
-              <p className="muted">Best: {Math.round(progress[step.slug].bestScore! * 100)}%</p>
-            )}
-          </Link>
-        ) : (
-          <button
-            key={step.slug}
-            className="card tap"
-            onClick={() =>
-              toast(hasContent
-                ? `"${step.title}" isn't built yet. It arrives in a later update.`
-                : `Unit ${unit.n}'s lessons aren't written yet. Start with Unit 0.`)
-            }
-          >
-            <span className="chev">›</span>
-            <h2>{i + 1}. {step.title}<span className="badge badge-sm badge-ghost ml-2 align-middle">Soon</span></h2>
-          </button>
-        ),
-      )}
+      <p className="section-label" style={{ marginTop: 12, marginBottom: 4 }}>Unit {unit.n}</p>
+      <h1 style={{ marginTop: 0, marginBottom: 8 }}>{unit.title}</h1>
+      <p className="muted" style={{ marginBottom: 24 }}>{unit.scene}</p>
+      <div className="card step-list">
+        {unitSteps.map((step, i) => {
+          const p = progress?.[step.slug]
+          const open = hasContent && step.ready
+          const inner = (
+            <>
+              <span className="flex items-center gap-3">
+                <span className={'unit-n' + (p?.done ? ' done' : '')}>{p?.done ? '✓' : i + 1}</span>
+                <span>
+                  <span className="step-title">{step.title}</span>
+                  {p?.bestScore !== undefined && <span className="muted small block">Best: {Math.round(p.bestScore * 100)}%</span>}
+                </span>
+              </span>
+              {open ? <span className="step-chev">›</span> : <span className="badge badge-sm badge-ghost">Soon</span>}
+            </>
+          )
+          return open ? (
+            <Link key={step.slug} to={`/unit/${unit.n}/${step.slug}`} className="row tap step-row">{inner}</Link>
+          ) : (
+            <button
+              key={step.slug}
+              className="row tap step-row locked-row"
+              onClick={() =>
+                toast(hasContent
+                  ? `"${step.title}" isn't built yet. It arrives in a later update.`
+                  : `Unit ${unit.n}'s lessons aren't written yet. Start with Unit 0.`)
+              }
+            >{inner}</button>
+          )
+        })}
+      </div>
     </main>
   )
 }
