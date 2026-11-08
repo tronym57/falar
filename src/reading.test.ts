@@ -4,8 +4,9 @@ import { a1Content } from './content'
 import { generateTest, partOf } from './test'
 
 describe('reading texts', () => {
-  it('loads all 8 texts in order', () => {
-    expect(readingTexts.map(t => t.id)).toEqual(['r01', 'r02', 'r03', 'r04', 'r05', 'r06', 'r07', 'r08'])
+  it('loads all 8 texts, easiest first', () => {
+    expect(readingTexts.map(t => t.id)).toEqual(['r01', 'r02', 'r07', 'r08', 'r04', 'r03', 'r06', 'r05'])
+    expect(readingTexts.map(t => t.level)).toEqual(['A1', 'A1', 'A1', 'A1+', 'A1+', 'A1+', 'A1+', 'A1+'])
   })
 
   it('splits words from punctuation, keeping hyphenated forms whole', () => {

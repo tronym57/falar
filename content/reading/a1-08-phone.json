@@ -1,5 +1,7 @@
 {
   "id": "r08",
+  "order": 4,
+  "level": "A1+",
   "emoji": "📞",
   "title": "Um telefonema",
   "en": "A delivery driver can't find the house.",
@@ -106,5 +108,31 @@
     "tenho": "I have (ter)",
     "terceira": "third (feminine)",
     "toca": "rings (tocar)"
-  }
+  },
+  "notes": [
+    {
+      "pt": "Estou?",
+      "en": "Hello? This is how you answer the phone in Portugal."
+    },
+    {
+      "pt": "Fala o estafeta",
+      "en": "This is the delivery driver (how callers say who they are)."
+    },
+    {
+      "pt": "para si",
+      "en": "for you. The polite form; in Portugal more natural than para você."
+    },
+    {
+      "pt": "ao pé da farmácia",
+      "en": "next to the pharmacy"
+    },
+    {
+      "pt": "daqui a dois minutos",
+      "en": "in two minutes (from now)"
+    },
+    {
+      "pt": "lá fora",
+      "en": "outside"
+    }
+  ]
 }

@@ -1,5 +1,7 @@
 {
   "id": "r03",
+  "order": 6,
+  "level": "A1+",
   "emoji": "🏖️",
   "title": "Um dia de praia",
   "en": "Rita and Tiago spend Saturday at the beach.",
@@ -102,5 +104,23 @@
     "toalhas": "towels",
     "voltam": "they go back (voltar)",
     "vão": "they go (ir)"
-  }
+  },
+  "notes": [
+    {
+      "pt": "vão à praia",
+      "en": "they go to the beach. a + a = à."
+    },
+    {
+      "pt": "gosta de nadar",
+      "en": "likes swimming. Gostar always takes de."
+    },
+    {
+      "pt": "pode-se nadar",
+      "en": "you can swim / swimming is allowed. The impersonal se (A2): aqui fala-se inglês = English is spoken here."
+    },
+    {
+      "pt": "cansados mas contentes",
+      "en": "tired but happy. Adjectives agree: plural because there are two of them."
+    }
+  ]
 }

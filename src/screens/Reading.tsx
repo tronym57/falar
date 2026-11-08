@@ -23,7 +23,7 @@ export default function ReadingList() {
     <main className="screen">
       <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/practice">‹ Practice</Link>
       <h1>Reading</h1>
-      <p className="muted" style={{ marginBottom: 24 }}>Short texts about life around Peniche. Tap any word to see what it means.</p>
+      <p className="muted" style={{ marginBottom: 24 }}>Short texts about life around Peniche, easiest first. Tap any word to see what it means. A1+ texts have a few harder phrases, explained under the text.</p>
       {readingTexts.map(t => {
         const b = best?.[readingStep(t.id)]
         return (
@@ -36,6 +36,7 @@ export default function ReadingList() {
                 : <span className="badge badge-sm badge-soft badge-info">New</span>}
             </div>
             <p className="muted">{t.en}</p>
+            <p className="small muted" style={{ marginTop: 6 }}><span className="level-tag">{t.level}</span></p>
           </Link>
         )
       })}
@@ -65,7 +66,8 @@ export function ReadingTextScreen() {
         <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/reading">‹ Reading</Link>
         <SlowToggle />
       </div>
-      <h1 style={{ marginTop: 12, marginBottom: 8 }}>{t.emoji} {t.title}</h1>
+      <p className="section-label" style={{ marginTop: 12, marginBottom: 4 }}>Reading · <span className="level-tag">{t.level}</span></p>
+      <h1 style={{ marginTop: 0, marginBottom: 8 }}>{t.emoji} {t.title}</h1>
       <p className="muted">{t.en}</p>
 
       <div className="read-controls">
@@ -98,6 +100,15 @@ export function ReadingTextScreen() {
           </div>
         )
       })}
+
+      {!!t.notes?.length && (
+        <section className="notes">
+          <h3>Phrases to notice</h3>
+          {t.notes.map(n => (
+            <p key={n.pt}><b lang="pt-PT">{n.pt}</b><span>{n.en}</span></p>
+          ))}
+        </section>
+      )}
 
       <Link className="btn btn-primary btn-block btn-big" style={{ marginTop: 24, textDecoration: 'none' }} to={`/reading/${t.id}/questions`}>
         Answer {t.questions.length} questions ›

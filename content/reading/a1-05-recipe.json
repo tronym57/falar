@@ -1,5 +1,7 @@
 {
   "id": "r05",
+  "order": 8,
+  "level": "A1+",
   "emoji": "🥣",
   "title": "Caldo verde",
   "en": "How to make Portugal's famous green soup.",
@@ -111,5 +113,31 @@
     "simples": "simple",
     "sopa": "soup",
     "varinha": "little wand (varinha mágica = hand blender)"
-  }
+  },
+  "notes": [
+    {
+      "pt": "Precisamos de",
+      "en": "we need"
+    },
+    {
+      "pt": "durante vinte minutos",
+      "en": "for twenty minutes"
+    },
+    {
+      "pt": "A seguir",
+      "en": "next, after that"
+    },
+    {
+      "pt": "cortada muito fina",
+      "en": "cut very thin. A past participle used as an adjective (A2); it agrees with a couve."
+    },
+    {
+      "pt": "deixamos cozer",
+      "en": "we let it cook"
+    },
+    {
+      "pt": "Bom apetite!",
+      "en": "Enjoy your meal!"
+    }
+  ]
 }

@@ -1,5 +1,7 @@
 {
   "id": "r06",
+  "order": 7,
+  "level": "A1+",
   "emoji": "🎉",
   "title": "Os Santos Populares",
   "en": "June street festivals in Lisbon and Porto.",
@@ -110,5 +112,23 @@
     "sumo": "juice",
     "tradição": "tradition",
     "vinho": "wine"
-  }
+  },
+  "notes": [
+    {
+      "pt": "a festa maior",
+      "en": "the biggest party"
+    },
+    {
+      "pt": "no dia 13",
+      "en": "on the 13th. Dates: no dia + number."
+    },
+    {
+      "pt": "sardinhas assadas no pão",
+      "en": "grilled sardines on bread"
+    },
+    {
+      "pt": "À noite",
+      "en": "at night"
+    }
+  ]
 }

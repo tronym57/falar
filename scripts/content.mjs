@@ -90,6 +90,8 @@ const readJson = path => { try { return { path, data: JSON.parse(readFileSync(pa
 function loadReading() {
   if (!existsSync(readingDir)) return { texts: [], glossary: { data: { words: {} } } }
   const texts = readdirSync(readingDir).filter(f => /^a1-.*\.json$/.test(f)).sort().map(f => readJson(join(readingDir, f)))
+  const orders = texts.map(t => t.data?.order)
+  for (const t of texts) if (t.data && orders.filter(o => o === t.data.order).length > 1) t.dupOrder = true
   return { texts, glossary: readJson(join(readingDir, 'glossary.json')) }
 }
 /** Same word split as the app (src/content/reading.ts): letters, with hyphenated forms kept whole. */
@@ -105,6 +107,15 @@ function validateReading(t, common, errors, seenIds) {
     seenIds.set(v, t.id)
   }
   id(t.id, 'text'); for (const k of ['title', 'en', 'emoji']) str(t[k], k)
+  if (!['A1', 'A1+'].includes(t.level)) err('level', 'must be "A1" or "A1+"')
+  if (!Number.isInteger(t.order)) err('order', 'must be a whole number (list position, easiest first)')
+  const all = (t.paragraphs ?? []).map(p => p.pt).join(' ').toLowerCase()
+  // Phrases to notice: multi-word bits the word glossary can't explain. Each must appear in the text.
+  for (const n of t.notes ?? []) {
+    str(n.pt, 'note'); str(n.en, `note "${n.pt}" en`)
+    if (n.pt && !all.includes(n.pt.toLowerCase())) err('notes', `"${n.pt}" is not in the text`)
+    for (const b of bpProblems(n.pt ?? '')) err('notes', b)
+  }
   if (!t.paragraphs?.length) err('paragraphs', 'needs at least one paragraph')
   const missing = new Set()
   for (const p of t.paragraphs ?? []) {
@@ -300,6 +311,7 @@ if (cmd === 'audio-items') {
   for (const t of reading.texts) {
     if (t.parseError) { errors.push(`${t.path}: invalid JSON: ${t.parseError}`); continue }
     validateReading(t.data, common, errors, seenIds)
+    if (t.dupOrder) errors.push(`${t.data.id} order: ${t.data.order} is used by another text`)
     if (!flags.includes('--no-audio')) {
       for (const a of readingAudioItems(t.data)) if (!existsSync(join(audioDir, `${a.id}.mp3`))) errors.push(`${t.data.id} ${a.id}: audio file missing (run npm run audio)`)
     }

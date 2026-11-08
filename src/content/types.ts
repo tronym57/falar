@@ -78,10 +78,13 @@ export type VerbSet = { id: string; level: string; tense: string; title: string;
 /** A reading text, content/reading/a1-*.json. Every word has a meaning in its glossary or the shared one. */
 export type ReadingText = {
   id: string
+  order: number // list position, easiest first
+  level: 'A1' | 'A1+' // A1+ = has a few A2 structures, explained in `notes`
   emoji: string
   title: string
   en: string
   paragraphs: { id: string; pt: string; en: string }[] // each paragraph has audio: public/audio/<id>.mp3
   questions: { id: string; q: string; options: string[]; answer: number }[] // options shuffled when shown
   glossary: Record<string, string>
+  notes?: { pt: string; en: string }[] // "Phrases to notice": multi-word bits single-word meanings can't explain
 }

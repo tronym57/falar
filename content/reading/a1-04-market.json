@@ -1,5 +1,7 @@
 {
   "id": "r04",
+  "order": 5,
+  "level": "A1+",
   "emoji": "🐟",
   "title": "No mercado",
   "en": "Buying fish and vegetables at the morning market.",
@@ -110,5 +112,23 @@
     "trinta": "thirty",
     "vende": "sells (vender)",
     "vou": "I go (ir)"
-  }
+  },
+  "notes": [
+    {
+      "pt": "há trinta anos",
+      "en": "for thirty years (and still now). Há + time + present tense: Moro aqui há dois anos = I've lived here for two years."
+    },
+    {
+      "pt": "Quanto custam",
+      "en": "How much are they? Custa for one thing, custam for several."
+    },
+    {
+      "pt": "vai ser",
+      "en": "is going to be"
+    },
+    {
+      "pt": "claro",
+      "en": "of course"
+    }
+  ]
 }

@@ -5,7 +5,7 @@ import { rng, shuffle } from '../test'
 const files = import.meta.glob<ReadingText>('../../content/reading/a1-*.json', { eager: true, import: 'default' })
 const shared = Object.values(import.meta.glob<{ words: Record<string, string> }>('../../content/reading/glossary.json', { eager: true, import: 'default' }))[0]
 
-export const readingTexts: ReadingText[] = Object.values(files).sort((a, b) => a.id.localeCompare(b.id))
+export const readingTexts: ReadingText[] = Object.values(files).sort((a, b) => a.order - b.order)
 export const readingById = (id: string) => readingTexts.find(t => t.id === id)
 
 /** Split a paragraph into words (tappable) and the bits in between. Same rule as the content linter. */

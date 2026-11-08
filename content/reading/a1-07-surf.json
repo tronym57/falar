@@ -1,5 +1,7 @@
 {
   "id": "r07",
+  "order": 3,
+  "level": "A1",
   "emoji": "🏄",
   "title": "Uma manhã de surf",
   "en": "Miguel's early session at Supertubos.",
@@ -108,5 +110,19 @@
     "surfistas": "surfers",
     "só": "only",
     "torrada": "toast"
-  }
+  },
+  "notes": [
+    {
+      "pt": "olha para a previsão",
+      "en": "looks at the forecast. Olhar para = to look at."
+    },
+    {
+      "pt": "à espera das ondas",
+      "en": "waiting for the waves"
+    },
+    {
+      "pt": "com fome",
+      "en": "hungry (literally: with hunger)"
+    }
+  ]
 }

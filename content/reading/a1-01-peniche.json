@@ -1,5 +1,7 @@
 {
   "id": "r01",
+  "order": 1,
+  "level": "A1",
   "emoji": "⚓",
   "title": "Peniche",
   "en": "A short portrait of the town by the sea.",
@@ -105,5 +107,15 @@
     "trabalham": "they work (trabalhar)",
     "turistas": "tourists",
     "umas": "some (feminine)"
-  }
+  },
+  "notes": [
+    {
+      "pt": "Fica a uma hora e meia de Lisboa",
+      "en": "It's an hour and a half from Lisbon. Ficar is used for where places are."
+    },
+    {
+      "pt": "Do porto saem barcos",
+      "en": "Boats leave from the port. Putting the verb before the subject is normal here."
+    }
+  ]
 }

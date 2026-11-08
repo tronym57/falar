@@ -1,5 +1,7 @@
 {
   "id": "r02",
+  "order": 2,
+  "level": "A1",
   "emoji": "🌫️",
   "title": "O tempo",
   "en": "Fog in the morning, sun in the afternoon, rain tomorrow.",
@@ -100,5 +102,23 @@
     "quinze": "fifteen",
     "todos": "all, every (todos os dias = every day)",
     "vez": "time, occasion (outra vez = again)"
-  }
+  },
+  "notes": [
+    {
+      "pt": "está nevoeiro",
+      "en": "it's foggy. Weather uses estar: está sol, está calor, está frio."
+    },
+    {
+      "pt": "Preciso de levar",
+      "en": "I need to take. Precisar always takes de."
+    },
+    {
+      "pt": "vai chover",
+      "en": "it's going to rain. Ir + infinitive is the everyday future."
+    },
+    {
+      "pt": "outra vez",
+      "en": "again"
+    }
+  ]
 }
