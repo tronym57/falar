@@ -79,6 +79,41 @@
           "pt": "Até logo, bom dia!",
           "en": "See you later, have a good day!"
         }
+      ],
+      "questions": [
+        {
+          "id": "u0-d1-q1",
+          "q": "What does Dona Fátima say about the day?",
+          "options": [
+            "It's a beautiful day",
+            "It's a cold day",
+            "It's raining",
+            "It's a long day"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u0-d1-q2",
+          "q": "Why does Dona Fátima say it again?",
+          "options": [
+            "You asked her to repeat it more slowly",
+            "She forgot what she said",
+            "She asked you a question",
+            "You said goodbye too early"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u0-d1-q3",
+          "q": "How do you say goodbye?",
+          "options": [
+            "See you later",
+            "See you tomorrow",
+            "Good night",
+            "Thank you, you too"
+          ],
+          "answer": 0
+        }
       ]
     },
     {
@@ -143,6 +178,41 @@
           "speaker": "Y",
           "pt": "Obrigado, igualmente!",
           "en": "Thank you, you too!"
+        }
+      ],
+      "questions": [
+        {
+          "id": "u0-d2-q1",
+          "q": "What does the cashier ask first?",
+          "options": [
+            "If you have a loyalty card",
+            "If you want a bag",
+            "If you pay by card",
+            "Where you're from"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u0-d2-q2",
+          "q": "Which language do you ask about?",
+          "options": [
+            "English",
+            "Portuguese",
+            "Spanish",
+            "French"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u0-d2-q3",
+          "q": "Do you take a bag?",
+          "options": [
+            "No, thank you",
+            "Yes, one bag",
+            "Yes, two bags",
+            "You don't answer"
+          ],
+          "answer": 0
         }
       ]
     }

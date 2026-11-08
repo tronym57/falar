@@ -7,7 +7,7 @@ import type { Exercise, Part } from '../content/types'
 import { GrammarTopicView } from '../components/Grammar'
 import { SlowToggle } from '../components/AudioRow'
 import Practice from './Practice'
-import { PARTS, generateTest } from '../test'
+import { PARTS, generateTest, listeningDrill } from '../test'
 import { useDue } from '../review'
 import { useToast } from '../toast'
 
@@ -105,6 +105,18 @@ export default function PracticeHub() {
           {openTest ? 'Start a new test' : 'Start test'}
         </button>
       </section>
+
+      <button className="card tap" onClick={async () => {
+        try {
+          const items = listeningDrill(units, 15)
+          await db.sessions.put({ key: 'listening', queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items })
+          navigate('/drill/run/listening')
+        } catch (e) { toast(`Couldn't start listening practice: ${(e as Error).message}`, 'error') }
+      }}>
+        <span className="chev">›</span>
+        <h2>🎧 Listening</h2>
+        <p className="muted">15 questions: meaning, dictation, what you heard, missing word, whole conversations</p>
+      </button>
 
       <Link className="card tap" to="/practice/grammar">
         <span className="chev">›</span>

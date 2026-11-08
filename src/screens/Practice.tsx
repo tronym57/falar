@@ -71,6 +71,7 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo 
     logAttempt(unit ?? -1, mode, current.id, a.result.ok, a.given).catch(() => {})
     // Replay the Portuguese for listening exercises so you hear it again with the answer.
     if (current.type === 'listen-choose') audio.play(current.audio ?? current.id)
+    if (current.type === 'dictation' || current.type === 'listen-pick' || current.type === 'listen-gap') audio.play(current.audio)
   }
 
   const next = async () => {
@@ -205,5 +206,9 @@ function describe(x: Exercise) {
     case 'translate': return `${x.en} → ${x.answers[0]}`
     case 'conjugation': return `${x.verb}, ${x.person} → ${x.answers[0]}`
     case 'verb-table': return `${x.verb}: ${x.answers.join(', ')}`
+    case 'dictation': return `🎧 ${x.answers[0]}`
+    case 'listen-pick': return `🎧 ${x.options[x.answer]}`
+    case 'listen-gap': return `🎧 ${x.pt.replace('___', x.answers[0])}`
+    case 'listen-dialogue': return `${x.title}: ${x.question} → ${x.options[x.answer]}`
   }
 }

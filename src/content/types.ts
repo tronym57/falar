@@ -12,6 +12,8 @@ export type Dialogue = {
   // `me`: the learner's own lines (shown on the right, like your messages in a chat).
   speakers: Record<string, { name: string; voice: Voice; me?: boolean }>
   lines: Line[]
+  // Listening comprehension: asked after hearing the whole conversation. Options are shuffled when shown.
+  questions?: { id: string; q: string; options: string[]; answer: number }[]
 }
 
 export type Phrase = { id: string; pt: string; en: string; note?: string }
@@ -43,6 +45,11 @@ export type Exercise = ({ part?: Part } & (
   | { id: string; type: 'translate'; en: string; answers: string[] }
   | { id: string; type: 'conjugation'; verb: string; person: string; answers: string[] }
   | { id: string; type: 'verb-table'; verb: string; persons: string[]; answers: string[] }
+  // Listening, generated from the recorded lines (not written in unit files):
+  | { id: string; type: 'dictation'; audio: string; answers: string[] } // hear it, type it
+  | { id: string; type: 'listen-pick'; audio: string; options: string[]; answer: number } // hear it, pick the Portuguese
+  | { id: string; type: 'listen-gap'; audio: string; pt: string; answers: string[] } // hear it, type the missing word
+  | { id: string; type: 'listen-dialogue'; clips: string[]; title: string; lines: { name: string; pt: string }[]; question: string; options: string[]; answer: number }
 ))
 
 export type SpeakingPrompt = { id: string; prompt: string; answers: string[]; pt: string }

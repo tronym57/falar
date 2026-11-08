@@ -1,5 +1,6 @@
 // Mixed tests: build a quiz across units and parts from the unit content.
 import type { Exercise, Part, Unit } from './content/types'
+import { listeningExtras, dialogueQuestions, lineExercise } from './listening'
 import { verbQuestions, verbs } from './verbs'
 
 export const PARTS: { id: Part; title: string }[] = [
@@ -13,7 +14,7 @@ export const PARTS: { id: Part; title: string }[] = [
 /** The part an exercise counts towards. */
 export function partOf(x: Exercise): Part {
   if (x.part) return x.part
-  if (x.type === 'listen-choose') return 'listening'
+  if (x.type === 'listen-choose' || x.type === 'dictation' || x.type === 'listen-pick' || x.type === 'listen-gap' || x.type === 'listen-dialogue') return 'listening'
   return 'sentences'
 }
 
@@ -22,7 +23,7 @@ export function rng(seed: number) {
   let s = seed >>> 0 || 1
   return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 2 ** 32 }
 }
-function shuffle<T>(xs: T[], rand: () => number) {
+export function shuffle<T>(xs: T[], rand: () => number) {
   const a = [...xs]
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] }
   return a
@@ -55,6 +56,7 @@ export function questionPool(units: Unit[], rand: () => number): Record<Part, Ex
   const authored = units.flatMap(u => [...u.exercises, ...u.check, ...u.grammar.topics.flatMap(t => t.exercises)])
   // Verbs aren't tied to a unit: all A1 verbs are in the pool (single forms and sentences, no full tables).
   const verbPool = verbs.flatMap(v => { const q = verbQuestions(v, rand); return [...q.type, ...q.pick, ...q.gap] })
+  listening.push(...listeningExtras(units, rand).flat())
   const pool: Record<Part, Exercise[]> = { vocab, listening, grammar: [], sentences: [], verbs: verbPool }
   for (const x of authored) pool[partOf(x)].push(x)
   return pool
@@ -74,6 +76,18 @@ export function generateTest(units: Unit[], parts: Part[], length: number, seed 
       if (x && !seen.has(x.id)) { seen.add(x.id); out.push(x) }
       if (out.length >= length) break
     }
+  }
+  return shuffle(out, rand)
+}
+
+/** A listening-only drill that rotates through every listening style. */
+export function listeningDrill(units: Unit[], length: number, seed = Date.now()): Exercise[] {
+  const rand = rng(seed)
+  const meaning = questionPool(units, rand).listening.filter(x => x.type === 'listen-choose')
+  const queues = [meaning, ...listeningExtras(units, rand)].map(g => shuffle(g, rand)).filter(g => g.length)
+  const out: Exercise[] = []
+  while (out.length < length && queues.some(q => q.length)) {
+    for (const q of queues) { const x = q.shift(); if (x) out.push(x); if (out.length >= length) break }
   }
   return shuffle(out, rand)
 }
@@ -109,11 +123,16 @@ export function lessonQuestions(unit: Unit, step: string, seed = Date.now()): Ex
   if (step === 'grammar') return shuffle(unit.grammar.topics.flatMap(t => t.exercises), rand)
 
   if (step === 'dialogue') {
+    // One comprehension question per conversation, then single lines in four listening styles.
+    const questions = unit.dialogues.map(d => shuffle(dialogueQuestions(d, rand), rand)[0]).filter(Boolean)
     const lines = unit.dialogues.flatMap(d => d.lines)
+    const all = unit.dialogues.flatMap(d => d.lines.map(l => ({ id: l.id, pt: l.pt })))
     const meanings = lines.map(l => l.en)
-    return shuffle(lines, rand).slice(0, LESSON_LENGTH).map(l => (
-      { id: `l-${l.id}-listen`, type: 'listen-choose', part: 'listening', pt: l.pt, audio: l.id, ...choiceFrom(l.en, meanings) } as Exercise
-    ))
+    const singles = shuffle(lines, rand).slice(0, LESSON_LENGTH - questions.length).map((l, i) =>
+      i % 4 === 0
+        ? { id: `l-${l.id}-listen`, type: 'listen-choose', part: 'listening', pt: l.pt, audio: l.id, ...choiceFrom(l.en, meanings) } as Exercise
+        : lineExercise(['pick', 'dictation', 'gap'][(i % 4) - 1] as 'pick' | 'dictation' | 'gap', l, all, rand))
+    return [...questions, ...singles]
   }
 
   const items = step === 'phrases' ? unit.phrases : step === 'vocab' ? unit.vocab : []

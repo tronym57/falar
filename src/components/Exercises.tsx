@@ -14,6 +14,7 @@ type Props<T extends Exercise['type']> = {
 export function ExerciseView({ ex, locked, onAnswer }: { ex: Exercise; locked: boolean; onAnswer: (a: Answer) => void }) {
   switch (ex.type) {
     case 'listen-choose':
+    case 'listen-pick':
     case 'choose':
       return <Choose ex={ex} locked={locked} onAnswer={onAnswer} />
     case 'gap-fill':
@@ -26,17 +27,18 @@ export function ExerciseView({ ex, locked, onAnswer }: { ex: Exercise; locked: b
       return <Typed ex={ex} locked={locked} onAnswer={onAnswer} prompt={<>Conjugate <b>{ex.verb}</b>:<span className="ex-prompt">{ex.person} …</span></>} answers={ex.answers} />
     case 'verb-table':
       return <VerbTable ex={ex} locked={locked} onAnswer={onAnswer} />
+    case 'dictation':
+      return <ListenTyped ex={ex} locked={locked} onAnswer={onAnswer} />
+    case 'listen-gap':
+      return <ListenTyped ex={ex} locked={locked} onAnswer={onAnswer} />
+    case 'listen-dialogue':
+      return <ListenDialogue ex={ex} locked={locked} onAnswer={onAnswer} />
   }
 }
 
 // ---------- multiple choice (text or listening) ----------
-function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'choose'>) {
+function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'listen-pick' | 'choose'>) {
   const [picked, setPicked] = useState<number | null>(null)
-  const { playing } = useAudio()
-  const listen = ex.type === 'listen-choose'
-
-  const clip = ex.type === 'listen-choose' ? ex.audio ?? ex.id : ''
-  useEffect(() => { if (clip) audio.autoplay(clip) }, [clip])
 
   const pick = (i: number) => {
     if (locked) return
@@ -47,13 +49,16 @@ function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'choose'>) {
 
   return (
     <>
-      {listen ? (
+      {ex.type === 'listen-choose' ? (
         <>
           <p className="ex-label">Listen. What does it mean?</p>
-          <button className={'btn btn-circle big-play ' + (playing === clip ? 'btn-soft btn-primary' : 'btn-primary')} onClick={() => audio.play(clip)} aria-label="Play audio">
-            {playing === clip ? '🔊' : '▶'}
-          </button>
+          <BigPlay clip={ex.audio ?? ex.id} />
           {locked && <p className="reveal">{ex.pt}</p>}
+        </>
+      ) : ex.type === 'listen-pick' ? (
+        <>
+          <p className="ex-label">Listen. Which one did you hear?</p>
+          <BigPlay clip={ex.audio} />
         </>
       ) : (
         <p className="ex-label"><span className="ex-prompt">{ex.prompt}</span></p>
@@ -69,6 +74,65 @@ function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'choose'>) {
           </button>
         ))}
       </div>
+    </>
+  )
+}
+
+// ---------- listening helpers ----------
+/** The big round play button; plays once by itself when the question appears. */
+function BigPlay({ clip }: { clip: string }) {
+  const { playing } = useAudio()
+  useEffect(() => { audio.autoplay(clip) }, [clip])
+  return (
+    <button className={'btn btn-circle big-play ' + (playing === clip ? 'btn-soft btn-primary' : 'btn-primary')} onClick={() => audio.play(clip)} aria-label="Play audio">
+      {playing === clip ? '🔊' : '▶'}
+    </button>
+  )
+}
+
+// ---------- hear it, type it (whole sentence or the missing word) ----------
+function ListenTyped({ ex, locked, onAnswer }: Props<'dictation' | 'listen-gap'>) {
+  const [value, setValue] = useState('')
+  const gap = ex.type === 'listen-gap'
+  const [before, after] = gap ? ex.pt.split('___') : ['', '']
+  return (
+    <>
+      <p className="ex-label">{gap ? 'Listen and type the missing word.' : 'Listen and type what you hear.'}</p>
+      <BigPlay clip={ex.audio} />
+      {gap && <p className="gap-sentence">{before}<span className="gap-slot">{value || '   '}</span>{after}</p>}
+      <TypedInput key={ex.id} locked={locked} onSubmit={v => { setValue(v); onAnswer({ given: v, result: check(v, ex.answers) }) }} />
+    </>
+  )
+}
+
+// ---------- a whole conversation, then a question ----------
+function ListenDialogue({ ex, locked, onAnswer }: Props<'listen-dialogue'>) {
+  const { playing } = useAudio()
+  const [picked, setPicked] = useState<number | null>(null)
+  const on = !!playing && ex.clips.includes(playing)
+  const pick = (i: number) => {
+    if (locked) return
+    setPicked(i)
+    const expected = ex.options[ex.answer]
+    onAnswer({ given: ex.options[i], result: i === ex.answer ? { ok: true, expected } : { ok: false, expected } })
+  }
+  return (
+    <>
+      <p className="ex-label">Listen to the conversation: <b>{ex.title}</b></p>
+      <button className={'btn btn-big btn-block ' + (on ? 'btn-tonal' : 'btn-primary')} onClick={() => (on ? audio.stop() : audio.playAll(ex.clips))}>
+        {on ? '■ Stop' : '▶ Play the conversation'}
+      </button>
+      <p className="ex-label" style={{ marginTop: 20 }}><span className="ex-prompt">{ex.question}</span></p>
+      <div className="options">
+        {ex.options.map((o, i) => (
+          <button key={i} className={'option' + (locked && i === ex.answer ? ' right' : '') + (locked && i === picked && i !== ex.answer ? ' wrong' : '')} onClick={() => pick(i)}>{o}</button>
+        ))}
+      </div>
+      {locked && (
+        <div className="transcript">
+          {ex.lines.map((l, i) => <p key={i}><span className="muted">{l.name}:</span> {l.pt}</p>)}
+        </div>
+      )}
     </>
   )
 }

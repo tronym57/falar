@@ -137,7 +137,7 @@ export function DrillRunner() {
   const [items, setItems] = useState<Exercise[] | null | undefined>(undefined)
   useEffect(() => { db.sessions.get(key ?? '').then(s => setItems(s?.items ?? null)).catch(() => setItems(null)) }, [key])
   if (items === undefined) return <main className="screen"><p className="muted">Loading…</p></main>
-  const back = key === 'vocab' ? '/vocab' : key?.startsWith('verb-') ? `/verbs/${key.slice(5)}` : '/practice/verbs'
+  const back = key === 'vocab' ? '/vocab' : key === 'listening' ? '/practice' : key?.startsWith('verb-') ? `/verbs/${key.slice(5)}` : '/practice/verbs'
   if (!items) return <Navigate to={back} replace />
   return <Practice sessionKey={key!} items={items} mode="drill" closeTo={back} />
 }

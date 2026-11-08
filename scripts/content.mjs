@@ -146,6 +146,12 @@ function validate(u, errors, seenIds) {
       id(l.id, `line`); pt(l.pt, l.id); str(l.en, `${l.id} en`)
       if (!d.speakers?.[l.speaker]) err(l.id, `unknown speaker "${l.speaker}"`)
     }
+    for (const q of d.questions ?? []) {
+      id(q.id, 'dialogue question'); str(q.q, `${q.id} q`)
+      if (!Array.isArray(q.options) || q.options.length < 2) err(q.id, 'needs at least 2 options')
+      else if (new Set(q.options).size !== q.options.length) err(q.id, 'options must be different')
+      if (!Number.isInteger(q.answer) || !q.options?.[q.answer]) err(q.id, 'answer must be the index of an option')
+    }
   }
   for (const p of u.phrases ?? []) { id(p.id, 'phrase'); pt(p.pt, p.id); str(p.en, `${p.id} en`) }
   for (const v of u.vocab ?? []) {

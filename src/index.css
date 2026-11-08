@@ -264,6 +264,9 @@ p { margin: 0 0 10px; }
 .option.right { border-color: var(--color-success); background: color-mix(in oklab, var(--color-success) 12%, var(--surface-1)); }
 .option.wrong { border-color: var(--miss-line); background: var(--miss-bg); }
 
+.transcript { margin-top: 20px; padding: 16px 18px; border-radius: 14px; background: var(--tint); font-size: 16px; }
+.transcript p { margin: 0 0 6px; }
+.transcript p:last-child { margin-bottom: 0; }
 .gap-sentence { font-size: 26px; font-weight: 600; margin: 8px 0 20px; line-height: 1.45; }
 .gap-slot { display: inline-block; min-width: 90px; border-bottom: 3px solid var(--color-primary); margin: 0 4px; text-align: center; color: var(--color-primary); white-space: pre; }
 

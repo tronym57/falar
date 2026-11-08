@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { a1Content } from './content'
-import { generateTest, lessonQuestions, partOf, questionPool, rng, scoreByPart, wordQuestions } from './test'
+import { generateTest, lessonQuestions, listeningDrill, partOf, questionPool, rng, scoreByPart, wordQuestions } from './test'
+import { dialogueQuestions, listenGap, listenPick } from './listening'
 
 const unit0 = a1Content[0]
 
@@ -76,9 +77,11 @@ describe('lessonQuestions', () => {
     for (const x of lessonQuestions(unit0, 'vocab', 2)) expect(vocabIds.has(x.id.split('-').slice(1, 3).join('-'))).toBe(true)
   })
 
-  it('dialogue practice plays the dialogue lines', () => {
+  it('dialogue practice: one question per conversation, then lines in several listening styles', () => {
     const q = lessonQuestions(unit0, 'dialogue', 3)
-    expect(q.every(x => x.type === 'listen-choose' && x.audio?.startsWith('u0-d'))).toBe(true)
+    expect(q.filter(x => x.type === 'listen-dialogue')).toHaveLength(unit0.dialogues.length)
+    expect(new Set(q.map(x => x.type)).size).toBeGreaterThanOrEqual(4)
+    expect(q.every(x => partOf(x) === 'listening')).toBe(true)
   })
 
   it('grammar practice uses the topic exercises', () => {
@@ -95,5 +98,38 @@ describe('wordQuestions', () => {
     const q = wordQuestions(words, words.map(w => w.en), 'w', rng(1))
     expect(q.map(x => x.type)).toEqual(['choose', 'translate', 'choose', 'choose'])
     expect(q[0].id).toBe('w-a-meaning')
+  })
+})
+
+describe('listening', () => {
+  const clips = [{ id: 'a', pt: 'Bom dia!' }, { id: 'b', pt: 'Boa tarde.' }, { id: 'c', pt: 'Bom dia, tudo bem?' }, { id: 'd', pt: 'Até logo!' }, { id: 'e', pt: 'Bom dia' }]
+
+  it('pick: similar sentences first, never the same text twice', () => {
+    const x = listenPick(clips[0], clips, rng(1))
+    if (x.type !== 'listen-pick') throw new Error('expected listen-pick')
+    expect(x.options).toHaveLength(4)
+    expect(x.options[x.answer]).toBe('Bom dia!')
+    expect(x.options).not.toContain('Bom dia')
+    expect(x.options).toContain('Bom dia, tudo bem?')
+  })
+
+  it('gap: blanks the longest word and keeps punctuation', () => {
+    expect(listenGap({ id: 'x', pt: 'Pode repetir, por favor?' })).toMatchObject({ pt: 'Pode ___, por favor?', answers: ['repetir'] })
+    expect(listenGap({ id: 'y', pt: 'Olá' })).toBeNull()
+  })
+
+  it('conversation questions keep the right answer after shuffling', () => {
+    for (const d of unit0.dialogues) for (const x of dialogueQuestions(d, rng(5))) {
+      if (x.type !== 'listen-dialogue') throw new Error('expected listen-dialogue')
+      const q = d.questions!.find(q => x.id === `lq-${q.id}`)!
+      expect(x.options[x.answer]).toBe(q.options[q.answer])
+      expect(x.clips).toHaveLength(d.lines.length)
+    }
+  })
+
+  it('listening drill rotates through all five styles', () => {
+    const t = listeningDrill([unit0], 15, 2)
+    expect(t).toHaveLength(15)
+    expect(new Set(t.map(x => x.type))).toEqual(new Set(['listen-choose', 'listen-pick', 'dictation', 'listen-gap', 'listen-dialogue']))
   })
 })
