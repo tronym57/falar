@@ -176,6 +176,9 @@ p { margin: 0 0 10px; }
 .chev { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 24px; line-height: 1; }
 
 /* ---------- buttons ---------- */
+/* Buttons grow with their text: daisy's fixed height lets labels that wrap spill out of the button.
+   :where() keeps this weak, so .btn-big and friends still set their own sizes. Circles and squares stay fixed. */
+.btn:where(:not(.btn-circle, .btn-square)) { height: auto; min-height: var(--size); padding-block: 6px; line-height: 1.3; text-wrap: balance; }
 .btn-big { height: auto; min-height: 3.25rem; padding-block: 0.8rem; flex-direction: column; gap: 2px; font-size: 1rem; font-weight: 600; }
 .btn-big small { display: block; font-weight: 400; opacity: 0.85; font-size: 14px; }
 /* Secondary actions: tonal green instead of more solid green. */
@@ -310,7 +313,7 @@ p { margin: 0 0 10px; }
 .heard-words .miss { color: var(--miss-fg); text-decoration: underline dotted; text-underline-offset: 4px; }
 .self-check { margin-top: 8px; display: flex; flex-direction: column; gap: 10px; }
 .self-check p { margin: 0; }
-.self-check .btn { height: auto; min-height: 3rem; padding-block: 10px; line-height: 1.35; }
+.self-check .btn { min-height: 3rem; padding-block: 10px; }
 .self-check .btn-ghost { align-self: flex-start; min-height: 2rem; padding-inline: 0; }
 .self-check .row-btns .btn { margin: 0; }
 .shadow-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 12px 10px; margin: 0 -10px; border-radius: 12px; border-bottom: 1px solid var(--border); }
