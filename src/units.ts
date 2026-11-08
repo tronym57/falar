@@ -24,7 +24,7 @@ export const unitSteps = [
   { slug: 'phrases', title: 'Key phrases', ready: true },
   { slug: 'vocab', title: 'Vocabulary', ready: true },
   { slug: 'grammar', title: 'Grammar', ready: true },
-  { slug: 'exercises', title: 'Exercises', ready: false },
+  { slug: 'exercises', title: 'Exercises', ready: true },
   { slug: 'speaking', title: 'Speaking drill', ready: false },
-  { slug: 'check', title: 'Unit check', ready: false },
+  { slug: 'check', title: 'Unit check', ready: true },
 ]

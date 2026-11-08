@@ -4,15 +4,26 @@ import { unitSteps } from '../units'
 import { audio, useAudio } from '../audio'
 import { AudioRow, SlowToggle } from '../components/AudioRow'
 import type { Dialogue, Unit } from '../content/types'
+import Practice from './Practice'
+import { markStepDone } from '../progress'
+import { useToast } from '../toast'
 
 export default function UnitStep() {
+  const toast = useToast()
   const { n, step } = useParams()
   const unit = a1Content[Number(n)]
   const meta = unitSteps.find(s => s.slug === step)
   if (!unit || !meta?.ready) return <Navigate to={`/unit/${n}`} replace />
 
+  if (step === 'exercises' || step === 'check') return <Practice key={step} unit={unit} mode={step} />
+
   const i = unitSteps.indexOf(meta)
   const next = unitSteps[i + 1]
+  // Reading steps count as done when you move on.
+  const done = () => {
+    audio.stop()
+    markStepDone(unit.n, meta.slug).catch(e => toast(`Couldn't save your progress: ${e.message}`, 'error'))
+  }
 
   return (
     <main className="screen">
@@ -26,7 +37,7 @@ export default function UnitStep() {
       {step === 'vocab' && <Vocab unit={unit} />}
       {step === 'grammar' && <GrammarView unit={unit} />}
       {next?.ready && (
-        <Link className="btn" to={`/unit/${unit.n}/${next.slug}`} onClick={() => audio.stop()} style={{ textDecoration: 'none', marginTop: 20 }}>
+        <Link className="btn" to={`/unit/${unit.n}/${next.slug}`} onClick={done} style={{ textDecoration: 'none', marginTop: 20 }}>
           Next: {next.title} ›
         </Link>
       )}

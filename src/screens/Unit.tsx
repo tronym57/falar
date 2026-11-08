@@ -2,11 +2,13 @@ import { Link, useParams } from 'react-router-dom'
 import { a1Units, unitSteps } from '../units'
 import { a1Content } from '../content'
 import { useToast } from '../toast'
+import { useUnitProgress } from '../progress'
 
 export default function Unit() {
   const toast = useToast()
   const { n } = useParams()
   const unit = a1Units.find(u => String(u.n) === n)
+  const progress = useUnitProgress(Number(n))
 
   if (!unit) {
     return (
@@ -29,7 +31,10 @@ export default function Unit() {
         hasContent && step.ready ? (
           <Link key={step.slug} to={`/unit/${unit.n}/${step.slug}`} className="card tap">
             <span className="chev">›</span>
-            <h2>{i + 1}. {step.title}</h2>
+            <h2>{i + 1}. {step.title}{progress?.[step.slug]?.done && <span className="done-mark"> ✓</span>}</h2>
+            {progress?.[step.slug]?.bestScore !== undefined && (
+              <p className="muted">Best: {Math.round(progress[step.slug].bestScore! * 100)}%</p>
+            )}
           </Link>
         ) : (
           <button

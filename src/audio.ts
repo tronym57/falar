@@ -18,7 +18,7 @@ const url = (id: string) => `${import.meta.env.BASE_URL}audio/${id}.mp3`
 let stallTimer: number | undefined
 el.addEventListener('playing', () => clearTimeout(stallTimer))
 
-function start(id: string) {
+function start(id: string, auto = false) {
   clearTimeout(stallTimer)
   stallTimer = window.setTimeout(() => fail(id), 10_000)
   playing = id
@@ -26,7 +26,11 @@ function start(id: string) {
   el.playbackRate = slow ? 0.75 : 1
   el.preservesPitch = true
   emit()
-  el.play().catch(() => fail(id))
+  el.play().catch(e => {
+    // An automatic start blocked by the browser isn't an error: the play button is right there.
+    if (auto && e?.name === 'NotAllowedError') { clearTimeout(stallTimer); playing = null; emit(); return }
+    fail(id)
+  })
 }
 
 function fail(id: string) {
@@ -53,6 +57,8 @@ export const audio = {
     if (playing === id) { el.pause(); playing = null; emit(); return }
     start(id)
   },
+  /** Start a clip without a tap (e.g. when a listening exercise appears). */
+  autoplay(id: string) { queue = []; start(id, true) },
   /** Play clips one after another (e.g. a whole dialogue). */
   playAll(ids: string[]) {
     if (!ids.length) return

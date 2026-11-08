@@ -109,6 +109,65 @@ p { margin: 0 0 8px; }
 .grammar p { margin-top: 10px; }
 .ep-note { border-color: var(--accent); background: var(--accent-soft); }
 
+.done-mark { color: var(--accent); }
+
+/* ---------- exercise player ---------- */
+.practice { padding-bottom: calc(env(safe-area-inset-bottom) + 220px); }
+.practice-head { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.practice-head .progress { margin: 0; flex: 1; height: 10px; }
+.practice-head .count { font-size: 14px; min-width: 40px; text-align: right; }
+.close { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;
+  color: var(--muted); text-decoration: none; font-size: 20px; flex: none; }
+
+.ex-label { font-size: 16px; color: var(--muted); margin-bottom: 16px; }
+.ex-prompt { display: block; color: var(--text); font-size: 22px; font-weight: 600; margin-top: 6px; line-height: 1.3; }
+.big-play { display: flex; align-items: center; justify-content: center; width: 88px; height: 88px; border-radius: 50%; border: 0;
+  background: var(--accent); color: #fff; font-size: 30px; margin: 8px auto 12px; }
+.big-play.playing { background: var(--accent-soft); }
+.reveal { text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+
+.options { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.row-options { flex-direction: row; flex-wrap: wrap; }
+.option { font: inherit; font-size: 17px; text-align: left; padding: 14px 16px; min-height: 52px; border-radius: 12px;
+  border: 2px solid var(--border); background: var(--card); color: var(--text); width: 100%; }
+.row-options .option { width: auto; flex: 1 1 auto; text-align: center; }
+.option.right { border-color: #1a7f37; background: #e6f4ea; color: #0f5223; }
+.option.wrong { border-color: #b3261e; background: #fbe9e7; color: #8c1d18; }
+
+.gap-sentence { font-size: 26px; font-weight: 600; margin: 8px 0 16px; line-height: 1.4; }
+.gap { display: inline-block; min-width: 90px; border-bottom: 3px solid var(--accent); margin: 0 4px; text-align: center; color: var(--accent); white-space: pre; }
+
+.built { min-height: 64px; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; padding: 10px 0; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+.tiles, .accents { display: flex; flex-wrap: wrap; gap: 8px; }
+.accents { margin: 10px 0 0; }
+.tile { display: inline-block; width: auto; font: inherit; font-size: 17px; padding: 9px 14px; min-height: 44px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text); box-shadow: 0 2px 0 var(--border); }
+.tile.used { opacity: 0.3; }
+.accents .tile { min-width: 44px; font-size: 18px; padding: 8px; }
+
+.answer-input { width: 100%; font: inherit; font-size: 20px; padding: 14px; border-radius: 12px; border: 2px solid var(--border);
+  background: var(--card); color: var(--text); }
+.answer-input:focus { outline: none; border-color: var(--accent); }
+.check-btn { margin-top: 16px; text-align: center; }
+
+.feedback { position: fixed; left: 0; right: 0; bottom: 0; padding: 16px 16px calc(env(safe-area-inset-bottom) + 16px);
+  border-top: 2px solid; animation: toast-in 140ms ease-out; z-index: 5; }
+.feedback > * { max-width: 608px; margin-left: auto; margin-right: auto; }
+.feedback > b:first-child { display: block; font-size: 20px; margin-bottom: 4px; }
+.feedback p { margin-bottom: 8px; }
+.feedback .small { font-size: 14px; opacity: 0.8; }
+.feedback .btn { text-align: center; margin-top: 8px; }
+.feedback.ok { background: #e6f4ea; border-color: #1a7f37; color: #0f5223; }
+.feedback.ok .btn { background: #1a7f37; }
+.feedback.bad { background: #fbe9e7; border-color: #b3261e; color: #8c1d18; }
+.feedback.bad .btn { background: #b3261e; }
+
+.score { font-size: 48px; font-weight: 800; margin: 0; color: var(--accent); }
+.missed { padding: 8px 0; border-bottom: 1px solid var(--border); margin: 0; }
+.missed:last-child { border-bottom: 0; }
+.secondary-btn { background: transparent; color: var(--accent); border: 2px solid var(--accent); margin-top: 10px; text-align: center; }
+.screen > .btn { margin-top: 10px; text-align: center; }
+
 .progress { height: 6px; background: var(--accent-soft); border-radius: 99px; overflow: hidden; margin-top: 10px; }
 .progress > div { height: 100%; background: var(--accent); }
 

@@ -10,9 +10,12 @@
     "preview": "vite preview",
     "lint:content": "node scripts/content.mjs lint",
     "audio": "node scripts/content.mjs audio-items | .venv/bin/python scripts/gen_audio.py",
-    "audio:setup": "python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt"
+    "audio:setup": "python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt",
+    "test": "vitest run"
   },
   "dependencies": {
+    "dexie": "^4.4.7",
+    "dexie-react-hooks": "^4.4.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5"
@@ -26,6 +29,7 @@
     "oxlint": "^1.90.0",
     "typescript": "~7.0.2",
     "vite": "^8.3.6",
-    "vite-plugin-pwa": "^2.0.0"
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.1.0"
   }
 }

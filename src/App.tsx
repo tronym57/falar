@@ -8,6 +8,7 @@ import Unit from './screens/Unit'
 import UnitStep from './screens/UnitStep'
 import { audio } from './audio'
 import { useToast } from './toast'
+import { registerSW } from 'virtual:pwa-register'
 
 const tabs = [
   { to: '/', label: 'Home', icon: <path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /> },
@@ -19,6 +20,12 @@ const tabs = [
 export default function App() {
   const { pathname } = useLocation()
   const toast = useToast()
+  useEffect(() => {
+    registerSW({
+      immediate: true,
+      onRegisterError: () => toast("Offline mode isn't available in this browser. The app still works while you're online."),
+    })
+  }, [toast])
   useEffect(() => audio.onError(() => toast("Couldn't play this audio. If you're offline, open the app once with a connection.", 'error')), [toast])
   return (
     <>
@@ -31,7 +38,7 @@ export default function App() {
         <Route path="/unit/:n/:step" element={<UnitStep />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      <nav className="tabbar">
+      {!/^\/unit\/\d+\/(exercises|check)$/.test(pathname) && <nav className="tabbar">
         {tabs.map(t => (
           <NavLink
             key={t.to}
@@ -44,7 +51,7 @@ export default function App() {
             {t.label}
           </NavLink>
         ))}
-      </nav>
+      </nav>}
     </>
   )
 }
