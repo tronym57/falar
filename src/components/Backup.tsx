@@ -130,7 +130,6 @@ export function BackupSettings() {
             try { const r = await fetchRemote(); r ? setFound(summarize(r)) : toast('No backup on GitHub yet. Tap “Back up now”.') }
             catch (e) { toast((e as Error).message, 'error') }
           }}>Restore from GitHub…</button>
-          <button className="link-btn" onClick={() => { if (confirm('Disconnect GitHub backup on this phone? The backup itself stays on GitHub.')) { disconnect(); toast('Disconnected.') } }}>Disconnect</button>
         </>
       )}
 
@@ -146,6 +145,13 @@ export function BackupSettings() {
       {found && <RestorePrompt summary={found} onDone={() => setFound(null)} onSkip={() => setFound(null)} skipLabel="Cancel" />}
 
       <FileBackup />
+
+      {st.connected && (
+        <div className="row disconnect-row">
+          <span className="muted small">Stop backing up on this phone</span>
+          <button className="text-btn tap" onClick={() => { if (confirm('Disconnect GitHub backup on this phone? The backup itself stays on GitHub.')) { disconnect(); toast('Disconnected. Your backup stays on GitHub.') } }}>Disconnect</button>
+        </div>
+      )}
     </section>
   )
 }

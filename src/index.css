@@ -233,3 +233,6 @@ p { margin: 0 0 8px; }
 .steps a { color: var(--accent); font-weight: 600; }
 .bad-text { color: #b3261e; }
 .small { font-size: 14px; }
+.disconnect-row { margin-top: 16px; border-top: 1px solid var(--border); border-bottom: 0; padding-top: 14px; }
+.text-btn { font: inherit; font-size: 15px; font-weight: 600; color: var(--muted); background: none; border: 1px solid var(--border);
+  border-radius: 99px; padding: 6px 14px; width: auto; display: inline-block; }
