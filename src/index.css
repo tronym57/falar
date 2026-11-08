@@ -1,0 +1,82 @@
+:root {
+  --bg: #f6f7f5;
+  --card: #ffffff;
+  --text: #1b1f1d;
+  --muted: #5d6661;
+  --accent: #0b6e4f;
+  --accent-soft: #e3f1ec;
+  --border: #dde2df;
+  --tabbar-h: 56px;
+  color-scheme: light dark;
+  font: 17px/1.45 -apple-system, system-ui, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111413;
+    --card: #1b201e;
+    --text: #e8ece9;
+    --muted: #9aa5a0;
+    --accent: #3fb68b;
+    --accent-soft: #1d3029;
+    --border: #2c3330;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { overscroll-behavior-y: none; }
+
+.screen {
+  padding: calc(env(safe-area-inset-top) + 16px) 16px
+           calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 24px);
+  max-width: 640px;
+  margin: 0 auto;
+}
+h1 { font-size: 28px; margin: 8px 0 16px; }
+h2 { font-size: 18px; margin: 0 0 4px; }
+p { margin: 0 0 8px; }
+.muted { color: var(--muted); font-size: 15px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.card.locked { opacity: 0.45; }
+
+.btn {
+  display: block; width: 100%;
+  font: inherit; font-weight: 600;
+  border: 0; border-radius: 12px;
+  padding: 14px 16px; min-height: 48px;
+  background: var(--accent); color: #fff;
+  text-align: left;
+}
+.btn:disabled { opacity: 0.5; }
+.btn small { display: block; font-weight: 400; opacity: 0.85; font-size: 14px; }
+
+.progress { height: 6px; background: var(--accent-soft); border-radius: 99px; overflow: hidden; margin-top: 10px; }
+.progress > div { height: 100%; background: var(--accent); }
+
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  display: flex;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tabbar a {
+  flex: 1;
+  height: var(--tabbar-h);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  color: var(--muted); text-decoration: none; font-size: 11px; font-weight: 600;
+}
+.tabbar a.active { color: var(--accent); }
+.tabbar svg { width: 24px; height: 24px; }
+
+.row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.row:last-child { border-bottom: 0; }
