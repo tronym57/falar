@@ -9,9 +9,15 @@ import './index.css'
 import App from './App.tsx'
 import ErrorBoundary from './ErrorBoundary.tsx'
 import { ToastProvider } from './toast.tsx'
+import { LAST_ROUTE, kv } from './kv'
 
 // iOS Safari only applies :active (pressed) styles when a touch listener exists.
 document.addEventListener('touchstart', () => {}, { passive: true })
+
+// iOS opens a home-screen app at its start URL (no #route) after it was closed,
+// so go back to the screen you were on last.
+const last = kv.get(LAST_ROUTE)
+if ((!location.hash || location.hash === '#/') && last && last !== '/') history.replaceState(null, '', '#' + last)
 
 // HashRouter: static hosting has no server-side routing, so URLs look like /#/course.
 createRoot(document.getElementById('root')!).render(

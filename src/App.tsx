@@ -15,7 +15,7 @@ import { useToast } from './toast'
 import { registerSW } from 'virtual:pwa-register'
 import { hasLocalData, startAutoBackup } from './backup'
 import { Welcome } from './components/Backup'
-import { kv } from './kv'
+import { LAST_ROUTE, kv } from './kv'
 
 const tabs = [
   { to: '/', label: 'Home', icon: <path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /> },
@@ -54,6 +54,8 @@ export default function App() {
     hasLocalData().then(has => { if (has) kv.set('falar.onboarded', '1'); setWelcome(!has) }).catch(() => setWelcome(false))
   }, [welcome])
   useEffect(() => { startAutoBackup() }, [])
+  // Remember where you are, so reopening the app lands on the same screen (see main.tsx).
+  useEffect(() => { kv.set(LAST_ROUTE, pathname) }, [pathname])
   useEffect(() => audio.onError(() => toast("Couldn't play this audio. If you're offline, open the app once with a connection.", 'error')), [toast])
   if (welcome === null) return null
   if (welcome) return <Welcome onDone={() => { kv.set('falar.onboarded', '1'); setWelcome(false) }} />

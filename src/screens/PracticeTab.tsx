@@ -62,7 +62,8 @@ export default function PracticeHub() {
         </button>
       )}
 
-      <section className="card">
+      {/* A form with many controls: flat on the page so it gets the full width (cards are for single-tap tiles). */}
+      <section className="flat-section">
         <h2>📝 Mixed test</h2>
         <p className="muted">A quiz across units and skills, scored per part.</p>
 

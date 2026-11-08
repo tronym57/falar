@@ -117,12 +117,27 @@ export function lessonQuestions(unit: Unit, step: string, seed = Date.now()): Ex
   }
 
   const items = step === 'phrases' ? unit.phrases : step === 'vocab' ? unit.vocab : []
-  const meanings = items.map(i => i.en)
-  return shuffle(items, rand).slice(0, LESSON_LENGTH).map((it, i): Exercise => {
-    switch (i % 3) {
-      case 0: return { id: `l-${it.id}-meaning`, type: 'choose', part: 'vocab', prompt: `What does “${it.pt}” mean?`, ...choiceFrom(it.en, meanings) }
-      case 1: return { id: `l-${it.id}-say`, type: 'translate', part: 'vocab', en: it.en, answers: answersFor(it.pt) }
-      default: return { id: `l-${it.id}-listen`, type: 'listen-choose', part: 'listening', pt: it.pt, audio: it.id, ...choiceFrom(it.en, meanings) }
+  return wordQuestions(shuffle(items, rand).slice(0, LESSON_LENGTH), items.map(i => i.en), 'l', rand)
+}
+
+export type Word = { id: string; pt: string; en: string; custom?: boolean }
+
+/**
+ * Meaning / say / listen questions for a list of words, in the given order.
+ * Wrong options come from `meanings`. Your own words have no recording, so they never get a listening question.
+ */
+export function wordQuestions(words: Word[], meanings: string[], prefix: string, rand: () => number): Exercise[] {
+  const choiceFrom = (right: string) => {
+    const others = shuffle([...new Set(meanings)].filter(m => m !== right), rand).slice(0, 3)
+    const options = shuffle([right, ...others], rand)
+    return { options, answer: options.indexOf(right) }
+  }
+  return words.map((it, i): Exercise => {
+    const kind = i % 3 === 2 && it.custom ? 0 : i % 3
+    switch (kind) {
+      case 0: return { id: `${prefix}-${it.id}-meaning`, type: 'choose', part: 'vocab', prompt: `What does “${it.pt}” mean?`, ...choiceFrom(it.en) }
+      case 1: return { id: `${prefix}-${it.id}-say`, type: 'translate', part: 'vocab', en: it.en, answers: answersFor(it.pt) }
+      default: return { id: `${prefix}-${it.id}-listen`, type: 'listen-choose', part: 'listening', pt: it.pt, audio: it.id, ...choiceFrom(it.en) }
     }
   })
 }

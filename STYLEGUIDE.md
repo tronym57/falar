@@ -72,5 +72,7 @@ Surfaces: page `#f3f5f2` / `#0f1312`, card `#ffffff` / `#182019`, raised hover `
 - **Chips:** unselected neutral soft; selected primary. Rounded full.
 - **Audio rows:** tonal round play icon → turns primary while playing; Portuguese in lesson text, English in secondary; status badges aligned **right**.
 - **Cards:** radius 18, padding 20, level-1 depth. Tappable cards get a chevron and a pressed state.
+- **Card or flat?** Use a card for a single-tap tile (a banner like Daily review) or a short list. A form with several controls (chips, selectors, a start button) sits flat on the page (`.flat-section`, hairlines above and below) so it uses the full width.
+- **Mistakes** use the soft apricot `--miss-*` tokens, never alarm red (and never green). Red stays for real errors (failed save, broken audio).
 - **Panels:** rule = tint + green accent bar; tip = amber; Portugal-vs-Brazil = flag stripe.
 - **Tab bar:** active tab shows a tonal pill behind the icon, green label.

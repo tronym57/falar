@@ -19,3 +19,5 @@ export const kv = {
     try { store()?.removeItem(key) } catch { /* ignore */ }
   },
 }
+
+export const LAST_ROUTE = 'falar.lastRoute'

@@ -113,7 +113,7 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo 
           {!answer.result.ok && <p>Correct answer: <b>{answer.result.expected}</b></p>}
           {answer.result.ok && answer.result.note && <p>{answer.result.note}</p>}
           {!answer.result.ok && requeue && <p className="small">This one comes back at the end.</p>}
-          <button className={'btn btn-block btn-big ' + (answer.result.ok ? 'btn-success' : 'btn-error')} onClick={next}>Continue</button>
+          <button className={'btn btn-block btn-big ' + (answer.result.ok ? 'btn-success' : 'btn-miss')} onClick={next}>Continue</button>
         </div>
       )}
     </main>
@@ -157,8 +157,8 @@ function Results({ mode, unit, step, items, closeTo, score, firstTry, onRetry }:
             const v = Math.round((r.right / r.total) * 100)
             return (
               <div key={p.id} className="part-row">
-                <div className="row"><span>{p.title}</span><span className={v < 70 ? 'text-error' : 'muted'}>{r.right}/{r.total} · {v}%</span></div>
-                <progress className={'progress ' + (v < 70 ? 'progress-error' : 'progress-primary')} value={v} max={100} />
+                <div className="row"><span>{p.title}</span><span className={v < 70 ? 'text-miss' : 'muted'}>{r.right}/{r.total} · {v}%</span></div>
+                <progress className={'progress ' + (v < 70 ? 'progress-miss' : 'progress-primary')} value={v} max={100} />
               </div>
             )
           })}

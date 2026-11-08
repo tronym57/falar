@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { a1Content } from './content'
-import { generateTest, lessonQuestions, partOf, questionPool, rng, scoreByPart } from './test'
+import { generateTest, lessonQuestions, partOf, questionPool, rng, scoreByPart, wordQuestions } from './test'
 
 const unit0 = a1Content[0]
 
@@ -83,5 +83,17 @@ describe('lessonQuestions', () => {
 
   it('grammar practice uses the topic exercises', () => {
     expect(lessonQuestions(unit0, 'grammar', 4)).toHaveLength(unit0.grammar.topics.flatMap(t => t.exercises).length)
+  })
+})
+
+describe('wordQuestions', () => {
+  it('mixes meaning, say and listen, but never plays audio for your own words', () => {
+    const words = [
+      { id: 'a', pt: 'a onda', en: 'the wave' }, { id: 'b', pt: 'a prancha', en: 'the board' },
+      { id: 'c', pt: 'o mar', en: 'the sea', custom: true }, { id: 'd', pt: 'a praia', en: 'the beach' },
+    ]
+    const q = wordQuestions(words, words.map(w => w.en), 'w', rng(1))
+    expect(q.map(x => x.type)).toEqual(['choose', 'translate', 'choose', 'choose'])
+    expect(q[0].id).toBe('w-a-meaning')
   })
 })
