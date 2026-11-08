@@ -109,9 +109,24 @@ function DialogueView({ d }: { d: Dialogue }) {
       <button className="btn btn-primary btn-sm my-2" onClick={() => (isPlaying ? audio.stop() : audio.playAll(ids))}>
         {isPlaying ? '■ Stop' : '▶ Play whole dialogue'}
       </button>
-      {d.lines.map(l => (
-        <AudioRow key={l.id} id={l.id} pt={l.pt} en={l.en} extra={<span className="speaker">{d.speakers[l.speaker].name}</span>} />
-      ))}
+      <div className="chat">
+        {d.lines.map((l, i) => {
+          const sp = d.speakers[l.speaker]
+          const on = playing === l.id
+          // Name only when the speaker changes, like a group chat.
+          const showName = !sp.me && d.lines[i - 1]?.speaker !== l.speaker
+          return (
+            <div key={l.id} className={'chat-line ' + (sp.me ? 'me' : 'them')}>
+              {showName && <span className="chat-name">{sp.name}</span>}
+              <button className={'bubble tap' + (on ? ' playing' : '')} onClick={() => audio.play(l.id)} aria-label={`${sp.name}: ${l.pt}. Tap to hear it.`}>
+                <span className="bubble-pt">{l.pt}</span>
+                <span className="bubble-en">{l.en}</span>
+                <span className="bubble-play" aria-hidden>{on ? '🔊' : '▶'}</span>
+              </button>
+            </div>
+          )
+        })}
+      </div>
     </section>
   )
 }

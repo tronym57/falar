@@ -9,7 +9,8 @@ export type Line = { id: string; speaker: string; pt: string; en: string }
 export type Dialogue = {
   title: string
   en: string
-  speakers: Record<string, { name: string; voice: Voice }>
+  // `me`: the learner's own lines (shown on the right, like your messages in a chat).
+  speakers: Record<string, { name: string; voice: Voice; me?: boolean }>
   lines: Line[]
 }
 

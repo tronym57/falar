@@ -14,7 +14,8 @@
         },
         "Y": {
           "name": "You",
-          "voice": "duarte"
+          "voice": "duarte",
+          "me": true
         }
       },
       "lines": [
@@ -90,7 +91,8 @@
         },
         "Y": {
           "name": "You",
-          "voice": "duarte"
+          "voice": "duarte",
+          "me": true
         }
       },
       "lines": [

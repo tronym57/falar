@@ -141,6 +141,7 @@ function validate(u, errors, seenIds) {
     for (const [k, s] of Object.entries(d.speakers ?? {})) {
       if (!['raquel', 'duarte'].includes(s.voice)) err(`dialogue ${di + 1} speaker ${k}`, `unknown voice "${s.voice}"`)
     }
+    if (Object.values(d.speakers ?? {}).filter(s => s.me).length !== 1) err(`dialogue ${di + 1}`, 'exactly one speaker needs "me": true (the learner)')
     for (const l of d.lines ?? []) {
       id(l.id, `line`); pt(l.pt, l.id); str(l.en, `${l.id} en`)
       if (!d.speakers?.[l.speaker]) err(l.id, `unknown speaker "${l.speaker}"`)
