@@ -8,7 +8,7 @@
   --border: #dde2df;
   --tabbar-h: 56px;
   color-scheme: light dark;
-  font: 17px/1.45 -apple-system, system-ui, sans-serif;
+  font: 17px/1.45 'Open Sans', -apple-system, system-ui, sans-serif;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
