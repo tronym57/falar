@@ -65,7 +65,24 @@ export const audio = {
     queue = ids.slice(1)
     start(ids[0])
   },
-  stop() { queue = []; el.pause(); playing = null; emit() },
+  /** Your own words have no recorded audio: use the phone's pt-PT voice. */
+  speak(id: string, text: string) {
+    queue = []
+    el.pause()
+    speechSynthesis.cancel()
+    if (playing === id) { playing = null; emit(); return }
+    const u = new SpeechSynthesisUtterance(text)
+    u.lang = 'pt-PT'
+    const voice = speechSynthesis.getVoices().find(v => v.lang.replace('_', '-') === 'pt-PT')
+    if (voice) u.voice = voice
+    u.rate = slow ? 0.75 : 1
+    u.onend = () => { if (playing === id) { playing = null; emit() } }
+    u.onerror = e => { if (e.error !== 'interrupted' && e.error !== 'canceled') fail(id) }
+    playing = id
+    emit()
+    speechSynthesis.speak(u)
+  },
+  stop() { queue = []; el.pause(); speechSynthesis.cancel(); playing = null; emit() },
   setSlow(v: boolean) {
     slow = v
     el.playbackRate = v ? 0.75 : 1

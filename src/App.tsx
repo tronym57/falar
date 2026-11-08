@@ -6,6 +6,8 @@ import Vocab from './screens/Vocab'
 import Settings from './screens/Settings'
 import Unit from './screens/Unit'
 import UnitStep from './screens/UnitStep'
+import Review from './screens/Review'
+import { syncCards } from './review'
 import { audio } from './audio'
 import { useToast } from './toast'
 import { registerSW } from 'virtual:pwa-register'
@@ -26,6 +28,8 @@ export default function App() {
       onRegisterError: () => toast("Offline mode isn't available in this browser. The app still works while you're online."),
     })
   }, [toast])
+  // Catch up on review cards for steps finished before this version.
+  useEffect(() => { syncCards().catch(e => toast(`Couldn't update your review cards: ${e.message}`, 'error')) }, [toast])
   useEffect(() => audio.onError(() => toast("Couldn't play this audio. If you're offline, open the app once with a connection.", 'error')), [toast])
   return (
     <>
@@ -36,9 +40,10 @@ export default function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/unit/:n" element={<Unit />} />
         <Route path="/unit/:n/:step" element={<UnitStep />} />
+        <Route path="/review" element={<Review />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {!/^\/unit\/\d+\/(exercises|check)$/.test(pathname) && <nav className="tabbar">
+      {!/^\/(unit\/\d+\/(exercises|check)|review)$/.test(pathname) && <nav className="tabbar">
         {tabs.map(t => (
           <NavLink
             key={t.to}

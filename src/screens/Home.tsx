@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom'
 import { a1Units } from '../units'
 import { a1Content } from '../content'
 import { nextStep, useAllProgress } from '../progress'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { db } from '../db'
+import { buildQueue, cardFaces } from '../review'
 import { useToast } from '../toast'
 
 const standalone =
@@ -11,6 +14,11 @@ const standalone =
 export default function Home() {
   const toast = useToast()
   const all = useAllProgress()
+  const due = useLiveQuery(async () => {
+    const faces = cardFaces(await db.customWords.toArray())
+    const cards = (await db.cards.toArray()).filter(c => faces[c.id])
+    return { count: buildQueue(cards, new Date()).length, total: cards.length }
+  })
 
   // First unit with content that still has an unfinished step.
   const target = all && a1Units
@@ -46,15 +54,25 @@ export default function Home() {
         </button>
       )}
 
-      <button
-        className="card tap"
-        style={{ marginTop: 12 }}
-        onClick={() => toast('Daily review arrives in a later update. It will bring back words at the right time.')}
-      >
-        <span className="chev">›</span>
-        <h2>Daily review</h2>
-        <p className="muted">Coming soon</p>
-      </button>
+      {due && due.count > 0 ? (
+        <Link className="card tap" to="/review" style={{ marginTop: 12 }}>
+          <span className="chev">›</span>
+          <h2>Daily review</h2>
+          <p className="muted">{due.count} {due.count === 1 ? 'card' : 'cards'} to review</p>
+        </Link>
+      ) : (
+        <button
+          className="card tap"
+          style={{ marginTop: 12 }}
+          onClick={() => toast(due?.total
+            ? 'All caught up. Words come back when it’s time to repeat them.'
+            : 'Words enter your review when you finish a unit’s Key phrases or Vocabulary step.')}
+        >
+          <span className="chev">›</span>
+          <h2>Daily review</h2>
+          <p className="muted">{due?.total ? 'All caught up ✓' : 'No words yet'}</p>
+        </button>
+      )}
     </main>
   )
 }

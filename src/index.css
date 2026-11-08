@@ -168,6 +168,43 @@ p { margin: 0 0 8px; }
 .secondary-btn { background: transparent; color: var(--accent); border: 2px solid var(--accent); margin-top: 10px; text-align: center; }
 .screen > .btn { margin-top: 10px; text-align: center; }
 
+/* ---------- daily review ---------- */
+.flashcard { text-align: center; padding-top: 24px; }
+.flash-main { font-size: 30px; font-weight: 700; line-height: 1.25; margin: 8px 0 24px; }
+.flash-audio { display: inline-flex; gap: 10px; align-items: center; width: auto; font: inherit; font-weight: 700; color: var(--text);
+  background: none; border: 0; border-radius: 12px; padding: 6px 12px; }
+.flash-audio span { font-size: 18px; color: var(--accent); }
+.flash-audio.playing { background: var(--accent-soft); }
+.flash-main.flash-audio { font-size: 30px; }
+.flash-answer { border-top: 2px dashed var(--border); padding-top: 20px; font-size: 24px; }
+.flash-answer .flash-audio { font-size: 28px; }
+.flash-answer .note { font-size: 15px; color: var(--muted); font-style: italic; margin-top: 8px; }
+.grade-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(env(safe-area-inset-bottom) + 16px);
+  background: var(--bg); border-top: 1px solid var(--border); }
+.grade-bar > * { max-width: 608px; margin: 0 auto; }
+.grade-bar > .btn { text-align: center; }
+.grades { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.grade { display: flex; flex-direction: column; align-items: center; gap: 2px; font: inherit; border: 0; border-radius: 12px;
+  padding: 10px 4px; min-height: 56px; color: #fff; width: 100%; }
+.grade span { font-size: 13px; opacity: 0.9; }
+.grade.g1 { background: #b3261e; }
+.grade.g2 { background: #a15c00; }
+.grade.g3 { background: #1a7f37; }
+.grade.g4 { background: #0b5cad; }
+
+/* ---------- vocab book ---------- */
+.search { width: 100%; font: inherit; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--text); margin: 4px 0 10px; }
+.filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px; scrollbar-width: none; }
+.filters .chip { flex: none; }
+.status { font-size: 12px; font-weight: 700; border-radius: 99px; padding: 1px 8px; border: 1px solid var(--border); color: var(--muted); align-self: flex-start; margin-top: 2px; }
+.status.due { color: #a15c00; border-color: #a15c00; }
+.status.weak { color: #b3261e; border-color: #b3261e; }
+.status.known { color: var(--accent); border-color: var(--accent); }
+.add-form input { width: 100%; font: inherit; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); margin-bottom: 8px; }
+.row-btns { display: flex; gap: 8px; }
+.row-btns .btn { text-align: center; }
+.link-btn { font: inherit; font-size: 14px; color: #b3261e; background: none; border: 0; padding: 4px 0; width: auto; }
+
 .progress { height: 6px; background: var(--accent-soft); border-radius: 99px; overflow: hidden; margin-top: 10px; }
 .progress > div { height: 100%; background: var(--accent); }
 

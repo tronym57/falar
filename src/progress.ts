@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db, type PracticeSession, type StepProgress } from './db'
 import { unitSteps } from './units'
+import { syncCards } from './review'
 
 export const PASS_MARK = 0.8
 
@@ -14,6 +15,8 @@ export async function markStepDone(unit: number, step: string, score?: number) {
   // The unit check only counts as done once it's passed.
   const done = step === 'check' ? (bestScore ?? 0) >= PASS_MARK : true
   await db.progress.put({ key: k, unit, step, done: done || !!prev?.done, score, bestScore, updatedAt: now() })
+  // Finishing phrases or vocab puts those items into the daily review.
+  if (step === 'phrases' || step === 'vocab') await syncCards()
 }
 
 export const getSession = (unit: number, step: string) => db.sessions.get(key(unit, step))
