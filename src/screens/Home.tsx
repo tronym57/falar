@@ -37,7 +37,7 @@ export default function Home() {
           <span className="eyebrow">Unit {target.u.n} · {target.u.title}</span>
           <span className="title">{target.step!.title}</span>
           <span className="sub">
-            {session ? `Exercise ${session.total - new Set(session.queue).size + 1} of ${session.total}` : target.u.scene}
+            {session && Object.keys(session.firstTry).length ? `${Object.keys(session.firstTry).length} of ${session.total} answered` : target.u.scene}
           </span>
           <br />
           <span className="go">Continue ›</span>

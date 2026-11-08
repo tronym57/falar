@@ -14,14 +14,16 @@ import { useToast } from '../toast'
  * check:     the unit check (one pass, 80% to pass)
  * drill:     practise a grammar topic (wrong answers come back)
  * test:      a mixed test from the Practice tab (one pass, score per part)
+ * lesson:    practise a reading step right after it; 80% marks the step done
  */
-export type Mode = 'exercises' | 'check' | 'drill' | 'test'
+export type Mode = 'exercises' | 'check' | 'drill' | 'test' | 'lesson'
 
 type Props = {
   sessionKey: string
   items: Exercise[]
   mode: Mode
-  unit?: number // for exercises/check: marks the step done
+  unit?: number // for exercises/check/lesson: marks the step done
+  step?: string // for lesson: the reading step being practised
   closeTo: string
 }
 
@@ -29,10 +31,10 @@ type Props = {
  * Runs a list of exercises. Position is saved after every answer, so closing the app
  * returns you to the same exercise.
  */
-export default function Practice({ sessionKey, items, mode, unit, closeTo }: Props) {
+export default function Practice({ sessionKey, items, mode, unit, step, closeTo }: Props) {
   const toast = useToast()
   const byId = Object.fromEntries(items.map(x => [x.id, x])) as Record<string, Exercise>
-  const requeue = mode === 'exercises' || mode === 'drill'
+  const requeue = mode === 'exercises' || mode === 'drill' || mode === 'lesson'
 
   const [session, setSession] = useState<PracticeSession | null>(null)
   const [answer, setAnswer] = useState<Answer | null>(null)
@@ -42,7 +44,7 @@ export default function Practice({ sessionKey, items, mode, unit, closeTo }: Pro
     let s = fresh ? undefined : await db.sessions.get(sessionKey)
     // Start over if there's no session or the exercises changed since.
     if (!s || !s.queue.length || s.queue.some(id => !byId[id])) {
-      s = { key: sessionKey, queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items: mode === 'test' ? items : undefined }
+      s = { key: sessionKey, queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items }
       await db.sessions.put(s)
     }
     setAnswer(null)
@@ -56,7 +58,7 @@ export default function Practice({ sessionKey, items, mode, unit, closeTo }: Pro
   }, [sessionKey]) // eslint-disable-line react-hooks/exhaustive-deps -- once per session
 
   if (finished) {
-    return <Results mode={mode} unit={unit} items={items} closeTo={closeTo} {...finished} onRetry={() => start(true)} />
+    return <Results mode={mode} unit={unit} step={step} items={items} closeTo={closeTo} {...finished} onRetry={() => start(true)} />
   }
   if (!session) return <main className="screen"><p className="muted">Loading…</p></main>
 
@@ -82,6 +84,7 @@ export default function Practice({ sessionKey, items, mode, unit, closeTo }: Pro
       if (!queue.length) {
         const score = Object.values(firstTry).filter(Boolean).length / session.total
         if (unit !== undefined && (mode === 'exercises' || mode === 'check')) await markStepDone(unit, mode, score)
+        if (unit !== undefined && mode === 'lesson' && step && score >= PASS_MARK) await markStepDone(unit, step, score)
         await db.sessions.delete(sessionKey)
         setFinished({ score, firstTry })
         return
@@ -99,7 +102,7 @@ export default function Practice({ sessionKey, items, mode, unit, closeTo }: Pro
       <div className="practice-head">
         <Link className="btn btn-ghost btn-circle btn-sm text-xl" to={closeTo} aria-label="Close (progress is saved)">✕</Link>
         <progress className="progress progress-primary" value={progress * 100} max={100} />
-        <span className="muted count">{session.total - remaining + 1}/{session.total}</span>
+        <span className="muted count">{Math.min(Object.keys(session.firstTry).length + 1, session.total)}/{session.total}</span>
       </div>
 
       <ExerciseView key={current.id + ':' + session.queue.length} ex={current} locked={!!answer} onAnswer={onAnswer} />
@@ -117,18 +120,20 @@ export default function Practice({ sessionKey, items, mode, unit, closeTo }: Pro
   )
 }
 
-type ResultsProps = { mode: Mode; unit?: number; items: Exercise[]; closeTo: string; score: number; firstTry: Record<string, boolean>; onRetry: () => void }
+type ResultsProps = { mode: Mode; unit?: number; step?: string; items: Exercise[]; closeTo: string; score: number; firstTry: Record<string, boolean>; onRetry: () => void }
 
-function Results({ mode, unit, items, closeTo, score, firstTry, onRetry }: ResultsProps) {
+function Results({ mode, unit, step, items, closeTo, score, firstTry, onRetry }: ResultsProps) {
   const navigate = useNavigate()
+  const toast = useToast()
   const pct = Math.round(score * 100)
   const passed = score >= PASS_MARK
   const missed = items.filter(x => firstTry[x.id] === false)
-  const i = unitSteps.findIndex(s => s.slug === mode)
-  const nextReady = mode === 'exercises' ? unitSteps.slice(i + 1).find(s => s.ready) : undefined
+  const i = unitSteps.findIndex(s => s.slug === (mode === 'lesson' ? step : mode))
+  const nextReady = mode === 'exercises' || mode === 'lesson' ? unitSteps.slice(i + 1).find(s => s.ready) : undefined
+  const stepTitle = unitSteps[i]?.title
   const byPart = mode === 'test' ? scoreByPart(items, firstTry) : null
 
-  const title = { exercises: 'Exercises done ✓', check: passed ? 'Passed! 🎉' : 'Not yet', drill: 'Practice done ✓', test: 'Test done ✓' }[mode]
+  const title = { exercises: 'Exercises done ✓', check: passed ? 'Passed! 🎉' : 'Not yet', drill: 'Practice done ✓', test: 'Test done ✓', lesson: passed ? 'Lesson complete ✓' : 'Almost there' }[mode]
 
   return (
     <main className="screen">
@@ -138,7 +143,9 @@ function Results({ mode, unit, items, closeTo, score, firstTry, onRetry }: Resul
         <p className="muted">
           {mode === 'check'
             ? passed ? `Unit ${unit} is complete.` : `You need ${Math.round(PASS_MARK * 100)}% to pass. Review the answers below and try again.`
-            : 'Right on the first try.'}
+            : mode === 'lesson'
+              ? passed ? `${stepTitle} is marked as done.` : `Get ${Math.round(PASS_MARK * 100)}% to complete ${stepTitle}, or mark it as done yourself.`
+              : 'Right on the first try.'}
         </p>
       </div>
 
@@ -166,10 +173,22 @@ function Results({ mode, unit, items, closeTo, score, firstTry, onRetry }: Resul
       )}
 
       {mode === 'check' && !passed && <button className="btn btn-primary btn-block btn-big" onClick={onRetry}>Try the check again</button>}
-      {nextReady && unit !== undefined && (
+      {mode === 'lesson' && !passed && (
+        <>
+          <button className="btn btn-primary btn-block btn-big" onClick={onRetry}>Practise again</button>
+          <button className="btn btn-tonal btn-block btn-big" onClick={async () => {
+            try {
+              await markStepDone(unit!, step!, score)
+              toast(`${stepTitle} marked as done ✓`)
+              navigate(nextReady ? `/unit/${unit}/${nextReady.slug}` : `/unit/${unit}`)
+            } catch (e) { toast(`Couldn't save: ${(e as Error).message}`, 'error') }
+          }}>Mark as done anyway</button>
+        </>
+      )}
+      {nextReady && unit !== undefined && (mode !== 'lesson' || passed) && (
         <button className="btn btn-primary btn-block btn-big" onClick={() => navigate(`/unit/${unit}/${nextReady.slug}`)}>Next: {nextReady.title} ›</button>
       )}
-      {(mode === 'exercises' || mode === 'drill') && <button className="btn btn-tonal btn-block btn-big" onClick={onRetry}>Practise again</button>}
+      {(mode === 'exercises' || mode === 'drill' || (mode === 'lesson' && passed)) && <button className="btn btn-tonal btn-block btn-big" onClick={onRetry}>Practise again</button>}
       {mode === 'test' && <button className="btn btn-primary btn-block btn-big" onClick={() => navigate('/practice')}>New test</button>}
       <Link className="btn btn-tonal btn-block btn-big" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>
     </main>

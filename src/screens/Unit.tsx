@@ -2,13 +2,16 @@ import { Link, useParams } from 'react-router-dom'
 import { a1Units, unitSteps } from '../units'
 import { a1Content } from '../content'
 import { useToast } from '../toast'
-import { useUnitProgress } from '../progress'
+import { lessonKey, markStepNotDone, useUnitProgress } from '../progress'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { db } from '../db'
 
 export default function Unit() {
   const toast = useToast()
   const { n } = useParams()
   const unit = a1Units.find(u => String(u.n) === n)
   const progress = useUnitProgress(Number(n))
+  const sessions = useLiveQuery(() => db.sessions.toArray())
 
   if (!unit) {
     return (
@@ -32,33 +35,52 @@ export default function Unit() {
         {unitSteps.map((step, i) => {
           const p = progress?.[step.slug]
           const open = hasContent && step.ready
-          const inner = (
-            <>
-              <span className="flex items-center gap-3">
-                <span className={'unit-n' + (p?.done ? ' done' : '')}>{p?.done ? '✓' : i + 1}</span>
+          // Unfinished practice for this step (the step's own exercises, or its lesson practice).
+          const found = sessions?.find(x => x.key === `${unit.n}:${step.slug}` || x.key === lessonKey(unit.n, step.slug))
+          // Only counts as in progress once at least one question is answered.
+          const answered = found ? Object.keys(found.firstTry).length : 0
+          const s = answered > 0 ? found : undefined
+          const sub = s
+            ? `In progress · ${answered} of ${s.total} answered`
+            : p?.bestScore !== undefined ? `Best: ${Math.round(p.bestScore * 100)}%` : null
+
+          if (!open) {
+            return (
+              <button
+                key={step.slug}
+                className="row tap step-row locked-row"
+                onClick={() => toast(hasContent
+                  ? `"${step.title}" isn't built yet. It arrives in a later update.`
+                  : `Unit ${unit.n}'s lessons aren't written yet. Start with Unit 0.`)}
+              >
+                <span className="flex items-center gap-3"><span className="unit-n">{i + 1}</span><span className="step-title">{step.title}</span></span>
+                <span className="badge badge-sm badge-ghost">Soon</span>
+              </button>
+            )
+          }
+          return (
+            <div key={step.slug} className="row step-row">
+              {p?.done ? (
+                <button className="unit-n done tap-badge" aria-label={`${step.title} is done. Tap to mark as not done.`} onClick={async () => {
+                  if (!confirm(`Mark "${step.title}" as not done? Your best score and review words are kept.`)) return
+                  try { await markStepNotDone(unit.n, step.slug); toast(`${step.title} marked as not done.`) }
+                  catch (e) { toast(`Couldn't save: ${(e as Error).message}`, 'error') }
+                }}>✓</button>
+              ) : (
+                <span className={'unit-n' + (s ? ' in-progress' : '')}>{i + 1}</span>
+              )}
+              <Link to={`/unit/${unit.n}/${step.slug}`} className="tap step-link">
                 <span>
                   <span className="step-title">{step.title}</span>
-                  {p?.bestScore !== undefined && <span className="muted small block">Best: {Math.round(p.bestScore * 100)}%</span>}
+                  {sub && <span className={'small block ' + (s ? 'text-warning' : 'muted')}>{sub}</span>}
                 </span>
-              </span>
-              {open ? <span className="step-chev">›</span> : <span className="badge badge-sm badge-ghost">Soon</span>}
-            </>
-          )
-          return open ? (
-            <Link key={step.slug} to={`/unit/${unit.n}/${step.slug}`} className="row tap step-row">{inner}</Link>
-          ) : (
-            <button
-              key={step.slug}
-              className="row tap step-row locked-row"
-              onClick={() =>
-                toast(hasContent
-                  ? `"${step.title}" isn't built yet. It arrives in a later update.`
-                  : `Unit ${unit.n}'s lessons aren't written yet. Start with Unit 0.`)
-              }
-            >{inner}</button>
+                <span className="step-chev">›</span>
+              </Link>
+            </div>
           )
         })}
       </div>
+      <p className="muted small" style={{ textAlign: 'center', marginTop: 4 }}>Tap a ✓ to mark a step as not done.</p>
     </main>
   )
 }

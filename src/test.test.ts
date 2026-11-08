@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { a1Content } from './content'
-import { generateTest, partOf, questionPool, rng, scoreByPart } from './test'
+import { generateTest, lessonQuestions, partOf, questionPool, rng, scoreByPart } from './test'
 
 const unit0 = a1Content[0]
 
@@ -62,5 +62,26 @@ describe('scoreByPart', () => {
     const s = scoreByPart(t, firstTry)
     const total = Object.values(s).reduce((n, p) => n + p!.total, 0)
     expect(total).toBe(4)
+  })
+})
+
+describe('lessonQuestions', () => {
+  it('builds up to 10 questions from the step content only', () => {
+    for (const step of ['phrases', 'vocab', 'dialogue']) {
+      const q = lessonQuestions(unit0, step, 1)
+      expect(q).toHaveLength(10)
+      expect(new Set(q.map(x => x.id)).size).toBe(10)
+    }
+    const vocabIds = new Set(unit0.vocab.map(v => v.id))
+    for (const x of lessonQuestions(unit0, 'vocab', 2)) expect(vocabIds.has(x.id.split('-').slice(1, 3).join('-'))).toBe(true)
+  })
+
+  it('dialogue practice plays the dialogue lines', () => {
+    const q = lessonQuestions(unit0, 'dialogue', 3)
+    expect(q.every(x => x.type === 'listen-choose' && x.audio?.startsWith('u0-d'))).toBe(true)
+  })
+
+  it('grammar practice uses the topic exercises', () => {
+    expect(lessonQuestions(unit0, 'grammar', 4)).toHaveLength(unit0.grammar.topics.flatMap(t => t.exercises).length)
   })
 })

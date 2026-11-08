@@ -5,7 +5,7 @@ import Course from './screens/Course'
 import Vocab from './screens/Vocab'
 import Settings from './screens/Settings'
 import Unit from './screens/Unit'
-import UnitStep from './screens/UnitStep'
+import UnitStep, { LessonRunner } from './screens/UnitStep'
 import Review from './screens/Review'
 import PracticeHub, { GrammarDrill, GrammarReference, GrammarTopicScreen, TestRunner } from './screens/PracticeTab'
 import VerbTrainer, { DrillRunner, VerbScreen } from './screens/Verbs'
@@ -26,7 +26,7 @@ const tabs = [
 ]
 
 // Full-screen modes (exercises, tests, review) hide the header and tab bar.
-const IMMERSIVE = /^\/(unit\/\d+\/(exercises|check)|review|practice\/test|drill\/.*)$/
+const IMMERSIVE = /^\/(unit\/\d+\/(exercises|check|[a-z]+\/practice)|review|practice\/test|drill\/.*)$/
 
 export default function App() {
   const { pathname } = useLocation()
@@ -66,6 +66,7 @@ export default function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/unit/:n" element={<Unit />} />
         <Route path="/unit/:n/:step" element={<UnitStep />} />
+        <Route path="/unit/:n/:step/practice" element={<LessonRunner />} />
         <Route path="/review" element={<Review />} />
         <Route path="/practice" element={<PracticeHub />} />
         <Route path="/practice/test" element={<TestRunner />} />

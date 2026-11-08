@@ -89,3 +89,40 @@ export function scoreByPart(items: Exercise[], firstTry: Record<string, boolean>
   }
   return by
 }
+
+// ---------- practice right after a lesson ----------
+export const LESSON_LENGTH = 10
+
+/**
+ * Questions built from one reading step's own content, to practise it straight away:
+ * phrases / vocab → meaning, say it, hear it; dialogue → hear a line, pick its meaning;
+ * grammar → the topics' own exercises.
+ */
+export function lessonQuestions(unit: Unit, step: string, seed = Date.now()): Exercise[] {
+  const rand = rng(seed)
+  const choiceFrom = (right: string, pool: string[]) => {
+    const others = shuffle([...new Set(pool)].filter(m => m !== right), rand).slice(0, 3)
+    const options = shuffle([right, ...others], rand)
+    return { options, answer: options.indexOf(right) }
+  }
+
+  if (step === 'grammar') return shuffle(unit.grammar.topics.flatMap(t => t.exercises), rand)
+
+  if (step === 'dialogue') {
+    const lines = unit.dialogues.flatMap(d => d.lines)
+    const meanings = lines.map(l => l.en)
+    return shuffle(lines, rand).slice(0, LESSON_LENGTH).map(l => (
+      { id: `l-${l.id}-listen`, type: 'listen-choose', part: 'listening', pt: l.pt, audio: l.id, ...choiceFrom(l.en, meanings) } as Exercise
+    ))
+  }
+
+  const items = step === 'phrases' ? unit.phrases : step === 'vocab' ? unit.vocab : []
+  const meanings = items.map(i => i.en)
+  return shuffle(items, rand).slice(0, LESSON_LENGTH).map((it, i): Exercise => {
+    switch (i % 3) {
+      case 0: return { id: `l-${it.id}-meaning`, type: 'choose', part: 'vocab', prompt: `What does “${it.pt}” mean?`, ...choiceFrom(it.en, meanings) }
+      case 1: return { id: `l-${it.id}-say`, type: 'translate', part: 'vocab', en: it.en, answers: answersFor(it.pt) }
+      default: return { id: `l-${it.id}-listen`, type: 'listen-choose', part: 'listening', pt: it.pt, audio: it.id, ...choiceFrom(it.en, meanings) }
+    }
+  })
+}

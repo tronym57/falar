@@ -19,6 +19,22 @@ export async function markStepDone(unit: number, step: string, score?: number) {
   if (step === 'phrases' || step === 'vocab') await syncCards()
 }
 
+/** Session key for practising a reading step right after it (dialogue, phrases, vocab, grammar). */
+export const lessonKey = (unit: number, step: string) => `lesson-${unit}-${step}`
+
+/**
+ * Mark a step as not done, so it can be done again. Keeps the best score and review cards,
+ * clears any half-finished practice for it.
+ */
+export async function markStepNotDone(unit: number, step: string) {
+  const k = key(unit, step)
+  await db.transaction('rw', db.progress, db.sessions, async () => {
+    const prev = await db.progress.get(k)
+    if (prev) await db.progress.put({ ...prev, done: false, updatedAt: now() })
+    await db.sessions.bulkDelete([k, lessonKey(unit, step)])
+  })
+}
+
 export async function logAttempt(unit: number, step: string, exerciseId: string, correct: boolean, answer: string) {
   await db.attempts.add({ unit, step, exerciseId, correct, answer, at: now() })
 }

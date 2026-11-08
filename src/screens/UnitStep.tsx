@@ -1,12 +1,15 @@
+import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { a1Content } from '../content'
 import { unitSteps } from '../units'
 import { audio, useAudio } from '../audio'
 import { AudioRow, SlowToggle } from '../components/AudioRow'
-import type { Dialogue, Unit } from '../content/types'
+import type { Dialogue, Exercise, Unit } from '../content/types'
+import { db } from '../db'
+import { LESSON_LENGTH, lessonQuestions } from '../test'
 import { GrammarTopicView } from '../components/Grammar'
 import Practice from './Practice'
-import { markStepDone } from '../progress'
+import { PASS_MARK, lessonKey, markStepDone, markStepNotDone, useUnitProgress } from '../progress'
 import { useToast } from '../toast'
 
 export default function UnitStep() {
@@ -14,6 +17,7 @@ export default function UnitStep() {
   const { n, step } = useParams()
   const unit = a1Content[Number(n)]
   const meta = unitSteps.find(s => s.slug === step)
+  const progress = useUnitProgress(Number(n))
   if (!unit || !meta?.ready) return <Navigate to={`/unit/${n}`} replace />
 
   if (step === 'exercises' || step === 'check') {
@@ -21,11 +25,13 @@ export default function UnitStep() {
   }
 
   const i = unitSteps.indexOf(meta)
-  const next = unitSteps[i + 1]
-  // Reading steps count as done when you move on.
-  const done = () => {
-    audio.stop()
-    markStepDone(unit.n, meta.slug).catch(e => toast(`Couldn't save your progress: ${e.message}`, 'error'))
+  const next = unitSteps.slice(i + 1).find(s => s.ready)
+  const done = !!progress?.[meta.slug]?.done
+  const best = progress?.[meta.slug]?.bestScore
+  const count = meta.slug === 'grammar' ? unit.grammar.topics.reduce((n, t) => n + t.exercises.length, 0) : LESSON_LENGTH
+
+  const save = async (fn: () => Promise<void>, msg: string) => {
+    try { await fn(); toast(msg) } catch (e) { toast(`Couldn't save your progress: ${(e as Error).message}`, 'error') }
   }
 
   return (
@@ -35,17 +41,61 @@ export default function UnitStep() {
         <SlowToggle />
       </div>
       <h1>{meta.title}</h1>
+
+      {done && (
+        <div className="status-bar">
+          <span><b>✓ Completed</b>{best !== undefined && <span className="muted"> · best {Math.round(best * 100)}%</span>}</span>
+          <button className="btn btn-sm btn-ghost" onClick={() => save(() => markStepNotDone(unit.n, meta.slug), `${meta.title} marked as not done.`)}>Mark as not done</button>
+        </div>
+      )}
+
       {step === 'dialogue' && unit.dialogues.map(d => <DialogueView key={d.title} d={d} />)}
       {step === 'phrases' && <Phrases unit={unit} />}
       {step === 'vocab' && <Vocab unit={unit} />}
       {step === 'grammar' && <GrammarView unit={unit} />}
-      {next?.ready && (
-        <Link className="btn btn-primary btn-block btn-big" to={`/unit/${unit.n}/${next.slug}`} onClick={done} style={{ textDecoration: 'none', marginTop: 20 }}>
+
+      <section className="card practise-card">
+        <h2>{done ? 'Practise again' : 'Practise it now'}</h2>
+        <p className="muted">
+          {count} quick questions on this lesson.{!done && ` Get ${Math.round(PASS_MARK * 100)}% and it's marked as done.`}
+        </p>
+        <Link className={'btn btn-block btn-big ' + (done ? 'btn-tonal' : 'btn-primary')} to={`/unit/${unit.n}/${meta.slug}/practice`} onClick={() => audio.stop()}>
+          {done ? 'Practise again' : 'Practise now'}
+        </Link>
+        {!done && (
+          <button className="btn btn-ghost btn-block mt-2" onClick={() => save(() => markStepDone(unit.n, meta.slug), `${meta.title} marked as done ✓`)}>
+            Skip practice, mark as done
+          </button>
+        )}
+      </section>
+
+      {next && (
+        <Link className={'btn btn-block btn-big ' + (done ? 'btn-primary' : 'btn-tonal')} to={`/unit/${unit.n}/${next.slug}`} onClick={() => audio.stop()}>
           Next: {next.title} ›
         </Link>
       )}
     </main>
   )
+}
+
+/** /unit/:n/:step/practice: practise a reading step; resumes where you left off. */
+export function LessonRunner() {
+  const { n, step } = useParams()
+  const unit = a1Content[Number(n)]
+  const [items, setItems] = useState<Exercise[] | null | undefined>(undefined)
+  useEffect(() => {
+    if (!unit || !step) { setItems(null); return }
+    const key = lessonKey(unit.n, step)
+    db.sessions.get(key).then(async s => {
+      if (s?.items?.length && s.queue.length) return setItems(s.items)
+      const fresh = lessonQuestions(unit, step)
+      await db.sessions.put({ key, queue: fresh.map(x => x.id), total: fresh.length, firstTry: {}, startedAt: new Date().toISOString(), items: fresh })
+      setItems(fresh)
+    }).catch(() => setItems(null))
+  }, [unit, step])
+  if (items === undefined) return <main className="screen"><p className="muted">Loading…</p></main>
+  if (!items || !unit || !step) return <Navigate to={`/unit/${n}`} replace />
+  return <Practice sessionKey={lessonKey(unit.n, step)} items={items} mode="lesson" unit={unit.n} step={step} closeTo={`/unit/${unit.n}/${step}`} />
 }
 
 function DialogueView({ d }: { d: Dialogue }) {
