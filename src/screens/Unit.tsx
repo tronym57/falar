@@ -13,9 +13,9 @@ export default function Unit() {
   if (!unit) {
     return (
       <main className="screen">
-        <Link className="back" to="/course">‹ Course</Link>
+        <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/course">‹ Course</Link>
         <h1>Unit not found</h1>
-        <div className="card error-card"><p>This unit doesn't exist. Pick one from the course list.</p></div>
+        <div className="card border-error"><p>This unit doesn't exist. Pick one from the course list.</p></div>
       </main>
     )
   }
@@ -24,7 +24,7 @@ export default function Unit() {
 
   return (
     <main className="screen">
-      <Link className="back" to="/course">‹ Course</Link>
+      <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/course">‹ Course</Link>
       <h1>{unit.n} · {unit.title}</h1>
       <p className="muted" style={{ marginBottom: 16 }}>{unit.scene}</p>
       {unitSteps.map((step, i) =>
@@ -47,7 +47,7 @@ export default function Unit() {
             }
           >
             <span className="chev">›</span>
-            <h2>{i + 1}. {step.title}<span className="soon">Soon</span></h2>
+            <h2>{i + 1}. {step.title}<span className="badge badge-sm badge-ghost ml-2 align-middle">Soon</span></h2>
           </button>
         ),
       )}

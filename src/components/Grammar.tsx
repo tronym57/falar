@@ -8,7 +8,7 @@ export function GrammarTopicView({ unit, topic, index }: { unit: number; topic: 
     <section className="topic">
       <h2 className="topic-title">{index !== undefined && <span className="topic-n">{index + 1}</span>}{topic.title}</h2>
       {topic.sections.map((s, i) => <Section key={i} s={s} />)}
-      <Link className="btn practise-topic" to={`/drill/grammar/${unit}/${topic.id}`} style={{ textDecoration: 'none' }}>
+      <Link className="btn btn-primary btn-block btn-big" to={`/drill/grammar/${unit}/${topic.id}`} style={{ textDecoration: 'none' }}>
         Practise this ({topic.exercises.length} questions) ›
       </Link>
     </section>
@@ -29,7 +29,7 @@ function Section({ s }: { s: GrammarSection }) {
         <div className="card table-card">
           {s.caption && <h3>{s.caption}</h3>}
           <div className="table-wrap">
-            <table>
+            <table className="table table-sm">
               <thead><tr>{s.head.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
               <tbody>{s.rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}</tbody>
             </table>

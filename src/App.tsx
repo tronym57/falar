@@ -53,7 +53,7 @@ export default function App() {
   return (
     <>
       {!immersive && (
-        <header className="appbar">
+        <header className="navbar appbar">
           <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" width={28} height={28} />
           <span>Falo Portuguese</span>
         </header>
@@ -73,17 +73,17 @@ export default function App() {
         <Route path="/drill/grammar/:n/:topic" element={<GrammarDrill />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {!immersive && <nav className="tabbar">
+      {!immersive && <nav className="dock">
         {tabs.map(t => (
           <NavLink
             key={t.to}
             to={t.to}
             end
             // Inside a unit, keep the Course tab highlighted.
-            className={({ isActive }) => (isActive || (t.to === '/course' && pathname.startsWith('/unit/')) || (t.to === '/practice' && /^\/(practice|grammar)\//.test(pathname)) ? 'active' : '')}
+            className={({ isActive }) => (isActive || (t.to === '/course' && pathname.startsWith('/unit/')) || (t.to === '/practice' && /^\/(practice|grammar)\//.test(pathname)) ? 'dock-active' : '')}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{t.icon}</svg>
-            {t.label}
+            <span className="dock-label">{t.label}</span>
           </NavLink>
         ))}
       </nav>}

@@ -68,40 +68,40 @@ export default function PracticeHub() {
 
         {openTest && (
           <div className="resume">
-            <Link className="btn" to="/practice/test" style={{ textDecoration: 'none' }}>
+            <Link className="btn btn-primary btn-block btn-big" to="/practice/test" style={{ textDecoration: 'none' }}>
               Continue your test<small>{openTest.total - new Set(openTest.queue).size} of {openTest.total} answered</small>
             </Link>
-            <button className="text-btn tap" onClick={async () => { await db.sessions.delete(TEST_KEY); toast('Test discarded.') }}>Discard</button>
+            <button className="btn btn-sm btn-ghost" onClick={async () => { await db.sessions.delete(TEST_KEY); toast('Test discarded.') }}>Discard</button>
           </div>
         )}
 
-        <p className="label">Units</p>
+        <p className="section-label">Units</p>
         <div className="filters wrap">
           {units.map(u => (
-            <button key={u.n} className={'chip tap' + (picked.includes(u.n) ? ' on' : '')} onClick={() => setPicked(toggle(picked, u.n))}>
+            <button key={u.n} className={'btn btn-sm rounded-full ' + (picked.includes(u.n) ? 'btn-primary' : 'btn-soft')} onClick={() => setPicked(toggle(picked, u.n))}>
               Unit {u.n}
             </button>
           ))}
-          <button className="chip tap" onClick={() => toast('Units 1–3 arrive in a later update.')}>Units 1–3 · soon</button>
+          <button className="btn btn-sm rounded-full btn-soft" onClick={() => toast('Units 1–3 arrive in a later update.')}>Units 1–3 · soon</button>
         </div>
 
-        <p className="label">Parts</p>
+        <p className="section-label">Parts</p>
         <div className="filters wrap">
           {PARTS.map(p => (
-            <button key={p.id} className={'chip tap' + (parts.includes(p.id) ? ' on' : '')} onClick={() => setParts(toggle(parts, p.id))}>{p.title}</button>
+            <button key={p.id} className={'btn btn-sm rounded-full ' + (parts.includes(p.id) ? 'btn-primary' : 'btn-soft')} onClick={() => setParts(toggle(parts, p.id))}>{p.title}</button>
           ))}
-          <button className="chip tap" onClick={() => toast('Verbs arrive with the verb trainer (next update).')}>Verbs · soon</button>
-          <button className="chip tap" onClick={() => toast('Reading arrives with the reading texts (coming soon).')}>Reading · soon</button>
+          <button className="btn btn-sm rounded-full btn-soft" onClick={() => toast('Verbs arrive with the verb trainer (next update).')}>Verbs · soon</button>
+          <button className="btn btn-sm rounded-full btn-soft" onClick={() => toast('Reading arrives with the reading texts (coming soon).')}>Reading · soon</button>
         </div>
 
-        <p className="label">Length</p>
-        <div className="segmented">
+        <p className="section-label">Length</p>
+        <div className="join w-full">
           {LENGTHS.map(n => (
-            <button key={n} className={'tap' + (length === n ? ' on' : '')} onClick={() => setLength(n)}>{n}</button>
+            <button key={n} className={'btn join-item flex-1 ' + (length === n ? 'btn-primary' : '')} onClick={() => setLength(n)}>{n}</button>
           ))}
         </div>
 
-        <button className="btn" style={{ marginTop: 16, textAlign: 'center' }} onClick={start}>
+        <button className="btn btn-primary btn-block btn-big" style={{ marginTop: 16, textAlign: 'center' }} onClick={start}>
           {openTest ? 'Start a new test' : 'Start test'}
         </button>
       </section>
@@ -113,11 +113,11 @@ export default function PracticeHub() {
       </Link>
 
       <button className="card tap locked" onClick={() => toast('The verb trainer is the next update (M5b).')}>
-        <h2>🔤 Verb trainer<span className="soon">Soon</span></h2>
+        <h2>🔤 Verb trainer<span className="badge badge-sm badge-ghost ml-2 align-middle">Soon</span></h2>
         <p className="muted">Conjugate the 20 most common verbs</p>
       </button>
       <button className="card tap locked" onClick={() => toast('Reading texts come after the verb trainer (M5c).')}>
-        <h2>📰 Reading<span className="soon">Soon</span></h2>
+        <h2>📰 Reading<span className="badge badge-sm badge-ghost ml-2 align-middle">Soon</span></h2>
         <p className="muted">Short texts with questions</p>
       </button>
     </main>
@@ -139,11 +139,11 @@ export function GrammarReference() {
   const units = Object.values(a1Content).sort((a, b) => a.n - b.n)
   return (
     <main className="screen">
-      <Link className="back" to="/practice">‹ Practice</Link>
+      <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/practice">‹ Practice</Link>
       <h1>Grammar</h1>
       {units.map(u => (
         <section key={u.id}>
-          <p className="label">Unit {u.n} · {u.title}</p>
+          <p className="section-label">Unit {u.n} · {u.title}</p>
           {u.grammar.topics.map(t => (
             <Link key={t.id} className="card tap" to={`/grammar/${u.n}/${t.id}`}>
               <span className="chev">›</span>
@@ -166,10 +166,10 @@ export function GrammarTopicScreen() {
   return (
     <main className="screen">
       <div className="step-head">
-        <Link className="back" to="/practice/grammar">‹ Grammar</Link>
+        <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/practice/grammar">‹ Grammar</Link>
         <SlowToggle />
       </div>
-      <p className="label">Unit {unit.n} · {unit.title}</p>
+      <p className="section-label">Unit {unit.n} · {unit.title}</p>
       <GrammarTopicView unit={unit.n} topic={t} />
     </main>
   )

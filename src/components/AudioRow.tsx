@@ -24,7 +24,7 @@ export function AudioRow({ id, pt, en, extra, tts }: { id: string; pt: string; e
 export function SlowToggle() {
   const { slow } = useAudio()
   return (
-    <button className={'chip tap' + (slow ? ' on' : '')} onClick={() => audio.setSlow(!slow)}>
+    <button className={'btn btn-sm rounded-full ' + (slow ? 'btn-primary' : 'btn-soft')} onClick={() => audio.setSlow(!slow)}>
       🐢 Slow {slow ? 'on' : 'off'}
     </button>
   )

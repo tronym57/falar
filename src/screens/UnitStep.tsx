@@ -31,7 +31,7 @@ export default function UnitStep() {
   return (
     <main className="screen">
       <div className="step-head">
-        <Link className="back" to={`/unit/${unit.n}`} onClick={() => audio.stop()}>‹ Unit {unit.n}</Link>
+        <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to={`/unit/${unit.n}`} onClick={() => audio.stop()}>‹ Unit {unit.n}</Link>
         <SlowToggle />
       </div>
       <h1>{meta.title}</h1>
@@ -40,7 +40,7 @@ export default function UnitStep() {
       {step === 'vocab' && <Vocab unit={unit} />}
       {step === 'grammar' && <GrammarView unit={unit} />}
       {next?.ready && (
-        <Link className="btn" to={`/unit/${unit.n}/${next.slug}`} onClick={done} style={{ textDecoration: 'none', marginTop: 20 }}>
+        <Link className="btn btn-primary btn-block btn-big" to={`/unit/${unit.n}/${next.slug}`} onClick={done} style={{ textDecoration: 'none', marginTop: 20 }}>
           Next: {next.title} ›
         </Link>
       )}
@@ -56,7 +56,7 @@ function DialogueView({ d }: { d: Dialogue }) {
     <section className="card">
       <h2>{d.title}</h2>
       <p className="muted">{d.en}</p>
-      <button className="btn small-btn" onClick={() => (isPlaying ? audio.stop() : audio.playAll(ids))}>
+      <button className="btn btn-primary btn-sm my-2" onClick={() => (isPlaying ? audio.stop() : audio.playAll(ids))}>
         {isPlaying ? '■ Stop' : '▶ Play whole dialogue'}
       </button>
       {d.lines.map(l => (

@@ -13,11 +13,11 @@ export default class ErrorBoundary extends Component<{ children: ReactNode }, { 
     return (
       <main className="screen">
         <h1>Something went wrong</h1>
-        <div className="card error-card">
+        <div className="card border-error">
           <p>This screen hit an error. Your saved progress is not affected.</p>
           <p className="muted">{this.state.error.message}</p>
         </div>
-        <button className="btn" onClick={() => location.reload()}>Reload app</button>
+        <button className="btn btn-primary btn-block btn-big" onClick={() => location.reload()}>Reload app</button>
       </main>
     )
   }

@@ -37,8 +37,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={show}>
       {children}
       {toast && (
-        <div key={toast.id} className={`toast ${toast.kind}`} role={toast.kind === 'error' ? 'alert' : 'status'} onClick={() => setToast(null)}>
-          {toast.text}
+        <div className="toast toast-center app-toast" onClick={() => setToast(null)}>
+          <div key={toast.id} className={'alert ' + (toast.kind === 'error' ? 'alert-error' : 'app-toast-info')} role={toast.kind === 'error' ? 'alert' : 'status'}>
+            <span>{toast.text}</span>
+          </div>
         </div>
       )}
     </ToastContext.Provider>

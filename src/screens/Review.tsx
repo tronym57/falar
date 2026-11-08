@@ -43,7 +43,7 @@ export default function Review() {
       <main className="screen">
         <h1>{reviewed ? 'Done for today ✓' : 'Nothing to review'}</h1>
         <div className="card">
-          {reviewed > 0 && <p className="score">{reviewed}</p>}
+          {reviewed > 0 && <p className="text-5xl font-extrabold text-primary mb-2">{reviewed}</p>}
           <p className="muted">
             {reviewed > 0 ? 'cards reviewed. ' : ''}
             {Object.keys(s.cards).length === 0
@@ -53,7 +53,7 @@ export default function Review() {
                 : 'Come back tomorrow for new words.'}
           </p>
         </div>
-        <Link className="btn" to="/" style={{ textDecoration: 'none' }}>Back to Home</Link>
+        <Link className="btn btn-primary btn-block btn-big" to="/" style={{ textDecoration: 'none' }}>Back to Home</Link>
       </main>
     )
   }
@@ -86,8 +86,8 @@ export default function Review() {
   return (
     <main className="screen practice">
       <div className="practice-head">
-        <Link className="close tap" to="/" aria-label="Close (reviews so far are saved)">✕</Link>
-        <div className="progress grow"><div style={{ width: `${((s.total - left) / Math.max(s.total, 1)) * 100}%` }} /></div>
+        <Link className="btn btn-ghost btn-circle btn-sm text-xl" to="/" aria-label="Close (reviews so far are saved)">✕</Link>
+        <progress className="progress progress-primary" value={s.total - left} max={Math.max(s.total, 1)} />
         <span className="muted count">{left} left</span>
       </div>
 
@@ -114,11 +114,11 @@ export default function Review() {
 
       <div className="grade-bar">
         {!revealed ? (
-          <button className="btn" onClick={reveal}>Show answer</button>
+          <button className="btn btn-primary btn-block btn-big" onClick={reveal}>Show answer</button>
         ) : (
           <div className="grades">
             {options.map(o => (
-              <button key={o.grade} className={`grade g${o.grade} tap`} onClick={() => rate(o.grade)}>
+              <button key={o.grade} className={`btn grade ${['btn-error', 'btn-warning', 'btn-success', 'btn-info'][o.grade - 1]}`} onClick={() => rate(o.grade)}>
                 <b>{GRADE_NAMES[o.grade - 1]}</b>
                 <span>{intervalLabel(o.due, now)}</span>
               </button>

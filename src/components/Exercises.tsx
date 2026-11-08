@@ -48,7 +48,7 @@ function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'choose'>) {
       {listen ? (
         <>
           <p className="ex-label">Listen. What does it mean?</p>
-          <button className={'big-play tap' + (playing === clip ? ' playing' : '')} onClick={() => audio.play(clip)} aria-label="Play audio">
+          <button className={'btn btn-circle big-play ' + (playing === clip ? 'btn-soft btn-primary' : 'btn-primary')} onClick={() => audio.play(clip)} aria-label="Play audio">
             {playing === clip ? '🔊' : '▶'}
           </button>
           {locked && <p className="reveal">{ex.pt}</p>}
@@ -60,7 +60,7 @@ function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'choose'>) {
         {ex.options.map((o, i) => (
           <button
             key={i}
-            className={'option tap' + (locked && i === ex.answer ? ' right' : '') + (locked && i === picked && i !== ex.answer ? ' wrong' : '')}
+            className={'option' + (locked && i === ex.answer ? ' right' : '') + (locked && i === picked && i !== ex.answer ? ' wrong' : '')}
             onClick={() => pick(i)}
           >
             {o}
@@ -85,11 +85,11 @@ function GapFill({ ex, locked, onAnswer }: Props<'gap-fill'>) {
   return (
     <>
       <p className="ex-label">Fill the gap: <span className="muted">{ex.en}</span></p>
-      <p className="gap-sentence">{before}<span className={'gap' + (value ? ' filled' : '')}>{value || '   '}</span>{after}</p>
+      <p className="gap-sentence">{before}<span className="gap-slot">{value || '   '}</span>{after}</p>
       {ex.options ? (
         <div className="options row-options">
           {ex.options.map(o => (
-            <button key={o} className={'option tap' + (locked && ex.answers.includes(o) ? ' right' : '') + (locked && o === value && !ex.answers.includes(o) ? ' wrong' : '')} onClick={() => submit(o)}>{o}</button>
+            <button key={o} className={'option' + (locked && ex.answers.includes(o) ? ' right' : '') + (locked && o === value && !ex.answers.includes(o) ? ' wrong' : '')} onClick={() => submit(o)}>{o}</button>
           ))}
         </div>
       ) : (
@@ -131,19 +131,19 @@ function SentenceBuilder({ ex, locked, onAnswer }: Props<'sentence-builder'>) {
       <div className="built">
         {chosen.length === 0 && <span className="muted">Tap words to add them here</span>}
         {chosen.map(i => (
-          <button key={i} className="tile tap" onClick={() => !locked && setChosen(c => c.filter(x => x !== i))}>{tiles[i].v}</button>
+          <button key={i} className="btn btn-primary btn-soft tile" onClick={() => !locked && setChosen(c => c.filter(x => x !== i))}>{tiles[i].v}</button>
         ))}
       </div>
       <div className="tiles">
         {tiles.map((t, i) => (
-          <button key={i} className={'tile tap' + (chosen.includes(i) ? ' used' : '')} onClick={() => {
+          <button key={i} className={'btn tile' + (chosen.includes(i) ? ' used' : '')} onClick={() => {
             if (locked) return
             if (chosen.includes(i)) return toast('Already used. Tap it in your sentence to remove it.')
             setChosen(c => [...c, i])
           }}>{t.v}</button>
         ))}
       </div>
-      {!locked && <button className="btn check-btn" onClick={submit}>Check</button>}
+      {!locked && <button className="btn btn-primary btn-block btn-big check-btn" onClick={submit}>Check</button>}
     </>
   )
 }
@@ -184,7 +184,7 @@ function TypedInput({ locked, onSubmit }: { locked: boolean; onSubmit: (v: strin
     <>
       <input
         ref={ref}
-        className="answer-input"
+        className="input input-lg w-full"
         value={value}
         onChange={e => setValue(e.target.value)}
         onKeyDown={e => e.key === 'Enter' && submit()}
@@ -198,9 +198,9 @@ function TypedInput({ locked, onSubmit }: { locked: boolean; onSubmit: (v: strin
       {!locked && (
         <>
           <div className="accents">
-            {ACCENTS.map(a => <button key={a} className="tile tap" onPointerDown={e => e.preventDefault()} onClick={() => insert(a)}>{a}</button>)}
+            {ACCENTS.map(a => <button key={a} className="btn btn-sm tile" onPointerDown={e => e.preventDefault()} onClick={() => insert(a)}>{a}</button>)}
           </div>
-          <button className="btn check-btn" onClick={submit}>Check</button>
+          <button className="btn btn-primary btn-block btn-big check-btn" onClick={submit}>Check</button>
         </>
       )}
     </>

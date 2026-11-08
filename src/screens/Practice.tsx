@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import type { Exercise } from '../content/types'
 import { db, type PracticeSession } from '../db'
@@ -97,8 +97,8 @@ export default function Practice({ sessionKey, items, mode, unit, closeTo }: Pro
   return (
     <main className="screen practice">
       <div className="practice-head">
-        <Link className="close tap" to={closeTo} aria-label="Close (progress is saved)">✕</Link>
-        <div className="progress grow"><div style={{ width: `${progress * 100}%` }} /></div>
+        <Link className="btn btn-ghost btn-circle btn-sm text-xl" to={closeTo} aria-label="Close (progress is saved)">✕</Link>
+        <progress className="progress progress-primary" value={progress * 100} max={100} />
         <span className="muted count">{session.total - remaining + 1}/{session.total}</span>
       </div>
 
@@ -110,7 +110,7 @@ export default function Practice({ sessionKey, items, mode, unit, closeTo }: Pro
           {!answer.result.ok && <p>Correct answer: <b>{answer.result.expected}</b></p>}
           {answer.result.ok && answer.result.note && <p>{answer.result.note}</p>}
           {!answer.result.ok && requeue && <p className="small">This one comes back at the end.</p>}
-          <button className="btn" onClick={next}>Continue</button>
+          <button className={'btn btn-block btn-big ' + (answer.result.ok ? 'btn-success' : 'btn-error')} onClick={next}>Continue</button>
         </div>
       )}
     </main>
@@ -133,8 +133,8 @@ function Results({ mode, unit, items, closeTo, score, firstTry, onRetry }: Resul
   return (
     <main className="screen">
       <h1>{title}</h1>
-      <div className="card">
-        <p className="score">{pct}%</p>
+      <div className="card text-center">
+        <div className="radial-progress text-primary score-ring mb-3 mx-auto" style={{ '--value': pct } as CSSProperties} role="progressbar" aria-valuenow={pct}>{pct}%</div>
         <p className="muted">
           {mode === 'check'
             ? passed ? `Unit ${unit} is complete.` : `You need ${Math.round(PASS_MARK * 100)}% to pass. Review the answers below and try again.`
@@ -150,8 +150,8 @@ function Results({ mode, unit, items, closeTo, score, firstTry, onRetry }: Resul
             const v = Math.round((r.right / r.total) * 100)
             return (
               <div key={p.id} className="part-row">
-                <div className="row"><span>{p.title}</span><span className={v < 70 ? 'bad-text' : 'muted'}>{r.right}/{r.total} · {v}%</span></div>
-                <div className="progress"><div className={v < 70 ? 'weak-bar' : ''} style={{ width: `${v}%` }} /></div>
+                <div className="row"><span>{p.title}</span><span className={v < 70 ? 'text-error' : 'muted'}>{r.right}/{r.total} · {v}%</span></div>
+                <progress className={'progress ' + (v < 70 ? 'progress-error' : 'progress-primary')} value={v} max={100} />
               </div>
             )
           })}
@@ -165,13 +165,13 @@ function Results({ mode, unit, items, closeTo, score, firstTry, onRetry }: Resul
         </div>
       )}
 
-      {mode === 'check' && !passed && <button className="btn" onClick={onRetry}>Try the check again</button>}
+      {mode === 'check' && !passed && <button className="btn btn-primary btn-block btn-big" onClick={onRetry}>Try the check again</button>}
       {nextReady && unit !== undefined && (
-        <button className="btn" onClick={() => navigate(`/unit/${unit}/${nextReady.slug}`)}>Next: {nextReady.title} ›</button>
+        <button className="btn btn-primary btn-block btn-big" onClick={() => navigate(`/unit/${unit}/${nextReady.slug}`)}>Next: {nextReady.title} ›</button>
       )}
-      {(mode === 'exercises' || mode === 'drill') && <button className="btn secondary-btn" onClick={onRetry}>Practise again</button>}
-      {mode === 'test' && <button className="btn" onClick={() => navigate('/practice')}>New test</button>}
-      <Link className="btn secondary-btn" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>
+      {(mode === 'exercises' || mode === 'drill') && <button className="btn btn-outline btn-primary btn-block btn-big" onClick={onRetry}>Practise again</button>}
+      {mode === 'test' && <button className="btn btn-primary btn-block btn-big" onClick={() => navigate('/practice')}>New test</button>}
+      <Link className="btn btn-outline btn-primary btn-block btn-big" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>
     </main>
   )
 }

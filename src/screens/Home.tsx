@@ -33,7 +33,7 @@ export default function Home() {
       )}
 
       {!all ? null : target ? (
-        <Link className="btn" to={`/unit/${target.u.n}/${target.step!.slug}`} style={{ textDecoration: 'none' }}>
+        <Link className="btn btn-primary btn-block btn-big" to={`/unit/${target.u.n}/${target.step!.slug}`} style={{ textDecoration: 'none' }}>
           Continue: Unit {target.u.n} · {target.step!.title}
           <small>
             {session
@@ -42,7 +42,7 @@ export default function Home() {
           </small>
         </Link>
       ) : (
-        <button className="btn" onClick={() => toast('New units are on their way. Meanwhile, replay any unit from the Course tab.')}>
+        <button className="btn btn-primary btn-block btn-big" onClick={() => toast('New units are on their way. Meanwhile, replay any unit from the Course tab.')}>
           All available units done 🎉
           <small>More units coming</small>
         </button>

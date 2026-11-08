@@ -25,7 +25,7 @@ export function SummaryLine({ s }: { s: BackupSummary }) {
 /** How to create the token: shown during setup and restore. */
 function TokenSteps() {
   return (
-    <ol className="steps">
+    <ol className="howto">
       <li><a href={TOKEN_URL} target="_blank" rel="noreferrer">Open GitHub's token page</a> and sign in.</li>
       <li>Expiration: pick <b>No expiration</b>. Only <b>gist</b> is ticked; leave it that way.</li>
       <li>Tap <b>Generate token</b>, copy it, and save it in your password manager.</li>
@@ -48,8 +48,8 @@ function TokenForm({ onConnected, label = 'Connect' }: { onConnected: (existing:
   }
   return (
     <div className="add-form">
-      <input type="password" placeholder="Paste token (ghp_…)" value={token} onChange={e => setToken(e.target.value)} autoCapitalize="none" autoCorrect="off" spellCheck={false} />
-      <button className="btn" onClick={submit}>{busy ? 'Checking…' : label}</button>
+      <input className="input w-full" type="password" placeholder="Paste token (ghp_…)" value={token} onChange={e => setToken(e.target.value)} autoCapitalize="none" autoCorrect="off" spellCheck={false} />
+      <button className="btn btn-primary btn-block btn-big" onClick={submit}>{busy ? 'Checking…' : label}</button>
     </div>
   )
 }
@@ -74,8 +74,8 @@ function RestorePrompt({ summary, onDone, onSkip, skipLabel }: { summary: Backup
     <div className="card ep-note">
       <h2>Backup found on GitHub</h2>
       <SummaryLine s={summary} />
-      <button className="btn" onClick={run}>{busy ? 'Restoring…' : 'Restore this backup'}</button>
-      {onSkip && <button className="btn secondary-btn" onClick={onSkip}>{skipLabel ?? 'Not now'}</button>}
+      <button className="btn btn-primary btn-block btn-big" onClick={run}>{busy ? 'Restoring…' : 'Restore this backup'}</button>
+      {onSkip && <button className="btn btn-outline btn-primary btn-block btn-big" onClick={onSkip}>{skipLabel ?? 'Not now'}</button>}
     </div>
   )
 }
@@ -103,7 +103,7 @@ export function BackupSettings() {
         <>
           <p className="muted">Your progress lives on this phone. Deleting the app icon deletes it. Connect GitHub and it's backed up automatically to a private Gist.</p>
           {!setup ? (
-            <button className="btn" onClick={() => setSetup(true)}>Set up GitHub backup</button>
+            <button className="btn btn-primary btn-block btn-big" onClick={() => setSetup(true)}>Set up GitHub backup</button>
           ) : (
             <>
               <TokenSteps />
@@ -119,14 +119,14 @@ export function BackupSettings() {
         <>
           <div className="row">
             <span>GitHub backup</span>
-            <span className={st.error ? 'bad-text' : 'muted'}>
+            <span className={st.error ? 'text-error' : 'muted'}>
               {st.running ? 'Backing up…' : st.error ? 'Failed' : st.last ? `${ago(st.last)} ✓` : 'Not yet'}
             </span>
           </div>
-          {st.error && <p className="bad-text small">{st.error}</p>}
+          {st.error && <p className="text-error small">{st.error}</p>}
           <p className="muted small">Runs automatically after you practise and when you leave the app.</p>
-          <button className="btn" onClick={() => run()}>Back up now</button>
-          <button className="btn secondary-btn" onClick={async () => {
+          <button className="btn btn-primary btn-block btn-big" onClick={() => run()}>Back up now</button>
+          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={async () => {
             try { const r = await fetchRemote(); r ? setFound(summarize(r)) : toast('No backup on GitHub yet. Tap “Back up now”.') }
             catch (e) { toast((e as Error).message, 'error') }
           }}>Restore from GitHub…</button>
@@ -134,12 +134,12 @@ export function BackupSettings() {
       )}
 
       {st.conflict && !found && (
-        <div className="card error-card" style={{ marginTop: 12 }}>
+        <div className="card border-error" style={{ marginTop: 12 }}>
           <h2>Two different progress states</h2>
           <p>The backup on GitHub came from another install (e.g. before you reinstalled the app):</p>
           <SummaryLine s={st.conflict} />
-          <button className="btn" onClick={() => setFound(st.conflict)}>Keep the GitHub backup (restore it)</button>
-          <button className="btn secondary-btn" onClick={() => { if (confirm('Overwrite the GitHub backup with this phone’s progress? The old backup is lost.')) run(true) }}>Keep this phone's progress</button>
+          <button className="btn btn-primary btn-block btn-big" onClick={() => setFound(st.conflict)}>Keep the GitHub backup (restore it)</button>
+          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => { if (confirm('Overwrite the GitHub backup with this phone’s progress? The old backup is lost.')) run(true) }}>Keep this phone's progress</button>
         </div>
       )}
       {found && <RestorePrompt summary={found} onDone={() => setFound(null)} onSkip={() => setFound(null)} skipLabel="Cancel" />}
@@ -149,7 +149,7 @@ export function BackupSettings() {
       {st.connected && (
         <div className="row disconnect-row">
           <span className="muted small">Stop backing up on this phone</span>
-          <button className="text-btn tap" onClick={() => { if (confirm('Disconnect GitHub backup on this phone? The backup itself stays on GitHub.')) { disconnect(); toast('Disconnected. Your backup stays on GitHub.') } }}>Disconnect</button>
+          <button className="btn btn-sm btn-ghost" onClick={() => { if (confirm('Disconnect GitHub backup on this phone? The backup itself stays on GitHub.')) { disconnect(); toast('Disconnected. Your backup stays on GitHub.') } }}>Disconnect</button>
         </div>
       )}
     </section>
@@ -164,11 +164,11 @@ function FileBackup() {
     <div style={{ marginTop: 16 }}>
       <p className="muted small">Or keep a file copy (Files / iCloud Drive):</p>
       <div className="row-btns">
-        <button className="btn secondary-btn" style={{ marginTop: 0 }} onClick={async () => {
+        <button className="btn btn-outline btn-primary btn-block btn-big" style={{ marginTop: 0 }} onClick={async () => {
           try { const r = await exportFile(); if (r !== 'cancelled') toast('Backup file created ✓') }
           catch (e) { toast(`Export failed: ${(e as Error).message}`, 'error') }
         }}>Export file</button>
-        <button className="btn secondary-btn" style={{ marginTop: 0 }} onClick={() => input.current?.click()}>Import file</button>
+        <button className="btn btn-outline btn-primary btn-block btn-big" style={{ marginTop: 0 }} onClick={() => input.current?.click()}>Import file</button>
       </div>
       <input ref={input} type="file" accept="application/json,.json" hidden onChange={async e => {
         const f = e.target.files?.[0]
@@ -181,11 +181,11 @@ function FileBackup() {
           <h2>Import this backup?</h2>
           <SummaryLine s={summarize(pending)} />
           <p className="small">This replaces the progress on this phone.</p>
-          <button className="btn" onClick={async () => {
+          <button className="btn btn-primary btn-block btn-big" onClick={async () => {
             try { await restore(pending); setPending(null); toast('Progress imported ✓') }
             catch (err) { toast(`Import failed: ${(err as Error).message}`, 'error') }
           }}>Import</button>
-          <button className="btn secondary-btn" onClick={() => setPending(null)}>Cancel</button>
+          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => setPending(null)}>Cancel</button>
         </div>
       )}
     </div>
@@ -207,9 +207,9 @@ export function Welcome({ onDone }: { onDone: () => void }) {
 
       {mode === 'choose' && (
         <>
-          <button className="btn" onClick={onDone}>Start fresh<small>First time using Falo Portuguese</small></button>
-          <button className="btn secondary-btn" onClick={() => setMode('github')}>Restore from GitHub</button>
-          <button className="btn secondary-btn" onClick={() => input.current?.click()}>Import a backup file</button>
+          <button className="btn btn-primary btn-block btn-big" onClick={onDone}>Start fresh<small>First time using Falo Portuguese</small></button>
+          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => setMode('github')}>Restore from GitHub</button>
+          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => input.current?.click()}>Import a backup file</button>
           <input ref={input} type="file" accept="application/json,.json" hidden onChange={async e => {
             const f = e.target.files?.[0]
             e.target.value = ''
@@ -228,7 +228,7 @@ export function Welcome({ onDone }: { onDone: () => void }) {
             if (existing) setFound(existing)
             else toast('No backup found for this token. You can start fresh; backups will go to this account.', 'error')
           }} />
-          <button className="btn secondary-btn" onClick={() => setMode('choose')}>Back</button>
+          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => setMode('choose')}>Back</button>
         </section>
       )}
       {found && <RestorePrompt summary={found} onDone={onDone} onSkip={() => { setFound(null); setMode('choose') }} skipLabel="Back" />}
@@ -237,11 +237,11 @@ export function Welcome({ onDone }: { onDone: () => void }) {
         <div className="card ep-note">
           <h2>Import this backup?</h2>
           <SummaryLine s={summarize(pending)} />
-          <button className="btn" onClick={async () => {
+          <button className="btn btn-primary btn-block btn-big" onClick={async () => {
             try { await restore(pending); toast('Progress imported ✓'); onDone() }
             catch (err) { toast(`Import failed: ${(err as Error).message}`, 'error') }
           }}>Import</button>
-          <button className="btn secondary-btn" onClick={() => { setPending(null); setMode('choose') }}>Back</button>
+          <button className="btn btn-outline btn-primary btn-block btn-big" onClick={() => { setPending(null); setMode('choose') }}>Back</button>
         </div>
       )}
     </main>

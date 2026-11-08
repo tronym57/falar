@@ -16,7 +16,7 @@ export default function Course() {
             <span className="chev">›</span>
             <h2>{u.n} · {u.title}{all?.progress.some(p => p.unit === u.n && p.step === 'check' && p.done) && <span className="done-mark"> ✓</span>}</h2>
             <p className="muted">{u.scene}</p>
-            <div className="progress"><div style={{ width: `${(unitDoneCount(u.n, all?.progress ?? []) / unitSteps.length) * 100}%` }} /></div>
+            <progress className="progress progress-primary mt-2" value={unitDoneCount(u.n, all?.progress ?? [])} max={unitSteps.length} />
           </Link>
         ) : (
           <button
