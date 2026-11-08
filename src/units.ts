@@ -17,3 +17,6 @@ export const a1Units = [
 ]
 
 export const v1UnitCount = 4
+
+// The fixed step sequence every unit follows.
+export const unitSteps = ['Dialogue', 'Key phrases', 'Vocabulary', 'Grammar', 'Exercises', 'Speaking drill', 'Unit check']

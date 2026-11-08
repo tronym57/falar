@@ -1,10 +1,13 @@
+import { Link } from 'react-router-dom'
 import { a1Units } from '../units'
+import { useToast } from '../toast'
 
 const standalone =
   (navigator as Navigator & { standalone?: boolean }).standalone === true ||
   matchMedia('(display-mode: standalone)').matches
 
 export default function Home() {
+  const toast = useToast()
   const next = a1Units[0]
   return (
     <main className="screen">
@@ -17,15 +20,20 @@ export default function Home() {
         </div>
       )}
 
-      <button className="btn" disabled>
+      <Link className="btn" to={`/unit/${next.n}`} style={{ textDecoration: 'none' }}>
         Continue: Unit {next.n} · {next.title}
-        <small>Lessons arrive in the next update</small>
-      </button>
+        <small>{next.scene}</small>
+      </Link>
 
-      <div className="card" style={{ marginTop: 12 }}>
+      <button
+        className="card tap"
+        style={{ marginTop: 12 }}
+        onClick={() => toast('Nothing to review yet. Words you learn in the units show up here.')}
+      >
+        <span className="chev">›</span>
         <h2>Daily review</h2>
-        <p className="muted">Nothing due yet. Words you learn show up here.</p>
-      </div>
+        <p className="muted">Nothing due yet</p>
+      </button>
     </main>
   )
 }

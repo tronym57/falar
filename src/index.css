@@ -56,8 +56,36 @@ p { margin: 0 0 8px; }
   background: var(--accent); color: #fff;
   text-align: left;
 }
-.btn:disabled { opacity: 0.5; }
 .btn small { display: block; font-weight: 400; opacity: 0.85; font-size: 14px; }
+
+/* Pressed state: everything tappable reacts the moment it's touched. */
+.btn, .tap, .tabbar a, .back { transition: transform 80ms ease, filter 80ms ease, background-color 80ms ease; cursor: pointer; }
+.btn:active { transform: scale(0.97); filter: brightness(0.88); }
+.tap:active { transform: scale(0.98); background: var(--accent-soft); }
+.tabbar a:active { transform: scale(0.9); }
+.back:active { opacity: 0.5; }
+
+/* A whole card that opens something. */
+.tap { display: block; width: 100%; font: inherit; color: inherit; text-align: left; text-decoration: none; }
+.tap .chev { float: right; color: var(--muted); font-size: 22px; line-height: 1; }
+
+.back { display: inline-block; font: inherit; font-weight: 600; color: var(--accent); background: none; border: 0; padding: 8px 0; text-decoration: none; }
+
+.soon { display: inline-block; font-size: 12px; font-weight: 700; color: var(--muted); border: 1px solid var(--border); border-radius: 99px; padding: 1px 8px; margin-left: 6px; vertical-align: middle; }
+
+.toast {
+  position: fixed; left: 16px; right: 16px;
+  bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 12px);
+  max-width: 608px; margin: 0 auto;
+  background: #1b1f1d; color: #fff;
+  border-radius: 12px; padding: 12px 16px;
+  font-size: 15px; box-shadow: 0 6px 20px rgba(0,0,0,.25);
+  animation: toast-in 160ms ease-out; z-index: 10;
+}
+.toast.error { background: #b3261e; }
+@keyframes toast-in { from { transform: translateY(12px); } }
+
+.error-card { border-color: #b3261e; }
 
 .progress { height: 6px; background: var(--accent-soft); border-radius: 99px; overflow: hidden; margin-top: 10px; }
 .progress > div { height: 100%; background: var(--accent); }

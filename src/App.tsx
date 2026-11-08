@@ -1,8 +1,9 @@
-import { NavLink, Navigate, Route, Routes } from 'react-router-dom'
+import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Home from './screens/Home'
 import Course from './screens/Course'
 import Vocab from './screens/Vocab'
 import Settings from './screens/Settings'
+import Unit from './screens/Unit'
 
 const tabs = [
   { to: '/', label: 'Home', icon: <path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /> },
@@ -12,6 +13,7 @@ const tabs = [
 ]
 
 export default function App() {
+  const { pathname } = useLocation()
   return (
     <>
       <Routes>
@@ -19,11 +21,18 @@ export default function App() {
         <Route path="/course" element={<Course />} />
         <Route path="/vocab" element={<Vocab />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/unit/:n" element={<Unit />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <nav className="tabbar">
         {tabs.map(t => (
-          <NavLink key={t.to} to={t.to} end>
+          <NavLink
+            key={t.to}
+            to={t.to}
+            end
+            // Inside a unit, keep the Course tab highlighted.
+            className={({ isActive }) => (isActive || (t.to === '/course' && pathname.startsWith('/unit/')) ? 'active' : '')}
+          >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{t.icon}</svg>
             {t.label}
           </NavLink>
