@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Home from './screens/Home'
 import Course from './screens/Course'
@@ -11,6 +11,9 @@ import { syncCards } from './review'
 import { audio } from './audio'
 import { useToast } from './toast'
 import { registerSW } from 'virtual:pwa-register'
+import { hasLocalData, startAutoBackup } from './backup'
+import { Welcome } from './components/Backup'
+import { kv } from './kv'
 
 const tabs = [
   { to: '/', label: 'Home', icon: <path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /> },
@@ -30,7 +33,17 @@ export default function App() {
   }, [toast])
   // Catch up on review cards for steps finished before this version.
   useEffect(() => { syncCards().catch(e => toast(`Couldn't update your review cards: ${e.message}`, 'error')) }, [toast])
+  // First launch with no data (new install or reinstalled): offer restore before anything else.
+  const [welcome, setWelcome] = useState<boolean | null>(kv.get('falar.onboarded') ? false : null)
+  useEffect(() => {
+    if (welcome !== null) return
+    hasLocalData().then(has => { if (has) kv.set('falar.onboarded', '1'); setWelcome(!has) }).catch(() => setWelcome(false))
+  }, [welcome])
+  useEffect(() => { startAutoBackup() }, [])
   useEffect(() => audio.onError(() => toast("Couldn't play this audio. If you're offline, open the app once with a connection.", 'error')), [toast])
+  if (welcome === null) return null
+  if (welcome) return <Welcome onDone={() => { kv.set('falar.onboarded', '1'); setWelcome(false) }} />
+
   return (
     <>
       <Routes>

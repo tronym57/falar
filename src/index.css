@@ -226,3 +226,10 @@ p { margin: 0 0 8px; }
 
 .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .row:last-child { border-bottom: 0; }
+
+/* ---------- backup ---------- */
+.steps { padding-left: 20px; margin: 8px 0 12px; }
+.steps li { margin-bottom: 6px; }
+.steps a { color: var(--accent); font-weight: 600; }
+.bad-text { color: #b3261e; }
+.small { font-size: 14px; }
