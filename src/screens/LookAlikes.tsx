@@ -31,7 +31,7 @@ export default function LookAlikes() {
       <h1>Look-alikes</h1>
       <p className="muted" style={{ marginBottom: 12 }}>Words that only differ by an accent, but mean and sound different. Listen to both, then practise hearing and using the right one.</p>
 
-      <button className="btn btn-primary btn-block btn-big" onClick={practise} style={{ marginBottom: 12 }}>
+      <button className="btn btn-primary btn-block btn-big" onClick={practise} style={{ marginBottom: 32 }}>
         Practise<small>{open.length ? `${open.length} open ${open.length === 1 ? 'pair' : 'pairs'}: hear it, fill the gap, meaning` : 'No open pairs yet'}</small>
       </button>
 

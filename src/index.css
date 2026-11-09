@@ -434,6 +434,7 @@ p { margin: 0 0 10px; }
 .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; scrollbar-width: none; }
 .filters > * { flex: none; }
 .filters.wrap { flex-wrap: wrap; overflow: visible; }
+.add-form { margin-bottom: 32px; }
 .add-form .input { margin-bottom: 10px; }
 .row-btns { display: flex; gap: 10px; }
 .row-btns > * { flex: 1; }

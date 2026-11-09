@@ -84,7 +84,7 @@ export default function Vocab() {
         Train these words<small>{(() => { const n = shown.filter(f => pairOf(f.id).length).length; return n ? `${Math.min(n, TRAIN_LENGTH)} questions from words you've learned · weakest first` : 'No learned words in this list yet' })()}</small>
       </button>
       {adding ? <AddWord onDone={() => setAdding(false)} /> : (
-        <button className="btn btn-tonal btn-block btn-big" style={{ marginBottom: 12 }} onClick={() => setAdding(true)}>+ Add a word you heard</button>
+        <button className="btn btn-tonal btn-block btn-big" style={{ marginBottom: 32 }} onClick={() => setAdding(true)}>+ Add a word you heard</button>
       )}
 
       <section className="card">

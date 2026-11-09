@@ -66,7 +66,7 @@ export default function VerbTrainer() {
         ))}
       </div>
 
-      <button className="btn btn-primary btn-block btn-big" onClick={practise} style={{ marginBottom: 12 }}>
+      <button className="btn btn-primary btn-block btn-big" onClick={practise} style={{ marginBottom: 32 }}>
         Practise 15 questions<small>{open.length ? `${open.length} open ${open.length === 1 ? 'verb' : 'verbs'}${filter === 'all' ? '' : ` · ${chips.find(c => c[0] === filter)![1]}`}, weakest first` : 'No open verbs here yet'}</small>
       </button>
 

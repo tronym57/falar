@@ -37,6 +37,7 @@ Each step is at least 1.2× the next, so levels never blur together.
 | List rows (audio rows) | 14 vertical |
 | Title → first content | 20 |
 | Grammar topic → next topic | 48, hairline, then 40 |
+| A block's call to action → the next block (e.g. Practise button → list) | 32 |
 
 ## 4. Colour roles
 
