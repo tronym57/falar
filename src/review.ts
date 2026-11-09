@@ -55,16 +55,12 @@ export function intervalLabel(due: Date, now: Date) {
   return `${Math.round(d / 30)}mo`
 }
 
-/** "in 10 min", "in 1 day", "in 3 months": when a card comes back, spelled out for the grade buttons. */
-export function comesBack(due: Date, now: Date) {
-  const min = Math.max(1, Math.round((+due - +now) / 60000))
-  const n = (v: number, unit: string) => `in ${v} ${unit}${v === 1 ? '' : 's'}`
-  if (min < 60) return `in ${min} min`
-  const h = Math.round(min / 60)
-  if (h < 24) return n(h, 'hour')
-  const d = Math.round(h / 24)
-  if (d < 30) return n(d, 'day')
-  return n(Math.round(d / 30), 'month')
+/**
+ * Which way to ask, alternating every time the card is reviewed so both directions get trained:
+ * even reviews (a new card first) Portuguese → English, odd reviews English → Portuguese.
+ */
+export function askInEnglish(card: Card) {
+  return card.reps % 2 === 1
 }
 
 /** What each grade would do to this card. */

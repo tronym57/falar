@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { db, type ReviewCard } from '../db'
 import { audio, useAudio } from '../audio'
 import { playItem } from '../components/AudioRow'
-import { buildQueue, cardFaces, comesBack, intervalLabel, preview, saveGrade, State, syncCards, type CardFace, type Grade } from '../review'
+import { askInEnglish, buildQueue, cardFaces, intervalLabel, preview, saveGrade, State, syncCards, type CardFace, type Grade } from '../review'
 import { useToast } from '../toast'
 
-// Grades, in plain words. The time under each says when the card comes back with that grade.
+// Grades, in plain words. The grade decides when the card comes back (not shown: it's noise).
 const GRADE_NAMES = ['Forgot', 'Hard', 'Good', 'Easy']
 const GRADE_CLASS = ['btn-miss', 'btn-warning', 'btn-success', 'btn-info']
 /** Cards that come back within this window are shown again in the same session. */
@@ -62,8 +62,8 @@ export default function Review() {
 
   const card = s.cards[s.queue[0]]
   const face = s.faces[card.id]
-  // New and learning cards: Portuguese → English (recognise). Known cards: English → Portuguese (recall).
-  const recall = card.fsrs.state === State.Review || card.fsrs.state === State.Relearning
+  // Alternates each review: hear/read Portuguese → think English, or see English → think Portuguese.
+  const recall = askInEnglish(card.fsrs)
   const play = () => playItem(face.id, face.custom ? face.pt : undefined)
   const now = new Date()
   const options = preview(card.fsrs, now)
@@ -119,16 +119,14 @@ export default function Review() {
           <button className="btn btn-primary btn-block btn-big" onClick={reveal}>Show answer</button>
         ) : (
           <>
-            <p className="grade-help"><b>How well did you know it?</b> Be honest: words you found hard come back sooner.</p>
+            <p className="grade-help"><b>How well did you know it?</b></p>
             <div className="grades">
               {options.map(o => (
                 <button key={o.grade} className={`btn grade ${GRADE_CLASS[o.grade - 1]}`} onClick={() => rate(o.grade)}>
-                  <b>{GRADE_NAMES[o.grade - 1]}</b>
-                  <span>{comesBack(o.due, now)}</span>
+                  {GRADE_NAMES[o.grade - 1]}
                 </button>
               ))}
             </div>
-            <p className="grade-legend">Forgot: didn't know it · Hard: got it with effort · Good: knew it · Easy: knew it instantly</p>
           </>
         )}
       </div>
