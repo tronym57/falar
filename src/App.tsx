@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { Link, NavLink, Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
 import Home from './screens/Home'
 import Course from './screens/Course'
@@ -33,7 +33,7 @@ const tabs = [
 const IMMERSIVE = /^\/(unit\/\d+\/(exercises|check|[a-z]+\/practice|grammar\/[^/]+\/practice)|review|practice\/test|drill\/.*|reading\/[^/]+\/questions|talk\/[^/]+)$/
 
 export default function App() {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   const toast = useToast()
   useEffect(() => {
     registerSW({
@@ -59,8 +59,16 @@ export default function App() {
   }, [welcome])
   useEffect(() => { startAutoBackup() }, [])
   // A new screen opens at the top; going back (POP) keeps the browser's restored position.
+  // Only a deliberate jump target (`?at=…`, e.g. back to the next grammar topic) may land lower.
+  // Reset before paint, and once more after it: iOS can apply a leftover scroll after the first reset.
   const navType = useNavigationType()
-  useEffect(() => { if (navType !== 'POP') window.scrollTo(0, 0) }, [pathname, navType])
+  const jump = new URLSearchParams(search).has('at')
+  useLayoutEffect(() => {
+    if (navType === 'POP' || jump) return
+    window.scrollTo(0, 0)
+    const f = requestAnimationFrame(() => window.scrollTo(0, 0))
+    return () => cancelAnimationFrame(f)
+  }, [pathname, navType, jump])
   // Remember where you are, so reopening the app lands on the same screen (see main.tsx).
   useEffect(() => { kv.set(LAST_ROUTE, pathname) }, [pathname])
   useEffect(() => audio.onError(() => toast("Couldn't play this audio. If you're offline, open the app once with a connection.", 'error')), [toast])
