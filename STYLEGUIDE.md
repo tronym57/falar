@@ -73,6 +73,7 @@ Surfaces: page `#f3f5f2` / `#0f1312`, card `#ffffff` / `#182019`, raised hover `
 - **Audio rows:** tonal round play icon → turns primary while playing; Portuguese in lesson text, English in secondary; status badges aligned **right**.
 - **Cards:** radius 18, padding 20, level-1 depth. Tappable cards get a chevron and a pressed state.
 - **Buttons grow with their label.** Never a fixed height: a label that wraps makes the button taller (min height = its size). Round icon buttons (`btn-circle`) are the only fixed ones. Check new screens at 320 px (iPhone SE).
+- **Stacked full-width buttons get a 10 px gap** (global rule on `.btn-block + .btn-block`). Never let two buttons touch.
 - **Card or flat?** Use a card for a single-tap tile (a banner like Daily review) or a short list. A form with several controls (chips, selectors, a start button) sits flat on the page (`.flat-section`, hairlines above and below) so it uses the full width.
 - **Mistakes** use the soft apricot `--miss-*` tokens, never alarm red (and never green). Red stays for real errors (failed save, broken audio).
 - **Panels:** rule = tint + green accent bar; tip = amber; Portugal-vs-Brazil = flag stripe.
