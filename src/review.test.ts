@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { createEmptyCard } from 'ts-fsrs'
-import { askInEnglish, buildQueue, grade, intervalLabel, isWeak, preview, Rating, State } from './review'
+import { buildQueue, grade, isReverse, reverseId, wordId, intervalLabel, isWeak, preview, Rating, State } from './review'
 import type { ReviewCard } from './db'
 
 const now = new Date('2026-11-09T09:00:00Z')
@@ -62,8 +62,41 @@ describe('intervalLabel', () => {
   })
 })
 
-describe('askInEnglish', () => {
-  it('alternates direction with every review, starting Portuguese → English', () => {
-    expect([0, 1, 2, 3].map(reps => askInEnglish({ ...card('x').fsrs, reps }))).toEqual([false, true, false, true])
+describe('two cards per word', () => {
+  const day = (iso: string) => new Date(iso)
+  const now = day('2026-11-09T10:00:00Z')
+  const learned = (id: string, introducedAt: string, due: string, last = introducedAt) =>
+    card(id, { introducedAt }, { state: State.Review, due: new Date(due), last_review: new Date(last), reps: 1 })
+
+  it('maps card ids to words and directions', () => {
+    expect(reverseId('u0-p01')).toBe('u0-p01~en')
+    expect(isReverse('u0-p01~en')).toBe(true)
+    expect(wordId('u0-p01~en')).toBe('u0-p01')
+    expect(wordId('u0-p01')).toBe('u0-p01')
+  })
+
+  it('introduces English → Portuguese only after Portuguese → English was seen on an earlier day', () => {
+    const fresh = [card('a'), card(reverseId('a'))]
+    expect(buildQueue(fresh, now)).toEqual(['a'])
+    const seenYesterday = [learned('a', '2026-11-08T09:00:00Z', '2026-11-12T09:00:00Z'), card(reverseId('a'))]
+    expect(buildQueue(seenYesterday, now)).toEqual([reverseId('a')])
+    const seenToday = [learned('a', '2026-11-09T08:00:00Z', '2026-11-12T09:00:00Z'), card(reverseId('a'))]
+    expect(buildQueue(seenToday, now)).toEqual([])
+  })
+
+  it('never shows both directions of a word on the same day', () => {
+    const both = [
+      learned('a', '2026-11-01T09:00:00Z', '2026-11-08T09:00:00Z', '2026-11-05T09:00:00Z'),
+      learned(reverseId('a'), '2026-11-02T09:00:00Z', '2026-11-09T09:00:00Z', '2026-11-06T09:00:00Z'),
+    ]
+    expect(buildQueue(both, now)).toEqual(['a'])
+  })
+
+  it("a card reviewed earlier today can come back, but not its other direction", () => {
+    const cards = [
+      learned('a', '2026-11-01T09:00:00Z', '2026-11-09T09:30:00Z', '2026-11-09T09:20:00Z'),
+      learned(reverseId('a'), '2026-11-02T09:00:00Z', '2026-11-09T09:00:00Z', '2026-11-06T09:00:00Z'),
+    ]
+    expect(buildQueue(cards, now)).toEqual(['a'])
   })
 })

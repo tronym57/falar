@@ -25,23 +25,58 @@ export function cardFaces(custom: CustomWord[]): Record<string, CardFace> {
   return faces
 }
 
+// ---------- two cards per word ----------
+// `<id>`: Portuguese → English (hear/read it, say what it means).
+// `<id>~en`: English → Portuguese (see the meaning, recall the Portuguese). Each has its own schedule.
+const REVERSE = '~en'
+export const reverseId = (id: string) => id + REVERSE
+export const isReverse = (cardId: string) => cardId.endsWith(REVERSE)
+/** The word a card belongs to (the id in cardFaces). */
+export const wordId = (cardId: string) => (isReverse(cardId) ? cardId.slice(0, -REVERSE.length) : cardId)
+const sibling = (cardId: string) => (isReverse(cardId) ? wordId(cardId) : reverseId(cardId))
+
 // ---------- pure scheduling helpers (unit-tested) ----------
 const dayKey = (d: Date) => d.toISOString().slice(0, 10)
 
 /**
  * Today's review queue: cards already in review that are due, then new cards
  * up to the daily limit (minus new cards already introduced today).
+ * The two directions of a word never both show on the same day: if both are due, one waits.
+ * A word's English → Portuguese card is introduced only after its Portuguese → English card
+ * was first seen on an earlier day.
  */
 export function buildQueue(cards: ReviewCard[], now: Date, newPerDay = NEW_PER_DAY): string[] {
-  const due = cards
+  const byId = new Map(cards.map(c => [c.id, c]))
+  const today = dayKey(now)
+  const queued = new Set<string>()
+  // Words already reviewed today, and in which direction: the other direction waits for another day.
+  const seenToday = new Map<string, string>()
+  for (const c of cards) if (c.fsrs.last_review && dayKey(new Date(c.fsrs.last_review)) === today) seenToday.set(wordId(c.id), c.id)
+  const out: string[] = []
+  const take = (c: ReviewCard) => {
+    const w = wordId(c.id)
+    if (queued.has(w) || (seenToday.has(w) && seenToday.get(w) !== c.id)) return false
+    queued.add(w); out.push(c.id); return true
+  }
+  cards
     .filter(c => c.fsrs.state !== State.New && new Date(c.fsrs.due) <= now)
     .sort((a, b) => +new Date(a.fsrs.due) - +new Date(b.fsrs.due))
-  const introducedToday = cards.filter(c => c.introducedAt && c.introducedAt.slice(0, 10) === dayKey(now)).length
-  const fresh = cards
-    .filter(c => c.fsrs.state === State.New)
-    .sort((a, b) => a.addedAt.localeCompare(b.addedAt) || a.id.localeCompare(b.id))
-    .slice(0, Math.max(0, newPerDay - introducedToday))
-  return [...due.map(c => c.id), ...fresh.map(c => c.id)]
+    .forEach(take)
+
+  const introducedToday = cards.filter(c => c.introducedAt && c.introducedAt.slice(0, 10) === today).length
+  let room = Math.max(0, newPerDay - introducedToday)
+  const ready = (c: ReviewCard) => {
+    if (!isReverse(c.id)) return true
+    const fwd = byId.get(sibling(c.id))
+    return !!fwd && fwd.fsrs.state !== State.New && !!fwd.introducedAt && fwd.introducedAt.slice(0, 10) < today
+  }
+  for (const c of cards
+    .filter(c => c.fsrs.state === State.New && ready(c))
+    .sort((a, b) => a.addedAt.localeCompare(b.addedAt) || a.id.localeCompare(b.id))) {
+    if (room <= 0) break
+    if (take(c)) room--
+  }
+  return out
 }
 
 /** Short label for when a card would come back: 1m, 10m, 3h, 2d, 3mo. */
@@ -53,14 +88,6 @@ export function intervalLabel(due: Date, now: Date) {
   const d = Math.round(h / 24)
   if (d < 30) return `${d}d`
   return `${Math.round(d / 30)}mo`
-}
-
-/**
- * Which way to ask, alternating every time the card is reviewed so both directions get trained:
- * even reviews (a new card first) Portuguese → English, odd reviews English → Portuguese.
- */
-export function askInEnglish(card: Card) {
-  return card.reps % 2 === 1
 }
 
 /** What each grade would do to this card. */
@@ -77,19 +104,27 @@ export function grade(card: Card, now: Date, g: Grade) {
 export const isWeak = (c: ReviewCard) => c.fsrs.lapses >= 2 || c.fsrs.state === State.Relearning
 
 // ---------- database ----------
-/** Make sure every phrase/vocab item from finished steps is a review card. */
+/**
+ * Make sure every phrase/vocab item from finished steps has both its review cards,
+ * and every existing word (incl. your own) has its English → Portuguese card too.
+ */
 export async function syncCards() {
   const done = await db.progress.filter(p => p.done && (p.step === 'phrases' || p.step === 'vocab')).toArray()
-  const existing = new Set(await db.cards.toCollection().primaryKeys())
+  const cards = await db.cards.toArray()
+  const existing = new Set(cards.map(c => c.id))
   const now = new Date()
   const toAdd: ReviewCard[] = []
+  const add = (id: string, unit: number) => {
+    if (existing.has(id)) return
+    existing.add(id)
+    toAdd.push({ id, unit, fsrs: createEmptyCard(now), addedAt: now.toISOString() })
+  }
   for (const p of done) {
     const u = a1Content[p.unit]
     if (!u) continue
-    for (const item of p.step === 'phrases' ? u.phrases : u.vocab) {
-      if (!existing.has(item.id)) toAdd.push({ id: item.id, unit: u.n, fsrs: createEmptyCard(now), addedAt: now.toISOString() })
-    }
+    for (const item of p.step === 'phrases' ? u.phrases : u.vocab) { add(item.id, u.n); add(reverseId(item.id), u.n) }
   }
+  for (const c of cards) if (!isReverse(c.id)) add(reverseId(c.id), c.unit)
   if (toAdd.length) await db.cards.bulkAdd(toAdd)
   return toAdd.length
 }
@@ -98,7 +133,7 @@ export async function syncCards() {
 export function useDue() {
   return useLiveQuery(async () => {
     const faces = cardFaces(await db.customWords.toArray())
-    const cards = (await db.cards.toArray()).filter(c => faces[c.id])
+    const cards = (await db.cards.toArray()).filter(c => faces[wordId(c.id)])
     return { count: buildQueue(cards, new Date()).length, total: cards.length }
   })
 }
@@ -108,14 +143,14 @@ export async function addCustomWord(pt: string, en: string) {
   const id = `my-${now.getTime().toString(36)}`
   await db.transaction('rw', db.customWords, db.cards, async () => {
     await db.customWords.add({ id, pt: pt.trim(), en: en.trim(), addedAt: now.toISOString() })
-    await db.cards.add({ id, unit: -1, fsrs: createEmptyCard(now), addedAt: now.toISOString() })
+    await db.cards.bulkAdd([id, reverseId(id)].map(cid => ({ id: cid, unit: -1, fsrs: createEmptyCard(now), addedAt: now.toISOString() })))
   })
 }
 
 export async function deleteCustomWord(id: string) {
   await db.transaction('rw', db.customWords, db.cards, async () => {
     await db.customWords.delete(id)
-    await db.cards.delete(id)
+    await db.cards.bulkDelete([id, reverseId(id)])
   })
 }
 

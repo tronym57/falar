@@ -4,7 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { db, type ReviewCard } from '../db'
 import { a1Content } from '../content'
 import { AudioRow, SlowToggle } from '../components/AudioRow'
-import { addCustomWord, cardFaces, deleteCustomWord, intervalLabel, isWeak, State, type CardFace } from '../review'
+import { addCustomWord, cardFaces, deleteCustomWord, intervalLabel, isWeak, reverseId, State, type CardFace } from '../review'
 import { useToast } from '../toast'
 import { rng, wordQuestions } from '../test'
 
@@ -14,13 +14,17 @@ type Filter = 'all' | 'due' | 'weak' | 'mine' | `unit-${number}`
 
 const fold = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
 
-function status(c: ReviewCard | undefined, unit: number, now: Date): { label: string; cls: string } {
-  // No review card yet: the word joins your daily review once you finish its unit lesson.
-  if (!c) return { label: `Learn in Unit ${unit}`, cls: '' }
-  if (c.fsrs.state === State.New) return { label: 'New', cls: 'badge-info' }
-  if (isWeak(c)) return { label: 'Weak', cls: 'badge-error' }
-  if (new Date(c.fsrs.due) <= now) return { label: 'Due', cls: 'badge-warning' }
-  return { label: `Next in ${intervalLabel(new Date(c.fsrs.due), now)}`, cls: 'badge-success' }
+const isDue = (c: ReviewCard, now: Date) => c.fsrs.state !== State.New && new Date(c.fsrs.due) <= now
+
+/** One status for a word from both its cards (Portuguese → English and English → Portuguese). */
+function status(pair: ReviewCard[], unit: number, now: Date): { label: string; cls: string } {
+  // No review cards yet: the word joins your daily review once you finish its unit lesson.
+  if (!pair.length) return { label: `Learn in Unit ${unit}`, cls: '' }
+  if (pair.every(c => c.fsrs.state === State.New)) return { label: 'New', cls: 'badge-info' }
+  if (pair.some(isWeak)) return { label: 'Weak', cls: 'badge-error' }
+  if (pair.some(c => isDue(c, now))) return { label: 'Due', cls: 'badge-warning' }
+  const next = Math.min(...pair.filter(c => c.fsrs.state !== State.New).map(c => +new Date(c.fsrs.due)))
+  return { label: `Next in ${intervalLabel(new Date(next), now)}`, cls: 'badge-success' }
 }
 
 export default function Vocab() {
@@ -35,14 +39,15 @@ export default function Vocab() {
 
   const now = new Date()
   const cards = Object.fromEntries(data.cards.map(c => [c.id, c]))
+  const pairOf = (id: string) => [cards[id], cards[reverseId(id)]].filter(Boolean)
   const faces = Object.values(cardFaces(data.custom))
   const units = Object.values(a1Content).sort((a, b) => a.n - b.n)
 
   const shown = faces.filter((f: CardFace) => {
-    const c = cards[f.id]
+    const pair = pairOf(f.id)
     if (filter === 'mine' && !f.custom) return false
-    if (filter === 'weak' && !(c && isWeak(c))) return false
-    if (filter === 'due' && !(c && c.fsrs.state !== State.New && new Date(c.fsrs.due) <= now)) return false
+    if (filter === 'weak' && !pair.some(isWeak)) return false
+    if (filter === 'due' && !pair.some(c => isDue(c, now))) return false
     if (filter.startsWith('unit-') && f.unit !== Number(filter.slice(5))) return false
     return !q || fold(f.pt).includes(fold(q)) || fold(f.en).includes(fold(q))
   })
@@ -51,7 +56,7 @@ export default function Vocab() {
   const train = async () => {
     if (!shown.length) return toast('No words to train in this list. Change the filter or search.')
     const rand = rng(Date.now())
-    const rank = (f: CardFace) => { const c = cards[f.id]; return c && isWeak(c) ? 0 : c && new Date(c.fsrs.due) <= now ? 1 : 2 }
+    const rank = (f: CardFace) => { const p = pairOf(f.id); return p.some(isWeak) ? 0 : p.some(c => isDue(c, now)) ? 1 : 2 }
     const picked = shown.map(f => ({ f, r: rank(f) + rand() })).sort((a, b) => a.r - b.r).slice(0, TRAIN_LENGTH).map(x => x.f)
     const items = wordQuestions(picked, faces.map(f => f.en), 'w', rand)
     try {
@@ -83,7 +88,7 @@ export default function Vocab() {
         <p className="muted">{shown.length} {shown.length === 1 ? 'item' : 'items'}</p>
         {shown.length === 0 && <p>{filter === 'mine' ? 'You haven’t added any words yet.' : 'Nothing matches.'}</p>}
         {shown.map(f => {
-          const st = status(cards[f.id], f.unit, now)
+          const st = status(pairOf(f.id), f.unit, now)
           return (
             <div key={f.id}>
               <AudioRow id={f.id} pt={f.pt} en={f.en} tts={f.custom} aside={<span className={'badge badge-sm badge-soft ' + st.cls}>{st.label}</span>} />

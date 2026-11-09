@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { db, type ReviewCard } from '../db'
 import { audio, useAudio } from '../audio'
 import { playItem } from '../components/AudioRow'
-import { askInEnglish, buildQueue, cardFaces, intervalLabel, preview, saveGrade, State, syncCards, type CardFace, type Grade } from '../review'
+import { buildQueue, isReverse, wordId, cardFaces, intervalLabel, preview, saveGrade, State, syncCards, type CardFace, type Grade } from '../review'
 import { useToast } from '../toast'
 
 // Grades, in plain words. The grade decides when the card comes back (not shown: it's noise).
@@ -26,7 +26,7 @@ export default function Review() {
       await syncCards()
       const [cards, custom] = await Promise.all([db.cards.toArray(), db.customWords.toArray()])
       const faces = cardFaces(custom)
-      const known = cards.filter(c => faces[c.id])
+      const known = cards.filter(c => faces[wordId(c.id)])
       const now = new Date()
       const queue = buildQueue(known, now)
       const later = known.filter(c => c.fsrs.state !== State.New && new Date(c.fsrs.due) > now).map(c => new Date(c.fsrs.due))
@@ -61,9 +61,9 @@ export default function Review() {
   }
 
   const card = s.cards[s.queue[0]]
-  const face = s.faces[card.id]
-  // Alternates each review: hear/read Portuguese → think English, or see English → think Portuguese.
-  const recall = askInEnglish(card.fsrs)
+  const face = s.faces[wordId(card.id)]
+  // Each word has two cards: Portuguese → English, and English → Portuguese (id ends in ~en).
+  const recall = isReverse(card.id)
   const play = () => playItem(face.id, face.custom ? face.pt : undefined)
   const now = new Date()
   const options = preview(card.fsrs, now)
