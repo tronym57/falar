@@ -10,6 +10,7 @@ import { PASS_MARK, logAttempt, markStepDone } from '../progress'
 import { unitSteps } from '../units'
 import { PARTS, scoreByPart } from '../test'
 import { useToast } from '../toast'
+import { translationOf } from '../translation'
 
 /**
  * exercises: a unit's exercise step (wrong answers come back at the end)
@@ -118,8 +119,16 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo 
       {answer && (
         <motion.div className={'feedback ' + (answer.result.ok ? 'ok' : 'bad')} role="status" initial={{ y: '100%' }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 420, damping: 36 }}>
           <b>{answer.result.ok ? 'Correct! ✓' : 'Not quite'}</b>
-          {!answer.result.ok && <p>Correct answer: <b>{answer.result.expected}</b></p>}
           {answer.result.ok && answer.result.note && <p>{answer.result.note}</p>}
+          {(() => {
+            // The meaning, after every answer. When the correct answer is that same sentence, one line says both.
+            const t = translationOf(current)
+            const same = t && t.pt === answer.result.expected
+            return <>
+              {!answer.result.ok && <p>Correct answer: <b>{answer.result.expected}</b>{same && <> = {t.en}</>}</p>}
+              {t && !(same && !answer.result.ok) && <p className="meaning"><b lang="pt-PT">{t.pt}</b> = {t.en}</p>}
+            </>
+          })()}
           {!answer.result.ok && requeue && <p className="small">This one comes back at the end.</p>}
           <button className={'btn btn-block btn-big ' + (answer.result.ok ? 'btn-success' : 'btn-miss')} onClick={next}>Continue</button>
         </motion.div>

@@ -390,6 +390,7 @@ p { margin: 0 0 10px; }
 .feedback > * { max-width: 600px; margin-left: auto; margin-right: auto; }
 .feedback > b:first-child { display: block; font-size: 22px; margin-bottom: 6px; }
 .feedback .btn { margin-top: 10px; }
+.feedback .meaning { margin-top: 4px; }
 .feedback.ok { background: color-mix(in oklab, var(--color-success) 13%, var(--surface-1)); border-color: var(--color-success); }
 .feedback.ok > b:first-child { color: var(--color-success); }
 .feedback.bad { background: var(--miss-bg); border-color: var(--miss-line); }
