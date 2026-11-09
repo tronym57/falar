@@ -30,7 +30,7 @@ const tabs = [
 ]
 
 // Full-screen modes (exercises, tests, review) hide the header and tab bar.
-const IMMERSIVE = /^\/(unit\/\d+\/(exercises|check|[a-z]+\/practice)|review|practice\/test|drill\/.*|reading\/[^/]+\/questions|talk\/[^/]+)$/
+const IMMERSIVE = /^\/(unit\/\d+\/(exercises|check|[a-z]+\/practice|grammar\/[^/]+\/practice)|review|practice\/test|drill\/.*|reading\/[^/]+\/questions|talk\/[^/]+)$/
 
 export default function App() {
   const { pathname } = useLocation()
@@ -89,6 +89,7 @@ export default function App() {
         <Route path="/unit/:n" element={<Unit />} />
         <Route path="/unit/:n/:step" element={<UnitStep />} />
         <Route path="/unit/:n/:step/practice" element={<LessonRunner />} />
+        <Route path="/unit/:n/grammar/:topic/practice" element={<GrammarDrill inLesson />} />
         <Route path="/review" element={<Review />} />
         <Route path="/practice" element={<PracticeHub />} />
         <Route path="/practice/test" element={<TestRunner />} />

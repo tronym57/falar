@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db'
 import { a1Content } from '../content'
@@ -220,25 +220,37 @@ export function TestRunner() {
 }
 
 // ---------- /practice/grammar ----------
+/** Grammar topics you've practised (answered at least one of their questions), live. */
+function usePractisedTopics() {
+  return useLiveQuery(async () => {
+    const topics = UNITS.flatMap(u => u.grammar.topics)
+    const ids = topics.flatMap(t => t.exercises.map(x => x.id))
+    const seen = new Set((await db.attempts.where('exerciseId').anyOf(ids).toArray()).map(a => a.exerciseId))
+    return new Set(topics.filter(t => t.exercises.some(x => seen.has(x.id))).map(t => t.id))
+  }) ?? new Set<string>()
+}
+
 export function GrammarReference() {
   const units = UNITS
   const navigate = useNavigate()
   const done = useDone()
+  const practised = usePractisedTopics()
   return (
     <main className="screen">
       <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/practice">‹ Practice</Link>
       <h1>Grammar</h1>
-      <p className="muted" style={{ marginBottom: 8 }}>Each topic opens when you finish its unit's Grammar step.</p>
+      <p className="muted" style={{ marginBottom: 8 }}>Each topic opens when you practise it in its unit's Grammar step.</p>
       {units.map(u => {
-        const open = !done || isDone(done, u.n, 'grammar')
+        const stepDone = !done || isDone(done, u.n, 'grammar')
         return (
           <section key={u.id}>
             <p className="section-label">Unit {u.n} · {u.title}</p>
-            {u.grammar.topics.map(t => open ? (
+            {/* A topic opens with the unit's Grammar step, or as soon as you've practised it in the lesson. */}
+            {u.grammar.topics.map(t => stepDone || practised.has(t.id) ? (
               <Link key={t.id} className="card tap" to={`/grammar/${u.n}/${t.id}`}>
                 <span className="chev">›</span>
                 <h2>{t.title}</h2>
-                <p className="muted">{t.exercises.length} practice questions</p>
+                <p className="muted">{practised.has(t.id) ? '✓ Practised · ' : ''}{t.exercises.length} practice questions</p>
               </Link>
             ) : (
               <button key={t.id} className="card tap soft-locked" onClick={() => openAnyway(navigate, `This topic is part of Unit ${u.n}. It opens when you finish that unit's Grammar step.`, `/grammar/${u.n}/${t.id}`)}>
@@ -272,13 +284,17 @@ export function GrammarTopicScreen() {
   )
 }
 
-// ---------- /drill/grammar/:n/:topic ----------
-export function GrammarDrill() {
+// ---------- /drill/grammar/:n/:topic (from the reference) and /unit/:n/grammar/:topic/practice (from the lesson) ----------
+export function GrammarDrill({ inLesson = false }: { inLesson?: boolean }) {
   const { n, topic } = useParams()
   const unit = a1Content[Number(n)]
-  const t = unit?.grammar.topics.find(x => x.id === topic)
-  // Opened from the unit's grammar step: go back there, at the next topic. From the reference: back to the topic page.
-  const back = useLocation().state as { to: string; label: string; here: string } | null
-  if (!unit || !t) return <Navigate to="/practice/grammar" replace />
-  return <Practice sessionKey={`drill:${t.id}`} items={t.exercises} mode="drill" closeTo={back?.here ?? `/grammar/${unit.n}/${t.id}`} next={back ?? undefined} />
+  const i = unit?.grammar.topics.findIndex(x => x.id === topic) ?? -1
+  if (!unit || i < 0) return <Navigate to="/practice/grammar" replace />
+  const t = unit.grammar.topics[i]
+  if (!inLesson) return <Practice sessionKey={`drill:${t.id}`} items={t.exercises} mode="drill" closeTo={`/grammar/${unit.n}/${t.id}`} />
+  // From the lesson: ✕ goes back to this topic, and the results lead on to the next topic (or the lesson's own practice).
+  const lesson = `/unit/${unit.n}/grammar`
+  const next = unit.grammar.topics[i + 1]
+  return <Practice sessionKey={`drill:${t.id}`} items={t.exercises} mode="drill" closeTo={`${lesson}?at=topic-${t.id}`}
+    next={next ? { to: `${lesson}?at=topic-${next.id}`, label: `Next: ${i + 2}. ${next.title}` } : { to: `${lesson}?at=practise`, label: 'Back to the grammar lesson' }} />
 }

@@ -165,14 +165,7 @@ function GrammarView({ unit }: { unit: Unit }) {
     const f = requestAnimationFrame(() => document.getElementById(at)?.scrollIntoView({ block: 'start' }))
     return () => cancelAnimationFrame(f)
   }, [at])
-  const back = (i: number) => {
-    const next = topics[i + 1]
-    const here = `/unit/${unit.n}/grammar?at=topic-${topics[i].id}` // ✕ during the practice
-    return next
-      ? { here, to: `/unit/${unit.n}/grammar?at=topic-${next.id}`, label: `Next: ${i + 2}. ${next.title}` }
-      : { here, to: `/unit/${unit.n}/grammar?at=practise`, label: 'Back to the grammar lesson' }
-  }
-  return <>{topics.map((t, i) => <GrammarTopicView key={t.id} unit={unit.n} topic={t} index={i} backTo={back(i)} />)}</>
+  return <>{topics.map((t, i) => <GrammarTopicView key={t.id} unit={unit.n} topic={t} index={i} inLesson />)}</>
 }
 
 function SpeakingView({ unit }: { unit: Unit }) {
