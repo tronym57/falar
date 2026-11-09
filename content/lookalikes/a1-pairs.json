@@ -1,0 +1,114 @@
+{
+  "id": "a1-lookalikes",
+  "title": "Look-alikes",
+  "pairs": [
+    {
+      "id": "e", "unit": 0,
+      "why": "The accent changes the vowel: é is open and stressed, e is short and almost swallowed.",
+      "words": [
+        { "pt": "é", "en": "is (ser)", "sound": "open “eh”, like in “bed”", "examples": [
+          { "id": "lk-e-a1", "pt": "O café é bom.", "en": "The coffee is good." },
+          { "id": "lk-e-a2", "pt": "A Ana é de Peniche.", "en": "Ana is from Peniche." } ] },
+        { "pt": "e", "en": "and", "sound": "a very short “ee”, joined to the next word", "examples": [
+          { "id": "lk-e-b1", "pt": "Um café e um pastel de nata, por favor.", "en": "A coffee and a custard tart, please." },
+          { "id": "lk-e-b2", "pt": "Eu e o Rui moramos em Ferrel.", "en": "Rui and I live in Ferrel." } ] }
+      ]
+    },
+    {
+      "id": "esta", "unit": 1,
+      "why": "Same letters, different stress. The accent shows where the stress goes.",
+      "words": [
+        { "pt": "está", "en": "is (estar: where or how)", "sound": "stress at the end: “shTA”, the first e almost silent", "examples": [
+          { "id": "lk-esta-a1", "pt": "O Rui está em casa.", "en": "Rui is at home." },
+          { "id": "lk-esta-a2", "pt": "Está bem, até logo!", "en": "OK, see you later!" } ] },
+        { "pt": "esta", "en": "this (feminine)", "sound": "stress at the start: “ESH-ta”", "examples": [
+          { "id": "lk-esta-b1", "pt": "Esta é a minha amiga Joana.", "en": "This is my friend Joana." },
+          { "id": "lk-esta-b2", "pt": "Quanto custa esta camisola?", "en": "How much is this jumper?" } ] }
+      ]
+    },
+    {
+      "id": "pais", "unit": 1,
+      "why": "The accent on í splits the word into two syllables.",
+      "words": [
+        { "pt": "país", "en": "country", "sound": "two syllables: “pa-EESH”", "examples": [
+          { "id": "lk-pais-a1", "pt": "Portugal é um país pequeno.", "en": "Portugal is a small country." },
+          { "id": "lk-pais-a2", "pt": "De que país és?", "en": "Which country are you from?" } ] },
+        { "pt": "pais", "en": "parents", "sound": "one syllable, like “pie-sh”", "examples": [
+          { "id": "lk-pais-b1", "pt": "Os meus pais moram na Alemanha.", "en": "My parents live in Germany." },
+          { "id": "lk-pais-b2", "pt": "Os pais do Rui são muito simpáticos.", "en": "Rui's parents are very nice." } ] }
+      ]
+    },
+    {
+      "id": "avo", "unit": 1,
+      "why": "The accent tells you if the o is open (ó) or closed (ô), and that's the only difference between grandma and grandpa.",
+      "words": [
+        { "pt": "avó", "en": "grandmother", "sound": "open o, like in “hot”", "examples": [
+          { "id": "lk-avo-a1", "pt": "A minha avó mora em Óbidos.", "en": "My grandmother lives in Óbidos." },
+          { "id": "lk-avo-a2", "pt": "A avó faz um bolo muito bom.", "en": "Grandma makes a very good cake." } ] },
+        { "pt": "avô", "en": "grandfather", "sound": "closed o, like in “go” (without the w)", "examples": [
+          { "id": "lk-avo-b1", "pt": "O meu avô é pescador.", "en": "My grandfather is a fisherman." },
+          { "id": "lk-avo-b2", "pt": "O avô gosta de ver o mar.", "en": "Grandpa likes looking at the sea." } ] }
+      ]
+    },
+    {
+      "id": "tem", "unit": 4,
+      "why": "Ter: one person tem, several people têm. In Portugal you hear the nasal sound twice in têm.",
+      "words": [
+        { "pt": "tem", "en": "has (he, she, você)", "sound": "one nasal sound: “taing”", "examples": [
+          { "id": "lk-tem-a1", "pt": "A Ana tem dois irmãos.", "en": "Ana has two brothers." },
+          { "id": "lk-tem-a2", "pt": "O café tem esplanada.", "en": "The café has a terrace." } ] },
+        { "pt": "têm", "en": "have (they, vocês)", "sound": "the nasal sound twice: “taing-aing”", "examples": [
+          { "id": "lk-tem-b1", "pt": "Eles têm uma casa em Peniche.", "en": "They have a house in Peniche." },
+          { "id": "lk-tem-b2", "pt": "Vocês têm pão de forma?", "en": "Do you have sliced bread?" } ] }
+      ]
+    },
+    {
+      "id": "a", "unit": 5,
+      "why": "À is a + a joined (to the). It sounds open; the article a is a short “uh”.",
+      "words": [
+        { "pt": "à", "en": "to the / at the (feminine)", "sound": "open “ah”", "examples": [
+          { "id": "lk-a-a1", "pt": "Vou à praia.", "en": "I'm going to the beach." },
+          { "id": "lk-a-a2", "pt": "Estou à porta.", "en": "I'm at the door." } ] },
+        { "pt": "a", "en": "the (feminine)", "sound": "short, closed “uh”", "examples": [
+          { "id": "lk-a-b1", "pt": "Queria a conta, por favor.", "en": "I'd like the bill, please." },
+          { "id": "lk-a-b2", "pt": "A praia é bonita.", "en": "The beach is pretty." } ] }
+      ]
+    },
+    {
+      "id": "da", "unit": 6,
+      "why": "Dá is a verb (dar) and stressed; da is de + a (of the) and unstressed.",
+      "words": [
+        { "pt": "dá", "en": "gives (dar)", "sound": "stressed, open “dah”", "examples": [
+          { "id": "lk-da-a1", "pt": "O Rui dá aulas de surf.", "en": "Rui gives surf lessons." },
+          { "id": "lk-da-a2", "pt": "Isso dá dez euros.", "en": "That comes to ten euros." } ] },
+        { "pt": "da", "en": "of the (feminine)", "sound": "short “duh”, leaning on the next word", "examples": [
+          { "id": "lk-da-b1", "pt": "A prancha da Ana é azul.", "en": "Ana's board is blue." },
+          { "id": "lk-da-b2", "pt": "Sou amigo da Marta.", "en": "I'm Marta's friend." } ] }
+      ]
+    },
+    {
+      "id": "nos", "unit": 7,
+      "why": "Nós (we) has an open, stressed o. Nos (us) is unstressed, so the o becomes “oo”.",
+      "words": [
+        { "pt": "nós", "en": "we", "sound": "open “nosh”", "examples": [
+          { "id": "lk-nos-a1", "pt": "Nós moramos perto do mar.", "en": "We live near the sea." },
+          { "id": "lk-nos-a2", "pt": "Amanhã nós vamos ao Baleal.", "en": "Tomorrow we're going to Baleal." } ] },
+        { "pt": "nos", "en": "us", "sound": "short “noosh”", "examples": [
+          { "id": "lk-nos-b1", "pt": "O Rui não nos conhece.", "en": "Rui doesn't know us." },
+          { "id": "lk-nos-b2", "pt": "A Marta nunca nos liga.", "en": "Marta never calls us." } ] }
+      ]
+    },
+    {
+      "id": "por", "unit": 7,
+      "why": "Pôr (to put) keeps the accent so you can tell it from por (for, by). Pôr has a full o; por reduces it to “oo”.",
+      "words": [
+        { "pt": "pôr", "en": "to put", "sound": "closed, full “pohr”", "examples": [
+          { "id": "lk-por-a1", "pt": "Podes pôr o pão na mesa?", "en": "Can you put the bread on the table?" },
+          { "id": "lk-por-a2", "pt": "Vou pôr o fato de surf.", "en": "I'm going to put on my wetsuit." } ] },
+        { "pt": "por", "en": "for, by, through", "sound": "short “poor”", "examples": [
+          { "id": "lk-por-b1", "pt": "Obrigado por tudo!", "en": "Thanks for everything!" },
+          { "id": "lk-por-b2", "pt": "Amanhã passo por Peniche.", "en": "Tomorrow I'm going through Peniche." } ] }
+      ]
+    }
+  ]
+}

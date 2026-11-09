@@ -95,3 +95,10 @@ export type ReadingText = {
   glossary: Record<string, string>
   notes?: { pt: string; en: string }[] // "Phrases to notice": multi-word bits single-word meanings can't explain
 }
+
+/** Look-alikes (content/lookalikes/*.json): two words that differ only by an accent. */
+export type LookExample = { id: string; pt: string; en: string }
+export type LookWord = { pt: string; en: string; sound: string; examples: LookExample[] }
+/** `unit`: finishing that unit's Key phrases opens the pair. */
+export type LookPair = { id: string; unit: number; why: string; words: [LookWord, LookWord] }
+export type LookSet = { id: string; title: string; pairs: LookPair[] }

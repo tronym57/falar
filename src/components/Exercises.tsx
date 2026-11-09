@@ -297,7 +297,8 @@ function GapFill({ ex, locked, onAnswer }: Props<'gap-fill'>) {
   const submit = (v: string) => {
     if (locked) return
     setValue(v)
-    onAnswer({ given: v, result: check(v, ex.answers, { strict: ex.part === 'verbs' }) })
+    // Tapping an option is exact: an accent-only difference (está / esta) is a different answer.
+    onAnswer({ given: v, result: check(v, ex.answers, { strict: ex.part === 'verbs' || !!ex.options }) })
   }
 
   return (

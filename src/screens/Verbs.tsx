@@ -17,7 +17,7 @@ function useMastery() {
 }
 
 /** Save a generated drill as a session, then open the runner (closing the app keeps your place). */
-async function startDrill(key: string, items: Exercise[], navigate: (to: string) => void) {
+export async function startDrill(key: string, items: Exercise[], navigate: (to: string) => void) {
   await db.sessions.put({ key, queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items })
   navigate(`/drill/run/${key}`)
 }
@@ -145,7 +145,7 @@ export function DrillRunner() {
   const [items, setItems] = useState<Exercise[] | null | undefined>(undefined)
   useEffect(() => { db.sessions.get(key ?? '').then(s => setItems(s?.items ?? null)).catch(() => setItems(null)) }, [key])
   if (items === undefined) return <main className="screen"><p className="muted">Loading…</p></main>
-  const back = key === 'vocab' ? '/vocab' : key === 'listening' || key === 'speaking' ? '/practice' : key?.startsWith('verb-') ? `/verbs/${key.slice(5)}` : '/practice/verbs'
+  const back = key === 'vocab' ? '/vocab' : key === 'lookalikes' ? '/practice/lookalikes' : key === 'listening' || key === 'speaking' ? '/practice' : key?.startsWith('verb-') ? `/verbs/${key.slice(5)}` : '/practice/verbs'
   if (!items) return <Navigate to={back} replace />
   return <Practice sessionKey={key!} items={items} mode="drill" closeTo={back} />
 }

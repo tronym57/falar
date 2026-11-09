@@ -60,6 +60,43 @@ function validateVerbs(set, errors, seenIds) {
   }
 }
 
+// ---------- look-alikes (content/lookalikes/*.json): words that differ only by an accent ----------
+const lookDir = join(contentDir, 'lookalikes')
+const loadLookalikes = () => existsSync(lookDir) ? readdirSync(lookDir).filter(f => f.endsWith('.json')).sort().map(f => readJson(join(lookDir, f))) : []
+const lookAudioItems = set => (set.pairs ?? []).flatMap(p => (p.words ?? []).flatMap(w => (w.examples ?? []).map(x => ({ id: x.id, text: x.pt, voice: 'raquel' }))))
+const stripAcc = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+
+function validateLookalikes(set, errors, seenIds) {
+  const err = (where, msg) => errors.push(`${set.id ?? '?'} ${where}: ${msg}`)
+  const id = (v, where) => {
+    if (typeof v !== 'string' || !/^[a-z0-9-]+$/.test(v)) return err(where, `bad id "${v}"`)
+    if (seenIds.has(v)) err(where, `duplicate id "${v}"`)
+    seenIds.set(v, set.id)
+  }
+  for (const p of set.pairs ?? []) {
+    id(`lk-${p.id}`, `pair ${p.id}`)
+    if (!Number.isInteger(p.unit) || p.unit < 0 || p.unit > 13) err(p.id, 'needs "unit": the A1 unit (0–13) whose Key phrases open it')
+    if (typeof p.why !== 'string' || !p.why.trim()) err(p.id, 'missing why')
+    if (p.words?.length !== 2) { err(p.id, 'needs exactly 2 words'); continue }
+    const [a, b] = p.words
+    if (a.pt === b.pt || stripAcc(a.pt) !== stripAcc(b.pt)) err(p.id, 'the two words must differ only by accents')
+    for (const w of p.words) {
+      for (const k of ['pt', 'en', 'sound']) if (typeof w[k] !== 'string' || !w[k].trim()) err(p.id, `${w.pt ?? '?'}: missing ${k}`)
+      if (!w.examples?.length) err(p.id, `${w.pt}: needs examples`)
+      for (const x of w.examples ?? []) {
+        id(x.id, 'example')
+        for (const q of bpProblems(x.pt ?? '')) err(x.id, q)
+        if (typeof x.en !== 'string' || !x.en.trim()) err(x.id, 'missing en')
+        // Exactly once, as a whole word, so the gap and the swapped twin are unambiguous.
+        const n = (x.pt ?? '').toLowerCase().split(/[^\p{L}-]+/u).filter(t => t === w.pt).length
+        if (n !== 1) err(x.id, `must contain "${w.pt}" exactly once as a word (found ${n})`)
+        const other = p.words.find(o => o !== w).pt
+        if ((x.pt ?? '').toLowerCase().split(/[^\p{L}-]+/u).includes(other)) err(x.id, `must not also contain "${other}"`)
+      }
+    }
+  }
+}
+
 // ---------- reading texts (content/reading/a1-*.json + glossary.json) ----------
 const readingDir = join(contentDir, 'reading')
 const readJson = path => { try { return { path, data: JSON.parse(readFileSync(path, 'utf8')) } } catch (e) { return { path, parseError: e.message } } }
@@ -116,7 +153,7 @@ function validateReading(t, common, errors, seenIds) {
 
 function loadUnits() {
   const units = []
-  for (const level of readdirSync(contentDir).filter(d => !['verbs', 'reading', 'talk'].includes(d)).sort()) {
+  for (const level of readdirSync(contentDir).filter(d => !['verbs', 'reading', 'talk', 'lookalikes'].includes(d)).sort()) {
     const dir = join(contentDir, level)
     for (const file of readdirSync(dir).filter(f => f.endsWith('.json')).sort()) {
       const path = join(dir, file)
@@ -267,9 +304,10 @@ const units = loadUnits()
 const verbSets = loadVerbSets()
 const reading = loadReading()
 const readingTexts = reading.texts.filter(t => t.data).map(t => t.data)
+const lookSets = loadLookalikes()
 
 if (cmd === 'audio-items') {
-  const items = [...units.filter(u => u.data).flatMap(u => audioItems(u.data)), ...verbSets.filter(v => v.data).flatMap(v => verbAudioItems(v.data)), ...readingTexts.flatMap(readingAudioItems)]
+  const items = [...units.filter(u => u.data).flatMap(u => audioItems(u.data)), ...verbSets.filter(v => v.data).flatMap(v => verbAudioItems(v.data)), ...readingTexts.flatMap(readingAudioItems), ...lookSets.filter(l => l.data).flatMap(l => lookAudioItems(l.data))]
   process.stdout.write(JSON.stringify(items, null, 1))
 } else if (cmd === 'lint') {
   const errors = []
@@ -289,6 +327,11 @@ if (cmd === 'audio-items') {
     if (!flags.includes('--no-audio')) {
       for (const a of verbAudioItems(v.data)) if (!existsSync(join(audioDir, `${a.id}.mp3`))) errors.push(`${v.data.id} ${a.id}: audio file missing (run npm run audio)`)
     }
+  }
+  for (const l of lookSets) {
+    if (l.parseError) { errors.push(`${l.path}: invalid JSON: ${l.parseError}`); continue }
+    validateLookalikes(l.data, errors, seenIds)
+    if (!flags.includes('--no-audio')) for (const a of lookAudioItems(l.data)) if (!existsSync(join(audioDir, `${a.id}.mp3`))) errors.push(`${l.data.id} ${a.id}: audio file missing (run npm run audio)`)
   }
   unitNumbers = new Set(units.filter(u => u.data).map(u => u.data.n))
   // Conversation scenes (content/talk/scenes.json): the opening line is shown as written, so check it too.
@@ -323,7 +366,7 @@ if (cmd === 'audio-items') {
     console.error(`\n${errors.length} problem(s) in ${units.length} unit file(s).`)
     process.exit(1)
   }
-  const n = units.reduce((s, u) => s + audioItems(u.data).length, 0) + verbSets.reduce((s, v) => s + verbAudioItems(v.data).length, 0) + readingTexts.reduce((s, t) => s + readingAudioItems(t).length, 0)
+  const n = units.reduce((s, u) => s + audioItems(u.data).length, 0) + verbSets.reduce((s, v) => s + verbAudioItems(v.data).length, 0) + readingTexts.reduce((s, t) => s + readingAudioItems(t).length, 0) + lookSets.reduce((s, l) => s + (l.data ? lookAudioItems(l.data).length : 0), 0)
   console.log(`✓ ${units.length} unit file(s), ${verbSets.length} verb set(s), ${readingTexts.length} reading text(s) OK, ${n} audio items.`)
 } else {
   console.error('Usage: node scripts/content.mjs lint [--no-audio] | audio-items')

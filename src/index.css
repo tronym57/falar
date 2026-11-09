@@ -499,3 +499,10 @@ p { margin: 0 0 10px; }
 .chat-line.me .chat-name { display: none; }
 .chat-line.me:not(.me + .me) { margin-top: 10px; }
 .chat-line.them:has(.chat-name) { margin-top: 4px; }
+
+/* Look-alikes: each word of a pair with its sound hint and examples */
+.look-word + .look-word { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.look-word h3 { margin: 0 0 2px; font-size: 20px; }
+.look-word > p { margin: 0 0 6px; }
+.look-locked { display: flex; justify-content: space-between; align-items: center; text-align: left; width: 100%; }
+.look-locked h2 { margin: 0; }

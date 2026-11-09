@@ -11,6 +11,7 @@ import PracticeHub, { GrammarDrill, GrammarReference, GrammarTopicScreen, TestRu
 import VerbTrainer, { DrillRunner, VerbScreen } from './screens/Verbs'
 import ReadingList, { ReadingQuestions, ReadingTextScreen } from './screens/Reading'
 import TalkList, { TalkChat } from './screens/Talk'
+import LookAlikes from './screens/LookAlikes'
 import { syncCards } from './review'
 import { audio } from './audio'
 import { useToast } from './toast'
@@ -96,6 +97,7 @@ export default function App() {
         <Route path="/drill/grammar/:n/:topic" element={<GrammarDrill />} />
         <Route path="/practice/verbs" element={<VerbTrainer />} />
         <Route path="/verbs/:id" element={<VerbScreen />} />
+        <Route path="/practice/lookalikes" element={<LookAlikes />} />
         <Route path="/drill/run/:key" element={<DrillRunner />} />
         <Route path="/talk" element={<TalkList />} />
         <Route path="/talk/:id" element={<TalkChat />} />

@@ -3,13 +3,15 @@
 import type { Exercise } from './content/types'
 import { a1Content } from './content'
 import { verbs } from './verbs'
+import { lookPairs } from './lookalikes'
 
 type Pair = { pt: string; en: string }
 
-/** Every recorded line with an English meaning: phrases, words, dialogue lines, verb examples. */
+/** Every recorded line with an English meaning: phrases, words, dialogue lines, verb and look-alike examples. */
 const lines = [
   ...Object.values(a1Content).flatMap(u => [...u.phrases, ...u.vocab, ...u.dialogues.flatMap(d => d.lines)]),
   ...verbs.flatMap(v => v.examples),
+  ...lookPairs.flatMap(p => p.words.flatMap(w => w.examples)),
 ]
 const byId: Record<string, Pair> = Object.fromEntries(lines.map(x => [x.id, { pt: x.pt, en: x.en }]))
 const key = (pt: string) => pt.toLowerCase().replace(/[^\p{L}\p{N} ]/gu, '').trim()

@@ -9,6 +9,7 @@ import { SlowToggle } from '../components/AudioRow'
 import Practice from './Practice'
 import { PARTS, generateTest, listeningDrill, questionPool, rng, speakingDrill } from '../test'
 import { verbs } from '../verbs'
+import { lookPairs, pairOpen } from '../lookalikes'
 import { isDone, learnedUnits, openAnyway, textOpen, useDone, verbLearned } from '../learned'
 import { useDue } from '../review'
 import { readingTexts } from '../content/reading'
@@ -132,6 +133,11 @@ export default function PracticeHub() {
         <span className="chev">›</span>
         <h2>🔤 Verb trainer</h2>
         <p className="muted">{extras.verbs.length ? `${extras.verbs.length} of ${verbs.length} verbs from your units: tables with audio, drills, weak verbs first` : `${verbs.length} common verbs; they open as you finish each unit’s Key phrases`}</p>
+      </Link>
+      <Link className="card tap" to="/practice/lookalikes">
+        <span className="chev">›</span>
+        <h2>🔍 Look-alikes</h2>
+        <p className="muted">{(() => { const n = done ? lookPairs.filter(p => pairOpen(p, done)).length : 0; return n ? `${n} of ${lookPairs.length} pairs like é / e and está / esta: hear the difference, use the right one` : `${lookPairs.length} pairs like é / e and avó / avô; they open as you finish each unit’s Key phrases` })()}</p>
       </Link>
       <Link className="card tap" to="/practice/grammar">
         <span className="chev">›</span>
