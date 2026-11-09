@@ -1,0 +1,1071 @@
+{
+  "id": "a1-u1",
+  "n": 1,
+  "title": "Meeting people",
+  "scene": "Beach car park in Baleal",
+  "dialogues": [
+    {
+      "title": "No parque do Baleal",
+      "en": "At the beach car park in Baleal. A surfer your age starts chatting.",
+      "speakers": {
+        "I": {
+          "name": "Inês",
+          "voice": "raquel"
+        },
+        "Y": {
+          "name": "You",
+          "voice": "duarte",
+          "me": true
+        }
+      },
+      "lines": [
+        {
+          "id": "u1-d1-01",
+          "speaker": "I",
+          "pt": "Olá! Vais para a água?",
+          "en": "Hi! Are you going in the water?"
+        },
+        {
+          "id": "u1-d1-02",
+          "speaker": "Y",
+          "pt": "Vou, sim! As ondas estão boas hoje.",
+          "en": "Yes, I am! The waves are good today."
+        },
+        {
+          "id": "u1-d1-03",
+          "speaker": "I",
+          "pt": "Pois estão. Como te chamas?",
+          "en": "They are. What's your name?"
+        },
+        {
+          "id": "u1-d1-04",
+          "speaker": "Y",
+          "pt": "Chamo-me Tom. E tu?",
+          "en": "My name is Tom. And you?"
+        },
+        {
+          "id": "u1-d1-05",
+          "speaker": "I",
+          "pt": "Eu sou a Inês. Muito prazer!",
+          "en": "I'm Inês. Nice to meet you!"
+        },
+        {
+          "id": "u1-d1-06",
+          "speaker": "Y",
+          "pt": "Muito prazer.",
+          "en": "Nice to meet you."
+        },
+        {
+          "id": "u1-d1-07",
+          "speaker": "I",
+          "pt": "De onde és?",
+          "en": "Where are you from?"
+        },
+        {
+          "id": "u1-d1-08",
+          "speaker": "Y",
+          "pt": "Sou da Alemanha. E tu, és daqui?",
+          "en": "I'm from Germany. And you, are you from here?"
+        },
+        {
+          "id": "u1-d1-09",
+          "speaker": "I",
+          "pt": "Sou de Lisboa, mas moro em Peniche.",
+          "en": "I'm from Lisbon, but I live in Peniche."
+        },
+        {
+          "id": "u1-d1-10",
+          "speaker": "Y",
+          "pt": "Eu também moro aqui perto.",
+          "en": "I live nearby too."
+        },
+        {
+          "id": "u1-d1-11",
+          "speaker": "I",
+          "pt": "Fixe! Então até já, na água!",
+          "en": "Cool! See you in a bit, in the water!"
+        },
+        {
+          "id": "u1-d1-12",
+          "speaker": "Y",
+          "pt": "Até já!",
+          "en": "See you in a bit!"
+        }
+      ],
+      "questions": [
+        {
+          "id": "u1-d1-q1",
+          "q": "Where is Inês from?",
+          "options": [
+            "Lisbon",
+            "Peniche",
+            "Germany",
+            "Baleal"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u1-d1-q2",
+          "q": "Where does Inês live?",
+          "options": [
+            "In Peniche",
+            "In Lisbon",
+            "In Germany",
+            "In Baleal"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u1-d1-q3",
+          "q": "What are they both about to do?",
+          "options": [
+            "Go surfing",
+            "Have a coffee",
+            "Go home",
+            "Drive to Lisbon"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "title": "Na esplanada",
+      "en": "On a café terrace. An older lady asks for the free chair at your table.",
+      "speakers": {
+        "G": {
+          "name": "Dona Graça",
+          "voice": "raquel"
+        },
+        "Y": {
+          "name": "You",
+          "voice": "duarte",
+          "me": true
+        }
+      },
+      "lines": [
+        {
+          "id": "u1-d2-01",
+          "speaker": "G",
+          "pt": "Bom dia. Desculpe, esta cadeira está livre?",
+          "en": "Good morning. Excuse me, is this chair free?"
+        },
+        {
+          "id": "u1-d2-02",
+          "speaker": "Y",
+          "pt": "Está, sim. Faça favor.",
+          "en": "Yes, it is. Go ahead."
+        },
+        {
+          "id": "u1-d2-03",
+          "speaker": "G",
+          "pt": "Obrigada. O senhor não é português, pois não?",
+          "en": "Thank you. You're not Portuguese, are you?"
+        },
+        {
+          "id": "u1-d2-04",
+          "speaker": "Y",
+          "pt": "Não, sou alemão. Moro aqui perto.",
+          "en": "No, I'm German. I live nearby."
+        },
+        {
+          "id": "u1-d2-05",
+          "speaker": "G",
+          "pt": "Que bom! E fala muito bem português.",
+          "en": "How nice! And you speak Portuguese very well."
+        },
+        {
+          "id": "u1-d2-06",
+          "speaker": "Y",
+          "pt": "Obrigado, mas ainda estou a aprender.",
+          "en": "Thank you, but I'm still learning."
+        },
+        {
+          "id": "u1-d2-07",
+          "speaker": "G",
+          "pt": "Eu chamo-me Graça. Muito prazer.",
+          "en": "My name is Graça. Pleased to meet you."
+        },
+        {
+          "id": "u1-d2-08",
+          "speaker": "Y",
+          "pt": "Muito prazer, Dona Graça. Eu sou o Tom.",
+          "en": "Pleased to meet you, Dona Graça. I'm Tom."
+        },
+        {
+          "id": "u1-d2-09",
+          "speaker": "G",
+          "pt": "Então, tenha um bom dia!",
+          "en": "Well then, have a good day!"
+        },
+        {
+          "id": "u1-d2-10",
+          "speaker": "Y",
+          "pt": "Igualmente!",
+          "en": "You too!"
+        }
+      ],
+      "questions": [
+        {
+          "id": "u1-d2-q1",
+          "q": "What does Dona Graça ask first?",
+          "options": [
+            "If the chair is free",
+            "Where you are from",
+            "What your name is",
+            "If you speak English"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u1-d2-q2",
+          "q": "What nationality are you in the dialogue?",
+          "options": [
+            "German",
+            "Portuguese",
+            "English",
+            "American"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u1-d2-q3",
+          "q": "What does she say about your Portuguese?",
+          "options": [
+            "You speak it very well",
+            "You should speak more slowly",
+            "She doesn't understand you",
+            "You speak it like a Brazilian"
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ],
+  "phrases": [
+    {
+      "id": "u1-p01",
+      "pt": "Como te chamas?",
+      "en": "What's your name?",
+      "note": "To a friend or someone your age."
+    },
+    {
+      "id": "u1-p02",
+      "pt": "Como se chama?",
+      "en": "What's your name?",
+      "note": "Polite: to strangers and older people."
+    },
+    {
+      "id": "u1-p03",
+      "pt": "Chamo-me Ana.",
+      "en": "My name is Ana.",
+      "note": "In Portugal the me goes after the verb: chamo-me."
+    },
+    {
+      "id": "u1-p04",
+      "pt": "Eu sou o Tom.",
+      "en": "I'm Tom.",
+      "note": "Names usually take o or a: o Tom, a Inês."
+    },
+    {
+      "id": "u1-p05",
+      "pt": "Muito prazer.",
+      "en": "Nice to meet you."
+    },
+    {
+      "id": "u1-p06",
+      "pt": "De onde és?",
+      "en": "Where are you from?",
+      "note": "To a friend."
+    },
+    {
+      "id": "u1-p07",
+      "pt": "De onde é?",
+      "en": "Where are you from?",
+      "note": "Polite."
+    },
+    {
+      "id": "u1-p08",
+      "pt": "Sou da Alemanha.",
+      "en": "I'm from Germany.",
+      "note": "da = de + a (a Alemanha). The UK is o Reino Unido: sou do Reino Unido."
+    },
+    {
+      "id": "u1-p09",
+      "pt": "Sou alemão.",
+      "en": "I'm German.",
+      "note": "A woman says: sou alemã."
+    },
+    {
+      "id": "u1-p10",
+      "pt": "Sou de Lisboa.",
+      "en": "I'm from Lisbon.",
+      "note": "Cities usually have no article: de Lisboa, de Peniche."
+    },
+    {
+      "id": "u1-p11",
+      "pt": "És daqui?",
+      "en": "Are you from here?",
+      "note": "daqui = de + aqui."
+    },
+    {
+      "id": "u1-p12",
+      "pt": "Onde moras?",
+      "en": "Where do you live?",
+      "note": "To a friend. Polite: Onde mora?"
+    },
+    {
+      "id": "u1-p13",
+      "pt": "Moro aqui perto.",
+      "en": "I live nearby."
+    },
+    {
+      "id": "u1-p14",
+      "pt": "Moro em Peniche.",
+      "en": "I live in Peniche."
+    },
+    {
+      "id": "u1-p15",
+      "pt": "Estou a aprender português.",
+      "en": "I'm learning Portuguese.",
+      "note": "Estar a + infinitive is the Portuguese way to say -ing."
+    },
+    {
+      "id": "u1-p16",
+      "pt": "Fixe!",
+      "en": "Cool!",
+      "note": "Informal and very Portuguese."
+    },
+    {
+      "id": "u1-p17",
+      "pt": "Até já!",
+      "en": "See you in a bit!",
+      "note": "Sooner than até logo: minutes, not hours."
+    },
+    {
+      "id": "u1-p18",
+      "pt": "Esta cadeira está livre?",
+      "en": "Is this chair free?"
+    },
+    {
+      "id": "u1-p19",
+      "pt": "Faça favor.",
+      "en": "Go ahead. / Here you are.",
+      "note": "Polite. Also said when handing something over."
+    },
+    {
+      "id": "u1-p20",
+      "pt": "Tenha um bom dia!",
+      "en": "Have a good day!"
+    }
+  ],
+  "vocab": [
+    {
+      "id": "u1-v01",
+      "pt": "o nome",
+      "en": "name",
+      "gender": "m"
+    },
+    {
+      "id": "u1-v02",
+      "pt": "o apelido",
+      "en": "surname",
+      "gender": "m",
+      "note": "In Brazil: sobrenome."
+    },
+    {
+      "id": "u1-v03",
+      "pt": "a Alemanha",
+      "en": "Germany",
+      "gender": "f"
+    },
+    {
+      "id": "u1-v04",
+      "pt": "o Reino Unido",
+      "en": "the United Kingdom",
+      "gender": "m"
+    },
+    {
+      "id": "u1-v05",
+      "pt": "os Estados Unidos",
+      "en": "the United States",
+      "gender": "m"
+    },
+    {
+      "id": "u1-v06",
+      "pt": "Portugal",
+      "en": "Portugal",
+      "note": "No article: de Portugal, em Portugal."
+    },
+    {
+      "id": "u1-v07",
+      "pt": "alemão / alemã",
+      "en": "German (man / woman)"
+    },
+    {
+      "id": "u1-v08",
+      "pt": "inglês / inglesa",
+      "en": "English (man / woman)"
+    },
+    {
+      "id": "u1-v09",
+      "pt": "português / portuguesa",
+      "en": "Portuguese (man / woman)"
+    },
+    {
+      "id": "u1-v10",
+      "pt": "o amigo",
+      "en": "friend (male)",
+      "gender": "m"
+    },
+    {
+      "id": "u1-v11",
+      "pt": "a amiga",
+      "en": "friend (female)",
+      "gender": "f"
+    },
+    {
+      "id": "u1-v12",
+      "pt": "ser",
+      "en": "to be (who or what you are, where you're from)"
+    },
+    {
+      "id": "u1-v13",
+      "pt": "morar",
+      "en": "to live (in a place)"
+    },
+    {
+      "id": "u1-v14",
+      "pt": "aprender",
+      "en": "to learn"
+    },
+    {
+      "id": "u1-v15",
+      "pt": "aqui",
+      "en": "here"
+    },
+    {
+      "id": "u1-v16",
+      "pt": "perto",
+      "en": "near, nearby"
+    },
+    {
+      "id": "u1-v17",
+      "pt": "livre",
+      "en": "free (not taken)"
+    },
+    {
+      "id": "u1-v18",
+      "pt": "a cadeira",
+      "en": "chair",
+      "gender": "f"
+    },
+    {
+      "id": "u1-v19",
+      "pt": "o parque de estacionamento",
+      "en": "car park",
+      "gender": "m"
+    },
+    {
+      "id": "u1-v20",
+      "pt": "a onda",
+      "en": "wave",
+      "gender": "f"
+    }
+  ],
+  "grammar": {
+    "topics": [
+      {
+        "id": "u1-t1",
+        "title": "Ser: to be (who you are)",
+        "sections": [
+          {
+            "type": "rule",
+            "title": "Identity",
+            "text": "Ser is for who or what you are: your name, nationality, where you're from, your job."
+          },
+          {
+            "type": "table",
+            "caption": "ser, present",
+            "head": [
+              "Person",
+              "ser"
+            ],
+            "rows": [
+              [
+                "eu (I)",
+                "sou"
+              ],
+              [
+                "tu (you, friend)",
+                "és"
+              ],
+              [
+                "ele, ela, você (he, she, you polite)",
+                "é"
+              ],
+              [
+                "nós (we)",
+                "somos"
+              ],
+              [
+                "eles, elas, vocês (they, you all)",
+                "são"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "items": [
+              {
+                "id": "u1-g01",
+                "pt": "Sou alemão.",
+                "en": "I'm German."
+              },
+              {
+                "id": "u1-g02",
+                "pt": "És de Lisboa?",
+                "en": "Are you from Lisbon? (to a friend)"
+              },
+              {
+                "id": "u1-g03",
+                "pt": "A Inês é de Lisboa.",
+                "en": "Inês is from Lisbon."
+              },
+              {
+                "id": "u1-g04",
+                "pt": "Somos amigos.",
+                "en": "We're friends."
+              }
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "Ser de + place: sou de Lisboa. With countries, de joins the article: sou da Alemanha (de + a), sou do Reino Unido (de + o), sou dos Estados Unidos (de + os)."
+          },
+          {
+            "type": "ep-note",
+            "text": "You'll often hear the pronoun dropped: Sou alemão, not Eu sou alemão. The verb ending already says who it is."
+          }
+        ],
+        "exercises": [
+          {
+            "type": "gap-fill",
+            "pt": "Eu ___ alemão.",
+            "en": "I'm German.",
+            "answers": [
+              "sou"
+            ],
+            "options": [
+              "sou",
+              "és",
+              "é"
+            ],
+            "part": "grammar",
+            "id": "u1-gx01"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Tu ___ de Lisboa?",
+            "en": "Are you from Lisbon?",
+            "answers": [
+              "és"
+            ],
+            "options": [
+              "sou",
+              "és",
+              "é"
+            ],
+            "part": "grammar",
+            "id": "u1-gx02"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "A Inês ___ portuguesa.",
+            "en": "Inês is Portuguese.",
+            "answers": [
+              "é"
+            ],
+            "options": [
+              "és",
+              "é",
+              "são"
+            ],
+            "part": "grammar",
+            "id": "u1-gx03"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Nós ___ amigos.",
+            "en": "We're friends.",
+            "answers": [
+              "somos"
+            ],
+            "options": [
+              "somos",
+              "são",
+              "sou"
+            ],
+            "part": "grammar",
+            "id": "u1-gx04"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which means \"I'm from Germany\"?",
+            "options": [
+              "Sou da Alemanha.",
+              "Sou de Alemanha.",
+              "Sou do Alemanha."
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u1-gx05"
+          }
+        ]
+      },
+      {
+        "id": "u1-t2",
+        "title": "Chamo-me: the little word goes after the verb",
+        "sections": [
+          {
+            "type": "rule",
+            "title": "After the verb, with a hyphen",
+            "text": "In Portugal the small pronouns me, te, se go after the verb in normal sentences, joined with a hyphen: chamo-me, chama-se."
+          },
+          {
+            "type": "table",
+            "caption": "chamar-se (to be called), present",
+            "head": [
+              "Person",
+              "chamar-se"
+            ],
+            "rows": [
+              [
+                "eu",
+                "chamo-me"
+              ],
+              [
+                "tu",
+                "chamas-te"
+              ],
+              [
+                "ele, ela, você",
+                "chama-se"
+              ],
+              [
+                "nós",
+                "chamamo-nos"
+              ],
+              [
+                "eles, elas, vocês",
+                "chamam-se"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "items": [
+              {
+                "id": "u1-g05",
+                "pt": "Chamo-me Tom.",
+                "en": "My name is Tom."
+              },
+              {
+                "id": "u1-g06",
+                "pt": "Ela chama-se Inês.",
+                "en": "Her name is Inês."
+              },
+              {
+                "id": "u1-g07",
+                "pt": "Como te chamas?",
+                "en": "What's your name? (to a friend)"
+              },
+              {
+                "id": "u1-g08",
+                "pt": "Como se chama?",
+                "en": "What's your name? (polite)"
+              }
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "Question words and não pull the pronoun in front of the verb: Como te chamas? Não me chamo Tom."
+          },
+          {
+            "type": "ep-note",
+            "text": "Brazilians start with the pronoun (Me chamo…). In Portugal that sounds wrong: say Chamo-me Tom."
+          }
+        ],
+        "exercises": [
+          {
+            "type": "choose",
+            "prompt": "How do you say \"My name is Tom\" in Portugal?",
+            "options": [
+              "Chamo-me Tom.",
+              "Me chamo Tom."
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u1-gx06"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Ela ___ Inês.",
+            "en": "Her name is Inês.",
+            "answers": [
+              "chama-se"
+            ],
+            "options": [
+              "chama-se",
+              "se chama",
+              "chamo-me"
+            ],
+            "part": "grammar",
+            "id": "u1-gx07"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Como ___ chamas?",
+            "en": "What's your name? (to a friend)",
+            "answers": [
+              "te"
+            ],
+            "options": [
+              "te",
+              "se",
+              "me"
+            ],
+            "part": "grammar",
+            "id": "u1-gx08"
+          },
+          {
+            "type": "sentence-builder",
+            "en": "What's your name? (polite)",
+            "tiles": [
+              "Como",
+              "se",
+              "chama",
+              "te",
+              "chamas"
+            ],
+            "answer": "Como se chama",
+            "part": "grammar",
+            "id": "u1-gx09"
+          }
+        ]
+      }
+    ]
+  },
+  "exercises": [
+    {
+      "type": "listen-choose",
+      "pt": "Como te chamas?",
+      "options": [
+        "What's your name?",
+        "Where are you from?",
+        "Where do you live?",
+        "How are you?"
+      ],
+      "answer": 0,
+      "id": "u1-x01"
+    },
+    {
+      "type": "listen-choose",
+      "pt": "De onde é?",
+      "options": [
+        "What's your name?",
+        "Where are you from?",
+        "Where do you live?",
+        "Is this chair free?"
+      ],
+      "answer": 1,
+      "id": "u1-x02"
+    },
+    {
+      "type": "listen-choose",
+      "pt": "Moro aqui perto.",
+      "options": [
+        "I'm from here.",
+        "I'm learning.",
+        "I live nearby.",
+        "It's far away."
+      ],
+      "answer": 2,
+      "id": "u1-x03"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Muito ___!",
+      "en": "Nice to meet you!",
+      "answers": [
+        "prazer"
+      ],
+      "options": [
+        "prazer",
+        "bem",
+        "obrigado"
+      ],
+      "id": "u1-x04"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Sou ___ Alemanha.",
+      "en": "I'm from Germany.",
+      "answers": [
+        "da"
+      ],
+      "options": [
+        "de",
+        "da",
+        "do"
+      ],
+      "id": "u1-x05"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Sou ___ Reino Unido.",
+      "en": "I'm from the UK.",
+      "answers": [
+        "do"
+      ],
+      "options": [
+        "de",
+        "da",
+        "do"
+      ],
+      "id": "u1-x06"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Sou ___ Lisboa.",
+      "en": "I'm from Lisbon.",
+      "answers": [
+        "de"
+      ],
+      "options": [
+        "de",
+        "da",
+        "do"
+      ],
+      "id": "u1-x07"
+    },
+    {
+      "type": "choose",
+      "prompt": "You meet a surfer your age. How do you ask her name?",
+      "options": [
+        "Como te chamas?",
+        "Como se chama a senhora?"
+      ],
+      "answer": 0,
+      "part": "grammar",
+      "id": "u1-x08"
+    },
+    {
+      "type": "choose",
+      "prompt": "A woman from Germany says: Sou…",
+      "options": [
+        "alemão",
+        "alemã",
+        "Alemanha"
+      ],
+      "answer": 1,
+      "part": "grammar",
+      "id": "u1-x09"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "I live nearby.",
+      "tiles": [
+        "Moro",
+        "aqui",
+        "perto",
+        "sou",
+        "longe"
+      ],
+      "answer": "Moro aqui perto",
+      "id": "u1-x10"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "I'm learning Portuguese.",
+      "tiles": [
+        "Estou",
+        "a",
+        "aprender",
+        "português",
+        "sou",
+        "inglês"
+      ],
+      "answer": "Estou a aprender português",
+      "id": "u1-x11"
+    },
+    {
+      "type": "translate",
+      "en": "Nice to meet you.",
+      "answers": [
+        "Muito prazer"
+      ],
+      "id": "u1-x12"
+    },
+    {
+      "type": "translate",
+      "en": "Where are you from? (to a friend)",
+      "answers": [
+        "De onde és",
+        "És de onde",
+        "Tu és de onde"
+      ],
+      "id": "u1-x13"
+    }
+  ],
+  "speaking": [
+    {
+      "prompt": "Ask a surfer your age what her name is.",
+      "answers": [
+        "Como te chamas"
+      ],
+      "pt": "Como te chamas?",
+      "id": "u1-s01"
+    },
+    {
+      "prompt": "Say your name is Tom.",
+      "answers": [
+        "Chamo-me Tom",
+        "Eu sou o Tom",
+        "O meu nome é Tom"
+      ],
+      "pt": "Chamo-me Tom.",
+      "id": "u1-s02"
+    },
+    {
+      "prompt": "Say you're from Germany.",
+      "answers": [
+        "Sou da Alemanha",
+        "Eu sou da Alemanha"
+      ],
+      "pt": "Sou da Alemanha.",
+      "id": "u1-s03"
+    },
+    {
+      "prompt": "Say you live nearby.",
+      "answers": [
+        "Moro aqui perto",
+        "Eu moro aqui perto"
+      ],
+      "pt": "Moro aqui perto.",
+      "id": "u1-s04"
+    },
+    {
+      "prompt": "Say: nice to meet you.",
+      "answers": [
+        "Muito prazer"
+      ],
+      "pt": "Muito prazer.",
+      "id": "u1-s05"
+    },
+    {
+      "prompt": "Say you're learning Portuguese.",
+      "answers": [
+        "Estou a aprender português",
+        "Ainda estou a aprender português"
+      ],
+      "pt": "Estou a aprender português.",
+      "id": "u1-s06"
+    }
+  ],
+  "check": [
+    {
+      "type": "listen-choose",
+      "pt": "Sou de Lisboa, mas moro em Peniche.",
+      "options": [
+        "I'm from Peniche, but I live in Lisbon.",
+        "I'm from Lisbon, but I live in Peniche.",
+        "I live in Lisbon and Peniche.",
+        "I'm going to Lisbon."
+      ],
+      "answer": 1,
+      "id": "u1-c01"
+    },
+    {
+      "type": "listen-choose",
+      "pt": "Esta cadeira está livre?",
+      "options": [
+        "Is this your car?",
+        "Are you free today?",
+        "Is this chair free?",
+        "Where is the chair?"
+      ],
+      "answer": 2,
+      "id": "u1-c02"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Nós ___ amigos.",
+      "en": "We're friends.",
+      "answers": [
+        "somos"
+      ],
+      "options": [
+        "somos",
+        "são",
+        "sou"
+      ],
+      "id": "u1-c03"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Ela ___ Graça.",
+      "en": "Her name is Graça.",
+      "answers": [
+        "chama-se"
+      ],
+      "options": [
+        "chama-se",
+        "se chama",
+        "chamo-me"
+      ],
+      "id": "u1-c04"
+    },
+    {
+      "type": "choose",
+      "prompt": "Which is right in Portugal?",
+      "options": [
+        "Chamo-me Inês.",
+        "Me chamo Inês."
+      ],
+      "answer": 0,
+      "id": "u1-c05"
+    },
+    {
+      "type": "choose",
+      "prompt": "A man from England says:",
+      "options": [
+        "Sou inglês.",
+        "Sou inglesa.",
+        "Sou Inglaterra."
+      ],
+      "answer": 0,
+      "id": "u1-c06"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Where do you live? (to a friend)",
+      "tiles": [
+        "Onde",
+        "moras",
+        "mora",
+        "de"
+      ],
+      "answer": "Onde moras",
+      "id": "u1-c07"
+    },
+    {
+      "type": "translate",
+      "en": "I'm from Germany.",
+      "answers": [
+        "Sou da Alemanha",
+        "Eu sou da Alemanha"
+      ],
+      "id": "u1-c08"
+    }
+  ]
+}

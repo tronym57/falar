@@ -1,0 +1,1057 @@
+{
+  "id": "a1-u2",
+  "n": 2,
+  "title": "Café / pastelaria",
+  "scene": "Ordering at the counter in Peniche",
+  "dialogues": [
+    {
+      "title": "Na pastelaria",
+      "en": "At a pastelaria in Peniche, in the morning.",
+      "speakers": {
+        "E": {
+          "name": "Empregada",
+          "voice": "raquel"
+        },
+        "Y": {
+          "name": "You",
+          "voice": "duarte",
+          "me": true
+        }
+      },
+      "lines": [
+        {
+          "id": "u2-d1-01",
+          "speaker": "E",
+          "pt": "Bom dia! O que deseja?",
+          "en": "Good morning! What would you like?"
+        },
+        {
+          "id": "u2-d1-02",
+          "speaker": "Y",
+          "pt": "Bom dia. Queria um galão e um pastel de nata, por favor.",
+          "en": "Good morning. I'd like a galão and a custard tart, please."
+        },
+        {
+          "id": "u2-d1-03",
+          "speaker": "E",
+          "pt": "É para comer aqui ou para levar?",
+          "en": "Is it to eat here or to take away?"
+        },
+        {
+          "id": "u2-d1-04",
+          "speaker": "Y",
+          "pt": "É para comer aqui.",
+          "en": "It's to eat here."
+        },
+        {
+          "id": "u2-d1-05",
+          "speaker": "E",
+          "pt": "Mais alguma coisa?",
+          "en": "Anything else?"
+        },
+        {
+          "id": "u2-d1-06",
+          "speaker": "Y",
+          "pt": "Sim, uma água sem gás, por favor.",
+          "en": "Yes, a still water, please."
+        },
+        {
+          "id": "u2-d1-07",
+          "speaker": "E",
+          "pt": "Fresca ou natural?",
+          "en": "Cold or room temperature?"
+        },
+        {
+          "id": "u2-d1-08",
+          "speaker": "Y",
+          "pt": "Fresca, se faz favor.",
+          "en": "Cold, please."
+        },
+        {
+          "id": "u2-d1-09",
+          "speaker": "E",
+          "pt": "Muito bem. Mais alguma coisa?",
+          "en": "Very good. Anything else?"
+        },
+        {
+          "id": "u2-d1-10",
+          "speaker": "Y",
+          "pt": "Não, é tudo. Quanto é?",
+          "en": "No, that's all. How much is it?"
+        },
+        {
+          "id": "u2-d1-11",
+          "speaker": "E",
+          "pt": "São três euros.",
+          "en": "That's three euros."
+        },
+        {
+          "id": "u2-d1-12",
+          "speaker": "Y",
+          "pt": "Aqui tem. Obrigado!",
+          "en": "Here you are. Thank you!"
+        }
+      ],
+      "questions": [
+        {
+          "id": "u2-d1-q1",
+          "q": "What does he order to eat?",
+          "options": [
+            "A custard tart",
+            "Toast",
+            "A sandwich",
+            "A cake"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u2-d1-q2",
+          "q": "Is it to eat there or to take away?",
+          "options": [
+            "To eat there",
+            "To take away",
+            "Half and half",
+            "He doesn't say"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u2-d1-q3",
+          "q": "What kind of water does he want?",
+          "options": [
+            "Still and cold",
+            "Sparkling and cold",
+            "Still, room temperature",
+            "Tap water"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "title": "Ao balcão do café",
+      "en": "At the counter of a small café in the afternoon.",
+      "speakers": {
+        "E": {
+          "name": "Empregada",
+          "voice": "raquel"
+        },
+        "Y": {
+          "name": "You",
+          "voice": "duarte",
+          "me": true
+        }
+      },
+      "lines": [
+        {
+          "id": "u2-d2-01",
+          "speaker": "E",
+          "pt": "Boa tarde. Diga!",
+          "en": "Good afternoon. What can I get you?"
+        },
+        {
+          "id": "u2-d2-02",
+          "speaker": "Y",
+          "pt": "Boa tarde. Queria um café e uma torrada, por favor.",
+          "en": "Good afternoon. I'd like a coffee and a toast, please."
+        },
+        {
+          "id": "u2-d2-03",
+          "speaker": "E",
+          "pt": "A torrada é com manteiga?",
+          "en": "Do you want butter on the toast?"
+        },
+        {
+          "id": "u2-d2-04",
+          "speaker": "Y",
+          "pt": "Pode ser.",
+          "en": "Sure."
+        },
+        {
+          "id": "u2-d2-05",
+          "speaker": "E",
+          "pt": "Mais alguma coisa?",
+          "en": "Anything else?"
+        },
+        {
+          "id": "u2-d2-06",
+          "speaker": "Y",
+          "pt": "Não, obrigado. Onde é a casa de banho?",
+          "en": "No, thank you. Where is the toilet?"
+        },
+        {
+          "id": "u2-d2-07",
+          "speaker": "E",
+          "pt": "É ali ao fundo, à direita.",
+          "en": "It's over there at the back, on the right."
+        },
+        {
+          "id": "u2-d2-08",
+          "speaker": "Y",
+          "pt": "Obrigado. Quanto é?",
+          "en": "Thank you. How much is it?"
+        },
+        {
+          "id": "u2-d2-09",
+          "speaker": "E",
+          "pt": "São dois euros e meio.",
+          "en": "That's two and a half euros."
+        },
+        {
+          "id": "u2-d2-10",
+          "speaker": "Y",
+          "pt": "Aqui tem.",
+          "en": "Here you are."
+        }
+      ],
+      "questions": [
+        {
+          "id": "u2-d2-q1",
+          "q": "What does he have with his coffee?",
+          "options": [
+            "Toast with butter",
+            "A custard tart",
+            "Toast with cheese",
+            "Nothing"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u2-d2-q2",
+          "q": "What does he ask about?",
+          "options": [
+            "Where the toilet is",
+            "Where the bus stop is",
+            "If they have Wi-Fi",
+            "If he can pay by card"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u2-d2-q3",
+          "q": "Where is the toilet?",
+          "options": [
+            "At the back, on the right",
+            "Upstairs",
+            "Outside, on the left",
+            "Next to the door"
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ],
+  "phrases": [
+    {
+      "id": "u2-p01",
+      "pt": "Queria um café, por favor.",
+      "en": "I'd like a coffee, please.",
+      "note": "Queria (literally \"I wanted\") is the polite way to order."
+    },
+    {
+      "id": "u2-p02",
+      "pt": "Um galão, por favor.",
+      "en": "A galão, please.",
+      "note": "Milky coffee in a tall glass."
+    },
+    {
+      "id": "u2-p03",
+      "pt": "Uma meia de leite, por favor.",
+      "en": "A white coffee, please.",
+      "note": "Coffee with milk in a cup, half and half."
+    },
+    {
+      "id": "u2-p04",
+      "pt": "O que deseja?",
+      "en": "What would you like?",
+      "note": "What staff ask you."
+    },
+    {
+      "id": "u2-p05",
+      "pt": "Diga!",
+      "en": "Yes? / What can I get you?",
+      "note": "Literally \"say!\". Staff use it all the time; it isn't rude."
+    },
+    {
+      "id": "u2-p06",
+      "pt": "Mais alguma coisa?",
+      "en": "Anything else?"
+    },
+    {
+      "id": "u2-p07",
+      "pt": "É tudo.",
+      "en": "That's all."
+    },
+    {
+      "id": "u2-p08",
+      "pt": "Quanto é?",
+      "en": "How much is it?"
+    },
+    {
+      "id": "u2-p09",
+      "pt": "É para comer aqui.",
+      "en": "It's to eat here."
+    },
+    {
+      "id": "u2-p10",
+      "pt": "É para levar.",
+      "en": "It's to take away."
+    },
+    {
+      "id": "u2-p11",
+      "pt": "Pode ser.",
+      "en": "Sure. / That's fine.",
+      "note": "A very common way to say yes to an offer."
+    },
+    {
+      "id": "u2-p12",
+      "pt": "Se faz favor.",
+      "en": "Please.",
+      "note": "Same as por favor, and very Portuguese."
+    },
+    {
+      "id": "u2-p13",
+      "pt": "Aqui tem.",
+      "en": "Here you are."
+    },
+    {
+      "id": "u2-p14",
+      "pt": "Sem açúcar, por favor.",
+      "en": "No sugar, please."
+    },
+    {
+      "id": "u2-p15",
+      "pt": "Uma água fresca.",
+      "en": "A cold water.",
+      "note": "Natural means room temperature. You'll be asked: fresca ou natural?"
+    },
+    {
+      "id": "u2-p16",
+      "pt": "Uma água com gás.",
+      "en": "A sparkling water."
+    },
+    {
+      "id": "u2-p17",
+      "pt": "Onde é a casa de banho?",
+      "en": "Where is the toilet?"
+    },
+    {
+      "id": "u2-p18",
+      "pt": "A conta, por favor.",
+      "en": "The bill, please.",
+      "note": "At the counter you usually just ask: Quanto é?"
+    },
+    {
+      "id": "u2-p19",
+      "pt": "Tem pastéis de nata?",
+      "en": "Do you have custard tarts?"
+    },
+    {
+      "id": "u2-p20",
+      "pt": "Está ótimo!",
+      "en": "It's great!"
+    }
+  ],
+  "vocab": [
+    {
+      "id": "u2-v01",
+      "pt": "o café",
+      "en": "coffee (an espresso)",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v02",
+      "pt": "o galão",
+      "en": "milky coffee in a glass",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v03",
+      "pt": "a meia de leite",
+      "en": "white coffee in a cup",
+      "gender": "f"
+    },
+    {
+      "id": "u2-v04",
+      "pt": "o chá",
+      "en": "tea",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v05",
+      "pt": "o sumo de laranja",
+      "en": "orange juice",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v06",
+      "pt": "a água",
+      "en": "water",
+      "gender": "f"
+    },
+    {
+      "id": "u2-v07",
+      "pt": "o pão",
+      "en": "bread",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v08",
+      "pt": "a torrada",
+      "en": "toast",
+      "gender": "f"
+    },
+    {
+      "id": "u2-v09",
+      "pt": "a sandes",
+      "en": "sandwich",
+      "gender": "f",
+      "note": "In Brazil: sanduíche."
+    },
+    {
+      "id": "u2-v10",
+      "pt": "o pastel de nata",
+      "en": "custard tart",
+      "gender": "m",
+      "note": "Plural: os pastéis de nata."
+    },
+    {
+      "id": "u2-v11",
+      "pt": "o bolo",
+      "en": "cake",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v12",
+      "pt": "a manteiga",
+      "en": "butter",
+      "gender": "f"
+    },
+    {
+      "id": "u2-v13",
+      "pt": "o queijo",
+      "en": "cheese",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v14",
+      "pt": "o fiambre",
+      "en": "ham (cooked)",
+      "gender": "m",
+      "note": "In Brazil: presunto. In Portugal presunto is cured ham."
+    },
+    {
+      "id": "u2-v15",
+      "pt": "o açúcar",
+      "en": "sugar",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v16",
+      "pt": "o leite",
+      "en": "milk",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v17",
+      "pt": "a pastelaria",
+      "en": "pastry shop and café",
+      "gender": "f"
+    },
+    {
+      "id": "u2-v18",
+      "pt": "o empregado",
+      "en": "waiter",
+      "gender": "m"
+    },
+    {
+      "id": "u2-v19",
+      "pt": "a empregada",
+      "en": "waitress",
+      "gender": "f"
+    },
+    {
+      "id": "u2-v20",
+      "pt": "a casa de banho",
+      "en": "toilet, bathroom",
+      "gender": "f",
+      "note": "In Brazil: banheiro."
+    }
+  ],
+  "grammar": {
+    "topics": [
+      {
+        "id": "u2-t1",
+        "title": "O, a, um, uma: every noun has a gender",
+        "sections": [
+          {
+            "type": "rule",
+            "title": "Masculine or feminine",
+            "text": "Every noun is masculine or feminine, and the little words before it follow: o and um for masculine, a and uma for feminine."
+          },
+          {
+            "type": "table",
+            "caption": "Articles",
+            "head": [
+              "",
+              "masculine",
+              "feminine"
+            ],
+            "rows": [
+              [
+                "the",
+                "o café",
+                "a torrada"
+              ],
+              [
+                "a / an",
+                "um café",
+                "uma torrada"
+              ],
+              [
+                "the (plural)",
+                "os cafés",
+                "as torradas"
+              ]
+            ]
+          },
+          {
+            "type": "rule",
+            "title": "A rule of thumb",
+            "text": "Most nouns ending in -o are masculine, most ending in -a are feminine. Others you just learn: o chá, o leite, a sandes."
+          },
+          {
+            "type": "examples",
+            "items": [
+              {
+                "id": "u2-g01",
+                "pt": "Um galão e uma torrada, por favor.",
+                "en": "A galão and a toast, please."
+              },
+              {
+                "id": "u2-g02",
+                "pt": "O café está ótimo.",
+                "en": "The coffee is great."
+              },
+              {
+                "id": "u2-g03",
+                "pt": "A água é fresca?",
+                "en": "Is the water cold?"
+              }
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "Learn every noun with its article: o leite, a água, o pão. Then you never have to guess."
+          },
+          {
+            "type": "ep-note",
+            "text": "In Portugal um café is a small espresso. For a big milky coffee, ask for um galão (glass) or uma meia de leite (cup)."
+          }
+        ],
+        "exercises": [
+          {
+            "type": "gap-fill",
+            "pt": "Queria ___ galão.",
+            "en": "I'd like a galão.",
+            "answers": [
+              "um"
+            ],
+            "options": [
+              "um",
+              "uma"
+            ],
+            "part": "grammar",
+            "id": "u2-gx01"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Queria ___ torrada.",
+            "en": "I'd like a toast.",
+            "answers": [
+              "uma"
+            ],
+            "options": [
+              "um",
+              "uma"
+            ],
+            "part": "grammar",
+            "id": "u2-gx02"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ água está fresca.",
+            "en": "The water is cold.",
+            "answers": [
+              "A"
+            ],
+            "options": [
+              "O",
+              "A"
+            ],
+            "part": "grammar",
+            "id": "u2-gx03"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ pão é bom.",
+            "en": "The bread is good.",
+            "answers": [
+              "O"
+            ],
+            "options": [
+              "O",
+              "A"
+            ],
+            "part": "grammar",
+            "id": "u2-gx04"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which is right?",
+            "options": [
+              "uma café",
+              "um café"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u2-gx05"
+          }
+        ]
+      },
+      {
+        "id": "u2-t2",
+        "title": "Queria: the polite way to order",
+        "sections": [
+          {
+            "type": "rule",
+            "title": "Quero or queria?",
+            "text": "Querer means to want. Quero (I want) is direct. In cafés and shops people say queria (I'd like): softer and more polite."
+          },
+          {
+            "type": "table",
+            "caption": "querer, present",
+            "head": [
+              "Person",
+              "querer"
+            ],
+            "rows": [
+              [
+                "eu",
+                "quero"
+              ],
+              [
+                "tu",
+                "queres"
+              ],
+              [
+                "ele, ela, você",
+                "quer"
+              ],
+              [
+                "nós",
+                "queremos"
+              ],
+              [
+                "eles, elas, vocês",
+                "querem"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "items": [
+              {
+                "id": "u2-g04",
+                "pt": "Queria um chá, por favor.",
+                "en": "I'd like a tea, please."
+              },
+              {
+                "id": "u2-g05",
+                "pt": "Queres um café?",
+                "en": "Do you want a coffee? (to a friend)"
+              },
+              {
+                "id": "u2-g06",
+                "pt": "Nós queremos dois galões.",
+                "en": "We want two galões."
+              }
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "Staff offer things with quer: Quer açúcar? Quer saco? Answer with Pode ser (sure) or Não, obrigado."
+          }
+        ],
+        "exercises": [
+          {
+            "type": "choose",
+            "prompt": "The most polite way to order a coffee:",
+            "options": [
+              "Quero café.",
+              "Queria um café, por favor.",
+              "Dá café."
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u2-gx06"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Tu ___ um café?",
+            "en": "Do you want a coffee?",
+            "answers": [
+              "queres"
+            ],
+            "options": [
+              "quero",
+              "queres",
+              "quer"
+            ],
+            "part": "grammar",
+            "id": "u2-gx07"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Eu ___ um chá.",
+            "en": "I want a tea.",
+            "answers": [
+              "quero"
+            ],
+            "options": [
+              "quero",
+              "quer",
+              "querem"
+            ],
+            "part": "grammar",
+            "id": "u2-gx08"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Nós ___ duas águas.",
+            "en": "We want two waters.",
+            "answers": [
+              "queremos"
+            ],
+            "options": [
+              "queremos",
+              "querem",
+              "quer"
+            ],
+            "part": "grammar",
+            "id": "u2-gx09"
+          }
+        ]
+      }
+    ]
+  },
+  "exercises": [
+    {
+      "type": "listen-choose",
+      "pt": "Mais alguma coisa?",
+      "options": [
+        "Anything else?",
+        "How much is it?",
+        "Is that all?",
+        "For here?"
+      ],
+      "answer": 0,
+      "id": "u2-x01"
+    },
+    {
+      "type": "listen-choose",
+      "pt": "É para levar.",
+      "options": [
+        "It's to eat here.",
+        "It's to take away.",
+        "That's all.",
+        "Here you are."
+      ],
+      "answer": 1,
+      "id": "u2-x02"
+    },
+    {
+      "type": "listen-choose",
+      "pt": "Fresca ou natural?",
+      "options": [
+        "With or without sugar?",
+        "Big or small?",
+        "Cold or room temperature?",
+        "For here or to take away?"
+      ],
+      "answer": 2,
+      "id": "u2-x03"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Não, é ___.",
+      "en": "No, that's all.",
+      "answers": [
+        "tudo"
+      ],
+      "options": [
+        "tudo",
+        "nada",
+        "bem"
+      ],
+      "id": "u2-x04"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Uma água sem ___, por favor.",
+      "en": "A still water, please.",
+      "answers": [
+        "gás"
+      ],
+      "options": [
+        "gás",
+        "leite",
+        "açúcar"
+      ],
+      "id": "u2-x05"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Onde é a casa de ___?",
+      "en": "Where is the toilet?",
+      "answers": [
+        "banho"
+      ],
+      "options": [
+        "banho",
+        "café",
+        "conta"
+      ],
+      "id": "u2-x06"
+    },
+    {
+      "type": "choose",
+      "prompt": "The waiter asks: É para comer aqui? You want to take it away.",
+      "options": [
+        "Não, é para levar.",
+        "Sim, é tudo.",
+        "Pode ser."
+      ],
+      "answer": 0,
+      "id": "u2-x07"
+    },
+    {
+      "type": "choose",
+      "prompt": "The waiter offers butter on your toast and you'd like it. You say:",
+      "options": [
+        "De nada.",
+        "Pode ser.",
+        "Até já."
+      ],
+      "answer": 1,
+      "id": "u2-x08"
+    },
+    {
+      "type": "choose",
+      "prompt": "Which goes with torrada?",
+      "options": [
+        "o torrada",
+        "um torrada",
+        "a torrada"
+      ],
+      "answer": 2,
+      "part": "grammar",
+      "id": "u2-x09"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "I'd like a galão, please.",
+      "tiles": [
+        "Queria",
+        "um",
+        "galão",
+        "por",
+        "favor",
+        "uma",
+        "quero"
+      ],
+      "answer": "Queria um galão por favor",
+      "id": "u2-x10"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "The bill, please.",
+      "tiles": [
+        "A",
+        "conta",
+        "por",
+        "favor",
+        "o",
+        "tudo"
+      ],
+      "answer": "A conta por favor",
+      "id": "u2-x11"
+    },
+    {
+      "type": "translate",
+      "en": "How much is it?",
+      "answers": [
+        "Quanto é"
+      ],
+      "id": "u2-x12"
+    },
+    {
+      "type": "translate",
+      "en": "Anything else?",
+      "answers": [
+        "Mais alguma coisa"
+      ],
+      "id": "u2-x13"
+    }
+  ],
+  "speaking": [
+    {
+      "prompt": "Order a galão, politely.",
+      "answers": [
+        "Queria um galão por favor",
+        "Queria um galão",
+        "Um galão por favor"
+      ],
+      "pt": "Queria um galão, por favor.",
+      "id": "u2-s01"
+    },
+    {
+      "prompt": "Say it's to take away.",
+      "answers": [
+        "É para levar",
+        "Para levar"
+      ],
+      "pt": "É para levar.",
+      "id": "u2-s02"
+    },
+    {
+      "prompt": "Say that's all.",
+      "answers": [
+        "É tudo",
+        "Não, é tudo"
+      ],
+      "pt": "É tudo.",
+      "id": "u2-s03"
+    },
+    {
+      "prompt": "Ask how much it is.",
+      "answers": [
+        "Quanto é"
+      ],
+      "pt": "Quanto é?",
+      "id": "u2-s04"
+    },
+    {
+      "prompt": "Ask where the toilet is.",
+      "answers": [
+        "Onde é a casa de banho"
+      ],
+      "pt": "Onde é a casa de banho?",
+      "id": "u2-s05"
+    },
+    {
+      "prompt": "Ask for the bill.",
+      "answers": [
+        "A conta por favor",
+        "A conta se faz favor"
+      ],
+      "pt": "A conta, por favor.",
+      "id": "u2-s06"
+    }
+  ],
+  "check": [
+    {
+      "type": "listen-choose",
+      "pt": "Queria uma meia de leite e uma torrada.",
+      "options": [
+        "A white coffee and a toast.",
+        "Half a litre of milk.",
+        "A tea and a cake.",
+        "Milk and bread."
+      ],
+      "answer": 0,
+      "id": "u2-c01"
+    },
+    {
+      "type": "listen-choose",
+      "pt": "É para comer aqui ou para levar?",
+      "options": [
+        "Is that all?",
+        "For here or to take away?",
+        "Do you want sugar?",
+        "Where do you want to sit?"
+      ],
+      "answer": 1,
+      "id": "u2-c02"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Queria ___ sandes de queijo.",
+      "en": "I'd like a cheese sandwich.",
+      "answers": [
+        "uma"
+      ],
+      "options": [
+        "um",
+        "uma"
+      ],
+      "id": "u2-c03"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Eles ___ dois cafés.",
+      "en": "They want two coffees.",
+      "answers": [
+        "querem"
+      ],
+      "options": [
+        "quer",
+        "querem",
+        "queremos"
+      ],
+      "id": "u2-c04"
+    },
+    {
+      "type": "choose",
+      "prompt": "Which is the polite way to order?",
+      "options": [
+        "Quero chá.",
+        "Queria um chá, por favor."
+      ],
+      "answer": 1,
+      "id": "u2-c05"
+    },
+    {
+      "type": "choose",
+      "prompt": "The waiter says \"Diga!\". What does he mean?",
+      "options": [
+        "What can I get you?",
+        "Say it again.",
+        "Goodbye."
+      ],
+      "answer": 0,
+      "id": "u2-c06"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Anything else?",
+      "tiles": [
+        "Mais",
+        "alguma",
+        "coisa",
+        "tudo",
+        "menos"
+      ],
+      "answer": "Mais alguma coisa",
+      "id": "u2-c07"
+    },
+    {
+      "type": "translate",
+      "en": "It's to take away.",
+      "answers": [
+        "É para levar"
+      ],
+      "id": "u2-c08"
+    }
+  ]
+}

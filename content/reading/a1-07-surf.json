@@ -2,6 +2,7 @@
   "id": "r07",
   "order": 3,
   "level": "A1",
+  "after": 2,
   "emoji": "🏄",
   "title": "Uma manhã de surf",
   "en": "Miguel's early session at Supertubos.",

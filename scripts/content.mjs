@@ -21,7 +21,7 @@ const BP_WORDS = {
   'econômico': 'económico', 'gênero': 'género', 'tênis': 'ténis', 'bebê': 'bebé',
   'antônio': 'António', 'fenômeno': 'fenómeno', 'acadêmico': 'académico',
   'oi': 'olá', 'a gente': 'nós (a gente is informal/Brazilian-leaning)', 'moça': 'rapariga / menina',
-  garoto: 'miúdo / rapaz', 'pois não': '(Brazilian "how can I help?")', legal: 'fixe (if meaning "cool")',
+  garoto: 'miúdo / rapaz',  legal: 'fixe (if meaning "cool")',
   entendi: 'percebi',
 }
 const GERUND_AFTER_ESTAR = /\b(estou|estás|está|estamos|estão|estava|estavam)\s+\p{L}+ndo\b/iu
@@ -35,8 +35,11 @@ function bpProblems(text) {
     const re = new RegExp(`(^|[^\\p{L}])${word}([^\\p{L}]|$)`, 'iu')
     if (re.test(lower)) problems.push(`Brazilian "${word}" → use ${pt}`)
   }
+  // "Pois não?" alone = Brazilian "How can I help?". As a tag after a comma ("…, pois não?") it's normal in Portugal.
+  if (/(^|[^\p{L}])pois não([^\p{L}]|$)/iu.test(text) && !/,\s*pois não\s*\?/iu.test(text)) problems.push('Brazilian "pois não" (= how can I help?). As a tag ("…, pois não?") it\'s fine')
   if (GERUND_AFTER_ESTAR.test(text)) problems.push('estar + gerund (-ndo) → use "estar a + infinitive"')
-  if (SENTENCE_INITIAL_CLITIC.test(text)) problems.push('pronoun before the verb at sentence start → "Chamo-me", not "Me chamo"')
+  // "Se faz favor" (= please): here se means "if", not a pronoun.
+  if (SENTENCE_INITIAL_CLITIC.test(text.replace(/\bse faz favor/giu, ''))) problems.push('pronoun before the verb at sentence start → "Chamo-me", not "Me chamo"')
   return problems
 }
 
@@ -98,6 +101,7 @@ function loadReading() {
 const readingWords = s => (s.match(/[\p{L}]+(?:-[\p{L}]+)*/gu) ?? []).map(w => w.toLowerCase())
 const readingAudioItems = t => (t.paragraphs ?? []).map(p => ({ id: p.id, text: p.pt.replace(/—\s*/g, ''), voice: 'raquel' }))
 
+let unitNumbers = new Set()
 function validateReading(t, common, errors, seenIds) {
   const err = (where, msg) => errors.push(`${t.id ?? '?'} ${where}: ${msg}`)
   const str = (v, where) => { if (typeof v !== 'string' || !v.trim()) err(where, 'missing text') }
@@ -109,6 +113,8 @@ function validateReading(t, common, errors, seenIds) {
   id(t.id, 'text'); for (const k of ['title', 'en', 'emoji']) str(t[k], k)
   if (!['A1', 'A1+'].includes(t.level)) err('level', 'must be "A1" or "A1+"')
   if (!Number.isInteger(t.order)) err('order', 'must be a whole number (list position, easiest first)')
+  // Best read after this unit; the unit must exist.
+  if (!Number.isInteger(t.after) || !unitNumbers.has(t.after)) err('after', `must be the number of an existing unit (${[...unitNumbers].join(', ')})`)
   const all = (t.paragraphs ?? []).map(p => p.pt).join(' ').toLowerCase()
   // Phrases to notice: multi-word bits the word glossary can't explain. Each must appear in the text.
   for (const n of t.notes ?? []) {
@@ -241,7 +247,8 @@ function validate(u, errors, seenIds) {
         if (x.type === 'listen-choose') pt(x.pt, x.id); else str(x.prompt, `${x.id} prompt`)
         if (!Array.isArray(x.options) || x.options.length < 2) err(x.id, 'needs at least 2 options')
         else if (!(x.answer >= 0 && x.answer < x.options.length)) err(x.id, 'answer index out of range')
-        if (x.type === 'choose') for (const o of x.options ?? []) for (const p of bpProblems(o)) err(x.id, p)
+        // Only the right option must be European Portuguese: wrong options may show a Brazilian form on purpose.
+        if (x.type === 'choose') for (const p of bpProblems(x.options?.[x.answer] ?? '')) err(x.id, p)
         break
       case 'gap-fill':
         pt(x.pt, x.id); str(x.en, `${x.id} en`)
@@ -306,6 +313,7 @@ if (cmd === 'audio-items') {
       for (const a of verbAudioItems(v.data)) if (!existsSync(join(audioDir, `${a.id}.mp3`))) errors.push(`${v.data.id} ${a.id}: audio file missing (run npm run audio)`)
     }
   }
+  unitNumbers = new Set(units.filter(u => u.data).map(u => u.data.n))
   if (reading.glossary.parseError) errors.push(`${reading.glossary.path}: invalid JSON: ${reading.glossary.parseError}`)
   const common = reading.glossary.data?.words ?? {}
   for (const t of reading.texts) {

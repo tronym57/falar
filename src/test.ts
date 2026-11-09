@@ -34,11 +34,12 @@ export function shuffle<T>(xs: T[], rand: () => number) {
   return a
 }
 
-/** Accept a noun with or without its article: "o dia" or "dia". */
-const answersFor = (pt: string) => {
-  const bare = pt.replace(/^(o|a|os|as|um|uma) /, '')
-  return bare !== pt ? [pt, bare] : [pt]
-}
+/** Accept a noun with or without its article ("o dia" or "dia"), and either form of "dois / duas". */
+const answersFor = (pt: string) =>
+  [...new Set(pt.split(' / ').flatMap(v => {
+    const bare = v.replace(/^(o|a|os|as|um|uma) /, '')
+    return bare !== v ? [v, bare] : [v]
+  }))]
 
 /** Every possible question per part for these units. */
 export function questionPool(units: Unit[], rand: () => number): Record<Part, Exercise[]> {

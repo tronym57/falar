@@ -86,7 +86,6 @@ export default function PracticeHub() {
               Unit {u.n}
             </button>
           ))}
-          <button className="btn btn-sm rounded-full btn-soft" onClick={() => toast('Units 1–3 arrive in a later update.')}>Units 1–3 · soon</button>
         </div>
 
         <p className="section-label">Parts</p>

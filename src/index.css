@@ -163,6 +163,7 @@ p { margin: 0 0 10px; }
 .card > p:last-child { margin-bottom: 0; }
 .flat-section { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 24px 0 28px; margin: 24px 0; }
 .flat-section > h2 { margin-top: 0; }
+.card.soft-locked h2 { color: var(--muted); }
 .card.locked { opacity: 0.55; box-shadow: none; }
 .rule { background: var(--tint); border-color: transparent; box-shadow: none; border-left: 4px solid var(--accent-line); }
 .tip { background: var(--amber-bg); border-color: transparent; box-shadow: none; border-left: 4px solid var(--amber-line); }

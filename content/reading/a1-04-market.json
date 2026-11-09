@@ -2,6 +2,7 @@
   "id": "r04",
   "order": 5,
   "level": "A1+",
+  "after": 3,
   "emoji": "🐟",
   "title": "No mercado",
   "en": "Buying fish and vegetables at the morning market.",

@@ -64,3 +64,8 @@ export function nextStep(unit: number, progress: StepProgress[]) {
 export function unitDoneCount(unit: number, progress: StepProgress[]) {
   return progress.filter(p => p.unit === unit && p.done).length
 }
+
+/** Units open in order: Unit N once Unit N-1's check is passed (you can still open it early). */
+export function unitUnlocked(unit: number, progress: StepProgress[]) {
+  return unit === 0 || progress.some(p => p.unit === unit - 1 && p.step === 'check' && p.done)
+}

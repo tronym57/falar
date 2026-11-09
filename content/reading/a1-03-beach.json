@@ -2,6 +2,7 @@
   "id": "r03",
   "order": 6,
   "level": "A1+",
+  "after": 2,
   "emoji": "🏖️",
   "title": "Um dia de praia",
   "en": "Rita and Tiago spend Saturday at the beach.",

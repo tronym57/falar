@@ -1,0 +1,1112 @@
+{
+  "id": "a1-u3",
+  "n": 3,
+  "title": "Numbers & money",
+  "scene": "Paying at the mercado",
+  "dialogues": [
+    {
+      "title": "Na banca da fruta",
+      "en": "At a fruit stall in the Peniche market.",
+      "speakers": {
+        "V": {
+          "name": "Vendedora",
+          "voice": "raquel"
+        },
+        "Y": {
+          "name": "You",
+          "voice": "duarte",
+          "me": true
+        }
+      },
+      "lines": [
+        {
+          "id": "u3-d1-01",
+          "speaker": "V",
+          "pt": "Bom dia! O que vai ser?",
+          "en": "Good morning! What will it be?"
+        },
+        {
+          "id": "u3-d1-02",
+          "speaker": "Y",
+          "pt": "Bom dia. Quanto custam as laranjas?",
+          "en": "Good morning. How much are the oranges?"
+        },
+        {
+          "id": "u3-d1-03",
+          "speaker": "V",
+          "pt": "Custam dois euros o quilo.",
+          "en": "Two euros a kilo."
+        },
+        {
+          "id": "u3-d1-04",
+          "speaker": "Y",
+          "pt": "Queria dois quilos, por favor. E quanto custa a melancia?",
+          "en": "I'd like two kilos, please. And how much is the watermelon?"
+        },
+        {
+          "id": "u3-d1-05",
+          "speaker": "V",
+          "pt": "A melancia custa cinco euros.",
+          "en": "The watermelon is five euros."
+        },
+        {
+          "id": "u3-d1-06",
+          "speaker": "Y",
+          "pt": "Está bem, levo também.",
+          "en": "OK, I'll take it too."
+        },
+        {
+          "id": "u3-d1-07",
+          "speaker": "V",
+          "pt": "Então são nove euros.",
+          "en": "So that's nine euros."
+        },
+        {
+          "id": "u3-d1-08",
+          "speaker": "Y",
+          "pt": "Posso pagar com cartão?",
+          "en": "Can I pay by card?"
+        },
+        {
+          "id": "u3-d1-09",
+          "speaker": "V",
+          "pt": "Desculpe, só aceito dinheiro.",
+          "en": "Sorry, I only take cash."
+        },
+        {
+          "id": "u3-d1-10",
+          "speaker": "Y",
+          "pt": "Não faz mal. Tenho uma nota de vinte.",
+          "en": "No problem. I have a twenty."
+        },
+        {
+          "id": "u3-d1-11",
+          "speaker": "V",
+          "pt": "Aqui tem o troco: onze euros.",
+          "en": "Here's your change: eleven euros."
+        },
+        {
+          "id": "u3-d1-12",
+          "speaker": "Y",
+          "pt": "Obrigado. Bom dia!",
+          "en": "Thank you. Have a good day!"
+        }
+      ],
+      "questions": [
+        {
+          "id": "u3-d1-q1",
+          "q": "How much are the oranges?",
+          "options": [
+            "Two euros a kilo",
+            "Five euros a kilo",
+            "Two euros each",
+            "Nine euros a kilo"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u3-d1-q2",
+          "q": "How does he pay?",
+          "options": [
+            "In cash",
+            "By card",
+            "With his phone",
+            "He doesn't pay"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u3-d1-q3",
+          "q": "How much change does he get?",
+          "options": [
+            "Eleven euros",
+            "Nine euros",
+            "Twenty euros",
+            "One euro"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "title": "Ao telefone com a loja de surf",
+      "en": "You call a surf shop to rent a board for Saturday.",
+      "speakers": {
+        "F": {
+          "name": "Loja de surf",
+          "voice": "raquel"
+        },
+        "Y": {
+          "name": "You",
+          "voice": "duarte",
+          "me": true
+        }
+      },
+      "lines": [
+        {
+          "id": "u3-d2-01",
+          "speaker": "F",
+          "pt": "Loja de surf, bom dia!",
+          "en": "Surf shop, good morning!"
+        },
+        {
+          "id": "u3-d2-02",
+          "speaker": "Y",
+          "pt": "Bom dia. Quanto custa o aluguer de uma prancha?",
+          "en": "Good morning. How much does it cost to rent a board?"
+        },
+        {
+          "id": "u3-d2-03",
+          "speaker": "F",
+          "pt": "São quinze euros por dia.",
+          "en": "Fifteen euros a day."
+        },
+        {
+          "id": "u3-d2-04",
+          "speaker": "Y",
+          "pt": "E um fato?",
+          "en": "And a wetsuit?"
+        },
+        {
+          "id": "u3-d2-05",
+          "speaker": "F",
+          "pt": "O fato custa dez euros.",
+          "en": "The wetsuit is ten euros."
+        },
+        {
+          "id": "u3-d2-06",
+          "speaker": "Y",
+          "pt": "Está bem. Posso reservar para sábado?",
+          "en": "OK. Can I book for Saturday?"
+        },
+        {
+          "id": "u3-d2-07",
+          "speaker": "F",
+          "pt": "Claro. Qual é o seu número de telemóvel?",
+          "en": "Of course. What's your mobile number?"
+        },
+        {
+          "id": "u3-d2-08",
+          "speaker": "Y",
+          "pt": "É o nove, um, dois, três, quatro, cinco, seis, sete, oito.",
+          "en": "It's nine, one, two, three, four, five, six, seven, eight."
+        },
+        {
+          "id": "u3-d2-09",
+          "speaker": "F",
+          "pt": "Perfeito. Até sábado!",
+          "en": "Perfect. See you on Saturday!"
+        },
+        {
+          "id": "u3-d2-10",
+          "speaker": "Y",
+          "pt": "Até sábado. Obrigado!",
+          "en": "See you on Saturday. Thank you!"
+        }
+      ],
+      "questions": [
+        {
+          "id": "u3-d2-q1",
+          "q": "What does he want to rent?",
+          "options": [
+            "A board and a wetsuit",
+            "A car",
+            "A bike",
+            "Only a wetsuit"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u3-d2-q2",
+          "q": "How much is the board per day?",
+          "options": [
+            "Fifteen euros",
+            "Ten euros",
+            "Five euros",
+            "Fifty euros"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "u3-d2-q3",
+          "q": "When does he book for?",
+          "options": [
+            "Saturday",
+            "Sunday",
+            "Today",
+            "Tomorrow"
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ],
+  "phrases": [
+    {
+      "id": "u3-p01",
+      "pt": "Quanto custa?",
+      "en": "How much is it?",
+      "note": "For one thing. For several: Quanto custam?"
+    },
+    {
+      "id": "u3-p02",
+      "pt": "Quanto custam?",
+      "en": "How much are they?"
+    },
+    {
+      "id": "u3-p03",
+      "pt": "São cinco euros.",
+      "en": "It's five euros.",
+      "note": "Prices take são: são cinco euros. Only for one: é um euro."
+    },
+    {
+      "id": "u3-p04",
+      "pt": "É um euro.",
+      "en": "It's one euro."
+    },
+    {
+      "id": "u3-p05",
+      "pt": "Custa dois euros o quilo.",
+      "en": "It's two euros a kilo."
+    },
+    {
+      "id": "u3-p06",
+      "pt": "Posso pagar com cartão?",
+      "en": "Can I pay by card?"
+    },
+    {
+      "id": "u3-p07",
+      "pt": "Tem multibanco?",
+      "en": "Do you take cards?",
+      "note": "Multibanco is the Portuguese card network, and also the word for a cash machine."
+    },
+    {
+      "id": "u3-p08",
+      "pt": "Só aceito dinheiro.",
+      "en": "I only take cash."
+    },
+    {
+      "id": "u3-p09",
+      "pt": "Tem troco?",
+      "en": "Do you have change?"
+    },
+    {
+      "id": "u3-p10",
+      "pt": "Aqui tem o troco.",
+      "en": "Here's your change."
+    },
+    {
+      "id": "u3-p11",
+      "pt": "Não faz mal.",
+      "en": "No problem. / Never mind."
+    },
+    {
+      "id": "u3-p12",
+      "pt": "Está bem.",
+      "en": "OK."
+    },
+    {
+      "id": "u3-p13",
+      "pt": "Levo dois.",
+      "en": "I'll take two."
+    },
+    {
+      "id": "u3-p14",
+      "pt": "Meio quilo, por favor.",
+      "en": "Half a kilo, please."
+    },
+    {
+      "id": "u3-p15",
+      "pt": "É caro.",
+      "en": "It's expensive."
+    },
+    {
+      "id": "u3-p16",
+      "pt": "É barato.",
+      "en": "It's cheap."
+    },
+    {
+      "id": "u3-p17",
+      "pt": "Qual é o seu número de telemóvel?",
+      "en": "What's your mobile number?",
+      "note": "Polite. To a friend: Qual é o teu número?"
+    },
+    {
+      "id": "u3-p18",
+      "pt": "Pode repetir o número?",
+      "en": "Can you repeat the number?"
+    },
+    {
+      "id": "u3-p19",
+      "pt": "Quantos anos tens?",
+      "en": "How old are you?",
+      "note": "To a friend. Polite: Quantos anos tem?"
+    },
+    {
+      "id": "u3-p20",
+      "pt": "Tenho trinta anos.",
+      "en": "I'm thirty.",
+      "note": "Literally \"I have thirty years\"."
+    }
+  ],
+  "vocab": [
+    {
+      "id": "u3-v01",
+      "pt": "um / uma",
+      "en": "one"
+    },
+    {
+      "id": "u3-v02",
+      "pt": "dois / duas",
+      "en": "two"
+    },
+    {
+      "id": "u3-v03",
+      "pt": "três",
+      "en": "three"
+    },
+    {
+      "id": "u3-v04",
+      "pt": "quatro",
+      "en": "four"
+    },
+    {
+      "id": "u3-v05",
+      "pt": "cinco",
+      "en": "five"
+    },
+    {
+      "id": "u3-v06",
+      "pt": "seis",
+      "en": "six"
+    },
+    {
+      "id": "u3-v07",
+      "pt": "sete",
+      "en": "seven"
+    },
+    {
+      "id": "u3-v08",
+      "pt": "oito",
+      "en": "eight"
+    },
+    {
+      "id": "u3-v09",
+      "pt": "nove",
+      "en": "nine"
+    },
+    {
+      "id": "u3-v10",
+      "pt": "dez",
+      "en": "ten"
+    },
+    {
+      "id": "u3-v11",
+      "pt": "quinze",
+      "en": "fifteen"
+    },
+    {
+      "id": "u3-v12",
+      "pt": "vinte",
+      "en": "twenty"
+    },
+    {
+      "id": "u3-v13",
+      "pt": "cinquenta",
+      "en": "fifty"
+    },
+    {
+      "id": "u3-v14",
+      "pt": "cem",
+      "en": "a hundred"
+    },
+    {
+      "id": "u3-v15",
+      "pt": "o euro",
+      "en": "euro",
+      "gender": "m"
+    },
+    {
+      "id": "u3-v16",
+      "pt": "o cêntimo",
+      "en": "cent",
+      "gender": "m",
+      "note": "In Brazil: centavo."
+    },
+    {
+      "id": "u3-v17",
+      "pt": "o dinheiro",
+      "en": "money; cash",
+      "gender": "m"
+    },
+    {
+      "id": "u3-v18",
+      "pt": "o troco",
+      "en": "change (money back)",
+      "gender": "m"
+    },
+    {
+      "id": "u3-v19",
+      "pt": "a moeda",
+      "en": "coin",
+      "gender": "f"
+    },
+    {
+      "id": "u3-v20",
+      "pt": "a nota",
+      "en": "banknote",
+      "gender": "f"
+    },
+    {
+      "id": "u3-v21",
+      "pt": "o quilo",
+      "en": "kilo",
+      "gender": "m"
+    },
+    {
+      "id": "u3-v22",
+      "pt": "a laranja",
+      "en": "orange",
+      "gender": "f"
+    },
+    {
+      "id": "u3-v23",
+      "pt": "caro / cara",
+      "en": "expensive"
+    },
+    {
+      "id": "u3-v24",
+      "pt": "barato / barata",
+      "en": "cheap"
+    }
+  ],
+  "grammar": {
+    "topics": [
+      {
+        "id": "u3-t1",
+        "title": "Numbers 0–100",
+        "sections": [
+          {
+            "type": "rule",
+            "title": "How they're built",
+            "text": "0 to 15 have their own words. 16 to 19 are ten-and-six and so on: dezasseis, dezassete, dezoito, dezanove. From 21: vinte e um, trinta e dois, with e (and) in between."
+          },
+          {
+            "type": "table",
+            "caption": "0 to 19",
+            "head": [
+              "0–9",
+              "10–19"
+            ],
+            "rows": [
+              [
+                "0 zero",
+                "10 dez"
+              ],
+              [
+                "1 um / uma",
+                "11 onze"
+              ],
+              [
+                "2 dois / duas",
+                "12 doze"
+              ],
+              [
+                "3 três",
+                "13 treze"
+              ],
+              [
+                "4 quatro",
+                "14 catorze"
+              ],
+              [
+                "5 cinco",
+                "15 quinze"
+              ],
+              [
+                "6 seis",
+                "16 dezasseis"
+              ],
+              [
+                "7 sete",
+                "17 dezassete"
+              ],
+              [
+                "8 oito",
+                "18 dezoito"
+              ],
+              [
+                "9 nove",
+                "19 dezanove"
+              ]
+            ]
+          },
+          {
+            "type": "table",
+            "caption": "The tens",
+            "head": [
+              "",
+              ""
+            ],
+            "rows": [
+              [
+                "20 vinte",
+                "30 trinta"
+              ],
+              [
+                "40 quarenta",
+                "50 cinquenta"
+              ],
+              [
+                "60 sessenta",
+                "70 setenta"
+              ],
+              [
+                "80 oitenta",
+                "90 noventa"
+              ],
+              [
+                "100 cem",
+                "101 cento e um"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "items": [
+              {
+                "id": "u3-g01",
+                "pt": "vinte e cinco",
+                "en": "25"
+              },
+              {
+                "id": "u3-g02",
+                "pt": "trinta e dois",
+                "en": "32"
+              },
+              {
+                "id": "u3-g03",
+                "pt": "noventa e nove",
+                "en": "99"
+              },
+              {
+                "id": "u3-g04",
+                "pt": "duas laranjas",
+                "en": "two oranges"
+              }
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "One and two change with the noun: um euro, uma laranja; dois euros, duas laranjas. All other numbers stay the same."
+          },
+          {
+            "type": "ep-note",
+            "text": "Portugal and Brazil count differently here: Portugal says catorze, dezasseis, dezassete, dezanove; Brazil says quatorze, dezesseis, dezessete, dezenove."
+          }
+        ],
+        "exercises": [
+          {
+            "type": "choose",
+            "prompt": "How do you say 16 in Portugal?",
+            "options": [
+              "dezasseis",
+              "dezesseis",
+              "seisdez"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u3-gx01"
+          },
+          {
+            "type": "choose",
+            "prompt": "How do you say 19 in Portugal?",
+            "options": [
+              "dezenove",
+              "dezanove",
+              "novedez"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u3-gx02"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Queria ___ laranjas.",
+            "en": "I'd like two oranges.",
+            "answers": [
+              "duas"
+            ],
+            "options": [
+              "dois",
+              "duas"
+            ],
+            "part": "grammar",
+            "id": "u3-gx03"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "São ___ euros.",
+            "en": "It's two euros.",
+            "answers": [
+              "dois"
+            ],
+            "options": [
+              "dois",
+              "duas"
+            ],
+            "part": "grammar",
+            "id": "u3-gx04"
+          },
+          {
+            "type": "translate",
+            "en": "twenty-five",
+            "answers": [
+              "vinte e cinco"
+            ],
+            "part": "grammar",
+            "id": "u3-gx05"
+          },
+          {
+            "type": "listen-choose",
+            "pt": "quarenta e oito",
+            "options": [
+              "48",
+              "84",
+              "40",
+              "18"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u3-gx06"
+          }
+        ]
+      },
+      {
+        "id": "u3-t2",
+        "title": "Prices: custa, custam, são",
+        "sections": [
+          {
+            "type": "rule",
+            "title": "Custa or custam?",
+            "text": "Custar (to cost) agrees with what you're buying: o pão custa, as laranjas custam."
+          },
+          {
+            "type": "rule",
+            "title": "É or são?",
+            "text": "Saying a price: é for one euro, são for more than one: é um euro, são três euros."
+          },
+          {
+            "type": "table",
+            "caption": "Asking and answering",
+            "head": [
+              "Question",
+              "Answer"
+            ],
+            "rows": [
+              [
+                "Quanto custa o pão?",
+                "Custa um euro."
+              ],
+              [
+                "Quanto custam as laranjas?",
+                "Custam dois euros o quilo."
+              ],
+              [
+                "Quanto é?",
+                "São cinco euros e cinquenta."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "items": [
+              {
+                "id": "u3-g05",
+                "pt": "Quanto custa a melancia?",
+                "en": "How much is the watermelon?"
+              },
+              {
+                "id": "u3-g06",
+                "pt": "As sardinhas custam seis euros.",
+                "en": "The sardines are six euros."
+              },
+              {
+                "id": "u3-g07",
+                "pt": "São doze euros e cinquenta cêntimos.",
+                "en": "It's twelve euros fifty."
+              }
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "Plurals: add -s after a vowel (laranja → laranjas), -es after r or z (flor → flores). Words in -ão change: pão → pães, limão → limões."
+          }
+        ],
+        "exercises": [
+          {
+            "type": "gap-fill",
+            "pt": "Quanto ___ as laranjas?",
+            "en": "How much are the oranges?",
+            "answers": [
+              "custam"
+            ],
+            "options": [
+              "custa",
+              "custam"
+            ],
+            "part": "grammar",
+            "id": "u3-gx07"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Quanto ___ o café?",
+            "en": "How much is the coffee?",
+            "answers": [
+              "custa"
+            ],
+            "options": [
+              "custa",
+              "custam"
+            ],
+            "part": "grammar",
+            "id": "u3-gx08"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ três euros.",
+            "en": "It's three euros.",
+            "answers": [
+              "São"
+            ],
+            "options": [
+              "É",
+              "São"
+            ],
+            "part": "grammar",
+            "id": "u3-gx09"
+          },
+          {
+            "type": "choose",
+            "prompt": "The plural of o pão is…",
+            "options": [
+              "os pães",
+              "os pãos",
+              "os pões"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u3-gx10"
+          }
+        ]
+      }
+    ]
+  },
+  "exercises": [
+    {
+      "type": "listen-choose",
+      "pt": "São sete euros.",
+      "options": [
+        "It's seven euros.",
+        "It's eleven euros.",
+        "It's six euros.",
+        "It's seventeen euros."
+      ],
+      "answer": 0,
+      "id": "u3-x01"
+    },
+    {
+      "type": "listen-choose",
+      "pt": "Posso pagar com cartão?",
+      "options": [
+        "Do you have change?",
+        "Can I pay by card?",
+        "Is it expensive?",
+        "Where's the cash machine?"
+      ],
+      "answer": 1,
+      "id": "u3-x02"
+    },
+    {
+      "type": "listen-choose",
+      "pt": "Custam três euros o quilo.",
+      "options": [
+        "Two euros a kilo.",
+        "Thirteen euros a kilo.",
+        "Three euros a kilo.",
+        "Three euros each."
+      ],
+      "answer": 2,
+      "id": "u3-x03"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Tem ___?",
+      "en": "Do you have change?",
+      "answers": [
+        "troco"
+      ],
+      "options": [
+        "troco",
+        "conta",
+        "dinheiro"
+      ],
+      "id": "u3-x04"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Só aceito ___.",
+      "en": "I only take cash.",
+      "answers": [
+        "dinheiro"
+      ],
+      "options": [
+        "dinheiro",
+        "cartão",
+        "troco"
+      ],
+      "id": "u3-x05"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Não faz ___.",
+      "en": "No problem.",
+      "answers": [
+        "mal"
+      ],
+      "options": [
+        "mal",
+        "bem",
+        "nada"
+      ],
+      "id": "u3-x06"
+    },
+    {
+      "type": "choose",
+      "prompt": "12 is…",
+      "options": [
+        "doze",
+        "dois",
+        "vinte"
+      ],
+      "answer": 0,
+      "id": "u3-x07"
+    },
+    {
+      "type": "choose",
+      "prompt": "50 is…",
+      "options": [
+        "quinze",
+        "cinquenta",
+        "cinco"
+      ],
+      "answer": 1,
+      "id": "u3-x08"
+    },
+    {
+      "type": "choose",
+      "prompt": "You buy one orange. Which is right?",
+      "options": [
+        "um laranja",
+        "uma laranja"
+      ],
+      "answer": 1,
+      "part": "grammar",
+      "id": "u3-x09"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Half a kilo, please.",
+      "tiles": [
+        "Meio",
+        "quilo",
+        "por",
+        "favor",
+        "meia",
+        "euro"
+      ],
+      "answer": "Meio quilo por favor",
+      "id": "u3-x10"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Can I pay by card?",
+      "tiles": [
+        "Posso",
+        "pagar",
+        "com",
+        "cartão",
+        "dinheiro",
+        "tem"
+      ],
+      "answer": "Posso pagar com cartão",
+      "id": "u3-x11"
+    },
+    {
+      "type": "translate",
+      "en": "How much is it? (one thing)",
+      "answers": [
+        "Quanto custa",
+        "Quanto é"
+      ],
+      "id": "u3-x12"
+    },
+    {
+      "type": "translate",
+      "en": "It's twenty euros.",
+      "answers": [
+        "São vinte euros"
+      ],
+      "id": "u3-x13"
+    }
+  ],
+  "speaking": [
+    {
+      "prompt": "Ask how much it costs.",
+      "answers": [
+        "Quanto custa",
+        "Quanto é"
+      ],
+      "pt": "Quanto custa?",
+      "id": "u3-s01"
+    },
+    {
+      "prompt": "Ask if you can pay by card.",
+      "answers": [
+        "Posso pagar com cartão"
+      ],
+      "pt": "Posso pagar com cartão?",
+      "id": "u3-s02"
+    },
+    {
+      "prompt": "Ask for half a kilo.",
+      "answers": [
+        "Meio quilo por favor",
+        "Queria meio quilo"
+      ],
+      "pt": "Meio quilo, por favor.",
+      "id": "u3-s03"
+    },
+    {
+      "prompt": "Ask if they have change.",
+      "answers": [
+        "Tem troco"
+      ],
+      "pt": "Tem troco?",
+      "id": "u3-s04"
+    },
+    {
+      "prompt": "Say it's fifteen euros.",
+      "answers": [
+        "São quinze euros"
+      ],
+      "pt": "São quinze euros.",
+      "id": "u3-s05"
+    },
+    {
+      "prompt": "Say: no problem.",
+      "answers": [
+        "Não faz mal"
+      ],
+      "pt": "Não faz mal.",
+      "id": "u3-s06"
+    }
+  ],
+  "check": [
+    {
+      "type": "listen-choose",
+      "pt": "São dezoito euros.",
+      "options": [
+        "It's €8.",
+        "It's €18.",
+        "It's €80.",
+        "It's €16."
+      ],
+      "answer": 1,
+      "id": "u3-c01"
+    },
+    {
+      "type": "listen-choose",
+      "pt": "Qual é o seu número de telemóvel?",
+      "options": [
+        "What's your mobile number?",
+        "How old are you?",
+        "How much is the phone?",
+        "Can I call you?"
+      ],
+      "answer": 0,
+      "id": "u3-c02"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Quanto ___ as laranjas?",
+      "en": "How much are the oranges?",
+      "answers": [
+        "custam"
+      ],
+      "options": [
+        "custa",
+        "custam"
+      ],
+      "id": "u3-c03"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Queria ___ quilos.",
+      "en": "I'd like two kilos.",
+      "answers": [
+        "dois"
+      ],
+      "options": [
+        "dois",
+        "duas"
+      ],
+      "id": "u3-c04"
+    },
+    {
+      "type": "choose",
+      "prompt": "The seller says \"Só aceito dinheiro\". What do you do?",
+      "options": [
+        "Pay in cash",
+        "Pay by card",
+        "Leave a tip"
+      ],
+      "answer": 0,
+      "id": "u3-c05"
+    },
+    {
+      "type": "choose",
+      "prompt": "How do you say 14 in Portugal?",
+      "options": [
+        "quatorze",
+        "catorze",
+        "quatro"
+      ],
+      "answer": 1,
+      "id": "u3-c06"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Here's your change.",
+      "tiles": [
+        "Aqui",
+        "tem",
+        "o",
+        "troco",
+        "a",
+        "conta"
+      ],
+      "answer": "Aqui tem o troco",
+      "id": "u3-c07"
+    },
+    {
+      "type": "translate",
+      "en": "It's expensive.",
+      "answers": [
+        "É caro",
+        "É muito caro"
+      ],
+      "id": "u3-c08"
+    }
+  ]
+}

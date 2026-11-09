@@ -2,6 +2,7 @@
   "id": "r01",
   "order": 1,
   "level": "A1",
+  "after": 1,
   "emoji": "⚓",
   "title": "Peniche",
   "en": "A short portrait of the town by the sea.",

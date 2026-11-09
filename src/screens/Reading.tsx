@@ -23,7 +23,7 @@ export default function ReadingList() {
     <main className="screen">
       <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/practice">‹ Practice</Link>
       <h1>Reading</h1>
-      <p className="muted" style={{ marginBottom: 24 }}>Short texts about life around Peniche, easiest first. Tap any word to see what it means. A1+ texts have a few harder phrases, explained under the text.</p>
+      <p className="muted" style={{ marginBottom: 24 }}>Short texts about life around Peniche, easiest first. Tap any word to see what it means. A1+ texts have a few harder phrases, explained under the text. “After Unit N” says when a text is easiest to read.</p>
       {readingTexts.map(t => {
         const b = best?.[readingStep(t.id)]
         return (
@@ -36,7 +36,7 @@ export default function ReadingList() {
                 : <span className="badge badge-sm badge-soft badge-info">New</span>}
             </div>
             <p className="muted">{t.en}</p>
-            <p className="small muted" style={{ marginTop: 6 }}><span className="level-tag">{t.level}</span></p>
+            <p className="small muted" style={{ marginTop: 6 }}><span className="level-tag">{t.level}</span> · After Unit {t.after}</p>
           </Link>
         )
       })}

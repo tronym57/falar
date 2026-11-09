@@ -2,6 +2,7 @@
   "id": "r02",
   "order": 2,
   "level": "A1",
+  "after": 1,
   "emoji": "🌫️",
   "title": "O tempo",
   "en": "Fog in the morning, sun in the afternoon, rain tomorrow.",
