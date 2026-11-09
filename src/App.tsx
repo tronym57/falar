@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { NavLink, Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
+import { Link, NavLink, Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
 import Home from './screens/Home'
 import Course from './screens/Course'
 import Vocab from './screens/Vocab'
@@ -72,8 +72,10 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       {!immersive && (
         <header className="navbar appbar">
-          <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" width={28} height={28} />
-          <span>Falo Portuguese</span>
+          <Link to="/" className="appbar-home" aria-label="Falo Portuguese, go to Home">
+            <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" width={28} height={28} />
+            <span>Falo Portuguese</span>
+          </Link>
         </header>
       )}
       {/* Each screen fades and rises in. Ends at transform: none, so fixed panels inside still work. */}
