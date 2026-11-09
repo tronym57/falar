@@ -40,8 +40,8 @@
         {
           "id": "u1-d1-04",
           "speaker": "Y",
-          "pt": "Chamo-me Tom. E tu?",
-          "en": "My name is Tom. And you?"
+          "pt": "Chamo-me Patrick. E tu?",
+          "en": "My name is Patrick. And you?"
         },
         {
           "id": "u1-d1-05",
@@ -188,8 +188,8 @@
         {
           "id": "u1-d2-08",
           "speaker": "Y",
-          "pt": "Muito prazer, Dona Graça. Eu sou o Tom.",
-          "en": "Pleased to meet you, Dona Graça. I'm Tom."
+          "pt": "Muito prazer, Dona Graça. Eu sou o Patrick.",
+          "en": "Pleased to meet you, Dona Graça. I'm Patrick."
         },
         {
           "id": "u1-d2-09",
@@ -262,9 +262,9 @@
     },
     {
       "id": "u1-p04",
-      "pt": "Eu sou o Tom.",
-      "en": "I'm Tom.",
-      "note": "Names usually take o or a: o Tom, a Inês."
+      "pt": "Eu sou o Patrick.",
+      "en": "I'm Patrick.",
+      "note": "Names usually take o or a: o Patrick, a Inês."
     },
     {
       "id": "u1-p05",
@@ -666,8 +666,8 @@
             "items": [
               {
                 "id": "u1-g05",
-                "pt": "Chamo-me Tom.",
-                "en": "My name is Tom."
+                "pt": "Chamo-me Patrick.",
+                "en": "My name is Patrick."
               },
               {
                 "id": "u1-g06",
@@ -688,20 +688,20 @@
           },
           {
             "type": "tip",
-            "text": "Question words and não pull the pronoun in front of the verb: Como te chamas? Não me chamo Tom."
+            "text": "Question words and não pull the pronoun in front of the verb: Como te chamas? Não me chamo Patrick."
           },
           {
             "type": "ep-note",
-            "text": "Brazilians start with the pronoun (Me chamo…). In Portugal that sounds wrong: say Chamo-me Tom."
+            "text": "Brazilians start with the pronoun (Me chamo…). In Portugal that sounds wrong: say Chamo-me Patrick."
           }
         ],
         "exercises": [
           {
             "type": "choose",
-            "prompt": "How do you say \"My name is Tom\" in Portugal?",
+            "prompt": "How do you say \"My name is Patrick\" in Portugal?",
             "options": [
-              "Chamo-me Tom.",
-              "Me chamo Tom."
+              "Chamo-me Patrick.",
+              "Me chamo Patrick."
             ],
             "answer": 0,
             "part": "grammar",
@@ -927,13 +927,13 @@
       "id": "u1-s01"
     },
     {
-      "prompt": "Say your name is Tom.",
+      "prompt": "Say your name is Patrick.",
       "answers": [
-        "Chamo-me Tom",
-        "Eu sou o Tom",
-        "O meu nome é Tom"
+        "Chamo-me Patrick",
+        "Eu sou o Patrick",
+        "O meu nome é Patrick"
       ],
-      "pt": "Chamo-me Tom.",
+      "pt": "Chamo-me Patrick.",
       "id": "u1-s02"
     },
     {

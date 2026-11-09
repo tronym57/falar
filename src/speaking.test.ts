@@ -22,6 +22,13 @@ describe('matchWords', () => {
     expect(matchWords('Bom dia, bom dia', 'bom dia').score).toBe(0.5)
   })
 
+  it('lets long words be one letter off (names, recognition spelling)', () => {
+    expect(matchWords('Chamo-me Patrick.', 'chamo-me Patric').score).toBe(1)
+    expect(matchWords('Quanto custa?', 'quanto custo').score).toBe(1)
+    expect(matchWords('Sou alemão.', 'sou alemã').score).toBe(1)
+    expect(matchWords('Bom dia', 'bom dói').score).toBe(0.5) // short words must be exact
+  })
+
   it('splits hyphenated forms, since recognition often drops the hyphen', () => {
     expect(matchWords('Chamo-me Ana', 'chamo me ana').score).toBe(1)
   })

@@ -21,11 +21,21 @@ const words = (s: string) => split(s.replace(/\d+/g, d => ` ${numberWords(+d)} `
 export type WordMatch = { word: string; ok: boolean }
 export type SpeakScore = { answer: string; words: WordMatch[]; score: number }
 
-/** Mark each word of `expected` as heard or not. */
+/** True if a and b differ by at most one letter (insert, delete or swap one). */
+function oneOff(a: string, b: string) {
+  if (Math.abs(a.length - b.length) > 1) return false
+  let i = 0
+  while (i < a.length && a[i] === b[i]) i++
+  return a.slice(i + 1) === b.slice(i + 1) || a.slice(i) === b.slice(i + 1) || a.slice(i + 1) === b.slice(i)
+}
+
+/** Mark each word of `expected` as heard or not. Words of 5+ letters may be one letter off (names, spelling). */
 export function matchWords(expected: string, heard: string): SpeakScore {
   const pool = words(heard)
   const result = split(expected).map(word => {
-    const i = pool.indexOf(words(word)[0] ?? '')
+    const w = words(word)[0] ?? ''
+    let i = pool.indexOf(w)
+    if (i < 0 && w.length >= 5) i = pool.findIndex(h => h.length >= 5 && oneOff(w, h))
     if (i >= 0) pool.splice(i, 1) // each heard word counts once
     return { word, ok: i >= 0 }
   })
