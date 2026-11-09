@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { motion } from 'motion/react'
 import { StreakLine } from '../components/Streak'
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,6 +6,7 @@ import type { Exercise } from '../content/types'
 import { db, type PracticeSession } from '../db'
 import { ExerciseView, type Answer } from '../components/Exercises'
 import { audio } from '../audio'
+import { CHIME_MS, playChime } from '../chime'
 import { PASS_MARK, logAttempt, markStepDone } from '../progress'
 import { unitSteps } from '../units'
 import { PARTS, scoreByPart } from '../test'
@@ -57,6 +58,9 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo,
     setSession(s)
   }
 
+  // A replay waiting for the chime; cancelled when you move on or leave.
+  const replayTimer = useRef<number | undefined>(undefined)
+  useEffect(() => () => clearTimeout(replayTimer.current), [])
   useEffect(() => {
     start().catch(e => toast(`Couldn't load your progress: ${e.message}`, 'error'))
     return () => audio.stop()
@@ -74,13 +78,20 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo,
   const onAnswer = (a: Answer) => {
     setAnswer(a)
     logAttempt(unit ?? -1, mode, current.id, a.result.ok, a.given).catch(() => {})
+    // A soft chime when it's right; any replay below waits for it, so the two don't overlap.
+    const chimed = a.result.ok && playChime()
     // Replay the Portuguese for listening exercises so you hear it again with the answer.
-    if (current.type === 'listen-choose') audio.play(current.audio ?? current.id)
-    if (current.type === 'speak') audio.play(current.audio) // hear the model answer
-    if (current.type === 'dictation' || current.type === 'listen-pick' || current.type === 'listen-gap') audio.play(current.audio)
+    const clip = current.type === 'listen-choose' ? current.audio ?? current.id
+      : current.type === 'speak' ? current.audio // hear the model answer
+        : current.type === 'dictation' || current.type === 'listen-pick' || current.type === 'listen-gap' ? current.audio
+          : null
+    if (!clip) return
+    if (chimed) replayTimer.current = window.setTimeout(() => audio.play(clip), CHIME_MS)
+    else audio.play(clip)
   }
 
   const next = async () => {
+    clearTimeout(replayTimer.current)
     try {
       const ok = answer!.result.ok
       const firstTry = current.id in session.firstTry ? session.firstTry : { ...session.firstTry, [current.id]: ok }
