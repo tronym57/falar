@@ -96,7 +96,8 @@
   --surface: var(--color-base-200);
   --surface-1: var(--color-base-100);
   --surface-2: #f7f9f6;
-  --border: var(--color-base-300);
+  /* hairline colour (not --border: that's daisyUI's border width) */
+  --line: var(--color-base-300);
   --text: var(--color-base-content);
   --muted: color-mix(in oklab, var(--color-base-content) 62%, transparent);
   --shadow-1: 0 1px 2px rgb(16 48 34 / 0.05), 0 4px 14px rgb(16 48 34 / 0.06);
@@ -153,15 +154,15 @@ p { margin: 0 0 10px; }
   margin: 0 auto;
 }
 .step-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-.row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .row:last-child { border-bottom: 0; }
 .done-mark { color: var(--color-primary); }
 
 /* ---------- cards & panels (depth level 1) ---------- */
-.card { background: var(--surface-1); border: 1px solid var(--border); box-shadow: var(--shadow-1);
+.card { background: var(--surface-1); border: 1px solid var(--line); box-shadow: var(--shadow-1);
   padding: 20px; margin-bottom: 16px; display: block; border-radius: var(--radius-box); }
 .card > p:last-child { margin-bottom: 0; }
-.flat-section { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 24px 0 28px; margin: 24px 0; }
+.flat-section { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 24px 0 28px; margin: 24px 0; }
 .flat-section > h2 { margin-top: 0; }
 .card.soft-locked h2 { color: var(--muted); }
 .card.locked { opacity: 0.55; box-shadow: none; }
@@ -208,12 +209,12 @@ p { margin: 0 0 10px; }
 
 /* ---------- header + tab bar (sticky, translucent) ---------- */
 .appbar { position: sticky; top: 0; z-index: 4; gap: 10px; min-height: 0;
-  padding: calc(env(safe-area-inset-top) + 10px) 20px 10px; border-bottom: 1px solid var(--border);
+  padding: calc(env(safe-area-inset-top) + 10px) 20px 10px; border-bottom: 1px solid var(--line);
   background: color-mix(in oklab, var(--surface-1) 85%, transparent); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
   font-weight: 700; font-size: 17px; }
 .appbar img { border-radius: 8px; display: block; }
 .appbar + .screen { padding-top: 16px; }
-.dock { border-top: 1px solid var(--border); height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
+.dock { border-top: 1px solid var(--line); height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
   background: var(--surface-1); box-shadow: 0 -2px 12px rgb(16 48 34 / 0.06); }
 .dock a { color: var(--muted); text-decoration: none; transition: transform 90ms ease; gap: 4px; }
 .dock a:active { transform: scale(0.92); }
@@ -226,7 +227,7 @@ p { margin: 0 0 10px; }
 
 /* ---------- audio rows: tap anywhere on the row to hear it ---------- */
 .audio-row { display: flex; gap: 14px; align-items: center; padding: 14px 10px; margin: 0 -10px; width: calc(100% + 20px);
-  border: 0; border-radius: 12px; background: none; font: inherit; color: inherit; text-align: left; border-bottom: 1px solid var(--border);
+  border: 0; border-radius: 12px; background: none; font: inherit; color: inherit; text-align: left; border-bottom: 1px solid var(--line);
   transition: background-color 120ms ease; }
 .audio-row:last-child { border-bottom: 0; }
 .audio-row:active { background: var(--surface-2); }
@@ -261,7 +262,7 @@ p { margin: 0 0 10px; }
 .options { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
 .row-options { flex-direction: row; flex-wrap: wrap; }
 .option { font: inherit; font-size: 17px; text-align: left; padding: 15px 18px; min-height: 56px; border-radius: 14px;
-  border: 1.5px solid var(--border); background: var(--surface-1); color: var(--text); width: 100%; box-shadow: var(--shadow-1);
+  border: 1.5px solid var(--line); background: var(--surface-1); color: var(--text); width: 100%; box-shadow: var(--shadow-1);
   transition: transform 90ms ease; }
 .option:active { transform: scale(0.98); background: var(--surface-2); }
 .row-options .option { width: auto; flex: 1 1 auto; text-align: center; }
@@ -288,7 +289,7 @@ p { margin: 0 0 10px; }
 .word:active, .word.on { background: var(--tonal-bg); color: var(--tonal-fg); text-decoration: none; }
 .word-sheet { position: fixed; left: 16px; right: 16px; bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 12px); z-index: 6;
   max-width: 600px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 14px 12px 14px 18px; border-radius: 16px; background: var(--surface-1); border: 1px solid var(--border); box-shadow: var(--shadow-2); }
+  padding: 14px 12px 14px 18px; border-radius: 16px; background: var(--surface-1); border: 1px solid var(--line); box-shadow: var(--shadow-2); }
 .word-sheet b { display: block; font-size: 19px; }
 .word-sheet span { color: var(--muted); font-size: 15px; }
 .level-tag { display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: .02em;
@@ -317,7 +318,7 @@ p { margin: 0 0 10px; }
 .self-check .btn { min-height: 3rem; padding-block: 10px; }
 .self-check .btn-ghost { align-self: flex-start; min-height: 2rem; padding-inline: 0; }
 .self-check .row-btns .btn { margin: 0; }
-.shadow-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 12px 10px; margin: 0 -10px; border-radius: 12px; border-bottom: 1px solid var(--border); }
+.shadow-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 12px 10px; margin: 0 -10px; border-radius: 12px; border-bottom: 1px solid var(--line); }
 .shadow-row:last-child { border-bottom: 0; }
 .shadow-row.playing { background: var(--tint); }
 .shadow-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
@@ -345,7 +346,7 @@ p { margin: 0 0 10px; }
 .bubble.typing span:nth-child(3) { animation-delay: .3s; }
 @keyframes blink { 50% { opacity: .25; } }
 .talk-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; padding: 10px 16px calc(env(safe-area-inset-bottom) + 6px);
-  background: var(--surface-1); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+  background: var(--surface-1); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
 .talk-bar > * { width: 100%; max-width: 600px; margin: 0 auto; }
 .talk-input { display: flex; gap: 8px; align-items: center; }
 .talk-input .input { min-width: 0; }
@@ -358,20 +359,20 @@ p { margin: 0 0 10px; }
 .talk-error { margin-top: 12px; border-color: var(--color-error); }
 /* streak (quiet on purpose) */
 .streak { display: flex; align-items: center; gap: 16px; width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer;
-  padding: 14px 18px; margin-bottom: 16px; border-radius: var(--radius-box); background: var(--surface-1); border: 1px solid var(--border); }
+  padding: 14px 18px; margin-bottom: 16px; border-radius: var(--radius-box); background: var(--surface-1); border: 1px solid var(--line); }
 .streak-n { font-size: 22px; font-weight: 700; color: var(--muted); white-space: nowrap; }
 .streak-n.on { color: var(--color-warning); }
 .streak-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1; }
 .streak-days { display: flex; justify-content: space-between; max-width: 260px; }
 .streak-day { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: var(--muted); }
-.streak-day i { width: 12px; height: 12px; border-radius: 50%; background: var(--surface-2); border: 1.5px solid var(--border); }
+.streak-day i { width: 12px; height: 12px; border-radius: 50%; background: var(--surface-2); border: 1.5px solid var(--line); }
 .streak-day.done i { background: var(--color-warning); border-color: var(--color-warning); }
 .streak-line { font-size: 14px; color: var(--muted); }
 .streak-result { margin: 12px 0 0; font-weight: 600; color: var(--color-warning); }
 .gap-sentence { font-size: 26px; font-weight: 600; margin: 8px 0 20px; line-height: 1.45; }
 .gap-slot { display: inline-block; min-width: 90px; border-bottom: 3px solid var(--color-primary); margin: 0 4px; text-align: center; color: var(--color-primary); white-space: pre; }
 
-.built { min-height: 68px; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; padding: 12px 0; border-bottom: 2px solid var(--border); margin-bottom: 20px; }
+.built { min-height: 68px; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; padding: 12px 0; border-bottom: 2px solid var(--line); margin-bottom: 20px; }
 .tiles, .accents { display: flex; flex-wrap: wrap; gap: 8px; }
 .accents { margin-top: 12px; }
 .tile { font-size: 17px; font-weight: 500; }
@@ -395,7 +396,7 @@ p { margin: 0 0 10px; }
 @keyframes slide-up { from { transform: translateY(12px); } }
 
 .score-ring { --size: 7.5rem; --thickness: 0.65rem; font-size: 28px; font-weight: 800; }
-.missed { padding: 12px 0; border-bottom: 1px solid var(--border); margin: 0; }
+.missed { padding: 12px 0; border-bottom: 1px solid var(--line); margin: 0; }
 .missed:last-child { border-bottom: 0; }
 .part-row { margin-bottom: 14px; }
 .part-row .row { border: 0; padding: 4px 0; }
@@ -408,11 +409,11 @@ p { margin: 0 0 10px; }
 .flash-audio span { font-size: 18px; color: var(--color-primary); }
 .flash-audio.playing { background: var(--tint); }
 .flash-main.flash-audio { font-size: 32px; }
-.flash-answer { border-top: 2px dashed var(--border); padding-top: 24px; font-size: 24px; }
+.flash-answer { border-top: 2px dashed var(--line); padding-top: 24px; font-size: 24px; }
 .flash-answer .flash-audio { font-size: 28px; }
 .flash-answer .note { font-size: 15px; color: var(--muted); font-style: italic; margin-top: 10px; }
 .grade-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 14px 20px calc(env(safe-area-inset-bottom) + 16px);
-  background: color-mix(in oklab, var(--surface-1) 90%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--border); }
+  background: color-mix(in oklab, var(--surface-1) 90%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
 .grade-bar > * { max-width: 600px; margin: 0 auto; }
 .grades { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .grade { min-height: 52px; padding: 8px 2px; font-size: 16px; }
@@ -440,7 +441,7 @@ p { margin: 0 0 10px; }
 .howto { list-style: decimal; padding-left: 22px; margin: 12px 0 16px; }
 .howto li { margin-bottom: 8px; }
 .howto a { color: var(--color-primary); font-weight: 600; text-decoration: underline; }
-.disconnect-row { margin-top: 20px; border-top: 1px solid var(--border); border-bottom: 0; padding-top: 16px; }
+.disconnect-row { margin-top: 20px; border-top: 1px solid var(--line); border-bottom: 0; padding-top: 16px; }
 
 /* ---------- toasts (daisyUI toast + alert) ---------- */
 .app-toast { bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 10px); width: min(600px, calc(100% - 40px)); z-index: 50; white-space: normal; }
@@ -476,7 +477,7 @@ p { margin: 0 0 10px; }
 .chat-name { font-size: 12px; font-weight: 700; color: var(--accent-line); text-transform: uppercase; letter-spacing: .05em; margin: 10px 0 4px 12px; }
 .chat-line.me + .chat-line.me, .chat-line.them + .chat-line.them { margin-top: -2px; }
 .bubble { position: relative; display: flex; flex-direction: column; gap: 3px; padding: 10px 14px 10px; padding-right: 36px;
-  border-radius: 18px; font: inherit; text-align: left; width: auto; cursor: pointer; border: 1px solid var(--border); }
+  border-radius: 18px; font: inherit; text-align: left; width: auto; cursor: pointer; border: 1px solid var(--line); }
 .them .bubble { background: var(--surface-2); border-bottom-left-radius: 6px; }
 .me .bubble { background: var(--tonal-bg); color: var(--tonal-fg); border-color: transparent; border-bottom-right-radius: 6px; }
 .bubble-pt { font-size: 18px; font-weight: 600; line-height: 1.35; }
