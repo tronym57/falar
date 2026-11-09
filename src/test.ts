@@ -170,8 +170,9 @@ export function lessonQuestions(unit: Unit, step: string, seed = Date.now()): Ex
     return [...questions, ...singles]
   }
 
+  // Every word of the step, not a sample: none should go unpractised. Misses come back at the end.
   const items = step === 'phrases' ? unit.phrases : step === 'vocab' ? unit.vocab : []
-  return wordQuestions(shuffle(items, rand).slice(0, LESSON_LENGTH), items.map(i => i.en), 'l', rand)
+  return wordQuestions(shuffle(items, rand), items.map(i => i.en), 'l', rand)
 }
 
 export type Word = { id: string; pt: string; en: string; custom?: boolean }

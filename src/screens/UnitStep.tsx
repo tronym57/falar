@@ -29,7 +29,8 @@ export default function UnitStep() {
   const done = !!progress?.[meta.slug]?.done
   const best = progress?.[meta.slug]?.bestScore
   const count = meta.slug === 'grammar' ? unit.grammar.topics.reduce((n, t) => n + t.exercises.length, 0)
-    : meta.slug === 'speaking' ? speakingQuestions(unit).length : LESSON_LENGTH
+    : meta.slug === 'speaking' ? speakingQuestions(unit).length
+    : meta.slug === 'phrases' ? unit.phrases.length : meta.slug === 'vocab' ? unit.vocab.length : LESSON_LENGTH
 
   const save = async (fn: () => Promise<void>, msg: string) => {
     try { await fn(); toast(msg) } catch (e) { toast(`Couldn't save your progress: ${(e as Error).message}`, 'error') }

@@ -14,7 +14,10 @@ describe('units 0–3', () => {
 
   for (const u of units) {
     it(`Unit ${u.n}: every lesson step builds its practice`, () => {
-      for (const step of ['dialogue', 'phrases', 'vocab']) expect(lessonQuestions(u, step, 1)).toHaveLength(10)
+      expect(lessonQuestions(u, 'dialogue', 1)).toHaveLength(10)
+      // Word steps practise every word once.
+      expect(new Set(lessonQuestions(u, 'phrases', 1).map(x => x.id.split('-').slice(1, 3).join('-')))).toEqual(new Set(u.phrases.map(p => p.id)))
+      expect(new Set(lessonQuestions(u, 'vocab', 1).map(x => x.id.split('-').slice(1, 3).join('-')))).toEqual(new Set(u.vocab.map(v => v.id)))
       expect(lessonQuestions(u, 'grammar', 1).length).toBeGreaterThanOrEqual(5)
       const speak = speakingQuestions(u)
       expect(speak.length).toBeGreaterThan(u.speaking.length) // prompts + role-play

@@ -67,12 +67,12 @@ describe('scoreByPart', () => {
 })
 
 describe('lessonQuestions', () => {
-  it('builds up to 10 questions from the step content only', () => {
-    for (const step of ['phrases', 'vocab', 'dialogue']) {
-      const q = lessonQuestions(unit0, step, 1)
-      expect(q).toHaveLength(10)
-      expect(new Set(q.map(x => x.id)).size).toBe(10)
-    }
+  it('builds questions from the step content only: every word, 10 for the dialogue', () => {
+    expect(lessonQuestions(unit0, 'phrases', 1)).toHaveLength(unit0.phrases.length)
+    expect(lessonQuestions(unit0, 'vocab', 1)).toHaveLength(unit0.vocab.length)
+    const d = lessonQuestions(unit0, 'dialogue', 1)
+    expect(d).toHaveLength(10)
+    expect(new Set(d.map(x => x.id)).size).toBe(10)
     const vocabIds = new Set(unit0.vocab.map(v => v.id))
     for (const x of lessonQuestions(unit0, 'vocab', 2)) expect(vocabIds.has(x.id.split('-').slice(1, 3).join('-'))).toBe(true)
   })
