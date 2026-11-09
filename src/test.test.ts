@@ -123,7 +123,10 @@ describe('listening', () => {
       if (x.type !== 'listen-dialogue') throw new Error('expected listen-dialogue')
       const q = d.questions!.find(q => x.id === `lq-${q.id}`)!
       expect(x.options[x.answer]).toBe(q.options[q.answer])
-      expect(x.clips).toHaveLength(d.lines.length)
+      // Only the part the question is about, not the whole conversation.
+      const [from, to] = q.lines!
+      expect(x.clips).toEqual(d.lines.slice(from, to + 1).map(l => l.id))
+      expect(x.clips.length).toBeLessThanOrEqual(5)
     }
   })
 

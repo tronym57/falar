@@ -125,7 +125,7 @@ function ListenTyped({ ex, locked, onAnswer }: Props<'dictation' | 'listen-gap'>
   )
 }
 
-// ---------- a whole conversation, then a question ----------
+// ---------- a short part of a conversation, then a question ----------
 function ListenDialogue({ ex, locked, onAnswer }: Props<'listen-dialogue'>) {
   const { playing } = useAudio()
   const [picked, setPicked] = useState<number | null>(null)
@@ -138,12 +138,21 @@ function ListenDialogue({ ex, locked, onAnswer }: Props<'listen-dialogue'>) {
   }
   return (
     <>
-      <p className="ex-label">Listen to the conversation: <b>{ex.title}</b></p>
+      {/* The question first, so you know what to listen for. */}
+      <p className="ex-label">From the conversation <b>{ex.title}</b></p>
+      <p className="ex-label"><span className="ex-prompt">{ex.question}</span></p>
       <button className={'btn btn-big btn-block ' + (on ? 'btn-tonal' : 'btn-primary')} onClick={() => (on ? audio.stop() : audio.playAll(ex.clips))}>
-        {on ? '■ Stop' : '▶ Play the conversation'}
+        {on ? '■ Stop' : `▶ Play this part (${ex.clips.length} lines)`}
       </button>
-      <div className="big-play-wrap" style={{ marginTop: 10 }}><SlowToggle /></div>
-      <p className="ex-label" style={{ marginTop: 20 }}><span className="ex-prompt">{ex.question}</span></p>
+      {/* Each line on its own, to replay just the bit you missed. */}
+      <div className="line-chips">
+        {ex.clips.map((c, i) => (
+          <button key={c} className={'btn btn-sm rounded-full ' + (playing === c ? 'btn-primary' : 'btn-soft')} onClick={() => audio.play(c)} aria-label={`Play line ${i + 1}`}>
+            {playing === c ? '🔊' : '▶'} {i + 1} · {ex.lines[i]?.name}
+          </button>
+        ))}
+      </div>
+      <div className="big-play-wrap"><SlowToggle /></div>
       <div className="options">
         {ex.options.map((o, i) => (
           <Option key={i} state={locked && i === ex.answer ? 'right' : locked && i === picked ? 'wrong' : null} onClick={() => pick(i)}>{o}</Option>

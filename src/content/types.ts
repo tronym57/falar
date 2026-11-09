@@ -13,7 +13,8 @@ export type Dialogue = {
   speakers: Record<string, { name: string; voice: Voice; me?: boolean }>
   lines: Line[]
   // Listening comprehension: asked after hearing the whole conversation. Options are shuffled when shown.
-  questions?: { id: string; q: string; options: string[]; answer: number }[]
+  /** `lines`: the part of the conversation the question is about, as [first, last] line index (inclusive). */
+  questions?: { id: string; q: string; options: string[]; answer: number; lines?: [number, number] }[]
 }
 
 export type Phrase = { id: string; pt: string; en: string; note?: string }

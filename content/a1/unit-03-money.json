@@ -102,29 +102,41 @@
             "Two euros each",
             "Nine euros a kilo"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            0,
+            2
+          ]
         },
         {
           "id": "u3-d1-q2",
-          "q": "How does he pay?",
+          "q": "How do you pay?",
           "options": [
             "In cash",
             "By card",
-            "With his phone",
-            "He doesn't pay"
+            "With your phone",
+            "You don't pay"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            7,
+            9
+          ]
         },
         {
           "id": "u3-d1-q3",
-          "q": "How much change does he get?",
+          "q": "How much change do you get?",
           "options": [
             "Eleven euros",
             "Nine euros",
             "Twenty euros",
             "One euro"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            9,
+            10
+          ]
         }
       ]
     },
@@ -207,14 +219,18 @@
       "questions": [
         {
           "id": "u3-d2-q1",
-          "q": "What does he want to rent?",
+          "q": "What do you want to rent?",
           "options": [
             "A board and a wetsuit",
             "A car",
             "A bike",
             "Only a wetsuit"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            1,
+            4
+          ]
         },
         {
           "id": "u3-d2-q2",
@@ -225,18 +241,26 @@
             "Five euros",
             "Fifty euros"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            1,
+            2
+          ]
         },
         {
           "id": "u3-d2-q3",
-          "q": "When does he book for?",
+          "q": "Which day do you book?",
           "options": [
             "Saturday",
             "Sunday",
             "Today",
             "Tomorrow"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            5,
+            6
+          ]
         }
       ]
     }

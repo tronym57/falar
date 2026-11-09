@@ -95,14 +95,18 @@
       "questions": [
         {
           "id": "u2-d1-q1",
-          "q": "What does he order to eat?",
+          "q": "What do you order to eat?",
           "options": [
             "A custard tart",
             "Toast",
             "A sandwich",
             "A cake"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            0,
+            1
+          ]
         },
         {
           "id": "u2-d1-q2",
@@ -111,20 +115,28 @@
             "To eat there",
             "To take away",
             "Half and half",
-            "He doesn't say"
+            "It isn’t said"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            2,
+            3
+          ]
         },
         {
           "id": "u2-d1-q3",
-          "q": "What kind of water does he want?",
+          "q": "What kind of water do you want?",
           "options": [
             "Still and cold",
             "Sparkling and cold",
             "Still, room temperature",
             "Tap water"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            4,
+            7
+          ]
         }
       ]
     },
@@ -207,25 +219,33 @@
       "questions": [
         {
           "id": "u2-d2-q1",
-          "q": "What does he have with his coffee?",
+          "q": "What do you have with your coffee?",
           "options": [
             "Toast with butter",
             "A custard tart",
             "Toast with cheese",
             "Nothing"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            0,
+            3
+          ]
         },
         {
           "id": "u2-d2-q2",
-          "q": "What does he ask about?",
+          "q": "What do you ask about?",
           "options": [
             "Where the toilet is",
             "Where the bus stop is",
             "If they have Wi-Fi",
             "If he can pay by card"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            4,
+            5
+          ]
         },
         {
           "id": "u2-d2-q3",
@@ -236,7 +256,11 @@
             "Outside, on the left",
             "Next to the door"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            5,
+            6
+          ]
         }
       ]
     }

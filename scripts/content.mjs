@@ -181,6 +181,10 @@ function validate(u, errors, seenIds) {
       if (!Array.isArray(q.options) || q.options.length < 2) err(q.id, 'needs at least 2 options')
       else if (new Set(q.options).size !== q.options.length) err(q.id, 'options must be different')
       if (!Number.isInteger(q.answer) || !q.options?.[q.answer]) err(q.id, 'answer must be the index of an option')
+      // Short parts are easier to hold in your head than the whole conversation.
+      const [a, b] = q.lines ?? []
+      if (!Number.isInteger(a) || !Number.isInteger(b) || a < 0 || b < a || b >= (d.lines ?? []).length) err(q.id, 'needs "lines": [first, last] line index within the dialogue')
+      else if (b - a > 4) err(q.id, '"lines" should cover at most 5 lines')
     }
   }
   for (const p of u.phrases ?? []) { id(p.id, 'phrase'); pt(p.pt, p.id); str(p.en, `${p.id} en`) }

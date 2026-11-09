@@ -102,7 +102,11 @@
             "Germany",
             "Baleal"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            6,
+            9
+          ]
         },
         {
           "id": "u1-d1-q2",
@@ -113,18 +117,26 @@
             "In Germany",
             "In Baleal"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            6,
+            9
+          ]
         },
         {
           "id": "u1-d1-q3",
-          "q": "What are they both about to do?",
+          "q": "What are you both about to do?",
           "options": [
             "Go surfing",
             "Have a coffee",
             "Go home",
             "Drive to Lisbon"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -214,7 +226,11 @@
             "What your name is",
             "If you speak English"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            0,
+            1
+          ]
         },
         {
           "id": "u1-d2-q2",
@@ -225,7 +241,11 @@
             "English",
             "American"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            2,
+            3
+          ]
         },
         {
           "id": "u1-d2-q3",
@@ -236,7 +256,11 @@
             "She doesn't understand you",
             "You speak it like a Brazilian"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            4,
+            5
+          ]
         }
       ]
     }

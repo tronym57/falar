@@ -43,13 +43,18 @@ export function listenGap(c: Clip): Exercise | null {
   return { id: `lg-${c.id}`, type: 'listen-gap', part: 'listening', audio: c.id, pt, answers: [cores[best]] }
 }
 
-/** Questions about a whole conversation (heard without the text). */
+/** Questions about a conversation, heard without the text: each plays just the few lines it's about. */
 export function dialogueQuestions(d: Dialogue, rand: () => number): Exercise[] {
-  const clips = d.lines.map(l => l.id)
-  const lines = d.lines.map(l => ({ name: d.speakers[l.speaker]?.name ?? '', pt: l.pt }))
   return (d.questions ?? []).map(q => {
+    const [from, to] = q.lines ?? [0, d.lines.length - 1]
+    const part = d.lines.slice(from, to + 1)
     const options = shuffle(q.options, rand)
-    return { id: `lq-${q.id}`, type: 'listen-dialogue', part: 'listening', clips, title: d.title, lines, question: q.q, options, answer: options.indexOf(q.options[q.answer]) }
+    return {
+      id: `lq-${q.id}`, type: 'listen-dialogue', part: 'listening', title: d.title,
+      clips: part.map(l => l.id),
+      lines: part.map(l => ({ name: d.speakers[l.speaker]?.name ?? '', pt: l.pt })),
+      question: q.q, options, answer: options.indexOf(q.options[q.answer]),
+    }
   })
 }
 

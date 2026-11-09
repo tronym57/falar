@@ -90,7 +90,11 @@
             "It's raining",
             "It's a long day"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            4,
+            7
+          ]
         },
         {
           "id": "u0-d1-q2",
@@ -101,18 +105,26 @@
             "She asked you a question",
             "You said goodbye too early"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            4,
+            6
+          ]
         },
         {
           "id": "u0-d1-q3",
-          "q": "How do you say goodbye?",
+          "q": "What do you both say at the end?",
           "options": [
-            "See you later",
-            "See you tomorrow",
-            "Good night",
-            "Thank you, you too"
+            "See you later!",
+            "See you tomorrow!",
+            "Good night!",
+            "Thank you, you too!"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            8,
+            9
+          ]
         }
       ]
     },
@@ -190,7 +202,11 @@
             "If you pay by card",
             "Where you're from"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            0,
+            3
+          ]
         },
         {
           "id": "u0-d2-q2",
@@ -201,7 +217,11 @@
             "Spanish",
             "French"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            0,
+            2
+          ]
         },
         {
           "id": "u0-d2-q3",
@@ -212,7 +232,11 @@
             "Yes, two bags",
             "You don't answer"
           ],
-          "answer": 0
+          "answer": 0,
+          "lines": [
+            4,
+            5
+          ]
         }
       ]
     }
