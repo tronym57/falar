@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { NavLink, Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
 import Home from './screens/Home'
 import Course from './screens/Course'
 import Vocab from './screens/Vocab'
@@ -57,6 +57,9 @@ export default function App() {
     hasLocalData().then(has => { if (has) kv.set('falar.onboarded', '1'); setWelcome(!has) }).catch(() => setWelcome(false))
   }, [welcome])
   useEffect(() => { startAutoBackup() }, [])
+  // A new screen opens at the top; going back (POP) keeps the browser's restored position.
+  const navType = useNavigationType()
+  useEffect(() => { if (navType !== 'POP') window.scrollTo(0, 0) }, [pathname, navType])
   // Remember where you are, so reopening the app lands on the same screen (see main.tsx).
   useEffect(() => { kv.set(LAST_ROUTE, pathname) }, [pathname])
   useEffect(() => audio.onError(() => toast("Couldn't play this audio. If you're offline, open the app once with a connection.", 'error')), [toast])

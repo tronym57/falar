@@ -427,6 +427,8 @@ p { margin: 0 0 10px; }
 .row-btns { display: flex; gap: 10px; }
 .row-btns > * { flex: 1; }
 .resume { display: flex; gap: 10px; align-items: center; margin-top: 16px; }
+.resume-banner { margin-top: 16px; padding: 14px 16px; border-radius: 14px; background: var(--tint); border-left: 4px solid var(--accent-line); }
+.resume-banner p { margin: 0 0 10px; }
 .resume .btn:first-child { flex: 1; }
 
 /* ---------- verbs ---------- */
