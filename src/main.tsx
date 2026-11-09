@@ -10,6 +10,9 @@ import App from './App.tsx'
 import ErrorBoundary from './ErrorBoundary.tsx'
 import { ToastProvider } from './toast.tsx'
 import { LAST_ROUTE, kv } from './kv'
+import { initTheme } from './theme'
+
+initTheme()
 
 // iOS Safari only applies :active (pressed) styles when a touch listener exists.
 document.addEventListener('touchstart', () => {}, { passive: true })

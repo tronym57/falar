@@ -114,24 +114,23 @@
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --tonal-bg: #16352a;
-    --tonal-bg-hover: #1d4435;
-    --tonal-fg: #bfe8d3;
-    --tint: #13251e;
-    --accent-line: #3a9c74;
-    --hero-from: #1d6a4e;
-    --hero-to: #2a8c63;
-    --amber-bg: #2b2311;
-    --amber-line: #e3a33b;
-    --miss-bg: #2e2016;
-    --miss-line: #d98a52;
-    --miss-fg: #f2b384;
-    --surface-2: #1f2922;
-    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.35), 0 4px 14px rgb(0 0 0 / 0.25);
-    --shadow-2: 0 10px 28px rgb(0 0 0 / 0.45);
-  }
+/* Dark tokens: theme.ts always sets data-theme, also when following the iPhone. */
+:root[data-theme="falo-dark"] {
+  --tonal-bg: #16352a;
+  --tonal-bg-hover: #1d4435;
+  --tonal-fg: #bfe8d3;
+  --tint: #13251e;
+  --accent-line: #3a9c74;
+  --hero-from: #1d6a4e;
+  --hero-to: #2a8c63;
+  --amber-bg: #2b2311;
+  --amber-line: #e3a33b;
+  --miss-bg: #2e2016;
+  --miss-line: #d98a52;
+  --miss-fg: #f2b384;
+  --surface-2: #1f2922;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.35), 0 4px 14px rgb(0 0 0 / 0.25);
+  --shadow-2: 0 10px 28px rgb(0 0 0 / 0.45);
 }
 
 html, body { background: var(--surface); color: var(--text); }
