@@ -506,3 +506,6 @@ p { margin: 0 0 10px; }
 .look-word > p { margin: 0 0 6px; }
 .look-locked { display: flex; justify-content: space-between; align-items: center; text-align: left; width: 100%; }
 .look-locked h2 { margin: 0; }
+
+/* Jump targets (back from a topic's practice): clear the sticky app bar. */
+.topic, .practise-card { scroll-margin-top: 76px; }

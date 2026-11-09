@@ -28,13 +28,15 @@ type Props = {
   unit?: number // for exercises/check/lesson: marks the step done
   step?: string // for lesson: the reading step being practised
   closeTo: string
+  /** Optional main button on the results screen, e.g. on to the next grammar topic. */
+  next?: { to: string; label: string }
 }
 
 /**
  * Runs a list of exercises. Position is saved after every answer, so closing the app
  * returns you to the same exercise.
  */
-export default function Practice({ sessionKey, items, mode, unit, step, closeTo }: Props) {
+export default function Practice({ sessionKey, items, mode, unit, step, closeTo, next: nextTopic }: Props) {
   const toast = useToast()
   const byId = Object.fromEntries(items.map(x => [x.id, x])) as Record<string, Exercise>
   const requeue = mode === 'exercises' || mode === 'drill' || mode === 'lesson'
@@ -61,7 +63,7 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo 
   }, [sessionKey]) // eslint-disable-line react-hooks/exhaustive-deps -- once per session
 
   if (finished) {
-    return <Results mode={mode} unit={unit} step={step} items={items} closeTo={closeTo} {...finished} onRetry={() => start(true)} />
+    return <Results mode={mode} unit={unit} step={step} items={items} closeTo={closeTo} next={nextTopic} {...finished} onRetry={() => start(true)} />
   }
   if (!session) return <main className="screen"><p className="muted">Loading…</p></main>
 
@@ -137,9 +139,9 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo 
   )
 }
 
-type ResultsProps = { mode: Mode; unit?: number; step?: string; items: Exercise[]; closeTo: string; score: number; firstTry: Record<string, boolean>; onRetry: () => void }
+type ResultsProps = { mode: Mode; unit?: number; step?: string; items: Exercise[]; closeTo: string; next?: { to: string; label: string }; score: number; firstTry: Record<string, boolean>; onRetry: () => void }
 
-function Results({ mode, unit, step, items, closeTo, score, firstTry, onRetry }: ResultsProps) {
+function Results({ mode, unit, step, items, closeTo, next, score, firstTry, onRetry }: ResultsProps) {
   const navigate = useNavigate()
   const toast = useToast()
   const pct = Math.round(score * 100)
@@ -208,7 +210,9 @@ function Results({ mode, unit, step, items, closeTo, score, firstTry, onRetry }:
       )}
       {(mode === 'exercises' || mode === 'drill' || mode === 'reading' || (mode === 'lesson' && passed)) && <button className="btn btn-tonal btn-block btn-big" onClick={onRetry}>Practise again</button>}
       {mode === 'test' && <button className="btn btn-primary btn-block btn-big" onClick={() => navigate('/practice')}>New test</button>}
-      <Link className="btn btn-tonal btn-block btn-big" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>
+      {next
+        ? <Link className="btn btn-primary btn-block btn-big" to={next.to} style={{ textDecoration: 'none' }}>{next.label} ›</Link>
+        : <Link className="btn btn-tonal btn-block btn-big" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>}
     </main>
   )
 }

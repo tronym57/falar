@@ -3,12 +3,13 @@ import type { GrammarSection, GrammarTopic } from '../content/types'
 import { AudioRow } from './AudioRow'
 
 /** One grammar topic: rule cards, tables, examples with audio, tips, Portugal-vs-Brazil note. */
-export function GrammarTopicView({ unit, topic, index }: { unit: number; topic: GrammarTopic; index?: number }) {
+/** `backTo`: where the topic's practice returns to (the grammar step, at the next topic). Default: the reference page. */
+export function GrammarTopicView({ unit, topic, index, backTo }: { unit: number; topic: GrammarTopic; index?: number; backTo?: { to: string; label: string; here: string } }) {
   return (
-    <section className="topic">
+    <section className="topic" id={`topic-${topic.id}`}>
       <h2 className="topic-title">{index !== undefined && <span className="topic-n">{index + 1}</span>}{topic.title}</h2>
       {topic.sections.map((s, i) => <Section key={i} s={s} />)}
-      <Link className="btn btn-primary btn-block btn-big" to={`/drill/grammar/${unit}/${topic.id}`} style={{ textDecoration: 'none' }}>
+      <Link className="btn btn-primary btn-block btn-big" to={`/drill/grammar/${unit}/${topic.id}`} state={backTo} style={{ textDecoration: 'none' }}>
         Practise this ({topic.exercises.length} questions) ›
       </Link>
     </section>

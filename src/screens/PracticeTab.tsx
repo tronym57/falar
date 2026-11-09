@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db'
 import { a1Content } from '../content'
@@ -277,6 +277,8 @@ export function GrammarDrill() {
   const { n, topic } = useParams()
   const unit = a1Content[Number(n)]
   const t = unit?.grammar.topics.find(x => x.id === topic)
+  // Opened from the unit's grammar step: go back there, at the next topic. From the reference: back to the topic page.
+  const back = useLocation().state as { to: string; label: string; here: string } | null
   if (!unit || !t) return <Navigate to="/practice/grammar" replace />
-  return <Practice sessionKey={`drill:${t.id}`} items={t.exercises} mode="drill" closeTo={`/grammar/${unit.n}/${t.id}`} />
+  return <Practice sessionKey={`drill:${t.id}`} items={t.exercises} mode="drill" closeTo={back?.here ?? `/grammar/${unit.n}/${t.id}`} next={back ?? undefined} />
 }

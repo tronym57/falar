@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
 import { a1Content } from '../content'
 import { unitSteps } from '../units'
 import { audio, useAudio } from '../audio'
@@ -57,7 +57,7 @@ export default function UnitStep() {
       {step === 'grammar' && <GrammarView unit={unit} />}
       {step === 'speaking' && <SpeakingView unit={unit} />}
 
-      <section className="card practise-card">
+      <section className="card practise-card" id="practise">
         <h2>{done ? 'Practise again' : 'Practise it now'}</h2>
         <p className="muted">
           {meta.slug === 'speaking' ? `${count} things to say out loud: ${unit.speaking.length} prompts, then a role-play of the dialogues.` : `${count} quick questions on this lesson.`}{!done && ` Get ${Math.round(PASS_MARK * 100)}% and it's marked as done.`}
@@ -155,7 +155,24 @@ function Vocab({ unit }: { unit: Unit }) {
 }
 
 function GrammarView({ unit }: { unit: Unit }) {
-  return <>{unit.grammar.topics.map((t, i) => <GrammarTopicView key={t.id} unit={unit.n} topic={t} index={i} />)}</>
+  // After a topic's practice you come back here, at the next topic (or at the step's own practice after the last one).
+  const topics = unit.grammar.topics
+  const [params] = useSearchParams()
+  const at = params.get('at')
+  useEffect(() => {
+    if (!at) return
+    // After the app's scroll-to-top on navigation.
+    const f = requestAnimationFrame(() => document.getElementById(at)?.scrollIntoView({ block: 'start' }))
+    return () => cancelAnimationFrame(f)
+  }, [at])
+  const back = (i: number) => {
+    const next = topics[i + 1]
+    const here = `/unit/${unit.n}/grammar?at=topic-${topics[i].id}` // ✕ during the practice
+    return next
+      ? { here, to: `/unit/${unit.n}/grammar?at=topic-${next.id}`, label: `Next: ${i + 2}. ${next.title}` }
+      : { here, to: `/unit/${unit.n}/grammar?at=practise`, label: 'Back to the grammar lesson' }
+  }
+  return <>{topics.map((t, i) => <GrammarTopicView key={t.id} unit={unit.n} topic={t} index={i} backTo={back(i)} />)}</>
 }
 
 function SpeakingView({ unit }: { unit: Unit }) {
