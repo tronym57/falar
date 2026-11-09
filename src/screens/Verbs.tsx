@@ -8,6 +8,7 @@ import { audio, useAudio } from '../audio'
 import Practice from './Practice'
 import { focusDrill, formAudio, isWeakVerb, masteryFrom, verbById, verbDrill, verbs, verbSet, type Mastery } from '../verbs'
 import { useToast } from '../toast'
+import { openAnyway, useDone, verbLearned } from '../learned'
 
 type Filter = 'all' | 'irregular' | 'regular' | 'weak'
 
@@ -33,6 +34,8 @@ export default function VerbTrainer() {
   const navigate = useNavigate()
   const mastery = useMastery()
   const [filter, setFilter] = useState<Filter>('all')
+  const done = useDone()
+  const learned = (v: (typeof verbs)[number]) => !done || verbLearned(v, done)
 
   const shown = verbs.filter(v =>
     filter === 'all' ? true
@@ -41,9 +44,11 @@ export default function VerbTrainer() {
           : isWeakVerb(mastery?.[v.id]))
   const weakCount = mastery ? verbs.filter(v => isWeakVerb(mastery[v.id])).length : 0
 
+  const open = shown.filter(learned)
   const practise = async () => {
     if (!shown.length) return toast(filter === 'weak' ? 'No weak verbs right now. Nice!' : 'No verbs in this filter.')
-    try { await startDrill('verbs', verbDrill(shown, mastery ?? {}, 15), navigate) }
+    if (!open.length) return toast('None of these verbs is open yet. Verbs open as you finish each unit’s Key phrases.')
+    try { await startDrill('verbs', verbDrill(open, mastery ?? {}, 15), navigate) }
     catch (e) { toast(`Couldn't start the drill: ${(e as Error).message}`, 'error') }
   }
 
@@ -53,7 +58,7 @@ export default function VerbTrainer() {
     <main className="screen">
       <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/practice">‹ Practice</Link>
       <h1>Verbs</h1>
-      <p className="muted" style={{ marginBottom: 12 }}>{verbs.length} common verbs in the {verbSet.title.toLowerCase()}. Weak verbs come up more often.</p>
+      <p className="muted" style={{ marginBottom: 12 }}>{verbs.length} common verbs in the {verbSet.title.toLowerCase()}. Drills use the verbs from units you've done (each opens with its unit's Key phrases); weak verbs come up more often.</p>
 
       <div className="filters">
         {chips.map(([k, label]) => (
@@ -62,18 +67,21 @@ export default function VerbTrainer() {
       </div>
 
       <button className="btn btn-primary btn-block btn-big" onClick={practise} style={{ marginBottom: 12 }}>
-        Practise 15 questions<small>{filter === 'all' ? 'All verbs, weakest first' : `From: ${chips.find(c => c[0] === filter)![1]}`}</small>
+        Practise 15 questions<small>{open.length ? `${open.length} open ${open.length === 1 ? 'verb' : 'verbs'}${filter === 'all' ? '' : ` · ${chips.find(c => c[0] === filter)![1]}`}, weakest first` : 'No open verbs here yet'}</small>
       </button>
 
       {shown.length === 0 && <div className="card"><p className="muted">{filter === 'weak' ? 'No weak verbs. Practise more to see which ones need work.' : 'Nothing here.'}</p></div>}
-      {shown.map(v => (
-        <Link key={v.id} to={`/verbs/${v.id}`} className="card tap verb-card">
+      {shown.map(v => {
+        const body = <>
           <span className="chev">›</span>
           <h2>{v.inf} <span className="muted" style={{ fontWeight: 400 }}>{v.en}</span></h2>
           <p className="muted small" style={{ margin: '2px 0 6px' }}>{v.forms.slice(0, 3).join(' · ')} …</p>
-          <div className="flex gap-2"><span className="badge badge-sm badge-ghost">{v.kind}</span><MasteryBadge m={mastery?.[v.id]} /></div>
-        </Link>
-      ))}
+          <div className="flex gap-2"><span className="badge badge-sm badge-ghost">{v.kind}</span>{learned(v) ? <MasteryBadge m={mastery?.[v.id]} /> : <span className="badge badge-sm badge-soft">🔒 Unit {v.unit}</span>}</div>
+        </>
+        return learned(v)
+          ? <Link key={v.id} to={`/verbs/${v.id}`} className="card tap verb-card">{body}</Link>
+          : <button key={v.id} className="card tap verb-card soft-locked" onClick={() => openAnyway(navigate, `You learn “${v.inf}” in Unit ${v.unit}. It joins your drills when you finish that unit's Key phrases.`, `/verbs/${v.id}`)}>{body}</button>
+      })}
     </main>
   )
 }

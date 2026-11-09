@@ -1,5 +1,5 @@
 // Mixed tests: build a quiz across units and parts from the unit content.
-import type { Exercise, Part, Unit } from './content/types'
+import type { Exercise, Part, ReadingText, Unit, Verb } from './content/types'
 import { listeningExtras, dialogueQuestions, lineExercise } from './listening'
 import { readingQuestions, readingTexts } from './content/reading'
 import { verbQuestions, verbs } from './verbs'
@@ -41,8 +41,11 @@ const answersFor = (pt: string) =>
     return bare !== v ? [v, bare] : [v]
   }))]
 
+/** Verbs and reading texts aren't part of a unit; by default all of them are in the pool. */
+export type Extras = { verbs?: Verb[]; texts?: ReadingText[] }
+
 /** Every possible question per part for these units. */
-export function questionPool(units: Unit[], rand: () => number): Record<Part, Exercise[]> {
+export function questionPool(units: Unit[], rand: () => number, extras: Extras = {}): Record<Part, Exercise[]> {
   const items = units.flatMap(u => [...u.phrases, ...u.vocab])
   const meanings = [...new Set(items.map(i => i.en))]
   const distractors = (right: string) => shuffle(meanings.filter(m => m !== right), rand).slice(0, 3)
@@ -60,21 +63,20 @@ export function questionPool(units: Unit[], rand: () => number): Record<Part, Ex
   }
 
   const authored = units.flatMap(u => [...u.exercises, ...u.check, ...u.grammar.topics.flatMap(t => t.exercises)])
-  // Verbs aren't tied to a unit: all A1 verbs are in the pool (single forms and sentences, no full tables).
-  const verbPool = verbs.flatMap(v => { const q = verbQuestions(v, rand); return [...q.type, ...q.pick, ...q.gap] })
+  // Single verb forms and sentences, no full tables.
+  const verbPool = (extras.verbs ?? verbs).flatMap(v => { const q = verbQuestions(v, rand); return [...q.type, ...q.pick, ...q.gap] })
   listening.push(...listeningExtras(units, rand).flat())
-  // Reading texts aren't tied to a unit: all of them are in the pool.
-  const reading = readingTexts.flatMap(readingQuestions)
-  const speaking = units.flatMap(u => speakingQuestions(u))
+  const reading = (extras.texts ?? readingTexts).flatMap(readingQuestions)
+  const speaking = units.filter(hasSpeaking).flatMap(u => speakingQuestions(u))
   const pool: Record<Part, Exercise[]> = { vocab, listening, grammar: [], sentences: [], verbs: verbPool, reading, speaking }
   for (const x of authored) pool[partOf(x)].push(x)
   return pool
 }
 
 /** A test of `length` questions, spread evenly over the chosen parts. */
-export function generateTest(units: Unit[], parts: Part[], length: number, seed = Date.now()): Exercise[] {
+export function generateTest(units: Unit[], parts: Part[], length: number, seed = Date.now(), extras: Extras = {}): Exercise[] {
   const rand = rng(seed)
-  const pool = questionPool(units, rand)
+  const pool = questionPool(units, rand, extras)
   const queues = parts.map(p => shuffle(pool[p], rand)).filter(q => q.length)
   const out: Exercise[] = []
   const seen = new Set<string>()
@@ -104,9 +106,12 @@ export function speakingQuestions(unit: Unit): Exercise[] {
   return [...prompts, ...roleplay]
 }
 
+/** Speaking (prompts and role-play) comes with a unit's Speaking drill step: a unit trimmed to what you've learned has no prompts before it. */
+const hasSpeaking = (u: Unit) => u.speaking.length > 0
+
 /** A speaking drill across units: prompts and role-play replies, mixed. */
 export function speakingDrill(units: Unit[], length: number, seed = Date.now()): Exercise[] {
-  return shuffle(units.flatMap(u => speakingQuestions(u)), rng(seed)).slice(0, length)
+  return shuffle(units.filter(hasSpeaking).flatMap(u => speakingQuestions(u)), rng(seed)).slice(0, length)
 }
 
 /** A listening-only drill that rotates through every listening style. */

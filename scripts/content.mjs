@@ -46,6 +46,7 @@ function validateVerbs(set, errors, seenIds) {
     if (seenIds.has(v.id)) err(v.id, 'duplicate verb id')
     seenIds.set(v.id, set.id)
     for (const k of ['inf', 'en', 'kind']) if (typeof v[k] !== 'string' || !v[k].trim()) err(v.id, `missing ${k}`)
+    if (!Number.isInteger(v.unit) || v.unit < 0 || v.unit > 13) err(v.id, 'needs "unit": the A1 unit (0–13) that teaches it')
     if (!Array.isArray(v.forms) || v.forms.length !== 5) err(v.id, 'needs exactly 5 forms')
     for (const f of v.forms ?? []) for (const p of bpProblems(f)) err(v.id, p)
     if (!v.examples?.length) err(v.id, 'needs at least one example')

@@ -166,6 +166,7 @@ p { margin: 0 0 10px; }
 .flat-section > h2 { margin-top: 0; }
 .card.soft-locked h2 { color: var(--muted); }
 .card.locked { opacity: 0.55; box-shadow: none; }
+.chip-locked { color: var(--muted); }
 .rule { background: var(--tint); border-color: transparent; box-shadow: none; border-left: 4px solid var(--accent-line); }
 .tip { background: var(--amber-bg); border-color: transparent; box-shadow: none; border-left: 4px solid var(--amber-line); }
 .ep-note { background: var(--surface-1); border-left: 4px solid; border-image: linear-gradient(#046a38, #046a38 45%, #da291c 55%, #da291c) 1; border-radius: 0 var(--radius-box) var(--radius-box) 0; }

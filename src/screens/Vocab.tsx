@@ -55,9 +55,12 @@ export default function Vocab() {
   // Train the words on screen: weakest first, then due, then the rest in random order.
   const train = async () => {
     if (!shown.length) return toast('No words to train in this list. Change the filter or search.')
+    // Only words you've learned (they're in your review); the rest open with their unit's lesson.
+    const learned = shown.filter(f => pairOf(f.id).length)
+    if (!learned.length) return toast('None of these words is learned yet. They open when you finish their unit’s Key phrases or Vocabulary step.')
     const rand = rng(Date.now())
     const rank = (f: CardFace) => { const p = pairOf(f.id); return p.some(isWeak) ? 0 : p.some(c => isDue(c, now)) ? 1 : 2 }
-    const picked = shown.map(f => ({ f, r: rank(f) + rand() })).sort((a, b) => a.r - b.r).slice(0, TRAIN_LENGTH).map(x => x.f)
+    const picked = learned.map(f => ({ f, r: rank(f) + rand() })).sort((a, b) => a.r - b.r).slice(0, TRAIN_LENGTH).map(x => x.f)
     const items = wordQuestions(picked, faces.map(f => f.en), 'w', rand)
     try {
       await db.sessions.put({ key: 'vocab', queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items })
@@ -78,7 +81,7 @@ export default function Vocab() {
       </div>
 
       <button className="btn btn-primary btn-block btn-big" style={{ marginBottom: 12 }} onClick={train}>
-        Train these words<small>{Math.min(shown.length, TRAIN_LENGTH)} questions · weakest first</small>
+        Train these words<small>{(() => { const n = shown.filter(f => pairOf(f.id).length).length; return n ? `${Math.min(n, TRAIN_LENGTH)} questions from words you've learned · weakest first` : 'No learned words in this list yet' })()}</small>
       </button>
       {adding ? <AddWord onDone={() => setAdding(false)} /> : (
         <button className="btn btn-tonal btn-block btn-big" style={{ marginBottom: 12 }} onClick={() => setAdding(true)}>+ Add a word you heard</button>

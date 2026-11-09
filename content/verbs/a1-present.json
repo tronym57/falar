@@ -14,6 +14,7 @@
     {
       "id": "ser",
       "inf": "ser",
+      "unit": 1,
       "en": "to be (permanent: who/what/where from)",
       "kind": "irregular",
       "forms": [
@@ -42,6 +43,7 @@
     {
       "id": "estar",
       "inf": "estar",
+      "unit": 1,
       "en": "to be (temporary: state, location)",
       "kind": "irregular",
       "forms": [
@@ -70,6 +72,7 @@
     {
       "id": "ter",
       "inf": "ter",
+      "unit": 2,
       "en": "to have",
       "kind": "irregular",
       "forms": [
@@ -98,6 +101,7 @@
     {
       "id": "ir",
       "inf": "ir",
+      "unit": 8,
       "en": "to go",
       "kind": "irregular",
       "forms": [
@@ -126,6 +130,7 @@
     {
       "id": "fazer",
       "inf": "fazer",
+      "unit": 3,
       "en": "to do, to make",
       "kind": "irregular",
       "forms": [
@@ -154,6 +159,7 @@
     {
       "id": "querer",
       "inf": "querer",
+      "unit": 2,
       "en": "to want",
       "kind": "irregular",
       "forms": [
@@ -182,6 +188,7 @@
     {
       "id": "poder",
       "inf": "poder",
+      "unit": 0,
       "en": "can, to be able to",
       "kind": "irregular",
       "forms": [
@@ -210,6 +217,7 @@
     {
       "id": "falar",
       "inf": "falar",
+      "unit": 0,
       "en": "to speak",
       "kind": "regular -ar",
       "forms": [
@@ -238,6 +246,7 @@
     {
       "id": "morar",
       "inf": "morar",
+      "unit": 1,
       "en": "to live (somewhere)",
       "kind": "regular -ar",
       "forms": [
@@ -266,6 +275,7 @@
     {
       "id": "gostar",
       "inf": "gostar",
+      "unit": 6,
       "en": "to like",
       "kind": "regular -ar",
       "forms": [
@@ -294,6 +304,7 @@
     {
       "id": "precisar",
       "inf": "precisar",
+      "unit": 4,
       "en": "to need",
       "kind": "regular -ar",
       "forms": [
@@ -322,6 +333,7 @@
     {
       "id": "chamarse",
       "inf": "chamar-se",
+      "unit": 1,
       "en": "to be called",
       "kind": "regular -ar (reflexive)",
       "forms": [
@@ -350,6 +362,7 @@
     {
       "id": "comer",
       "inf": "comer",
+      "unit": 2,
       "en": "to eat",
       "kind": "regular -er",
       "forms": [
@@ -378,6 +391,7 @@
     {
       "id": "perceber",
       "inf": "perceber",
+      "unit": 0,
       "en": "to understand",
       "kind": "regular -er",
       "forms": [
@@ -406,6 +420,7 @@
     {
       "id": "viver",
       "inf": "viver",
+      "unit": 7,
       "en": "to live",
       "kind": "regular -er",
       "forms": [
@@ -434,6 +449,7 @@
     {
       "id": "dizer",
       "inf": "dizer",
+      "unit": 0,
       "en": "to say",
       "kind": "irregular",
       "forms": [
@@ -462,6 +478,7 @@
     {
       "id": "ver",
       "inf": "ver",
+      "unit": 11,
       "en": "to see",
       "kind": "irregular",
       "forms": [
@@ -490,6 +507,7 @@
     {
       "id": "saber",
       "inf": "saber",
+      "unit": 5,
       "en": "to know (facts, how to)",
       "kind": "irregular",
       "forms": [
@@ -518,6 +536,7 @@
     {
       "id": "vir",
       "inf": "vir",
+      "unit": 5,
       "en": "to come",
       "kind": "irregular",
       "forms": [
@@ -546,6 +565,7 @@
     {
       "id": "dar",
       "inf": "dar",
+      "unit": 5,
       "en": "to give",
       "kind": "irregular",
       "forms": [
@@ -574,6 +594,7 @@
     {
       "id": "sair",
       "inf": "sair",
+      "unit": 7,
       "en": "to go out, to leave",
       "kind": "irregular",
       "forms": [

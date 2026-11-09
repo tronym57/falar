@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db'
@@ -7,13 +7,30 @@ import type { Exercise, Part } from '../content/types'
 import { GrammarTopicView } from '../components/Grammar'
 import { SlowToggle } from '../components/AudioRow'
 import Practice from './Practice'
-import { PARTS, generateTest, listeningDrill, speakingDrill } from '../test'
+import { PARTS, generateTest, listeningDrill, questionPool, rng, speakingDrill } from '../test'
+import { verbs } from '../verbs'
+import { isDone, learnedUnits, openAnyway, textOpen, useDone, verbLearned } from '../learned'
 import { useDue } from '../review'
 import { readingTexts } from '../content/reading'
 import { useToast } from '../toast'
 
 const TEST_KEY = 'test'
 const LENGTHS = [10, 20, 30]
+
+/** What opens each part, for the toast when it's still empty. */
+const OPENS: Record<Part, string> = {
+  vocab: 'Finish a unit’s Key phrases or Vocabulary step to get these questions.',
+  listening: 'Finish a unit’s Dialogue or Key phrases step to get listening questions.',
+  grammar: 'Finish a unit’s Grammar step to get grammar questions.',
+  sentences: 'Finish a unit’s Exercises step to get these questions.',
+  verbs: 'Finish Unit 0’s Key phrases to get your first verbs.',
+  reading: 'Finish Unit 1 to open the first reading texts.',
+  speaking: 'Finish a unit’s Speaking drill to get speaking questions.',
+}
+
+const UNITS = Object.values(a1Content).sort((a, b) => a.n - b.n)
+
+const unitList = (ns: number[]) => ns.length === 1 ? `Unit ${ns[0]}` : `Units ${ns.slice(0, -1).join(', ')} and ${ns.at(-1)}`
 
 // ---------- /practice ----------
 export default function PracticeHub() {
@@ -22,9 +39,18 @@ export default function PracticeHub() {
   const due = useDue()
   const openTest = useLiveQuery(() => db.sessions.get(TEST_KEY))
   const readCount = useLiveQuery(() => db.progress.where('unit').equals(-1).count())
-  const units = Object.values(a1Content).sort((a, b) => a.n - b.n)
+  const units = UNITS
+  const done = useDone()
 
-  const [picked, setPicked] = useState<number[]>(() => units.map(u => u.n))
+  // Practice only uses what you've finished: the steps you've done, the verbs and texts they open.
+  const learned = useMemo(() => (done ? learnedUnits(UNITS, done) : []), [done])
+  const extras = useMemo(() => ({ verbs: done ? verbs.filter(v => verbLearned(v, done)) : [], texts: done ? readingTexts.filter(t => textOpen(t, done)) : [] }), [done])
+
+  const [off, setOff] = useState<number[]>([]) // learned units you've switched off for the test
+  const picked = useMemo(() => learned.map(u => u.n).filter(n => !off.includes(n)), [learned, off])
+  const pool = useMemo(() => questionPool(learned.filter(u => picked.includes(u.n)), rng(1), extras), [learned, extras, picked])
+  const speakCount = useMemo(() => speakingDrill(learned, 999, 1).length, [learned])
+  const listenCount = useMemo(() => questionPool(learned, rng(1)).listening.length, [learned])
   // Speaking needs the mic, so it's opt-in for tests.
   const [parts, setParts] = useState<Part[]>(PARTS.map(p => p.id).filter(p => p !== 'speaking'))
   const [length, setLength] = useState(20)
@@ -33,10 +59,12 @@ export default function PracticeHub() {
   const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter(x => x !== v) : [...list, v])
 
   const start = async () => {
+    if (!learned.length) return toast('Finish a step in Unit 0 first. Tests use what you’ve learned.')
     if (!picked.length) return toast('Pick at least one unit.')
-    if (!parts.length) return toast('Pick at least one part.')
+    const usable = parts.filter(p => pool[p].length)
+    if (!usable.length) return toast(parts.length ? OPENS[parts[0]] : 'Pick at least one part.')
     try {
-      const items = generateTest(units.filter(u => picked.includes(u.n)), parts, length)
+      const items = generateTest(learned.filter(u => picked.includes(u.n)), usable, length, Date.now(), extras)
       if (!items.length) return toast('No questions for this selection yet.')
       await db.sessions.put({ key: TEST_KEY, queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items })
       if (items.length < length) toast(`Only ${items.length} questions available for this selection.`)
@@ -56,6 +84,9 @@ export default function PracticeHub() {
   return (
     <main className="screen">
       <h1>Practice</h1>
+      <p className="muted" style={{ marginTop: -8, marginBottom: 8 }}>
+        {learned.length ? `Built from what you've finished in ${unitList(learned.map(u => u.n))}. Finish more steps to open more.` : 'Practice uses what you’ve learned. Finish the first step in Unit 0 to start.'}
+      </p>
 
       <p className="section-label">Every day</p>
       {due && due.count > 0 ? (
@@ -82,30 +113,30 @@ export default function PracticeHub() {
         <h2>🗣️ Conversation</h2>
         <p className="muted">Role-play the café, the market, the delivery driver… with an AI partner (Gemini)</p>
       </Link>
-      <button className="card tap" onClick={() => startDrill('speaking', speakingDrill(units, 10), 'speaking practice')}>
+      <button className={'card tap' + (speakCount ? '' : ' soft-locked')} onClick={() => speakCount ? startDrill('speaking', speakingDrill(learned, 10), 'speaking practice') : toast(OPENS.speaking)}>
         <span className="chev">›</span>
         <h2>🎤 Speaking</h2>
-        <p className="muted">10 things to say out loud: prompts and replies from the dialogues</p>
+        <p className="muted">{speakCount ? `10 things to say out loud, from ${speakCount} prompts and replies you've practised` : '🔒 Opens when you finish a unit’s Speaking drill'}</p>
       </button>
-      <button className="card tap" onClick={() => startDrill('listening', listeningDrill(units, 15), 'listening practice')}>
+      <button className={'card tap' + (listenCount ? '' : ' soft-locked')} onClick={() => listenCount ? startDrill('listening', listeningDrill(learned, 15), 'listening practice') : toast(OPENS.listening)}>
         <span className="chev">›</span>
         <h2>🎧 Listening</h2>
-        <p className="muted">15 questions: meaning, dictation, what you heard, missing word, whole conversations</p>
+        <p className="muted">{listenCount ? '15 questions: meaning, dictation, what you heard, missing word, whole conversations' : '🔒 Opens when you finish a unit’s Dialogue or Key phrases'}</p>
       </button>
       <Link className="card tap" to="/reading">
         <span className="chev">›</span>
         <h2>📰 Reading</h2>
-        <p className="muted">{readingTexts.length} short texts about Peniche, food and festivals, or any topic you like{readCount ? ` · ${readCount} done` : ''}</p>
+        <p className="muted">{extras.texts.length} of {readingTexts.length} texts open, about Peniche, food and festivals, or any topic you like{readCount ? ` · ${readCount} done` : ''}</p>
       </Link>
       <Link className="card tap" to="/practice/verbs">
         <span className="chev">›</span>
         <h2>🔤 Verb trainer</h2>
-        <p className="muted">21 common verbs: tables with audio, drills, weak verbs first</p>
+        <p className="muted">{extras.verbs.length ? `${extras.verbs.length} of ${verbs.length} verbs from your units: tables with audio, drills, weak verbs first` : `${verbs.length} common verbs; they open as you finish each unit’s Key phrases`}</p>
       </Link>
       <Link className="card tap" to="/practice/grammar">
         <span className="chev">›</span>
         <h2>📖 Grammar reference</h2>
-        <p className="muted">All grammar topics, each with its own practice</p>
+        <p className="muted">{(() => { const n = units.filter(u => done && isDone(done, u.n, 'grammar')).reduce((a, u) => a + u.grammar.topics.length, 0); return n ? `${n} topics you've learned, each with its own practice` : 'Topics open as you finish each unit’s Grammar step' })()}</p>
       </Link>
 
       <p className="section-label">Check yourself</p>
@@ -130,18 +161,28 @@ export default function PracticeHub() {
           <>
             <p className="section-label">Units</p>
             <div className="filters wrap">
-              {units.map(u => (
-                <button key={u.n} className={'btn btn-sm rounded-full ' + (picked.includes(u.n) ? 'btn-primary' : 'btn-soft')} onClick={() => setPicked(cur => toggle(cur, u.n))}>
-                  Unit {u.n}
-                </button>
-              ))}
+              {units.map(u => {
+                const open = learned.some(l => l.n === u.n)
+                return (
+                  <button key={u.n} className={'btn btn-sm rounded-full ' + (!open ? 'btn-soft chip-locked' : picked.includes(u.n) ? 'btn-primary' : 'btn-soft')}
+                    onClick={() => open ? setOff(cur => toggle(cur, u.n)) : toast(`Unit ${u.n} joins your tests once you finish one of its steps.`)}>
+                    {open ? '' : '🔒 '}Unit {u.n}
+                  </button>
+                )
+              })}
             </div>
 
             <p className="section-label">Parts</p>
             <div className="filters wrap">
-              {PARTS.map(p => (
-                <button key={p.id} className={'btn btn-sm rounded-full ' + (parts.includes(p.id) ? 'btn-primary' : 'btn-soft')} onClick={() => setParts(cur => toggle(cur, p.id))}>{p.title}</button>
-              ))}
+              {PARTS.map(p => {
+                const open = pool[p.id].length > 0
+                return (
+                  <button key={p.id} className={'btn btn-sm rounded-full ' + (!open ? 'btn-soft chip-locked' : parts.includes(p.id) ? 'btn-primary' : 'btn-soft')}
+                    onClick={() => open ? setParts(cur => toggle(cur, p.id)) : toast(OPENS[p.id])}>
+                    {open ? '' : '🔒 '}{p.title}
+                  </button>
+                )
+              })}
             </div>
 
             <p className="section-label">Length</p>
@@ -174,23 +215,35 @@ export function TestRunner() {
 
 // ---------- /practice/grammar ----------
 export function GrammarReference() {
-  const units = Object.values(a1Content).sort((a, b) => a.n - b.n)
+  const units = UNITS
+  const navigate = useNavigate()
+  const done = useDone()
   return (
     <main className="screen">
       <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/practice">‹ Practice</Link>
       <h1>Grammar</h1>
-      {units.map(u => (
-        <section key={u.id}>
-          <p className="section-label">Unit {u.n} · {u.title}</p>
-          {u.grammar.topics.map(t => (
-            <Link key={t.id} className="card tap" to={`/grammar/${u.n}/${t.id}`}>
-              <span className="chev">›</span>
-              <h2>{t.title}</h2>
-              <p className="muted">{t.exercises.length} practice questions</p>
-            </Link>
-          ))}
-        </section>
-      ))}
+      <p className="muted" style={{ marginBottom: 8 }}>Each topic opens when you finish its unit's Grammar step.</p>
+      {units.map(u => {
+        const open = !done || isDone(done, u.n, 'grammar')
+        return (
+          <section key={u.id}>
+            <p className="section-label">Unit {u.n} · {u.title}</p>
+            {u.grammar.topics.map(t => open ? (
+              <Link key={t.id} className="card tap" to={`/grammar/${u.n}/${t.id}`}>
+                <span className="chev">›</span>
+                <h2>{t.title}</h2>
+                <p className="muted">{t.exercises.length} practice questions</p>
+              </Link>
+            ) : (
+              <button key={t.id} className="card tap soft-locked" onClick={() => openAnyway(navigate, `This topic is part of Unit ${u.n}. It opens when you finish that unit's Grammar step.`, `/grammar/${u.n}/${t.id}`)}>
+                <span className="chev">›</span>
+                <h2>{t.title}</h2>
+                <p className="muted">🔒 Opens with Unit {u.n} · Grammar</p>
+              </button>
+            ))}
+          </section>
+        )
+      })}
     </main>
   )
 }

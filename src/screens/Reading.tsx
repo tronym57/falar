@@ -12,6 +12,7 @@ import { AiError, useAi } from '../ai'
 import { AiSetup } from '../components/AiSetup'
 import { createAiText, TOPIC_IDEAS } from '../aiReading'
 import { useToast } from '../toast'
+import { openAnyway, textOpen, useDone } from '../learned'
 
 /** A bundled text, or one Gemini wrote for you. `undefined` while loading, `null` if there's none. */
 function useText(id: string): ReadingText | null | undefined {
@@ -30,29 +31,34 @@ function useReadingProgress() {
 
 // ---------- /reading ----------
 export default function ReadingList() {
+  const navigate = useNavigate()
   const best = useReadingProgress()
+  const done = useDone()
   const mine = useLiveQuery(() => db.aiTexts.orderBy('createdAt').reverse().toArray())
   const card = (t: ReadingText) => {
     const b = best?.[readingStep(t.id)]
-    return (
-      <Link key={t.id} className="card tap" to={`/reading/${t.id}`}>
-        <span className="chev">›</span>
-        <div className="read-card-head">
-          <h2>{t.emoji} {t.title}</h2>
-          {b !== undefined
+    const open = !done || textOpen(t, done)
+    const body = <>
+      <span className="chev">›</span>
+      <div className="read-card-head">
+        <h2>{t.emoji} {t.title}</h2>
+        {!open ? <span className="badge badge-sm badge-soft">🔒 Finish Unit {t.after}</span>
+          : b !== undefined
             ? <span className="badge badge-sm badge-soft badge-success">✓ {Math.round(b * 100)}%</span>
             : <span className="badge badge-sm badge-soft badge-info">New</span>}
-        </div>
-        <p className="muted">{t.en}</p>
-        <p className="small muted" style={{ marginTop: 6 }}><span className="level-tag">{t.level}</span>{t.after >= 0 ? ` · After Unit ${t.after}` : ' · Written for you'}</p>
-      </Link>
-    )
+      </div>
+      <p className="muted">{t.en}</p>
+      <p className="small muted" style={{ marginTop: 6 }}><span className="level-tag">{t.level}</span>{t.after >= 0 ? ` · After Unit ${t.after}` : ' · Written for you'}</p>
+    </>
+    return open
+      ? <Link key={t.id} className="card tap" to={`/reading/${t.id}`}>{body}</Link>
+      : <button key={t.id} className="card tap soft-locked" onClick={() => openAnyway(navigate, `This text uses words from Unit ${t.after}. It opens when you finish Unit ${t.after}.`, `/reading/${t.id}`)}>{body}</button>
   }
   return (
     <main className="screen">
       <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to="/practice">‹ Practice</Link>
       <h1>Reading</h1>
-      <p className="muted" style={{ marginBottom: 24 }}>Short texts about life around Peniche, easiest first. Tap any word to see what it means. A1+ texts have a few harder phrases, explained under the text. “After Unit N” says when a text is easiest to read.</p>
+      <p className="muted" style={{ marginBottom: 24 }}>Short texts about life around Peniche, easiest first. Tap any word to see what it means. A1+ texts have a few harder phrases, explained under the text. Each text opens when you finish the unit it comes after.</p>
       <AnyTopic />
       {!!mine?.length && <p className="section-label">Written for you</p>}
       {mine?.map(card)}

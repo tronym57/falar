@@ -75,7 +75,8 @@ export type Unit = {
 
 /** A verb set, e.g. content/verbs/a1-present.json. */
 export type VerbExample = { id: string; pt: string; en: string; person: number }
-export type Verb = { id: string; inf: string; en: string; kind: string; forms: string[]; note?: string; examples: VerbExample[] }
+/** `unit`: the unit that teaches the verb (finishing its Key phrases opens it in the trainer). */
+export type Verb = { id: string; inf: string; en: string; kind: string; unit: number; forms: string[]; note?: string; examples: VerbExample[] }
 export type VerbSet = { id: string; level: string; tense: string; title: string; persons: string[]; verbs: Verb[] }
 
 /** A reading text, content/reading/a1-*.json. Every word has a meaning in its glossary or the shared one. */
