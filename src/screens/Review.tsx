@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom'
 import { db, type ReviewCard } from '../db'
 import { audio, useAudio } from '../audio'
 import { playItem } from '../components/AudioRow'
-import { buildQueue, cardFaces, intervalLabel, preview, saveGrade, State, syncCards, type CardFace, type Grade } from '../review'
+import { buildQueue, cardFaces, comesBack, intervalLabel, preview, saveGrade, State, syncCards, type CardFace, type Grade } from '../review'
 import { useToast } from '../toast'
 
-const GRADE_NAMES = ['Again', 'Hard', 'Good', 'Easy']
+// Grades, in plain words. The time under each says when the card comes back with that grade.
+const GRADE_NAMES = ['Forgot', 'Hard', 'Good', 'Easy']
+const GRADE_CLASS = ['btn-miss', 'btn-warning', 'btn-success', 'btn-info']
 /** Cards that come back within this window are shown again in the same session. */
 const RETRY_WINDOW = 15 * 60_000
 
@@ -116,14 +118,18 @@ export default function Review() {
         {!revealed ? (
           <button className="btn btn-primary btn-block btn-big" onClick={reveal}>Show answer</button>
         ) : (
-          <div className="grades">
-            {options.map(o => (
-              <button key={o.grade} className={`btn grade ${['btn-error', 'btn-warning', 'btn-success', 'btn-info'][o.grade - 1]}`} onClick={() => rate(o.grade)}>
-                <b>{GRADE_NAMES[o.grade - 1]}</b>
-                <span>{intervalLabel(o.due, now)}</span>
-              </button>
-            ))}
-          </div>
+          <>
+            <p className="grade-help"><b>How well did you know it?</b> Be honest: words you found hard come back sooner.</p>
+            <div className="grades">
+              {options.map(o => (
+                <button key={o.grade} className={`btn grade ${GRADE_CLASS[o.grade - 1]}`} onClick={() => rate(o.grade)}>
+                  <b>{GRADE_NAMES[o.grade - 1]}</b>
+                  <span>{comesBack(o.due, now)}</span>
+                </button>
+              ))}
+            </div>
+            <p className="grade-legend">Forgot: didn't know it · Hard: got it with effort · Good: knew it · Easy: knew it instantly</p>
+          </>
         )}
       </div>
     </main>

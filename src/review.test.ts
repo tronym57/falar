@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { createEmptyCard } from 'ts-fsrs'
-import { buildQueue, grade, intervalLabel, isWeak, preview, Rating, State } from './review'
+import { buildQueue, comesBack, grade, intervalLabel, isWeak, preview, Rating, State } from './review'
 import type { ReviewCard } from './db'
 
 const now = new Date('2026-11-09T09:00:00Z')
@@ -59,5 +59,16 @@ describe('intervalLabel', () => {
     expect(intervalLabel(at(3 * 3600_000), now)).toBe('3h')
     expect(intervalLabel(at(2 * 86400_000), now)).toBe('2d')
     expect(intervalLabel(at(90 * 86400_000), now)).toBe('3mo')
+  })
+})
+
+describe('comesBack', () => {
+  it('spells out when a card returns, with singular and plural', () => {
+    const at = (ms: number) => new Date(+now + ms)
+    expect(comesBack(at(10 * 60_000), now)).toBe('in 10 min')
+    expect(comesBack(at(3600_000), now)).toBe('in 1 hour')
+    expect(comesBack(at(86400_000), now)).toBe('in 1 day')
+    expect(comesBack(at(4 * 86400_000), now)).toBe('in 4 days')
+    expect(comesBack(at(60 * 86400_000), now)).toBe('in 2 months')
   })
 })
