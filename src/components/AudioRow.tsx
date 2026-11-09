@@ -22,10 +22,11 @@ export function AudioRow({ id, pt, en, extra, aside, tts }: { id: string; pt: st
 }
 
 /** Toggle for 0.75× playback speed. */
-export function SlowToggle() {
+/** `onChange` runs after switching, e.g. to replay the clip at the new speed. */
+export function SlowToggle({ onChange }: { onChange?: () => void } = {}) {
   const { slow } = useAudio()
   return (
-    <button className={'btn btn-sm rounded-full ' + (slow ? 'btn-primary' : 'btn-soft')} onClick={() => audio.setSlow(!slow)}>
+    <button className={'btn btn-sm rounded-full ' + (slow ? 'btn-primary' : 'btn-soft')} onClick={() => { audio.setSlow(!slow); onChange?.() }}>
       🐢 Slow {slow ? 'on' : 'off'}
     </button>
   )

@@ -90,7 +90,7 @@ export default function PracticeHub() {
 
       <p className="section-label">Every day</p>
       {due && due.count > 0 ? (
-        <Link className="card tap" to="/review">
+        <Link className="card tap" to="/review" state={{ from: '/practice' }}>
           <span className="chev">›</span>
           <h2>🗂️ Daily review</h2>
           <p className="muted">{due.count} {due.count === 1 ? 'card' : 'cards'} due now · about {Math.max(1, Math.round(due.count / 4))} min</p>

@@ -6,6 +6,7 @@ import { useToast } from '../toast'
 import { motion } from 'motion/react'
 import { canRecognise, errorMessage, listen, micBlocked, retryMic, type Heard } from '../speech'
 import { SPEAK_PASS, bestMatch, type SpeakScore } from '../speakMatch'
+import { SlowToggle } from './AudioRow'
 
 /** An answer option: a small pop when it's the right one, a gentle shake when your pick was wrong. */
 function Option({ state, children, onClick }: { state: 'right' | 'wrong' | null; children: ReactNode; onClick: () => void }) {
@@ -99,9 +100,13 @@ function BigPlay({ clip }: { clip: string }) {
   const { playing } = useAudio()
   useEffect(() => { audio.autoplay(clip) }, [clip])
   return (
-    <button className={'btn btn-circle big-play ' + (playing === clip ? 'btn-soft btn-primary' : 'btn-primary')} onClick={() => audio.play(clip)} aria-label="Play audio">
-      {playing === clip ? '🔊' : '▶'}
-    </button>
+    <div className="big-play-wrap">
+      <button className={'btn btn-circle big-play ' + (playing === clip ? 'btn-soft btn-primary' : 'btn-primary')} onClick={() => audio.play(clip)} aria-label="Play audio">
+        {playing === clip ? '🔊' : '▶'}
+      </button>
+      {/* Switching speed plays the clip again, so you hear the difference straight away. */}
+      <SlowToggle onChange={() => audio.play(clip)} />
+    </div>
   )
 }
 
@@ -137,6 +142,7 @@ function ListenDialogue({ ex, locked, onAnswer }: Props<'listen-dialogue'>) {
       <button className={'btn btn-big btn-block ' + (on ? 'btn-tonal' : 'btn-primary')} onClick={() => (on ? audio.stop() : audio.playAll(ex.clips))}>
         {on ? '■ Stop' : '▶ Play the conversation'}
       </button>
+      <div className="big-play-wrap" style={{ marginTop: 10 }}><SlowToggle /></div>
       <p className="ex-label" style={{ marginTop: 20 }}><span className="ex-prompt">{ex.question}</span></p>
       <div className="options">
         {ex.options.map((o, i) => (

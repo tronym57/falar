@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { db, type ReviewCard } from '../db'
 import { audio, useAudio } from '../audio'
 import { playItem } from '../components/AudioRow'
@@ -17,6 +17,8 @@ type Loaded = { cards: Record<string, ReviewCard>; faces: Record<string, CardFac
 
 export default function Review() {
   const toast = useToast()
+  // Close returns to where you opened the review from (Practice or Home).
+  const from = (useLocation().state as { from?: string } | null)?.from === '/practice' ? '/practice' : '/'
   const [s, setS] = useState<Loaded | null>(null)
   const [revealed, setRevealed] = useState(false)
   const [reviewed, setReviewed] = useState(0)
@@ -57,7 +59,7 @@ export default function Review() {
           </p>
           {reviewed > 0 && <StreakLine />}
         </div>
-        <Link className="btn btn-primary btn-block btn-big" to="/" style={{ textDecoration: 'none' }}>Back to Home</Link>
+        <Link className="btn btn-primary btn-block btn-big" to={from} style={{ textDecoration: 'none' }}>Back to {from === '/practice' ? 'Practice' : 'Home'}</Link>
       </main>
     )
   }
@@ -90,7 +92,7 @@ export default function Review() {
   return (
     <main className="screen practice">
       <div className="practice-head">
-        <Link className="btn btn-ghost btn-circle btn-sm text-xl" to="/" aria-label="Close (reviews so far are saved)">✕</Link>
+        <Link className="btn btn-ghost btn-circle btn-sm text-xl" to={from} aria-label="Close (reviews so far are saved)">✕</Link>
         <progress className="progress progress-primary" value={s.total - left} max={Math.max(s.total, 1)} />
         <span className="muted count">{left} left</span>
       </div>
