@@ -249,6 +249,8 @@ p { margin: 0 0 10px; }
 
 /* ---------- grammar topics ---------- */
 .topic { margin-bottom: 48px; }
+/* A clear break after a topic's "Practise this" before the next topic starts. */
+.topic + .topic { border-top: 1px solid var(--line); padding-top: 40px; }
 .topic-title { font-size: 24px; margin: 8px 0 16px; display: flex; align-items: center; gap: 12px; }
 .table-wrap { overflow-x: auto; margin: 0 -8px; }
 .table-wrap td:not(:first-child) { font-weight: 600; }

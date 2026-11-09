@@ -48,8 +48,8 @@ export function playChime() {
   try {
     const c = context()
     const t = c.currentTime + 0.01
-    note(c, 880, t, 0.09)
-    note(c, 1318.5, t + 0.085, 0.08)
+    note(c, 880, t, 0.063)
+    note(c, 1318.5, t + 0.085, 0.056)
     return true
   } catch { return false }
 }
