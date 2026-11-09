@@ -10,6 +10,7 @@ import Review from './screens/Review'
 import PracticeHub, { GrammarDrill, GrammarReference, GrammarTopicScreen, TestRunner } from './screens/PracticeTab'
 import VerbTrainer, { DrillRunner, VerbScreen } from './screens/Verbs'
 import ReadingList, { ReadingQuestions, ReadingTextScreen } from './screens/Reading'
+import TalkList, { TalkChat } from './screens/Talk'
 import { syncCards } from './review'
 import { audio } from './audio'
 import { useToast } from './toast'
@@ -28,7 +29,7 @@ const tabs = [
 ]
 
 // Full-screen modes (exercises, tests, review) hide the header and tab bar.
-const IMMERSIVE = /^\/(unit\/\d+\/(exercises|check|[a-z]+\/practice)|review|practice\/test|drill\/.*|reading\/[^/]+\/questions)$/
+const IMMERSIVE = /^\/(unit\/\d+\/(exercises|check|[a-z]+\/practice)|review|practice\/test|drill\/.*|reading\/[^/]+\/questions|talk\/[^/]+)$/
 
 export default function App() {
   const { pathname } = useLocation()
@@ -91,6 +92,8 @@ export default function App() {
         <Route path="/practice/verbs" element={<VerbTrainer />} />
         <Route path="/verbs/:id" element={<VerbScreen />} />
         <Route path="/drill/run/:key" element={<DrillRunner />} />
+        <Route path="/talk" element={<TalkList />} />
+        <Route path="/talk/:id" element={<TalkChat />} />
         <Route path="/reading" element={<ReadingList />} />
         <Route path="/reading/:id" element={<ReadingTextScreen />} />
         <Route path="/reading/:id/questions" element={<ReadingQuestions />} />
@@ -100,7 +103,7 @@ export default function App() {
       {!immersive && <nav className="dock">
         {tabs.map(t => {
           // Inside a unit, keep the Course tab highlighted; same for Practice sub-screens.
-          const active = pathname === t.to || (t.to === '/course' && pathname.startsWith('/unit/')) || (t.to === '/practice' && /^\/(practice\/|grammar\/|verbs\/|reading)/.test(pathname))
+          const active = pathname === t.to || (t.to === '/course' && pathname.startsWith('/unit/')) || (t.to === '/practice' && /^\/(practice\/|grammar\/|verbs\/|reading|talk)/.test(pathname))
           return (
           <NavLink key={t.to} to={t.to} end className={active ? 'dock-active' : ''}>
             <span className="dock-icon">

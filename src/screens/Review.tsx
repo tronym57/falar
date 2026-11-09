@@ -5,6 +5,7 @@ import { audio, useAudio } from '../audio'
 import { playItem } from '../components/AudioRow'
 import { buildQueue, isReverse, wordId, cardFaces, intervalLabel, preview, saveGrade, State, syncCards, type CardFace, type Grade } from '../review'
 import { useToast } from '../toast'
+import { StreakLine } from '../components/Streak'
 
 // Grades, in plain words. The grade decides when the card comes back (not shown: it's noise).
 const GRADE_NAMES = ['Forgot', 'Hard', 'Good', 'Easy']
@@ -54,6 +55,7 @@ export default function Review() {
                 ? `Next card is due in ${intervalLabel(nextDue, new Date())}.`
                 : 'Come back tomorrow for new words.'}
           </p>
+          {reviewed > 0 && <StreakLine />}
         </div>
         <Link className="btn btn-primary btn-block btn-big" to="/" style={{ textDecoration: 'none' }}>Back to Home</Link>
       </main>

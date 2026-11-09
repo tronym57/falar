@@ -12,36 +12,8 @@ const contentDir = join(root, 'content')
 const audioDir = join(root, 'public', 'audio')
 
 // ---------- Brazilian Portuguese markers ----------
-// Words/forms that are Brazilian (or Brazilian spelling) where Portugal uses something else.
-const BP_WORDS = {
-  'ônibus': 'autocarro', onibus: 'autocarro', celular: 'telemóvel', trem: 'comboio',
-  banheiro: 'casa de banho', 'café da manhã': 'pequeno-almoço', geladeira: 'frigorífico',
-  sorvete: 'gelado', suco: 'sumo', 'xícara': 'chávena', 'aeromoça': 'hospedeira',
-  'metrô': 'metro', 'pedágio': 'portagem', 'esporte': 'desporto', 'registro': 'registo',
-  'econômico': 'económico', 'gênero': 'género', 'tênis': 'ténis', 'bebê': 'bebé',
-  'antônio': 'António', 'fenômeno': 'fenómeno', 'acadêmico': 'académico',
-  'oi': 'olá', 'a gente': 'nós (a gente is informal/Brazilian-leaning)', 'moça': 'rapariga / menina',
-  garoto: 'miúdo / rapaz',  legal: 'fixe (if meaning "cool")',
-  entendi: 'percebi',
-}
-const GERUND_AFTER_ESTAR = /\b(estou|estás|está|estamos|estão|estava|estavam)\s+\p{L}+ndo\b/iu
-// A clitic pronoun at the very start of a sentence: "Me chamo" (Portugal: "Chamo-me").
-const SENTENCE_INITIAL_CLITIC = /(^|[.!?…]\s+|["“]\s*)(me|te|se|nos|lhe|lhes)\s+\p{L}+/iu
-
-function bpProblems(text) {
-  const problems = []
-  const lower = text.toLowerCase()
-  for (const [word, pt] of Object.entries(BP_WORDS)) {
-    const re = new RegExp(`(^|[^\\p{L}])${word}([^\\p{L}]|$)`, 'iu')
-    if (re.test(lower)) problems.push(`Brazilian "${word}" → use ${pt}`)
-  }
-  // "Pois não?" alone = Brazilian "How can I help?". As a tag after a comma ("…, pois não?") it's normal in Portugal.
-  if (/(^|[^\p{L}])pois não([^\p{L}]|$)/iu.test(text) && !/,\s*pois não\s*\?/iu.test(text)) problems.push('Brazilian "pois não" (= how can I help?). As a tag ("…, pois não?") it\'s fine')
-  if (GERUND_AFTER_ESTAR.test(text)) problems.push('estar + gerund (-ndo) → use "estar a + infinitive"')
-  // "Se faz favor" (= please): here se means "if", not a pronoun.
-  if (SENTENCE_INITIAL_CLITIC.test(text.replace(/\bse faz favor/giu, ''))) problems.push('pronoun before the verb at sentence start → "Chamo-me", not "Me chamo"')
-  return problems
-}
+// Shared with the app (it checks AI-generated text with the same rules). Node 24 runs .ts directly.
+import { bpProblems } from '../src/bp.ts'
 
 // ---------- loading ----------
 const verbsDir = join(contentDir, 'verbs')
@@ -143,7 +115,7 @@ function validateReading(t, common, errors, seenIds) {
 
 function loadUnits() {
   const units = []
-  for (const level of readdirSync(contentDir).filter(d => d !== 'verbs' && d !== 'reading').sort()) {
+  for (const level of readdirSync(contentDir).filter(d => !['verbs', 'reading', 'talk'].includes(d)).sort()) {
     const dir = join(contentDir, level)
     for (const file of readdirSync(dir).filter(f => f.endsWith('.json')).sort()) {
       const path = join(dir, file)
@@ -314,6 +286,23 @@ if (cmd === 'audio-items') {
     }
   }
   unitNumbers = new Set(units.filter(u => u.data).map(u => u.data.n))
+  // Conversation scenes (content/talk/scenes.json): the opening line is shown as written, so check it too.
+  const talkPath = join(contentDir, 'talk', 'scenes.json')
+  if (existsSync(talkPath)) {
+    const talk = readJson(talkPath)
+    if (talk.parseError) errors.push(`${talkPath}: invalid JSON: ${talk.parseError}`)
+    const seen = new Set()
+    for (const sc of talk.data?.scenes ?? []) {
+      const where = `talk ${sc.id ?? '?'}`
+      if (!/^[a-z0-9-]+$/.test(sc.id ?? '') || seen.has(sc.id)) errors.push(`${where}: bad or duplicate id`)
+      seen.add(sc.id)
+      for (const k of ['emoji', 'title', 'en', 'character', 'role', 'opening', 'opening_en']) if (typeof sc[k] !== 'string' || !sc[k].trim()) errors.push(`${where}: missing ${k}`)
+      if (!['tu', 'polite'].includes(sc.formality)) errors.push(`${where}: formality must be "tu" or "polite"`)
+      if (!unitNumbers.has(sc.unit)) errors.push(`${where}: unit must be an existing unit`)
+      if (!Array.isArray(sc.tasks)) errors.push(`${where}: tasks must be a list`)
+      for (const b of bpProblems(sc.opening ?? '')) errors.push(`${where} opening: ${b}`)
+    }
+  }
   if (reading.glossary.parseError) errors.push(`${reading.glossary.path}: invalid JSON: ${reading.glossary.parseError}`)
   const common = reading.glossary.data?.words ?? {}
   for (const t of reading.texts) {

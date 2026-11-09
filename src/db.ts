@@ -45,7 +45,11 @@ export type ReviewLog = { id?: number; cardId: string; rating: number; at: strin
 /** A word you added yourself. */
 export type CustomWord = { id: string; pt: string; en: string; addedAt: string }
 
+/** A reading text Gemini wrote for you (same shape as the bundled texts). */
+export type AiText = import('./content/types').ReadingText & { topic: string; createdAt: string }
+
 export const db = new Dexie('falar') as Dexie & {
+  aiTexts: EntityTable<AiText, 'id'>
   progress: EntityTable<StepProgress, 'key'>
   sessions: EntityTable<PracticeSession, 'key'>
   attempts: EntityTable<Attempt, 'id'>
@@ -63,6 +67,9 @@ db.version(2).stores({
   cards: 'id, unit',
   reviewLogs: '++id, cardId, at',
   customWords: 'id, addedAt',
+})
+db.version(3).stores({
+  aiTexts: 'id, createdAt',
 })
 
 // Ask iOS to keep our data (granted for home-screen apps, per the spike).

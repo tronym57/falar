@@ -324,6 +324,50 @@ p { margin: 0 0 10px; }
 .shadow-text .pt { font-weight: 600; font-size: 17px; }
 .shadow-text .en { color: var(--muted); font-size: 14px; }
 .shadow-btns { display: flex; gap: 6px; flex: none; }
+/* AI setup */
+.ai-setup .input { margin-top: 10px; }
+.ai-setup .btn-big { margin-top: 14px; }
+.steps-list { margin: 8px 0 4px 20px; list-style: decimal; display: grid; gap: 4px; }
+.steps-list a { color: var(--color-primary); font-weight: 600; }
+
+/* conversation */
+.talk .practice-head { margin-bottom: 12px; }
+.talk-title { flex: 1; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tasks { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+.task { font-size: 13px; padding: 4px 10px; border-radius: 99px; background: var(--surface-2); color: var(--muted); }
+.task.done { background: var(--tonal-bg); color: var(--tonal-fg); font-weight: 600; }
+.talk-chat { padding-bottom: 150px; }
+.correction { margin-top: 4px; max-width: 100%; padding: 8px 12px; border-radius: 12px; background: var(--miss-bg); display: flex; flex-direction: column; gap: 2px; text-align: left; }
+.correction b { font-size: 16px; }
+.bubble.typing { flex-direction: row; gap: 5px; padding: 14px 16px; }
+.bubble.typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite ease-in-out; }
+.bubble.typing span:nth-child(2) { animation-delay: .15s; }
+.bubble.typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 50% { opacity: .25; } }
+.talk-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; padding: 10px 16px calc(env(safe-area-inset-bottom) + 6px);
+  background: var(--surface-1); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+.talk-bar > * { width: 100%; max-width: 600px; margin: 0 auto; }
+.talk-input { display: flex; gap: 8px; align-items: center; }
+.talk-input .input { min-width: 0; }
+.mic-on { animation: pulse 1.2s ease-in-out infinite; }
+.hint { text-align: left; border: 1px solid var(--amber-line); background: var(--amber-bg); border-radius: 14px; padding: 10px 14px; display: flex; flex-direction: column; gap: 2px; cursor: pointer; font: inherit; color: inherit; }
+.hint b { font-size: 17px; }
+.hint span { font-size: 13px; color: var(--muted); }
+.talk-restart { align-self: center; width: auto !important; color: var(--muted); }
+.talk-done { margin-top: 16px; }
+.talk-error { margin-top: 12px; border-color: var(--color-error); }
+/* streak (quiet on purpose) */
+.streak { display: flex; align-items: center; gap: 16px; width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer;
+  padding: 14px 18px; margin-bottom: 16px; border-radius: var(--radius-box); background: var(--surface-1); border: 1px solid var(--border); }
+.streak-n { font-size: 22px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.streak-n.on { color: var(--color-warning); }
+.streak-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1; }
+.streak-days { display: flex; justify-content: space-between; max-width: 260px; }
+.streak-day { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: var(--muted); }
+.streak-day i { width: 12px; height: 12px; border-radius: 50%; background: var(--surface-2); border: 1.5px solid var(--border); }
+.streak-day.done i { background: var(--color-warning); border-color: var(--color-warning); }
+.streak-line { font-size: 14px; color: var(--muted); }
+.streak-result { margin: 12px 0 0; font-weight: 600; color: var(--color-warning); }
 .gap-sentence { font-size: 26px; font-weight: 600; margin: 8px 0 20px; line-height: 1.45; }
 .gap-slot { display: inline-block; min-width: 90px; border-bottom: 3px solid var(--color-primary); margin: 0 4px; text-align: center; color: var(--color-primary); white-space: pre; }
 

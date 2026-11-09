@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import { motion } from 'motion/react'
+import { StreakLine } from '../components/Streak'
 import { Link, useNavigate } from 'react-router-dom'
 import type { Exercise } from '../content/types'
 import { db, type PracticeSession } from '../db'
@@ -154,6 +155,7 @@ function Results({ mode, unit, step, items, closeTo, score, firstTry, onRetry }:
               ? passed ? `${stepTitle} is marked as done.` : `Get ${Math.round(PASS_MARK * 100)}% to complete ${stepTitle}, or mark it as done yourself.`
               : 'Right on the first try.'}
         </p>
+        <StreakLine />
       </div>
 
       {byPart && (

@@ -51,6 +51,12 @@ el.addEventListener('ended', () => {
 })
 el.addEventListener('error', () => { if (playing) fail(playing) })
 
+/** The best Portuguese (Portugal) voice on this device: an Enhanced/Premium download if there is one. */
+export function bestPtVoice() {
+  const pt = speechSynthesis.getVoices().filter(v => v.lang.replace('_', '-') === 'pt-PT')
+  return pt.find(v => /premium|enhanced|melhorad|neural|natural/i.test(v.name)) ?? pt[0]
+}
+
 export const audio = {
   /** Play one clip. Tapping the clip that's playing stops it. */
   play(id: string) {
@@ -74,7 +80,7 @@ export const audio = {
     if (playing === id) { playing = null; emit(); return }
     const u = new SpeechSynthesisUtterance(text)
     u.lang = 'pt-PT'
-    const voice = speechSynthesis.getVoices().find(v => v.lang.replace('_', '-') === 'pt-PT')
+    const voice = bestPtVoice()
     if (voice) u.voice = voice
     u.rate = slow ? 0.75 : 1
     u.onend = () => { if (playing === id) { playing = null; emit() } }

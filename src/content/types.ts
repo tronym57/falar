@@ -83,7 +83,8 @@ export type ReadingText = {
   id: string
   order: number // list position, easiest first
   level: 'A1' | 'A1+' // A1+ = has a few A2 structures, explained in `notes`
-  after: number // best read after this unit
+  after: number // best read after this unit (-1: not tied to a unit, e.g. AI texts)
+  tts?: boolean // no recorded audio: read aloud with the phone's voice (AI texts)
   emoji: string
   title: string
   en: string

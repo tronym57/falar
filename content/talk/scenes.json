@@ -1,0 +1,102 @@
+{
+  "scenes": [
+    {
+      "id": "neighbour",
+      "emoji": "👵",
+      "title": "A vizinha",
+      "en": "Morning small talk with your older neighbour.",
+      "unit": 0,
+      "character": "Dona Fátima",
+      "formality": "polite",
+      "role": "Dona Fátima, a friendly retired neighbour in her seventies, meeting the learner in the street in the morning. She chats about the weather, the sea and the day.",
+      "opening": "Bom dia, vizinho! Então, tudo bem?",
+      "opening_en": "Good morning, neighbour! So, all good?",
+      "tasks": [
+        "Greet her and say how you are",
+        "Ask her to repeat or speak more slowly",
+        "Say goodbye"
+      ]
+    },
+    {
+      "id": "surfer",
+      "emoji": "🏄",
+      "title": "No parque do Baleal",
+      "en": "A surfer your age chats with you before going in.",
+      "unit": 1,
+      "character": "Inês",
+      "formality": "tu",
+      "role": "Inês, a relaxed surfer in her thirties from Lisbon who lives in Peniche, chatting with the learner in the Baleal beach car park before surfing. She uses tu.",
+      "opening": "Olá! Também vais para a água?",
+      "opening_en": "Hi! Are you going in the water too?",
+      "tasks": [
+        "Say your name",
+        "Say where you're from",
+        "Ask where she lives"
+      ]
+    },
+    {
+      "id": "cafe",
+      "emoji": "☕",
+      "title": "Na pastelaria",
+      "en": "Order at the counter of a pastelaria in Peniche.",
+      "unit": 2,
+      "character": "Empregada",
+      "formality": "polite",
+      "role": "a friendly but busy waitress at the counter of a pastelaria in Peniche in the morning. The display has pastéis de nata, croissants, torradas, sandes and bolos; drinks include café, galão, meia de leite, chá and sumo de laranja.",
+      "opening": "Bom dia! O que deseja?",
+      "opening_en": "Good morning! What would you like?",
+      "tasks": [
+        "Order a drink and something to eat",
+        "Say if it's to eat here or to take away",
+        "Ask how much it is"
+      ]
+    },
+    {
+      "id": "market",
+      "emoji": "🍊",
+      "title": "No mercado",
+      "en": "Buy fruit and vegetables at a market stall.",
+      "unit": 3,
+      "character": "Vendedora",
+      "formality": "polite",
+      "role": "a cheerful fruit and vegetable seller at the Peniche market. Prices per kilo: laranjas 2 euros, tomates 3 euros, batatas 1 euro, maçãs 2,50 euros; a melancia costs 5 euros. She only takes cash.",
+      "opening": "Bom dia! O que vai ser hoje?",
+      "opening_en": "Good morning! What will it be today?",
+      "tasks": [
+        "Ask the price of something",
+        "Buy an amount (e.g. meio quilo)",
+        "Ask if you can pay by card"
+      ]
+    },
+    {
+      "id": "delivery",
+      "emoji": "📦",
+      "title": "O estafeta",
+      "en": "A delivery driver calls: he can't find your house.",
+      "unit": 3,
+      "character": "Estafeta",
+      "formality": "polite",
+      "role": "a delivery driver phoning the learner because he can't find the house. He is near the pharmacy on the main street. He needs to know which house it is and whether someone is at home.",
+      "opening": "Boa tarde! Fala o estafeta. Tenho uma encomenda para si, mas não encontro a casa.",
+      "opening_en": "Good afternoon! This is the delivery driver. I have a parcel for you, but I can't find the house.",
+      "tasks": [
+        "Say that you're at home",
+        "Explain which house is yours",
+        "Say thank you and that you'll wait outside"
+      ]
+    },
+    {
+      "id": "free",
+      "emoji": "💬",
+      "title": "Conversa livre",
+      "en": "Chat about anything with a friendly local in a café.",
+      "unit": 0,
+      "character": "Rui",
+      "formality": "tu",
+      "role": "Rui, a friendly local in his forties sitting at the next table in a café in Peniche. He is curious, asks simple questions about the learner's life, surfing, food and Portugal, and talks a little about himself.",
+      "opening": "Olá! Posso sentar-me aqui? Estás de férias ou moras cá?",
+      "opening_en": "Hi! Can I sit here? Are you on holiday or do you live here?",
+      "tasks": []
+    }
+  ]
+}

@@ -119,6 +119,12 @@ export default function PracticeHub() {
         <p className="muted">15 questions: meaning, dictation, what you heard, missing word, whole conversations</p>
       </button>
 
+      <Link className="card tap" to="/talk">
+        <span className="chev">›</span>
+        <h2>🗣️ Conversation</h2>
+        <p className="muted">Role-play the café, the market, the delivery driver… with an AI partner (Gemini)</p>
+      </Link>
+
       <button className="card tap" onClick={async () => {
         try {
           const items = speakingDrill(units, 10)
@@ -145,7 +151,7 @@ export default function PracticeHub() {
       <Link className="card tap" to="/reading">
         <span className="chev">›</span>
         <h2>📰 Reading</h2>
-        <p className="muted">{readingTexts.length} short texts about Peniche, the beach, food and festivals{readCount ? ` · ${readCount} done` : ''}</p>
+        <p className="muted">{readingTexts.length} short texts about Peniche, food and festivals, or any topic you like{readCount ? ` · ${readCount} done` : ''}</p>
       </Link>
     </main>
   )

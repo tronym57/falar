@@ -4,6 +4,7 @@ import { a1Content } from '../content'
 import { nextStep, useAllProgress } from '../progress'
 import { useDue } from '../review'
 import { useToast } from '../toast'
+import { StreakCard } from '../components/Streak'
 
 const standalone =
   (navigator as Navigator & { standalone?: boolean }).standalone === true ||
@@ -24,6 +25,7 @@ export default function Home() {
   return (
     <main className="screen">
       <h1>Olá! 👋</h1>
+      <StreakCard />
 
       {!standalone && (
         <div className="card">

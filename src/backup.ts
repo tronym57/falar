@@ -8,7 +8,7 @@ export const SCHEMA = 1
 const FILE = 'falar-backup.json'
 const DESCRIPTION = 'falar-backup'
 const API = 'https://api.github.com'
-const TABLES = ['progress', 'sessions', 'attempts', 'cards', 'reviewLogs', 'customWords'] as const
+const TABLES = ['progress', 'sessions', 'attempts', 'cards', 'reviewLogs', 'customWords', 'aiTexts'] as const
 type TableName = (typeof TABLES)[number]
 
 export type BackupFile = {
