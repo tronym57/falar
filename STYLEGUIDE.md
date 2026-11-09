@@ -64,7 +64,7 @@ Surfaces: page `#f3f5f2` / `#0f1312`, card `#ffffff` / `#182019`, raised hover `
 | 0 flat | page background | Screens |
 | 1 card | 1px border + soft shadow `0 1px 2px / 0 4px 14px` (green-tinted) | Cards, lists, tappable rows |
 | 2 hero | Gradient + stronger coloured shadow | Home "Continue" |
-| Sticky | Translucent surface + blur | Header, tab bar, feedback bar |
+| Sticky | Solid surface + hairline (never see-through) | Header, tab bar, feedback bar |
 
 ## 6. Components
 

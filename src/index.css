@@ -212,7 +212,7 @@ p { margin: 0 0 10px; }
 /* ---------- header + tab bar (sticky, translucent) ---------- */
 .appbar { position: sticky; top: 0; z-index: 4; gap: 10px; min-height: 0;
   padding: calc(env(safe-area-inset-top) + 10px) 20px 10px; border-bottom: 1px solid var(--line);
-  background: color-mix(in oklab, var(--surface-1) 85%, transparent); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  background: var(--surface-1);
   font-weight: 700; font-size: 17px; }
 .appbar img { border-radius: 8px; display: block; }
 /* Logo + name: tap to go Home. */
