@@ -170,9 +170,15 @@ export function lessonQuestions(unit: Unit, step: string, seed = Date.now()): Ex
     return [...questions, ...singles]
   }
 
-  // Every word of the step, not a sample: none should go unpractised. Misses come back at the end.
+  // Every word of the step, both ways: first Portuguese → English (read or hear it, pick the meaning),
+  // then English → Portuguese (type it), in a new order. Misses come back at the end.
   const items = step === 'phrases' ? unit.phrases : step === 'vocab' ? unit.vocab : []
-  return wordQuestions(shuffle(items, rand), items.map(i => i.en), 'l', rand)
+  const meanings = items.map(i => i.en)
+  const toEn = shuffle(items, rand).map((it, i): Exercise => i % 3 === 2
+    ? { id: `l-${it.id}-listen`, type: 'listen-choose', part: 'listening', pt: it.pt, audio: it.id, ...choiceFrom(it.en, meanings) }
+    : { id: `l-${it.id}-meaning`, type: 'choose', part: 'vocab', prompt: `What does “${it.pt}” mean?`, ...choiceFrom(it.en, meanings) })
+  const toPt = shuffle(items, rand).map((it): Exercise => ({ id: `l-${it.id}-say`, type: 'translate', part: 'vocab', en: it.en, answers: answersFor(it.pt) }))
+  return [...toEn, ...toPt]
 }
 
 export type Word = { id: string; pt: string; en: string; custom?: boolean }

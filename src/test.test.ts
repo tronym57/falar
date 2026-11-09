@@ -68,8 +68,17 @@ describe('scoreByPart', () => {
 
 describe('lessonQuestions', () => {
   it('builds questions from the step content only: every word, 10 for the dialogue', () => {
-    expect(lessonQuestions(unit0, 'phrases', 1)).toHaveLength(unit0.phrases.length)
-    expect(lessonQuestions(unit0, 'vocab', 1)).toHaveLength(unit0.vocab.length)
+    for (const [step, items] of [['phrases', unit0.phrases], ['vocab', unit0.vocab]] as const) {
+      const q = lessonQuestions(unit0, step, 1)
+      expect(q).toHaveLength(items.length * 2)
+      // First half Portuguese → English, second half English → Portuguese, each word once per half.
+      const n = items.length
+      expect(q.slice(0, n).every(x => x.type === 'choose' || x.type === 'listen-choose')).toBe(true)
+      expect(q.slice(n).every(x => x.type === 'translate')).toBe(true)
+      const words = (xs: typeof q) => new Set(xs.map(x => x.id.split('-').slice(1, 3).join('-')))
+      expect(words(q.slice(0, n))).toEqual(new Set(items.map(i => i.id)))
+      expect(words(q.slice(n))).toEqual(new Set(items.map(i => i.id)))
+    }
     const d = lessonQuestions(unit0, 'dialogue', 1)
     expect(d).toHaveLength(10)
     expect(new Set(d.map(x => x.id)).size).toBe(10)
