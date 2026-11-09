@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Falo colour options</title>
+<style>
+  body { margin: 0; padding: 24px 16px 48px; background: #ece8e1; font: 15px/1.45 'Open Sans', -apple-system, system-ui, sans-serif; color: #222; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  .intro { color: #666; margin: 0 0 24px; max-width: 760px; }
+  .option { margin-bottom: 40px; }
+  .option h2 { font-size: 20px; margin: 0 0 2px; }
+  .option .why { color: #555; margin: 0 0 10px; max-width: 760px; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .sw { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #444; background: #fff8; padding: 3px 8px 3px 3px; border-radius: 99px; }
+  .sw i { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #0002; display: inline-block; }
+  .pair { display: flex; flex-wrap: wrap; gap: 16px; }
+
+  /* ---- phone mock ---- */
+  .phone { width: 300px; border-radius: 28px; overflow: hidden; background: var(--bg); color: var(--text); box-shadow: 0 10px 30px #0002; border: 1px solid #0001; }
+  .bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; font-weight: 700; font-size: 14px; background: var(--card); border-bottom: 1px solid var(--line); }
+  .bar b { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(90deg, #0b6e4f 50%, #da291c 50%); }
+  .scr { padding: 16px; }
+  .hi { font-size: 22px; font-weight: 700; margin: 0; }
+  .sub { color: var(--muted); font-size: 13px; margin: 2px 0 14px; }
+  .hero { border-radius: 18px; padding: 16px; color: #fff; background: linear-gradient(135deg, var(--hero-from), var(--hero-to)); box-shadow: 0 10px 24px var(--hero-shadow); margin-bottom: 14px; }
+  .hero small { opacity: .85; font-size: 12px; }
+  .hero div { font-weight: 700; font-size: 17px; margin: 2px 0 10px; }
+  .hero span { display: inline-block; background: #fff; color: var(--hero-from); font-weight: 700; font-size: 13px; padding: 7px 14px; border-radius: 99px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; box-shadow: var(--shadow); margin-bottom: 12px; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+  .row + .row { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .num { width: 26px; height: 26px; border-radius: 50%; background: var(--tonal-bg); color: var(--tonal-fg); display: inline-grid; place-items: center; font-weight: 700; font-size: 12px; margin-right: 8px; }
+  .pill { font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 99px; background: var(--pop-bg); color: var(--pop-fg); }
+  .prog { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 8px; }
+  .prog i { display: block; height: 100%; width: 62%; background: var(--primary); border-radius: 99px; }
+  .btn { display: block; text-align: center; font-weight: 700; padding: 11px; border-radius: 12px; font-size: 14px; }
+  .btn.p { background: var(--primary); color: var(--on-primary); }
+  .btn.t { background: var(--tonal-bg); color: var(--tonal-fg); margin-top: 8px; }
+  .miss { background: var(--miss-bg); border-left: 4px solid var(--miss-line); border-radius: 10px; padding: 8px 10px; font-size: 13px; margin-bottom: 12px; }
+  .miss b { color: var(--miss-fg); }
+  .tip { background: var(--tip-bg); border-left: 4px solid var(--tip-line); border-radius: 10px; padding: 8px 10px; font-size: 13px; margin-bottom: 12px; }
+  .tabs { display: flex; justify-content: space-around; padding: 8px 8px 14px; background: var(--card); border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+  .tabs span { padding: 4px 10px; border-radius: 99px; }
+  .tabs .on { background: var(--tonal-bg); color: var(--tonal-fg); font-weight: 700; }
+  .label { font-size: 12px; font-weight: 700; color: #666; margin: 0 0 6px 4px; text-transform: uppercase; letter-spacing: .04em; }
+</style>
+</head>
+<body>
+<h1>Falo colour options</h1>
+<p class="intro">Every option keeps the Falo green (<code>#0b6e4f</code>) for the main action and progress. What changes is the paper, the second colour and the warmth of the shadows. Each option is shown in Standard and Dark. Option 0 is today's look, for comparison.</p>
+<div id="out"></div>
+
+<script>
+// Each option: name, idea, then light and dark tokens.
+const G = '#0b6e4f'
+const options = [
+  { name: '0 · Today', why: 'Cool white and grey-green. Clean, but a bit clinical.',
+    light: { bg:'#f3f5f2', card:'#ffffff', line:'#e3e8e4', text:'#17201b', muted:'#6b746f', primary:G, 'on-primary':'#fff', 'tonal-bg':'#d7eee2', 'tonal-fg':'#0a553d', 'hero-from':G, 'hero-to':'#2b8a62', 'hero-shadow':'#0b6e4f47', 'pop-bg':'#fff3b0', 'pop-fg':'#5c4a00', 'miss-bg':'#fff1e4', 'miss-line':'#ec9a5b', 'miss-fg':'#b3541c', 'tip-bg':'#fff6e0', 'tip-line':'#d99a1e', shadow:'0 1px 2px #10302208, 0 4px 14px #1030220f' },
+    dark:  { bg:'#0f1312', card:'#182019', line:'#29332e', text:'#e6ece8', muted:'#97a19b', primary:'#3fb68b', 'on-primary':'#06231a', 'tonal-bg':'#16352a', 'tonal-fg':'#bfe8d3', 'hero-from':'#1d6a4e', 'hero-to':'#2a8c63', 'hero-shadow':'#0008', 'pop-bg':'#3a3210', 'pop-fg':'#ffd95a', 'miss-bg':'#2e2016', 'miss-line':'#d98a52', 'miss-fg':'#f2b384', 'tip-bg':'#2b2311', 'tip-line':'#e3a33b', shadow:'0 1px 2px #0006, 0 4px 14px #0004' } },
+
+  { name: 'A · Olive grove', why: 'Warm cream paper, olive-tinted greys and a soft terracotta second colour. The calmest of the warm options: a well-loved notebook.',
+    light: { bg:'#f6f1e7', card:'#fffcf6', line:'#e7dfcf', text:'#2a241c', muted:'#7a6f60', primary:G, 'on-primary':'#fff', 'tonal-bg':'#e0ead9', 'tonal-fg':'#2f5a3c', 'hero-from':G, 'hero-to':'#4f8a4a', 'hero-shadow':'#4f6b3a44', 'pop-bg':'#f6dccb', 'pop-fg':'#8a3d1c', 'miss-bg':'#fbe9dc', 'miss-line':'#d9845a', 'miss-fg':'#a4481f', 'tip-bg':'#f8edd0', 'tip-line':'#c9a043', shadow:'0 1px 2px #5a4a2a0d, 0 4px 14px #5a4a2a12' },
+    dark:  { bg:'#1a1814', card:'#24211b', line:'#363127', text:'#efe8db', muted:'#a89e8c', primary:'#4fbf8f', 'on-primary':'#0c2318', 'tonal-bg':'#2a3526', 'tonal-fg':'#cfe3c2', 'hero-from':'#1e6a4c', 'hero-to':'#4b7d43', 'hero-shadow':'#0009', 'pop-bg':'#40271c', 'pop-fg':'#f2b08f', 'miss-bg':'#35231a', 'miss-line':'#d9845a', 'miss-fg':'#f2b08f', 'tip-bg':'#33291a', 'tip-line':'#d6ac52', shadow:'0 1px 2px #0007, 0 4px 14px #0005' } },
+
+  { name: 'B · Terracotta sun', why: 'Peachy cream with terracotta and a mustard yellow, like roof tiles and a sunny wall in a Portuguese village. The happiest and most colourful.',
+    light: { bg:'#fbf0e4', card:'#fffaf4', line:'#f0dcc8', text:'#2d2017', muted:'#86705e', primary:G, 'on-primary':'#fff', 'tonal-bg':'#dcecdf', 'tonal-fg':'#0a553d', 'hero-from':G, 'hero-to':'#2f8f5f', 'hero-shadow':'#a0502a3a', 'pop-bg':'#ffd98a', 'pop-fg':'#6b4300', 'miss-bg':'#fde3d6', 'miss-line':'#d9673f', 'miss-fg':'#a63d1a', 'tip-bg':'#fdeeca', 'tip-line':'#e0a526', shadow:'0 1px 2px #8a4a2010, 0 4px 14px #8a4a2014' },
+    dark:  { bg:'#1d1612', card:'#2a201a', line:'#3d2f25', text:'#f6e9dd', muted:'#b39c89', primary:'#4fbf8f', 'on-primary':'#0c2318', 'tonal-bg':'#1d3529', 'tonal-fg':'#c3e6d0', 'hero-from':'#1a6849', 'hero-to':'#2f8a5c', 'hero-shadow':'#0009', 'pop-bg':'#4a3410', 'pop-fg':'#ffcf6b', 'miss-bg':'#3d2219', 'miss-line':'#e07a52', 'miss-fg':'#f5b496', 'tip-bg':'#3a2c12', 'tip-line':'#e8b445', shadow:'0 1px 2px #0007, 0 4px 14px #0005' } },
+
+  { name: 'C · Sand and sea', why: 'Beach sand, a sea blue and a coral, for Ferrel and Peniche. Warm paper, but a fresher feel than A and B.',
+    light: { bg:'#f5eee2', card:'#fffdf8', line:'#e6dccb', text:'#1f2426', muted:'#717472', primary:G, 'on-primary':'#fff', 'tonal-bg':'#d9ece4', 'tonal-fg':'#0a553d', 'hero-from':G, 'hero-to':'#1f7f86', 'hero-shadow':'#1f6f7f40', 'pop-bg':'#d6e9f2', 'pop-fg':'#1f5a78', 'miss-bg':'#fde5dc', 'miss-line':'#e07a5f', 'miss-fg':'#a6442b', 'tip-bg':'#f7ecd2', 'tip-line':'#d2a64a', shadow:'0 1px 2px #3a4a4a0d, 0 4px 14px #3a4a4a12' },
+    dark:  { bg:'#14181a', card:'#1d2326', line:'#2d3538', text:'#e9ecea', muted:'#9aa3a3', primary:'#4fbf8f', 'on-primary':'#0c2318', 'tonal-bg':'#173430', 'tonal-fg':'#bfe6dc', 'hero-from':'#1a6a4e', 'hero-to':'#1d6f78', 'hero-shadow':'#0009', 'pop-bg':'#183444', 'pop-fg':'#9fd2ec', 'miss-bg':'#3a221c', 'miss-line':'#e08a6f', 'miss-fg':'#f4b6a2', 'tip-bg':'#30291a', 'tip-line':'#dcb35a', shadow:'0 1px 2px #0007, 0 4px 14px #0005' } },
+
+  { name: 'D · Cork and moss', why: 'Deeper earth: cork, linen and moss-tinted greens, with a warm brown dark mode. The coziest, a bit like a café.',
+    light: { bg:'#efe6d8', card:'#faf5ec', line:'#dfd2bd', text:'#2b241b', muted:'#7d705d', primary:G, 'on-primary':'#fff', 'tonal-bg':'#dde6cf', 'tonal-fg':'#3d5a2a', 'hero-from':'#0b6e4f', 'hero-to':'#5d7d3a', 'hero-shadow':'#5a4a2a44', 'pop-bg':'#ead3b5', 'pop-fg':'#6e4a24', 'miss-bg':'#f6e0d0', 'miss-line':'#c97b4f', 'miss-fg':'#9a4a22', 'tip-bg':'#f1e5c6', 'tip-line':'#b98b3e', shadow:'0 1px 2px #5a40200f, 0 4px 14px #5a402016' },
+    dark:  { bg:'#1b1712', card:'#26201a', line:'#3a3127', text:'#eee4d4', muted:'#ab9d88', primary:'#5cbf8a', 'on-primary':'#10230f', 'tonal-bg':'#2b3322', 'tonal-fg':'#d2e2bd', 'hero-from':'#1c654a', 'hero-to':'#526f34', 'hero-shadow':'#000a', 'pop-bg':'#3e2e1c', 'pop-fg':'#e8c08e', 'miss-bg':'#3a251a', 'miss-line':'#d08a5e', 'miss-fg':'#efb894', 'tip-bg':'#352b19', 'tip-line':'#c9a050', shadow:'0 1px 2px #0007, 0 4px 14px #0005' } },
+]
+
+const phone = (t, mode) => `
+  <div>
+    <p class="label">${mode}</p>
+    <div class="phone" style="${Object.entries(t).map(([k, v]) => `--${k}:${v}`).join(';')}">
+      <div class="bar"><b></b>Falo Portuguese</div>
+      <div class="scr">
+        <p class="hi">Boa tarde, Patrick! 👋</p>
+        <p class="sub">Vamos a isso! · Let's do this!</p>
+        <div class="hero"><small>Continue · Unit 1</small><div>Quem és tu?</div><span>Continue</span></div>
+        <div class="card">
+          <div class="row"><span><span class="num">0</span>First words</span><span class="pill">Done</span></div>
+          <div class="row"><span><span class="num">1</span>Who are you?</span><span style="color:var(--muted);font-size:13px">3 / 7</span></div>
+          <div class="prog"><i></i></div>
+        </div>
+        <div class="miss"><b>Almost:</b> “Obrigado” (a man says obrigado)</div>
+        <div class="tip">💡 In Portugal, “tu” is fine with friends.</div>
+        <span class="btn p">Daily review · 12 cards</span>
+        <span class="btn t">Practise speaking</span>
+      </div>
+      <div class="tabs"><span class="on">Home</span><span>Course</span><span>Practice</span><span>Vocab</span><span>Settings</span></div>
+    </div>
+  </div>`
+
+document.getElementById('out').innerHTML = options.map(o => `
+  <section class="option">
+    <h2>${o.name}</h2>
+    <p class="why">${o.why}</p>
+    <div class="swatches">${['bg', 'card', 'primary', 'tonal-bg', 'pop-bg', 'miss-line', 'tip-line', 'text'].map(k => `<span class="sw"><i style="background:${o.light[k]}"></i>${o.light[k]}</span>`).join('')}</div>
+    <div class="pair">${phone(o.light, 'Standard')}${phone(o.dark, 'Dark')}</div>
+  </section>`).join('')
+</script>
+</body>
+</html>
