@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BackupSettings } from '../components/Backup'
-import { AiSettings } from '../components/AiSetup'
+import { AiSettings, NameSetting } from '../components/AiSetup'
 
 export default function Settings() {
   const [online, setOnline] = useState(navigator.onLine)
@@ -18,6 +18,8 @@ export default function Settings() {
         <div className="row"><span>Connection</span><span className="muted">{online ? 'Online' : 'Offline ✓ app still works'}</span></div>
         <div className="row"><span>Version</span><span className="muted">{__APP_VERSION__}</span></div>
       </div>
+      <p className="section-label">You</p>
+      <NameSetting />
       <BackupSettings />
       <p className="section-label">Conversation partner</p>
       <AiSettings />

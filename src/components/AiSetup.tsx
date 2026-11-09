@@ -43,21 +43,31 @@ export function AiSetup({ onDone }: { onDone?: () => void }) {
   )
 }
 
-/** Settings row: connected status, name, disconnect. */
+/** Your first name: used in the Home greeting and by conversation characters. */
+export function NameSetting() {
+  const toast = useToast()
+  const { name } = useAi()
+  const [me, setMe] = useState(name)
+  return (
+    <section className="card">
+      <label className="small muted" htmlFor="my-name">Your first name, for the greeting and conversation characters</label>
+      <div className="row-btns" style={{ marginTop: 6 }}>
+        <input id="my-name" className="input" value={me} onChange={e => setMe(e.target.value)} autoComplete="given-name" />
+        <button className="btn btn-tonal" style={{ flex: 'none' }} onClick={() => { setLearnerName(me); toast(me.trim() ? 'Name saved.' : 'Name removed.') }}>Save</button>
+      </div>
+    </section>
+  )
+}
+
+/** Settings row: connected status, disconnect. */
 export function AiSettings() {
   const toast = useToast()
-  const { connected, model, name } = useAi()
-  const [me, setMe] = useState(name)
+  const { connected, model } = useAi()
   if (!connected) return <AiSetup />
   return (
     <section className="card">
       <h2>Conversation partner</h2>
       <p className="muted">Connected to Gemini{model ? ` (${model.replace('models/', '')})` : ''}. Used for conversations and reading on any topic.</p>
-      <label className="small muted" htmlFor="ai-name">Your first name, so characters can use it</label>
-      <div className="row-btns" style={{ marginTop: 6 }}>
-        <input id="ai-name" className="input" value={me} onChange={e => setMe(e.target.value)} />
-        <button className="btn btn-tonal" style={{ flex: 'none' }} onClick={() => { setLearnerName(me); toast('Name saved.') }}>Save</button>
-      </div>
       <button className="btn btn-ghost btn-block mt-3" onClick={() => {
         if (!confirm('Remove the Gemini key from this phone? Conversations and AI texts stay.')) return
         disconnectAi(); toast('Gemini disconnected.')

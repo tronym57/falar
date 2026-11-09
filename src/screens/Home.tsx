@@ -5,6 +5,8 @@ import { nextStep, useAllProgress } from '../progress'
 import { useDue } from '../review'
 import { useToast } from '../toast'
 import { StreakCard } from '../components/Streak'
+import { useAi } from '../ai'
+import { dailyPhrase, greeting } from '../greeting'
 
 const standalone =
   (navigator as Navigator & { standalone?: boolean }).standalone === true ||
@@ -14,6 +16,8 @@ export default function Home() {
   const toast = useToast()
   const all = useAllProgress()
   const due = useDue()
+  const { name } = useAi()
+  const phrase = dailyPhrase()
 
   // First unit with content that still has an unfinished step.
   const target = all && a1Units
@@ -24,7 +28,8 @@ export default function Home() {
 
   return (
     <main className="screen">
-      <h1>Olá! 👋</h1>
+      <h1 style={{ marginBottom: 2 }}>{greeting(name)} 👋</h1>
+      <p className="muted" style={{ marginBottom: 16 }}><span lang="pt-PT">{phrase.pt}</span> · {phrase.en}</p>
       <StreakCard />
 
       {!standalone && (
