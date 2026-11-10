@@ -163,12 +163,7 @@ function SpeakingView({ unit }: { unit: Unit }) {
     <>
       <section className="card tip">
         <h3>How it works</h3>
-        <p>Tap 🎤 and speak. The app stops listening when you pause, shows what it heard, and counts it as right when most of the words match. In the role-play, the other person speaks first and you reply.</p>
-        <p className="small muted">Your iPhone asks for the microphone again each time the app restarts. That's an iOS rule for home-screen apps.</p>
-      </section>
-      <section className="card">
-        <h2>What you'll say</h2>
-        {unit.speaking.map(s => <AudioRow key={s.id} id={s.id} pt={s.pt} en={s.prompt} />)}
+        <p>Tap 🎤 and speak. Most words matching counts as right. In the role-play, you reply.</p>
       </section>
       {unit.dialogues.map(d => <Shadowing key={d.title} d={d} />)}
     </>
