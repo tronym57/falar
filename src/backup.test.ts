@@ -65,7 +65,7 @@ describe('file format', () => {
 
   it('rejects files that are not backups', () => {
     expect(() => parseBackup('not json')).toThrow(/not valid JSON/)
-    expect(() => parseBackup('{"app":"other"}')).toThrow(/isn't a Falo Portuguese backup/)
+    expect(() => parseBackup('{"app":"other"}')).toThrow(/isn't a Falo Português backup/)
     expect(() => parseBackup('{"app":"falar","schema":99,"tables":{}}')).toThrow(/newer version/)
   })
 

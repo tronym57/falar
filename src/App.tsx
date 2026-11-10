@@ -81,9 +81,9 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       {!immersive && (
         <header className="navbar appbar">
-          <Link to="/" className="appbar-home" aria-label="Falo Portuguese, go to Home">
+          <Link to="/" className="appbar-home" aria-label="Falo Português, go to Home">
             <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" width={28} height={28} />
-            <span>Falo Portuguese</span>
+            <span>Falo Português</span>
           </Link>
         </header>
       )}

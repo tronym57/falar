@@ -1,4 +1,4 @@
-# Falo Portuguese
+# Falo Português
 
 A small, personal web app (PWA) for learning **European Portuguese**: Portugal, never Brazil. It is built for an iPhone, works offline, and focuses on speaking in everyday situations on the Silver Coast (Peniche, Ferrel).
 

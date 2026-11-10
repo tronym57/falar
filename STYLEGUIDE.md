@@ -1,4 +1,4 @@
-# Falo Portuguese: UI styleguide
+# Falo Português: UI styleguide
 
 Built on daisyUI (Tailwind). Tokens live in `src/index.css` (`:root` + dark mode). Every new screen uses these, no one-off values.
 

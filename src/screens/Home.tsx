@@ -35,7 +35,7 @@ export default function Home() {
       {!standalone && (
         <div className="card">
           <h2>Install the app</h2>
-          <p className="muted">Tap Share → <b>Add to Home Screen</b>, then open Falo Portuguese from the icon. Your progress is saved there, not in this browser tab.</p>
+          <p className="muted">Tap Share → <b>Add to Home Screen</b>, then open Falo Português from the icon. Your progress is saved there, not in this browser tab.</p>
         </div>
       )}
 

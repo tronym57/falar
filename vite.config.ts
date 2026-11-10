@@ -18,8 +18,8 @@ export default defineConfig({
       injectRegister: false, // registered in App.tsx, so a failure gets a clear message
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png', 'logo.svg'],
       manifest: {
-        name: 'Falo Portuguese',
-        short_name: 'Falo Portuguese',
+        name: 'Falo Português',
+        short_name: 'Falo Português',
         description: 'European Portuguese trainer',
         lang: 'en',
         start_url: base,

@@ -73,8 +73,8 @@ export async function snapshot(): Promise<BackupFile> {
 /** Parse and validate a backup. Throws a readable error if it isn't one. */
 export function parseBackup(text: string): BackupFile {
   let data: BackupFile
-  try { data = JSON.parse(text) } catch { throw new Error("This file isn't a Falo Portuguese backup (not valid JSON).") }
-  if (data?.app !== 'falar' || !data.tables) throw new Error("This file isn't a Falo Portuguese backup.")
+  try { data = JSON.parse(text) } catch { throw new Error("This file isn't a Falo Português backup (not valid JSON).") }
+  if (data?.app !== 'falar' || !data.tables) throw new Error("This file isn't a Falo Português backup.")
   if (data.schema > SCHEMA) throw new Error('This backup is from a newer version of the app. Update the app first.')
   for (const t of TABLES) if (!Array.isArray(data.tables[t] ?? [])) throw new Error(`Backup is damaged (${t}).`)
   // JSON turns Dates into strings; review cards need real Dates back.

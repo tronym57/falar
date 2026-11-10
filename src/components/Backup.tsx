@@ -6,7 +6,7 @@ import {
 import { intervalLabel } from '../review'
 import { useToast } from '../toast'
 
-const TOKEN_URL = 'https://github.com/settings/tokens/new?scopes=gist&description=Falo%20Portuguese%20backup'
+const TOKEN_URL = 'https://github.com/settings/tokens/new?scopes=gist&description=Falo%20Portugu%C3%AAs%20backup'
 
 const ago = (iso: string) => {
   const ms = Date.now() - +new Date(iso)
@@ -207,7 +207,7 @@ export function Welcome({ onDone }: { onDone: () => void }) {
 
       {mode === 'choose' && (
         <>
-          <button className="btn btn-primary btn-block btn-big" onClick={onDone}>Start fresh<small>First time using Falo Portuguese</small></button>
+          <button className="btn btn-primary btn-block btn-big" onClick={onDone}>Start fresh<small>First time using Falo Português</small></button>
           <button className="btn btn-tonal btn-block btn-big" onClick={() => setMode('github')}>Restore from GitHub</button>
           <button className="btn btn-tonal btn-block btn-big" onClick={() => input.current?.click()}>Import a backup file</button>
           <input ref={input} type="file" accept="application/json,.json" hidden onChange={async e => {
