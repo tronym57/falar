@@ -15,6 +15,8 @@ export async function markStepDone(unit: number, step: string, score?: number) {
   // The unit check only counts as done once it's passed.
   const done = step === 'check' ? (bestScore ?? 0) >= PASS_MARK : true
   await db.progress.put({ key: k, unit, step, done: done || !!prev?.done, score, bestScore, updatedAt: now() })
+  // Done now: a half-finished practice from before would only show as "in progress".
+  if (done) await db.sessions.bulkDelete([k, lessonKey(unit, step)])
   // Finishing phrases or vocab puts those items into the daily review.
   if (step === 'phrases' || step === 'vocab') await syncCards()
 }

@@ -24,6 +24,15 @@ describe('marking steps done / not done', () => {
     expect(await db.sessions.get('0:check')).toBeDefined()
   })
 
+  it('marking a step done clears its half-finished practice', async () => {
+    const s = { queue: ['a'], total: 7, firstTry: { a: true }, startedAt: '' }
+    await db.sessions.bulkPut([{ key: lessonKey(0, 'phrases'), ...s }, { key: '0:check', ...s }])
+    await markStepDone(0, 'phrases')
+    expect(await db.sessions.get(lessonKey(0, 'phrases'))).toBeUndefined()
+    await markStepDone(0, 'check', 0.5) // not passed: not done, so its practice stays
+    expect(await db.sessions.get('0:check')).toBeDefined()
+  })
+
   it('an undone step becomes the next step again', async () => {
     for (const s of ['dialogue', 'phrases', 'vocab']) await markStepDone(0, s)
     expect(nextStep(0, await db.progress.toArray())!.slug).toBe('grammar')

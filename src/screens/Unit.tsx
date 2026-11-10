@@ -37,8 +37,10 @@ export default function Unit() {
           const open = hasContent && step.ready
           // Unfinished practice for this step (the step's own exercises, or its lesson practice).
           const found = sessions?.find(x => x.key === `${unit.n}:${step.slug}` || x.key === lessonKey(unit.n, step.slug))
-          // Only counts as in progress once at least one question is answered.
-          const answered = found ? Object.keys(found.firstTry).length : 0
+          // Only counts as in progress once at least one question is answered,
+          // and, for a done step, only a practice started after it was done.
+          const stale = !!found && !!p?.done && found.startedAt < p.updatedAt
+          const answered = found && !stale ? Object.keys(found.firstTry).length : 0
           const s = answered > 0 ? found : undefined
           const sub = s
             ? `In progress · ${answered} of ${s.total} answered`
