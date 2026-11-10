@@ -2,6 +2,8 @@ import { createEmptyCard, fsrs, generatorParameters, Rating, State, type Card, t
 import { a1Content } from './content'
 import { db, type CustomWord, type ReviewCard } from './db'
 import { useLiveQuery } from 'dexie-react-hooks'
+import type { Exercise } from './content/types'
+import { grammarById } from './grammarPool'
 
 export { Rating, State }
 export type { Grade }
@@ -34,6 +36,27 @@ export const isReverse = (cardId: string) => cardId.endsWith(REVERSE)
 /** The word a card belongs to (the id in cardFaces). */
 export const wordId = (cardId: string) => (isReverse(cardId) ? cardId.slice(0, -REVERSE.length) : cardId)
 const sibling = (cardId: string) => (isReverse(cardId) ? wordId(cardId) : reverseId(cardId))
+
+// ---------- grammar you missed ----------
+// A grammar question you get wrong in practice becomes a review card `gx:<exercise id>`.
+// In the review you answer the question itself; right counts as Good, wrong as Again.
+const GRAMMAR = 'gx:'
+export const isGrammarCard = (cardId: string) => cardId.startsWith(GRAMMAR)
+/** The question behind a grammar card: today's version from the content, or the saved one. */
+export const grammarExercise = (c: ReviewCard): Exercise | undefined => grammarById().get(c.id.slice(GRAMMAR.length))?.ex ?? c.ex
+/** Cards the review can show: words with their text, grammar cards with their question. */
+export const showable = (c: ReviewCard, faces: Record<string, CardFace>) => isGrammarCard(c.id) ? !!grammarExercise(c) : !!faces[wordId(c.id)]
+
+/** Missed a grammar question: into the review, due again soon. Missing it again resets it. */
+export async function addGrammarMistake(ex: Exercise, now = new Date()) {
+  const known = grammarById().get(ex.id)
+  if (!known) return false
+  const id = GRAMMAR + ex.id
+  const prev = await db.cards.get(id)
+  const base: ReviewCard = prev ?? { id, unit: known.unit, fsrs: createEmptyCard(now), addedAt: now.toISOString() }
+  await db.cards.put({ ...base, ex, fsrs: grade(base.fsrs, now, Rating.Again), introducedAt: base.introducedAt ?? now.toISOString() })
+  return true
+}
 
 // ---------- pure scheduling helpers (unit-tested) ----------
 const dayKey = (d: Date) => d.toISOString().slice(0, 10)
@@ -124,7 +147,7 @@ export async function syncCards() {
     if (!u) continue
     for (const item of p.step === 'phrases' ? u.phrases : u.vocab) { add(item.id, u.n); add(reverseId(item.id), u.n) }
   }
-  for (const c of cards) if (!isReverse(c.id)) add(reverseId(c.id), c.unit)
+  for (const c of cards) if (!isReverse(c.id) && !isGrammarCard(c.id)) add(reverseId(c.id), c.unit)
   if (toAdd.length) await db.cards.bulkAdd(toAdd)
   return toAdd.length
 }
@@ -133,7 +156,7 @@ export async function syncCards() {
 export function useDue() {
   return useLiveQuery(async () => {
     const faces = cardFaces(await db.customWords.toArray())
-    const cards = (await db.cards.toArray()).filter(c => faces[wordId(c.id)])
+    const cards = (await db.cards.toArray()).filter(c => showable(c, faces))
     return { count: buildQueue(cards, new Date()).length, total: cards.length }
   })
 }

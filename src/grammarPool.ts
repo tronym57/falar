@@ -87,6 +87,18 @@ export async function grammarLessonRound(unit: Unit) {
   return shuffle(parts.flat(), rng(Date.now()))
 }
 
+/** Every grammar question (topics, generated ones, and grammar questions in Exercises / Check), by id. */
+let grammarIndex: Map<string, { ex: Exercise; unit: number }> | null = null
+export function grammarById() {
+  if (grammarIndex) return grammarIndex
+  grammarIndex = new Map()
+  for (const u of Object.values(a1Content)) {
+    const all = [...u.grammar.topics.flatMap(t => topicPool(u, t)), ...u.exercises, ...u.check].filter(x => x.part === 'grammar')
+    for (const ex of all) grammarIndex.set(ex.id, { ex, unit: u.n })
+  }
+  return grammarIndex
+}
+
 /** The unit's Exercises and Check steps, as rounds from their pools. */
 export const stepRoundSize = (unit: Unit, step: 'exercises' | 'check') =>
   Math.min(step === 'exercises' ? EXERCISES_ROUND : CHECK_ROUND, unit[step].length)

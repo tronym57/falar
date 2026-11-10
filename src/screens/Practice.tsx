@@ -9,7 +9,8 @@ import { audio } from '../audio'
 import { CHIME_MS, playChime } from '../chime'
 import { PASS_MARK, logAttempt, markStepDone } from '../progress'
 import { unitSteps } from '../units'
-import { PARTS, scoreByPart } from '../test'
+import { PARTS, partOf, scoreByPart } from '../test'
+import { addGrammarMistake } from '../review'
 import { useToast } from '../toast'
 import { newRound } from '../rounds'
 import { translationOf } from '../translation'
@@ -53,6 +54,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
 
   const [session, setSession] = useState<PracticeSession | null>(null)
   const [answer, setAnswer] = useState<Answer | null>(null)
+  const [toReview, setToReview] = useState(false) // this miss went into the daily review
   const [finished, setFinished] = useState<{ score: number; firstTry: Record<string, boolean> } | null>(null)
 
   const start = async (fresh = false) => {
@@ -92,7 +94,10 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
 
   const onAnswer = (a: Answer) => {
     setAnswer(a)
+    setToReview(false)
     logAttempt(unit ?? -1, mode, current.id, a.result.ok, a.given).catch(() => {})
+    // A missed grammar question also comes back in the daily review.
+    if (!a.result.ok && partOf(current) === 'grammar') addGrammarMistake(current).then(setToReview).catch(() => {})
     // A soft chime when it's right; any replay below waits for it, so the two don't overlap.
     const chimed = a.result.ok && playChime()
     // Replay the Portuguese for listening exercises so you hear it again with the answer.
@@ -160,7 +165,9 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
               {t && !(same && !answer.result.ok) && <p className="meaning"><b lang="pt-PT">{t.pt}</b> = {t.en}</p>}
             </>
           })()}
-          {!answer.result.ok && requeue && <p className="small">This one comes back at the end.</p>}
+          {!answer.result.ok && (requeue || toReview) && (
+            <p className="small">{requeue && toReview ? 'This one comes back at the end, and in your daily review.' : requeue ? 'This one comes back at the end.' : 'It comes back in your daily review.'}</p>
+          )}
           <button className={'btn btn-block btn-big ' + (answer.result.ok ? 'btn-success' : 'btn-miss')} onClick={next}>Continue</button>
         </motion.div>
       )}

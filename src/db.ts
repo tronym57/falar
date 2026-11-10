@@ -39,6 +39,7 @@ export type ReviewCard = {
   fsrs: import('ts-fsrs').Card
   addedAt: string
   introducedAt?: string // first time it was shown in a review
+  ex?: import('./content/types').Exercise // grammar cards (gx:…): the question, as asked when you missed it
 }
 
 export type ReviewLog = { id?: number; cardId: string; rating: number; at: string }
