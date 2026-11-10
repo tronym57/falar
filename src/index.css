@@ -512,3 +512,6 @@ p { margin: 0 0 10px; }
 
 /* Jump targets (back from a topic's practice): clear the sticky app bar. */
 .topic, .practise-card { scroll-margin-top: 76px; }
+
+/* Holds the keyboard open between typed questions (iOS only opens it from a tap). Invisible, 16px so iOS doesn't zoom. */
+.keyboard-keeper { position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; font-size: 16px; border: 0; padding: 0; pointer-events: none; }

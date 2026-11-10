@@ -7,6 +7,8 @@ import type { Exercise, Part } from '../content/types'
 import { GrammarTopicView } from '../components/Grammar'
 import { SlowToggle } from '../components/AudioRow'
 import Practice from './Practice'
+import { topicPool, topicRound, topicRoundSize } from '../grammarPool'
+import { startDrill as startGenerated } from './Verbs'
 import { PARTS, generateTest, listeningDrill, questionPool, rng, speakingDrill } from '../test'
 import { verbs } from '../verbs'
 import { lookPairs, pairOpen } from '../lookalikes'
@@ -75,10 +77,9 @@ export default function PracticeHub() {
     }
   }
 
-  const startDrill = async (key: string, items: Exercise[], label: string) => {
+  const startDrill = async (key: string, items: Exercise[], label: string, pool: Exercise[]) => {
     try {
-      await db.sessions.put({ key, queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items })
-      navigate(`/drill/run/${key}`)
+      await startGenerated(key, items, navigate, pool)
     } catch (e) { toast(`Couldn't start ${label}: ${(e as Error).message}`, 'error') }
   }
 
@@ -114,12 +115,12 @@ export default function PracticeHub() {
         <h2>🗣️ Conversation</h2>
         <p className="muted">Role-play the café, the market, the delivery driver… with an AI partner (Gemini)</p>
       </Link>
-      <button className={'card tap' + (speakCount ? '' : ' soft-locked')} onClick={() => speakCount ? startDrill('speaking', speakingDrill(learned, 10), 'speaking practice') : toast(OPENS.speaking)}>
+      <button className={'card tap' + (speakCount ? '' : ' soft-locked')} onClick={() => speakCount ? startDrill('speaking', speakingDrill(learned, 10), 'speaking practice', speakingDrill(learned, 999)) : toast(OPENS.speaking)}>
         <span className="chev">›</span>
         <h2>🎤 Speaking</h2>
         <p className="muted">{speakCount ? `10 things to say out loud, from ${speakCount} prompts and replies you've practised` : '🔒 Opens when you finish a unit’s Speaking drill'}</p>
       </button>
-      <button className={'card tap' + (listenCount ? '' : ' soft-locked')} onClick={() => listenCount ? startDrill('listening', listeningDrill(learned, 15), 'listening practice') : toast(OPENS.listening)}>
+      <button className={'card tap' + (listenCount ? '' : ' soft-locked')} onClick={() => listenCount ? startDrill('listening', listeningDrill(learned, 15), 'listening practice', listeningDrill(learned, 999)) : toast(OPENS.listening)}>
         <span className="chev">›</span>
         <h2>🎧 Listening</h2>
         <p className="muted">{listenCount ? '15 questions: meaning, dictation, what you heard, missing word, whole conversations' : '🔒 Opens when you finish a unit’s Dialogue or Key phrases'}</p>
@@ -223,10 +224,10 @@ export function TestRunner() {
 /** Grammar topics you've practised (answered at least one of their questions), live. */
 function usePractisedTopics() {
   return useLiveQuery(async () => {
-    const topics = UNITS.flatMap(u => u.grammar.topics)
-    const ids = topics.flatMap(t => t.exercises.map(x => x.id))
+    const topics = UNITS.flatMap(u => u.grammar.topics.map(t => ({ t, pool: topicPool(u, t) })))
+    const ids = topics.flatMap(({ pool }) => pool.map(x => x.id))
     const seen = new Set((await db.attempts.where('exerciseId').anyOf(ids).toArray()).map(a => a.exerciseId))
-    return new Set(topics.filter(t => t.exercises.some(x => seen.has(x.id))).map(t => t.id))
+    return new Set(topics.filter(({ pool }) => pool.some(x => seen.has(x.id))).map(({ t }) => t.id))
   }) ?? new Set<string>()
 }
 
@@ -250,7 +251,7 @@ export function GrammarReference() {
               <Link key={t.id} className="card tap" to={`/grammar/${u.n}/${t.id}`}>
                 <span className="chev">›</span>
                 <h2>{t.title}</h2>
-                <p className="muted">{practised.has(t.id) ? '✓ Practised · ' : ''}{t.exercises.length} practice questions</p>
+                <p className="muted">{practised.has(t.id) ? '✓ Practised · ' : ''}{topicPool(u, t).length} questions, {topicRoundSize(u, t)} per round</p>
               </Link>
             ) : (
               <button key={t.id} className="card tap soft-locked" onClick={() => openAnyway(navigate, `This topic is part of Unit ${u.n}. It opens when you finish that unit's Grammar step.`, `/grammar/${u.n}/${t.id}`)}>
@@ -291,10 +292,11 @@ export function GrammarDrill({ inLesson = false }: { inLesson?: boolean }) {
   const i = unit?.grammar.topics.findIndex(x => x.id === topic) ?? -1
   if (!unit || i < 0) return <Navigate to="/practice/grammar" replace />
   const t = unit.grammar.topics[i]
-  if (!inLesson) return <Practice sessionKey={`drill:${t.id}`} items={t.exercises} mode="drill" closeTo={`/grammar/${unit.n}/${t.id}`} />
+  const round = () => topicRound(unit, t)
+  if (!inLesson) return <Practice sessionKey={`drill:${t.id}`} nextRound={round} mode="drill" closeTo={`/grammar/${unit.n}/${t.id}`} />
   // From the lesson: ✕ goes back to this topic, and the results lead on to the next topic (or the lesson's own practice).
   const lesson = `/unit/${unit.n}/grammar`
   const next = unit.grammar.topics[i + 1]
-  return <Practice sessionKey={`drill:${t.id}`} items={t.exercises} mode="drill" closeTo={`${lesson}?at=topic-${t.id}`}
+  return <Practice sessionKey={`drill:${t.id}`} nextRound={round} mode="drill" closeTo={`${lesson}?at=topic-${t.id}`}
     next={next ? { to: `${lesson}?at=topic-${next.id}`, label: `Next: ${i + 2}. ${next.title}` } : { to: `${lesson}?at=practise`, label: 'Back to the grammar lesson' }} />
 }

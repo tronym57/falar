@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import type { GrammarSection, GrammarTopic } from '../content/types'
 import { AudioRow } from './AudioRow'
+import { a1Content } from '../content'
+import { topicRoundSize } from '../grammarPool'
 
 /** One grammar topic: rule cards, tables, examples with audio, tips, Portugal-vs-Brazil note. */
 /** `inLesson`: shown in the unit's Grammar step, so its practice returns there (at the next topic), not to the reference. */
@@ -10,7 +12,7 @@ export function GrammarTopicView({ unit, topic, index, inLesson }: { unit: numbe
       <h2 className="topic-title">{index !== undefined && <span className="topic-n">{index + 1}</span>}{topic.title}</h2>
       {topic.sections.map((s, i) => <Section key={i} s={s} />)}
       <Link className="btn btn-primary btn-block btn-big" to={inLesson ? `/unit/${unit}/grammar/${topic.id}/practice` : `/drill/grammar/${unit}/${topic.id}`} style={{ textDecoration: 'none' }}>
-        Practise this ({topic.exercises.length} questions) ›
+        Practise this ({topicRoundSize(a1Content[unit], topic)} questions) ›
       </Link>
     </section>
   )

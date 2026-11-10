@@ -60,10 +60,11 @@ export default function Vocab() {
     if (!learned.length) return toast('None of these words is learned yet. They open when you finish their unit’s Key phrases or Vocabulary step.')
     const rand = rng(Date.now())
     const rank = (f: CardFace) => { const p = pairOf(f.id); return p.some(isWeak) ? 0 : p.some(c => isDue(c, now)) ? 1 : 2 }
-    const picked = learned.map(f => ({ f, r: rank(f) + rand() })).sort((a, b) => a.r - b.r).slice(0, TRAIN_LENGTH).map(x => x.f)
-    const items = wordQuestions(picked, faces.map(f => f.en), 'w', rand)
+    const ranked = learned.map(f => ({ f, r: rank(f) + rand() })).sort((a, b) => a.r - b.r).map(x => x.f)
+    const items = wordQuestions(ranked.slice(0, TRAIN_LENGTH), faces.map(f => f.en), 'w', rand)
     try {
-      await db.sessions.put({ key: 'vocab', queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items })
+      // Weakest first for this round; "Practise again" draws from all the words on screen.
+      await db.sessions.put({ key: 'vocab', queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items, pool: wordQuestions(ranked, faces.map(f => f.en), 'w', rand) })
       navigate('/drill/run/vocab')
     } catch (e) { toast(`Couldn't start training: ${(e as Error).message}`, 'error') }
   }

@@ -542,6 +542,123 @@
               "obrigado",
               "obrigada"
             ]
+          },
+          {
+            "type": "choose",
+            "prompt": "Maria leaves the bakery. What does she say?",
+            "options": [
+              "Obrigado!",
+              "Obrigada!"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u0-gx08"
+          },
+          {
+            "type": "choose",
+            "prompt": "João thanks the waitress. He says…",
+            "options": [
+              "Obrigado.",
+              "Obrigada."
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u0-gx09"
+          },
+          {
+            "type": "choose",
+            "prompt": "You are a man. Your neighbour Dona Fátima helps you. You say…",
+            "options": [
+              "Obrigado, Dona Fátima.",
+              "Obrigada, Dona Fátima."
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u0-gx10"
+          },
+          {
+            "type": "choose",
+            "prompt": "Obrigado or obrigada depends on…",
+            "options": [
+              "who you thank",
+              "who is speaking",
+              "the time of day"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u0-gx11"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Muito ___! (said by a man)",
+            "en": "Thank you very much!",
+            "answers": [
+              "obrigado"
+            ],
+            "options": [
+              "obrigado",
+              "obrigada"
+            ],
+            "part": "grammar",
+            "id": "u0-gx12"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Não, ___. (said by a woman)",
+            "en": "No, thank you.",
+            "answers": [
+              "obrigada"
+            ],
+            "options": [
+              "obrigada",
+              "obrigado"
+            ],
+            "part": "grammar",
+            "id": "u0-gx13"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Bom dia e ___! (said by a man)",
+            "en": "Good morning and thank you!",
+            "answers": [
+              "obrigado"
+            ],
+            "options": [
+              "obrigada",
+              "obrigado"
+            ],
+            "part": "grammar",
+            "id": "u0-gx14"
+          },
+          {
+            "type": "choose",
+            "prompt": "A woman says “Obrigada!” to you. What do you answer?",
+            "options": [
+              "Desculpe.",
+              "Obrigada.",
+              "De nada."
+            ],
+            "answer": 2,
+            "part": "grammar",
+            "id": "u0-gx15"
+          },
+          {
+            "type": "translate",
+            "en": "Thank you very much! (you are a man)",
+            "answers": [
+              "Muito obrigado"
+            ],
+            "part": "grammar",
+            "id": "u0-gx16"
+          },
+          {
+            "type": "translate",
+            "en": "No, thank you. (you are a woman)",
+            "answers": [
+              "Não, obrigada"
+            ],
+            "part": "grammar",
+            "id": "u0-gx17"
           }
         ]
       },
@@ -677,6 +794,167 @@
               "Quer um café?"
             ],
             "answer": 1
+          },
+          {
+            "type": "choose",
+            "prompt": "Ask the cashier if she speaks English.",
+            "options": [
+              "Fala inglês?",
+              "Falas inglês?"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u0-gx18"
+          },
+          {
+            "type": "choose",
+            "prompt": "Ask your surf buddy to repeat.",
+            "options": [
+              "Podes repetir?",
+              "Pode repetir?"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u0-gx19"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ repetir mais devagar? (to a friend)",
+            "en": "Can you repeat more slowly?",
+            "answers": [
+              "Podes"
+            ],
+            "options": [
+              "Pode",
+              "Podes"
+            ],
+            "part": "grammar",
+            "id": "u0-gx20"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ inglês? (to an older man)",
+            "en": "Do you speak English?",
+            "answers": [
+              "Fala"
+            ],
+            "options": [
+              "Fala",
+              "Falas"
+            ],
+            "part": "grammar",
+            "id": "u0-gx21"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "O senhor ___ inglês?",
+            "en": "Do you speak English, sir?",
+            "answers": [
+              "fala"
+            ],
+            "options": [
+              "fala",
+              "falas"
+            ],
+            "part": "grammar",
+            "id": "u0-gx22"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "A senhora ___ um saco?",
+            "en": "Do you want a bag, madam?",
+            "answers": [
+              "quer"
+            ],
+            "options": [
+              "quer",
+              "queres"
+            ],
+            "part": "grammar",
+            "id": "u0-gx23"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ um café? (to a friend)",
+            "en": "Do you want a coffee?",
+            "answers": [
+              "Queres"
+            ],
+            "options": [
+              "Queres",
+              "Quer"
+            ],
+            "part": "grammar",
+            "id": "u0-gx24"
+          },
+          {
+            "type": "choose",
+            "prompt": "Extra polite “you” with a woman you don’t know: add…",
+            "options": [
+              "tu",
+              "a senhora",
+              "o senhor"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u0-gx25"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which do you say to a child?",
+            "options": [
+              "Queres água?",
+              "A senhora quer água?"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u0-gx26"
+          },
+          {
+            "type": "choose",
+            "prompt": "The safest way to ask a stranger in Portugal:",
+            "options": [
+              "Podes repetir?",
+              "Pode repetir?",
+              "Você pode repetir?"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u0-gx27"
+          },
+          {
+            "type": "translate",
+            "en": "Can you repeat? (to a friend)",
+            "answers": [
+              "Podes repetir",
+              "Tu podes repetir"
+            ],
+            "part": "grammar",
+            "id": "u0-gx28"
+          },
+          {
+            "type": "translate",
+            "en": "Do you speak English? (to a friend)",
+            "answers": [
+              "Falas inglês",
+              "Tu falas inglês"
+            ],
+            "part": "grammar",
+            "id": "u0-gx29"
+          },
+          {
+            "type": "sentence-builder",
+            "en": "Do you want a bag? (polite)",
+            "tiles": [
+              "Quer",
+              "um",
+              "saco",
+              "Queres",
+              "uma"
+            ],
+            "answer": "Quer um saco",
+            "part": "grammar",
+            "id": "u0-gx30"
           }
         ]
       }
@@ -842,6 +1120,199 @@
         "O senhor fala inglês",
         "A senhora fala inglês"
       ]
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Boa ___! (Good afternoon!)",
+      "en": "Good afternoon!",
+      "answers": [
+        "tarde"
+      ],
+      "options": [
+        "noite",
+        "tarde",
+        "dia"
+      ],
+      "id": "u0-x14"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Até ___! (See you later!)",
+      "en": "See you later!",
+      "answers": [
+        "logo"
+      ],
+      "options": [
+        "amanhã",
+        "logo",
+        "hoje"
+      ],
+      "id": "u0-x15"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Como se diz isto em ___?",
+      "en": "How do you say this in Portuguese?",
+      "answers": [
+        "português"
+      ],
+      "options": [
+        "favor",
+        "inglês",
+        "português"
+      ],
+      "id": "u0-x16"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Ainda não falo ___ português.",
+      "en": "I don’t speak Portuguese well yet.",
+      "answers": [
+        "bem"
+      ],
+      "options": [
+        "devagar",
+        "logo",
+        "bem"
+      ],
+      "id": "u0-x17"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Tudo ___?",
+      "en": "All good?",
+      "answers": [
+        "bem"
+      ],
+      "options": [
+        "boa",
+        "bem",
+        "bom"
+      ],
+      "id": "u0-x18"
+    },
+    {
+      "type": "choose",
+      "prompt": "You bump into someone by accident. You say:",
+      "options": [
+        "Até logo!",
+        "De nada!",
+        "Desculpe!"
+      ],
+      "answer": 2,
+      "id": "u0-x19"
+    },
+    {
+      "type": "choose",
+      "prompt": "It’s 9 in the evening. You meet your neighbour. You say:",
+      "options": [
+        "Bom dia!",
+        "Boa noite!",
+        "Boa tarde!"
+      ],
+      "answer": 1,
+      "id": "u0-x20"
+    },
+    {
+      "type": "choose",
+      "prompt": "It’s 3 in the afternoon. You walk into a shop. You say:",
+      "options": [
+        "Boa tarde!",
+        "Boa noite!",
+        "Bom dia!"
+      ],
+      "answer": 0,
+      "id": "u0-x21"
+    },
+    {
+      "type": "choose",
+      "prompt": "What does “Pois é.” mean?",
+      "options": [
+        "Excuse me.",
+        "Of course not.",
+        "That’s right. / Indeed."
+      ],
+      "answer": 2,
+      "id": "u0-x22"
+    },
+    {
+      "type": "choose",
+      "prompt": "Someone says “Até amanhã!”. You answer:",
+      "options": [
+        "De nada!",
+        "Até amanhã!",
+        "Bom dia!"
+      ],
+      "answer": 1,
+      "id": "u0-x23"
+    },
+    {
+      "type": "choose",
+      "prompt": "“Igualmente.” means…",
+      "options": [
+        "Likewise. / You too.",
+        "Again, please.",
+        "Equally expensive."
+      ],
+      "answer": 0,
+      "id": "u0-x24"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "I didn’t understand.",
+      "tiles": [
+        "Não",
+        "percebi",
+        "percebo",
+        "sim"
+      ],
+      "answer": "Não percebi",
+      "id": "u0-x25"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Good evening!",
+      "tiles": [
+        "Boa",
+        "noite",
+        "Bom",
+        "dia"
+      ],
+      "answer": "Boa noite",
+      "id": "u0-x26"
+    },
+    {
+      "type": "translate",
+      "en": "See you tomorrow!",
+      "answers": [
+        "Até amanhã"
+      ],
+      "id": "u0-x27"
+    },
+    {
+      "type": "translate",
+      "en": "Excuse me. (to get past)",
+      "answers": [
+        "Com licença"
+      ],
+      "id": "u0-x28"
+    },
+    {
+      "type": "translate",
+      "en": "Please.",
+      "answers": [
+        "Por favor",
+        "Se faz favor"
+      ],
+      "id": "u0-x29"
+    },
+    {
+      "type": "translate",
+      "en": "You’re welcome.",
+      "answers": [
+        "De nada"
+      ],
+      "id": "u0-x30"
     }
   ],
   "speaking": [
@@ -990,6 +1461,72 @@
       "answers": [
         "Até logo"
       ]
+    },
+    {
+      "type": "choose",
+      "prompt": "Your neighbour says “Até logo!” as she leaves. It means…",
+      "options": [
+        "Good night!",
+        "Thanks again!",
+        "See you later!"
+      ],
+      "answer": 2,
+      "id": "u0-c09"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Pode repetir mais ___, por favor?",
+      "en": "Can you repeat more slowly, please?",
+      "answers": [
+        "devagar"
+      ],
+      "options": [
+        "devagar",
+        "bem",
+        "logo"
+      ],
+      "id": "u0-c10"
+    },
+    {
+      "type": "choose",
+      "prompt": "Ask your older neighbour if she speaks English:",
+      "options": [
+        "Falas inglês?",
+        "A senhora fala inglês?"
+      ],
+      "answer": 1,
+      "id": "u0-c11"
+    },
+    {
+      "type": "choose",
+      "prompt": "A man says thank you. He says:",
+      "options": [
+        "Obrigado.",
+        "Obrigada."
+      ],
+      "answer": 0,
+      "id": "u0-c12"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "All good, thank you. (said by a woman)",
+      "tiles": [
+        "Tudo",
+        "bem",
+        "obrigada",
+        "obrigado",
+        "boa"
+      ],
+      "answer": "Tudo bem obrigada",
+      "id": "u0-c13"
+    },
+    {
+      "type": "translate",
+      "en": "I didn’t understand.",
+      "answers": [
+        "Não percebi"
+      ],
+      "id": "u0-c14"
     }
   ]
 }

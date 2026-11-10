@@ -4,13 +4,14 @@ import { StreakLine } from '../components/Streak'
 import { Link, useNavigate } from 'react-router-dom'
 import type { Exercise } from '../content/types'
 import { db, type PracticeSession } from '../db'
-import { ExerciseView, type Answer } from '../components/Exercises'
+import { ExerciseView, needsKeyboard, type Answer } from '../components/Exercises'
 import { audio } from '../audio'
 import { CHIME_MS, playChime } from '../chime'
 import { PASS_MARK, logAttempt, markStepDone } from '../progress'
 import { unitSteps } from '../units'
 import { PARTS, scoreByPart } from '../test'
 import { useToast } from '../toast'
+import { newRound } from '../rounds'
 import { translationOf } from '../translation'
 
 /**
@@ -24,7 +25,10 @@ export type Mode = 'exercises' | 'check' | 'drill' | 'test' | 'lesson' | 'readin
 
 type Props = {
   sessionKey: string
-  items: Exercise[]
+  /** Fixed questions; or leave out and give `nextRound` to draw a new set each time. */
+  items?: Exercise[]
+  /** Builds a fresh round (used to start, and for "Practise again"). */
+  nextRound?: () => Promise<Exercise[]>
   mode: Mode
   unit?: number // for exercises/check/lesson: marks the step done
   step?: string // for lesson: the reading step being practised
@@ -37,22 +41,33 @@ type Props = {
  * Runs a list of exercises. Position is saved after every answer, so closing the app
  * returns you to the same exercise.
  */
-export default function Practice({ sessionKey, items, mode, unit, step, closeTo, next: nextTopic }: Props) {
+export default function Practice({ sessionKey, items: fixed, nextRound, mode, unit, step, closeTo, next: nextTopic }: Props) {
   const toast = useToast()
+  const [items, setItems] = useState<Exercise[]>(fixed ?? [])
   const byId = Object.fromEntries(items.map(x => [x.id, x])) as Record<string, Exercise>
   const requeue = mode === 'exercises' || mode === 'drill' || mode === 'lesson'
+  // iOS only opens the keyboard from a tap: Continue focuses this, and the next question's field takes over.
+  const keeper = useRef<HTMLInputElement>(null)
+  // A generated drill keeps its whole pool, so "Practise again" draws a new round from it.
+  const pool = useRef<{ items: Exercise[]; size: number } | null>(null)
 
   const [session, setSession] = useState<PracticeSession | null>(null)
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [finished, setFinished] = useState<{ score: number; firstTry: Record<string, boolean> } | null>(null)
 
   const start = async (fresh = false) => {
-    let s = fresh ? undefined : await db.sessions.get(sessionKey)
-    // Start over if there's no session or the exercises changed since.
-    if (!s || !s.queue.length || s.queue.some(id => !byId[id])) {
-      s = { key: sessionKey, queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items }
+    const saved = await db.sessions.get(sessionKey)
+    if (saved?.pool?.length) pool.current = { items: saved.pool, size: saved.total }
+    let s = fresh ? undefined : saved
+    // Resume the saved round; start a new one if there's none, or its questions no longer exist.
+    let list = s?.items?.length ? s.items : fixed ?? []
+    const valid = (xs: Exercise[]) => !!s?.queue.length && s.queue.every(id => xs.some(x => x.id === id))
+    if (!s || !valid(list)) {
+      list = nextRound ? await nextRound() : pool.current ? await newRound(pool.current.items, pool.current.size) : fixed ?? []
+      s = { key: sessionKey, queue: list.map(x => x.id), total: list.length, firstTry: {}, startedAt: new Date().toISOString(), items: list, pool: pool.current?.items }
       await db.sessions.put(s)
     }
+    setItems(list)
     setAnswer(null)
     setFinished(null)
     setSession(s)
@@ -92,6 +107,8 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo,
 
   const next = async () => {
     clearTimeout(replayTimer.current)
+    const upcoming = byId[session.queue[1] ?? (answer && !answer.result.ok && requeue ? current.id : '')]
+    if (upcoming && needsKeyboard(upcoming)) keeper.current?.focus({ preventScroll: true })
     try {
       const ok = answer!.result.ok
       const firstTry = current.id in session.firstTry ? session.firstTry : { ...session.firstTry, [current.id]: ok }
@@ -118,6 +135,7 @@ export default function Practice({ sessionKey, items, mode, unit, step, closeTo,
 
   return (
     <main className="screen practice">
+      <input ref={keeper} className="keyboard-keeper" aria-hidden="true" tabIndex={-1} />
       <div className="practice-head">
         <Link className="btn btn-ghost btn-circle btn-sm text-xl" to={closeTo} aria-label="Close (progress is saved)">✕</Link>
         <div className="run-bar"><motion.div className="run-fill" initial={false} animate={{ width: `${progress * 100}%` }} transition={{ type: 'spring', stiffness: 180, damping: 26 }} /></div>

@@ -58,6 +58,11 @@ export function ExerciseView({ ex, locked, onAnswer }: { ex: Exercise; locked: b
   }
 }
 
+/** Questions you answer by typing: their field gets focus as they open, so the keyboard is up. */
+export const needsKeyboard = (ex: Exercise) =>
+  ex.type === 'translate' || ex.type === 'conjugation' || ex.type === 'verb-table' || ex.type === 'dictation' || ex.type === 'listen-gap'
+  || (ex.type === 'gap-fill' && !ex.options)
+
 // ---------- multiple choice (text or listening) ----------
 function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'listen-pick' | 'choose'>) {
   const [picked, setPicked] = useState<number | null>(null)
@@ -386,6 +391,7 @@ function VerbTable({ ex, locked, onAnswer }: Props<'verb-table'>) {
   const [results, setResults] = useState<boolean[] | null>(null)
   const refs = useRef<(HTMLInputElement | null)[]>([])
   const focused = useRef(0)
+  useEffect(() => { refs.current[0]?.focus({ preventScroll: true }) }, [])
 
   const insert = (ch: string) => {
     const i = focused.current
@@ -446,6 +452,7 @@ function TypedInput({ locked, onSubmit }: { locked: boolean; onSubmit: (v: strin
   const toast = useToast()
   const [value, setValue] = useState('')
   const ref = useRef<HTMLInputElement>(null)
+  useEffect(() => { ref.current?.focus({ preventScroll: true }) }, [])
 
   const insert = (ch: string) => {
     const el = ref.current

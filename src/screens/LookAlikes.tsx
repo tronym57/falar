@@ -18,7 +18,7 @@ export default function LookAlikes() {
 
   const practise = async () => {
     if (!open.length) return toast('No pairs open yet. Each pair opens with the Key phrases of its unit.')
-    try { await startDrill('lookalikes', lookDrill(open, 15), navigate) }
+    try { await startDrill('lookalikes', lookDrill(open, 15), navigate, lookDrill(open, 999)) }
     catch (e) { toast(`Couldn't start the drill: ${(e as Error).message}`, 'error') }
   }
 

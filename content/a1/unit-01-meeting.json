@@ -643,6 +643,208 @@
             "answer": 0,
             "part": "grammar",
             "id": "u1-gx05"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Vocês ___ de Peniche?",
+            "en": "Are you (all) from Peniche?",
+            "answers": [
+              "são"
+            ],
+            "options": [
+              "é",
+              "são",
+              "somos"
+            ],
+            "part": "grammar",
+            "id": "u1-gx10"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Eles ___ ingleses.",
+            "en": "They’re English.",
+            "answers": [
+              "são"
+            ],
+            "options": [
+              "somos",
+              "é",
+              "são"
+            ],
+            "part": "grammar",
+            "id": "u1-gx11"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "O Pedro ___ de Lisboa.",
+            "en": "Pedro is from Lisbon.",
+            "answers": [
+              "é"
+            ],
+            "options": [
+              "sou",
+              "é",
+              "és"
+            ],
+            "part": "grammar",
+            "id": "u1-gx12"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ alemão, e tu?",
+            "en": "I’m German, and you?",
+            "answers": [
+              "Sou"
+            ],
+            "options": [
+              "És",
+              "É",
+              "Sou"
+            ],
+            "part": "grammar",
+            "id": "u1-gx13"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Tu ___ portuguesa?",
+            "en": "Are you Portuguese?",
+            "answers": [
+              "és"
+            ],
+            "options": [
+              "é",
+              "são",
+              "és"
+            ],
+            "part": "grammar",
+            "id": "u1-gx14"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Nós ___ da Alemanha.",
+            "en": "We’re from Germany.",
+            "answers": [
+              "somos"
+            ],
+            "options": [
+              "somos",
+              "são",
+              "sou"
+            ],
+            "part": "grammar",
+            "id": "u1-gx15"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Sou ___ Estados Unidos.",
+            "en": "I’m from the United States.",
+            "answers": [
+              "dos"
+            ],
+            "options": [
+              "da",
+              "do",
+              "dos"
+            ],
+            "part": "grammar",
+            "id": "u1-gx16"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "A Ana é ___ Reino Unido.",
+            "en": "Ana is from the UK.",
+            "answers": [
+              "do"
+            ],
+            "options": [
+              "do",
+              "da",
+              "de"
+            ],
+            "part": "grammar",
+            "id": "u1-gx17"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which means “We’re friends”?",
+            "options": [
+              "Sou amigos.",
+              "Somos amigos.",
+              "São amigos."
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u1-gx18"
+          },
+          {
+            "type": "choose",
+            "prompt": "A woman from Portugal says:",
+            "options": [
+              "Sou portuguesa.",
+              "Sou Portugal.",
+              "Sou português."
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u1-gx19"
+          },
+          {
+            "type": "choose",
+            "prompt": "Inês and Ana are from Lisbon. They…",
+            "options": [
+              "somos de Lisboa.",
+              "são de Lisboa.",
+              "é de Lisboa."
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u1-gx20"
+          },
+          {
+            "type": "choose",
+            "prompt": "Ask a friend if they’re from here:",
+            "options": [
+              "És daqui?",
+              "Sou daqui?",
+              "Somos daqui?"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u1-gx21"
+          },
+          {
+            "type": "translate",
+            "en": "We’re from Lisbon.",
+            "answers": [
+              "Somos de Lisboa",
+              "Nós somos de Lisboa"
+            ],
+            "part": "grammar",
+            "id": "u1-gx22"
+          },
+          {
+            "type": "translate",
+            "en": "She is Portuguese.",
+            "answers": [
+              "Ela é portuguesa",
+              "É portuguesa"
+            ],
+            "part": "grammar",
+            "id": "u1-gx23"
+          },
+          {
+            "type": "sentence-builder",
+            "en": "They’re friends.",
+            "tiles": [
+              "Eles",
+              "são",
+              "amigos",
+              "somos",
+              "é"
+            ],
+            "answer": "Eles são amigos",
+            "part": "grammar",
+            "id": "u1-gx24"
           }
         ]
       },
@@ -774,6 +976,180 @@
             "answer": "Como se chama",
             "part": "grammar",
             "id": "u1-gx09"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ Patrick.",
+            "en": "My name is Patrick.",
+            "answers": [
+              "Chamo-me"
+            ],
+            "options": [
+              "Chama-se",
+              "Me chamo",
+              "Chamo-me"
+            ],
+            "part": "grammar",
+            "id": "u1-gx25"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "O vizinho ___ João.",
+            "en": "The neighbour’s name is João.",
+            "answers": [
+              "chama-se"
+            ],
+            "options": [
+              "se chama",
+              "chamas-te",
+              "chama-se"
+            ],
+            "part": "grammar",
+            "id": "u1-gx26"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Como se ___?",
+            "en": "What’s your name? (polite)",
+            "answers": [
+              "chama"
+            ],
+            "options": [
+              "chama",
+              "chamas",
+              "chamo"
+            ],
+            "part": "grammar",
+            "id": "u1-gx27"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Como te ___?",
+            "en": "What’s your name? (to a friend)",
+            "answers": [
+              "chamas"
+            ],
+            "options": [
+              "chama",
+              "chamo",
+              "chamas"
+            ],
+            "part": "grammar",
+            "id": "u1-gx28"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Tu ___ Rita?",
+            "en": "Is your name Rita?",
+            "answers": [
+              "chamas-te"
+            ],
+            "options": [
+              "chama-se",
+              "te chamas",
+              "chamas-te"
+            ],
+            "part": "grammar",
+            "id": "u1-gx29"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Não ___ Pedro.",
+            "en": "My name isn’t Pedro.",
+            "answers": [
+              "me chamo"
+            ],
+            "options": [
+              "me chamo",
+              "chamo-me"
+            ],
+            "part": "grammar",
+            "id": "u1-gx30"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Nós ___ Ana e Rui.",
+            "en": "Our names are Ana and Rui.",
+            "answers": [
+              "chamamo-nos"
+            ],
+            "options": [
+              "chamo-me",
+              "chamam-se",
+              "chamamo-nos"
+            ],
+            "part": "grammar",
+            "id": "u1-gx31"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Eles ___ Pedro e Inês.",
+            "en": "They’re called Pedro and Inês.",
+            "answers": [
+              "chamam-se"
+            ],
+            "options": [
+              "chama-se",
+              "chamam-se",
+              "se chamam"
+            ],
+            "part": "grammar",
+            "id": "u1-gx32"
+          },
+          {
+            "type": "choose",
+            "prompt": "Why “Como te chamas?” and not “Como chamas-te?”",
+            "options": [
+              "It’s more polite",
+              "It’s Brazilian",
+              "Question words pull the pronoun in front"
+            ],
+            "answer": 2,
+            "part": "grammar",
+            "id": "u1-gx33"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which is right in Portugal?",
+            "options": [
+              "Ela se chama Graça.",
+              "Ela chama-se Graça."
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u1-gx34"
+          },
+          {
+            "type": "sentence-builder",
+            "en": "My name is Ana.",
+            "tiles": [
+              "Chamo-me",
+              "Ana",
+              "Me",
+              "chama"
+            ],
+            "answer": "Chamo-me Ana",
+            "part": "grammar",
+            "id": "u1-gx35"
+          },
+          {
+            "type": "translate",
+            "en": "Her name is Inês.",
+            "answers": [
+              "Ela chama-se Inês",
+              "Chama-se Inês"
+            ],
+            "part": "grammar",
+            "id": "u1-gx36"
+          },
+          {
+            "type": "translate",
+            "en": "What’s your name? (to a friend)",
+            "answers": [
+              "Como te chamas"
+            ],
+            "part": "grammar",
+            "id": "u1-gx37"
           }
         ]
       }
@@ -939,6 +1315,197 @@
         "Tu és de onde"
       ],
       "id": "u1-x13"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Moro ___ Peniche.",
+      "en": "I live in Peniche.",
+      "answers": [
+        "em"
+      ],
+      "options": [
+        "de",
+        "em",
+        "da"
+      ],
+      "id": "u1-x14"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Onde ___?",
+      "en": "Where do you live? (to a friend)",
+      "answers": [
+        "moras"
+      ],
+      "options": [
+        "moras",
+        "mora",
+        "moro"
+      ],
+      "id": "u1-x15"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Esta cadeira está ___?",
+      "en": "Is this chair free?",
+      "answers": [
+        "livre"
+      ],
+      "options": [
+        "aqui",
+        "livre",
+        "perto"
+      ],
+      "id": "u1-x16"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Estou a ___ português.",
+      "en": "I’m learning Portuguese.",
+      "answers": [
+        "aprender"
+      ],
+      "options": [
+        "ser",
+        "aprender",
+        "morar"
+      ],
+      "id": "u1-x17"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Moro aqui ___.",
+      "en": "I live nearby.",
+      "answers": [
+        "perto"
+      ],
+      "options": [
+        "livre",
+        "daqui",
+        "perto"
+      ],
+      "id": "u1-x18"
+    },
+    {
+      "type": "choose",
+      "prompt": "Someone says “Muito prazer.” You answer:",
+      "options": [
+        "Igualmente.",
+        "Até logo.",
+        "De nada."
+      ],
+      "answer": 0,
+      "id": "u1-x19"
+    },
+    {
+      "type": "choose",
+      "prompt": "What does “Fixe!” mean?",
+      "options": [
+        "Cool!",
+        "Fixed.",
+        "Stop!"
+      ],
+      "answer": 0,
+      "id": "u1-x20"
+    },
+    {
+      "type": "choose",
+      "prompt": "You let someone go first through the door. You say:",
+      "options": [
+        "Muito prazer.",
+        "Com licença.",
+        "Faça favor."
+      ],
+      "answer": 2,
+      "id": "u1-x21"
+    },
+    {
+      "type": "choose",
+      "prompt": "A shop assistant says “Tenha um bom dia!”. It means…",
+      "options": [
+        "Do you have a day off?",
+        "Have a good day!",
+        "Good morning!"
+      ],
+      "answer": 1,
+      "id": "u1-x22"
+    },
+    {
+      "type": "choose",
+      "prompt": "“Até já!” means…",
+      "options": [
+        "See you in a bit!",
+        "See you tomorrow!",
+        "Already?"
+      ],
+      "answer": 0,
+      "id": "u1-x23"
+    },
+    {
+      "type": "choose",
+      "prompt": "A man from Germany says: Sou…",
+      "options": [
+        "alemão",
+        "Alemanha",
+        "alemã"
+      ],
+      "answer": 0,
+      "id": "u1-x24"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "I’m from Lisbon, but I live in Peniche.",
+      "tiles": [
+        "Sou",
+        "de",
+        "Lisboa",
+        "mas",
+        "moro",
+        "em",
+        "Peniche",
+        "da",
+        "moras"
+      ],
+      "answer": "Sou de Lisboa mas moro em Peniche",
+      "id": "u1-x25"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Are you from here? (to a friend)",
+      "tiles": [
+        "És",
+        "daqui",
+        "É",
+        "aqui"
+      ],
+      "answer": "És daqui",
+      "id": "u1-x26"
+    },
+    {
+      "type": "translate",
+      "en": "I live in Peniche.",
+      "answers": [
+        "Moro em Peniche",
+        "Eu moro em Peniche"
+      ],
+      "id": "u1-x27"
+    },
+    {
+      "type": "translate",
+      "en": "I’m German. (you are a man)",
+      "answers": [
+        "Sou alemão",
+        "Eu sou alemão"
+      ],
+      "id": "u1-x28"
+    },
+    {
+      "type": "translate",
+      "en": "Is this chair free?",
+      "answers": [
+        "Esta cadeira está livre"
+      ],
+      "id": "u1-x29"
     }
   ],
   "speaking": [
@@ -1090,6 +1657,80 @@
         "Eu sou da Alemanha"
       ],
       "id": "u1-c08"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Ele ___ do Reino Unido.",
+      "en": "He’s from the UK.",
+      "answers": [
+        "é"
+      ],
+      "options": [
+        "são",
+        "és",
+        "é"
+      ],
+      "id": "u1-c09"
+    },
+    {
+      "type": "choose",
+      "prompt": "Ask an older woman her name politely:",
+      "options": [
+        "Como te chamas?",
+        "Como se chama?"
+      ],
+      "answer": 1,
+      "id": "u1-c10"
+    },
+    {
+      "type": "choose",
+      "prompt": "A woman from England says:",
+      "options": [
+        "Sou inglesa.",
+        "Sou inglês."
+      ],
+      "answer": 0,
+      "id": "u1-c11"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Moro ___.",
+      "en": "I live here.",
+      "answers": [
+        "aqui"
+      ],
+      "options": [
+        "perto",
+        "aqui",
+        "livre"
+      ],
+      "id": "u1-c12"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "We’re from Germany.",
+      "tiles": [
+        "Somos",
+        "da",
+        "Alemanha",
+        "São",
+        "do"
+      ],
+      "answer": "Somos da Alemanha",
+      "id": "u1-c13"
+    },
+    {
+      "type": "translate",
+      "en": "Where are you from? (polite)",
+      "answers": [
+        "De onde é",
+        "É de onde",
+        "De onde é o senhor",
+        "De onde é a senhora",
+        "O senhor é de onde",
+        "A senhora é de onde"
+      ],
+      "id": "u1-c14"
     }
   ]
 }

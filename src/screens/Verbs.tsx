@@ -6,6 +6,7 @@ import type { Exercise } from '../content/types'
 import { AudioRow, SlowToggle } from '../components/AudioRow'
 import { audio, useAudio } from '../audio'
 import Practice from './Practice'
+import { newRound } from '../rounds'
 import { focusDrill, formAudio, isWeakVerb, masteryFrom, verbById, verbDrill, verbs, verbSet, type Mastery } from '../verbs'
 import { useToast } from '../toast'
 import { openAnyway, useDone, verbLearned } from '../learned'
@@ -17,8 +18,10 @@ function useMastery() {
 }
 
 /** Save a generated drill as a session, then open the runner (closing the app keeps your place). */
-export async function startDrill(key: string, items: Exercise[], navigate: (to: string) => void) {
-  await db.sessions.put({ key, queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items })
+/** Starts a generated drill. With `pool`, the first round (of `size`) and every "Practise again" draw from it. */
+export async function startDrill(key: string, items: Exercise[], navigate: (to: string) => void, pool?: Exercise[]) {
+  if (pool) items = await newRound(pool, items.length)
+  await db.sessions.put({ key, queue: items.map(x => x.id), total: items.length, firstTry: {}, startedAt: new Date().toISOString(), items, pool })
   navigate(`/drill/run/${key}`)
 }
 
@@ -48,7 +51,7 @@ export default function VerbTrainer() {
   const practise = async () => {
     if (!shown.length) return toast(filter === 'weak' ? 'No weak verbs right now. Nice!' : 'No verbs in this filter.')
     if (!open.length) return toast('None of these verbs is open yet. Verbs open as you finish each unit’s Key phrases.')
-    try { await startDrill('verbs', verbDrill(open, mastery ?? {}, 15), navigate) }
+    try { await startDrill('verbs', verbDrill(open, mastery ?? {}, 15), navigate, verbDrill(open, mastery ?? {}, 60)) }
     catch (e) { toast(`Couldn't start the drill: ${(e as Error).message}`, 'error') }
   }
 

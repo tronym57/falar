@@ -703,6 +703,74 @@
             "answer": 0,
             "part": "grammar",
             "id": "u3-gx06"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Queria ___ laranja.",
+            "en": "I’d like one orange.",
+            "answers": [
+              "uma"
+            ],
+            "options": [
+              "um",
+              "uma"
+            ],
+            "part": "grammar",
+            "id": "u3-gx11"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "É ___ euro.",
+            "en": "It’s one euro.",
+            "answers": [
+              "um"
+            ],
+            "options": [
+              "um",
+              "uma"
+            ],
+            "part": "grammar",
+            "id": "u3-gx12"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ moedas de um euro.",
+            "en": "Two one-euro coins.",
+            "answers": [
+              "Duas"
+            ],
+            "options": [
+              "Dois",
+              "Duas"
+            ],
+            "part": "grammar",
+            "id": "u3-gx13"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Tenho ___ anos.",
+            "en": "I’m twenty-two.",
+            "answers": [
+              "vinte e dois"
+            ],
+            "options": [
+              "vinte e dois",
+              "vinte e duas"
+            ],
+            "part": "grammar",
+            "id": "u3-gx14"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which numbers change with the noun (um / uma, dois / duas)?",
+            "options": [
+              "All of them",
+              "1 and 2, also inside 21, 32…",
+              "Only 1"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u3-gx15"
           }
         ]
       },
@@ -821,6 +889,156 @@
             "answer": 0,
             "part": "grammar",
             "id": "u3-gx10"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Quanto ___ a melancia?",
+            "en": "How much is the watermelon?",
+            "answers": [
+              "custa"
+            ],
+            "options": [
+              "custam",
+              "custa"
+            ],
+            "part": "grammar",
+            "id": "u3-gx16"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "As sardinhas ___ seis euros.",
+            "en": "The sardines cost six euros.",
+            "answers": [
+              "custam"
+            ],
+            "options": [
+              "custam",
+              "custa"
+            ],
+            "part": "grammar",
+            "id": "u3-gx17"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "O quilo ___ dois euros.",
+            "en": "A kilo costs two euros.",
+            "answers": [
+              "custa"
+            ],
+            "options": [
+              "custa",
+              "custam"
+            ],
+            "part": "grammar",
+            "id": "u3-gx18"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ um euro.",
+            "en": "It’s one euro.",
+            "answers": [
+              "É"
+            ],
+            "options": [
+              "São",
+              "É"
+            ],
+            "part": "grammar",
+            "id": "u3-gx19"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ vinte euros.",
+            "en": "It’s twenty euros.",
+            "answers": [
+              "São"
+            ],
+            "options": [
+              "É",
+              "São"
+            ],
+            "part": "grammar",
+            "id": "u3-gx20"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ cinco euros e cinquenta.",
+            "en": "It’s €5.50.",
+            "answers": [
+              "São"
+            ],
+            "options": [
+              "São",
+              "É"
+            ],
+            "part": "grammar",
+            "id": "u3-gx21"
+          },
+          {
+            "type": "choose",
+            "prompt": "The plural of a laranja is…",
+            "options": [
+              "as laranjaes",
+              "os laranjas",
+              "as laranjas"
+            ],
+            "answer": 2,
+            "part": "grammar",
+            "id": "u3-gx22"
+          },
+          {
+            "type": "choose",
+            "prompt": "The plural of o limão is…",
+            "options": [
+              "os limãos",
+              "os limões",
+              "os limães"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u3-gx23"
+          },
+          {
+            "type": "choose",
+            "prompt": "The plural of a flor is…",
+            "options": [
+              "as flors",
+              "as flores",
+              "as floras"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u3-gx24"
+          },
+          {
+            "type": "choose",
+            "prompt": "Ask how much the oranges are:",
+            "options": [
+              "Quanto custam as laranjas?",
+              "Quanto custa as laranjas?"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u3-gx25"
+          },
+          {
+            "type": "translate",
+            "en": "How much is the bread?",
+            "answers": [
+              "Quanto custa o pão",
+              "Quanto é o pão"
+            ],
+            "part": "grammar",
+            "id": "u3-gx26"
+          },
+          {
+            "type": "translate",
+            "en": "It’s three euros.",
+            "answers": [
+              "São três euros"
+            ],
+            "part": "grammar",
+            "id": "u3-gx27"
           }
         ]
       }
@@ -982,6 +1200,182 @@
         "São vinte euros"
       ],
       "id": "u3-x13"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Tem ___?",
+      "en": "Do you take cards?",
+      "answers": [
+        "multibanco"
+      ],
+      "options": [
+        "troco",
+        "dinheiro",
+        "multibanco"
+      ],
+      "id": "u3-x14"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Posso pagar com ___?",
+      "en": "Can I pay by card?",
+      "answers": [
+        "cartão"
+      ],
+      "options": [
+        "troco",
+        "cartão",
+        "moeda"
+      ],
+      "id": "u3-x15"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Aqui tem o ___.",
+      "en": "Here’s your change.",
+      "answers": [
+        "troco"
+      ],
+      "options": [
+        "cartão",
+        "quilo",
+        "troco"
+      ],
+      "id": "u3-x16"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "___ dois.",
+      "en": "I’ll take two.",
+      "answers": [
+        "Levo"
+      ],
+      "options": [
+        "Tenho",
+        "Custa",
+        "Levo"
+      ],
+      "id": "u3-x17"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Tenho trinta ___.",
+      "en": "I’m thirty.",
+      "answers": [
+        "anos"
+      ],
+      "options": [
+        "quilos",
+        "euros",
+        "anos"
+      ],
+      "id": "u3-x18"
+    },
+    {
+      "type": "choose",
+      "prompt": "“É barato.” means…",
+      "options": [
+        "It’s broken.",
+        "It’s expensive.",
+        "It’s cheap."
+      ],
+      "answer": 2,
+      "id": "u3-x19"
+    },
+    {
+      "type": "choose",
+      "prompt": "The seller says “Não faz mal.” She means…",
+      "options": [
+        "It’s bad.",
+        "No problem.",
+        "It isn’t ready."
+      ],
+      "answer": 1,
+      "id": "u3-x20"
+    },
+    {
+      "type": "choose",
+      "prompt": "You only have a €50 note for a €2 coffee. You ask:",
+      "options": [
+        "É caro?",
+        "Tem multibanco?",
+        "Tem troco?"
+      ],
+      "answer": 2,
+      "id": "u3-x21"
+    },
+    {
+      "type": "choose",
+      "prompt": "“Quantos anos tens?” asks…",
+      "options": [
+        "How much is it?",
+        "How old are you?",
+        "How long have you lived here?"
+      ],
+      "answer": 1,
+      "id": "u3-x22"
+    },
+    {
+      "type": "choose",
+      "prompt": "15 is…",
+      "options": [
+        "quinze",
+        "cinquenta",
+        "cinco"
+      ],
+      "answer": 0,
+      "id": "u3-x23"
+    },
+    {
+      "type": "choose",
+      "prompt": "100 is…",
+      "options": [
+        "dez",
+        "mil",
+        "cem"
+      ],
+      "answer": 2,
+      "id": "u3-x24"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "I’ll take two.",
+      "tiles": [
+        "Levo",
+        "dois",
+        "duas",
+        "tenho"
+      ],
+      "answer": "Levo dois",
+      "id": "u3-x25"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "It’s cheap.",
+      "tiles": [
+        "É",
+        "barato",
+        "São",
+        "caro"
+      ],
+      "answer": "É barato",
+      "id": "u3-x26"
+    },
+    {
+      "type": "translate",
+      "en": "Do you have change?",
+      "answers": [
+        "Tem troco"
+      ],
+      "id": "u3-x27"
+    },
+    {
+      "type": "translate",
+      "en": "I’m thirty.",
+      "answers": [
+        "Tenho trinta anos"
+      ],
+      "id": "u3-x28"
     }
   ],
   "speaking": [
@@ -1131,6 +1525,76 @@
         "É muito caro"
       ],
       "id": "u3-c08"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "___ cinco euros.",
+      "en": "It’s five euros.",
+      "answers": [
+        "São"
+      ],
+      "options": [
+        "São",
+        "É"
+      ],
+      "id": "u3-c09"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Quanto ___ o quilo?",
+      "en": "How much is a kilo?",
+      "answers": [
+        "custa"
+      ],
+      "options": [
+        "custa",
+        "custam"
+      ],
+      "id": "u3-c10"
+    },
+    {
+      "type": "choose",
+      "prompt": "How do you say 17 in Portugal?",
+      "options": [
+        "dezassete",
+        "dezessete",
+        "setenta"
+      ],
+      "answer": 0,
+      "id": "u3-c11"
+    },
+    {
+      "type": "choose",
+      "prompt": "You want to know if you can pay by card:",
+      "options": [
+        "Tem troco?",
+        "Quanto é?",
+        "Tem multibanco?"
+      ],
+      "answer": 2,
+      "id": "u3-c12"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Can you repeat the number?",
+      "tiles": [
+        "Pode",
+        "repetir",
+        "o",
+        "número",
+        "podes",
+        "a"
+      ],
+      "answer": "Pode repetir o número",
+      "id": "u3-c13"
+    },
+    {
+      "type": "translate",
+      "en": "It’s one euro.",
+      "answers": [
+        "É um euro"
+      ],
+      "id": "u3-c14"
     }
   ]
 }

@@ -4,11 +4,11 @@ import { a1Content } from '../content'
 import { unitSteps } from '../units'
 import { audio, useAudio } from '../audio'
 import { AudioRow, SlowToggle } from '../components/AudioRow'
-import type { Dialogue, Exercise, Unit } from '../content/types'
-import { db } from '../db'
+import type { Dialogue, Unit } from '../content/types'
 import { LESSON_LENGTH, lessonQuestions, speakingQuestions } from '../test'
 import { GrammarTopicView } from '../components/Grammar'
 import Practice from './Practice'
+import { grammarLessonRound, grammarLessonSize, stepRound } from '../grammarPool'
 import { PASS_MARK, lessonKey, markStepDone, markStepNotDone, useUnitProgress } from '../progress'
 import { useToast } from '../toast'
 
@@ -21,14 +21,14 @@ export default function UnitStep() {
   if (!unit || !meta?.ready) return <Navigate to={`/unit/${n}`} replace />
 
   if (step === 'exercises' || step === 'check') {
-    return <Practice key={step} sessionKey={`${unit.n}:${step}`} items={step === 'exercises' ? unit.exercises : unit.check} mode={step} unit={unit.n} closeTo={`/unit/${unit.n}`} />
+    return <Practice key={step} sessionKey={`${unit.n}:${step}`} nextRound={() => stepRound(unit, step)} mode={step} unit={unit.n} closeTo={`/unit/${unit.n}`} />
   }
 
   const i = unitSteps.indexOf(meta)
   const next = unitSteps.slice(i + 1).find(s => s.ready)
   const done = !!progress?.[meta.slug]?.done
   const best = progress?.[meta.slug]?.bestScore
-  const count = meta.slug === 'grammar' ? unit.grammar.topics.reduce((n, t) => n + t.exercises.length, 0)
+  const count = meta.slug === 'grammar' ? grammarLessonSize(unit)
     : meta.slug === 'speaking' ? speakingQuestions(unit).length
     : meta.slug === 'phrases' ? unit.phrases.length * 2 : meta.slug === 'vocab' ? unit.vocab.length * 2 : LESSON_LENGTH
 
@@ -85,20 +85,10 @@ export default function UnitStep() {
 export function LessonRunner() {
   const { n, step } = useParams()
   const unit = a1Content[Number(n)]
-  const [items, setItems] = useState<Exercise[] | null | undefined>(undefined)
-  useEffect(() => {
-    if (!unit || !step) { setItems(null); return }
-    const key = lessonKey(unit.n, step)
-    db.sessions.get(key).then(async s => {
-      if (s?.items?.length && s.queue.length) return setItems(s.items)
-      const fresh = lessonQuestions(unit, step)
-      await db.sessions.put({ key, queue: fresh.map(x => x.id), total: fresh.length, firstTry: {}, startedAt: new Date().toISOString(), items: fresh })
-      setItems(fresh)
-    }).catch(() => setItems(null))
-  }, [unit, step])
-  if (items === undefined) return <main className="screen"><p className="muted">Loading…</p></main>
-  if (!items || !unit || !step) return <Navigate to={`/unit/${n}`} replace />
-  return <Practice sessionKey={lessonKey(unit.n, step)} items={items} mode="lesson" unit={unit.n} step={step} closeTo={`/unit/${unit.n}/${step}`} />
+  if (!unit || !step) return <Navigate to={`/unit/${n}`} replace />
+  // Resumes a saved round; a new one (and every "Practise again") gets new questions and a new order.
+  const round = async () => step === 'grammar' ? grammarLessonRound(unit) : lessonQuestions(unit, step)
+  return <Practice key={step} sessionKey={lessonKey(unit.n, step)} nextRound={round} mode="lesson" unit={unit.n} step={step} closeTo={`/unit/${unit.n}/${step}`} />
 }
 
 function DialogueView({ d }: { d: Dialogue }) {

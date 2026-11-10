@@ -640,6 +640,94 @@
             "answer": 1,
             "part": "grammar",
             "id": "u2-gx05"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which is right?",
+            "options": [
+              "o água",
+              "a água"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u2-gx10"
+          },
+          {
+            "type": "choose",
+            "prompt": "Most nouns ending in -a are…",
+            "options": [
+              "feminine",
+              "masculine"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u2-gx11"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ sandes de queijo, por favor.",
+            "en": "A cheese sandwich, please.",
+            "answers": [
+              "Uma"
+            ],
+            "options": [
+              "Um",
+              "Uma"
+            ],
+            "part": "grammar",
+            "id": "u2-gx12"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ cafés são bons.",
+            "en": "The coffees are good.",
+            "answers": [
+              "Os"
+            ],
+            "options": [
+              "Os",
+              "As",
+              "O"
+            ],
+            "part": "grammar",
+            "id": "u2-gx13"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ torradas estão ótimas.",
+            "en": "The toasts are great.",
+            "answers": [
+              "As"
+            ],
+            "options": [
+              "A",
+              "Os",
+              "As"
+            ],
+            "part": "grammar",
+            "id": "u2-gx14"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which is right?",
+            "options": [
+              "a leite",
+              "o leite"
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u2-gx15"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which is right?",
+            "options": [
+              "a sandes",
+              "o sandes"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u2-gx16"
           }
         ]
       },
@@ -764,6 +852,166 @@
             ],
             "part": "grammar",
             "id": "u2-gx09"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Eles ___ um galão.",
+            "en": "They want a galão.",
+            "answers": [
+              "querem"
+            ],
+            "options": [
+              "queremos",
+              "quer",
+              "querem"
+            ],
+            "part": "grammar",
+            "id": "u2-gx17"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "O senhor ___ açúcar?",
+            "en": "Do you want sugar, sir?",
+            "answers": [
+              "quer"
+            ],
+            "options": [
+              "quer",
+              "queres",
+              "quero"
+            ],
+            "part": "grammar",
+            "id": "u2-gx18"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "Vocês ___ água?",
+            "en": "Do you (all) want water?",
+            "answers": [
+              "querem"
+            ],
+            "options": [
+              "quer",
+              "querem",
+              "queremos"
+            ],
+            "part": "grammar",
+            "id": "u2-gx19"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "___ uma meia de leite, por favor.",
+            "en": "I’d like a white coffee, please.",
+            "answers": [
+              "Queria"
+            ],
+            "options": [
+              "Queres",
+              "Quer",
+              "Queria"
+            ],
+            "part": "grammar",
+            "id": "u2-gx20"
+          },
+          {
+            "type": "gap-fill",
+            "pt": "A Ana ___ um pastel de nata.",
+            "en": "Ana wants a custard tart.",
+            "answers": [
+              "quer"
+            ],
+            "options": [
+              "queres",
+              "querem",
+              "quer"
+            ],
+            "part": "grammar",
+            "id": "u2-gx21"
+          },
+          {
+            "type": "choose",
+            "prompt": "The waiter asks “Quer açúcar?” You’d like some. You say:",
+            "options": [
+              "De nada.",
+              "Pode ser.",
+              "Até já."
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u2-gx22"
+          },
+          {
+            "type": "choose",
+            "prompt": "Which sounds more polite at the counter?",
+            "options": [
+              "Quero uma água.",
+              "Queria uma água."
+            ],
+            "answer": 1,
+            "part": "grammar",
+            "id": "u2-gx23"
+          },
+          {
+            "type": "choose",
+            "prompt": "A friend asks “Queres um café?” You’d love one. You say:",
+            "options": [
+              "Quero, obrigado!",
+              "Querem, obrigado!",
+              "Queres, obrigado!"
+            ],
+            "answer": 0,
+            "part": "grammar",
+            "id": "u2-gx24"
+          },
+          {
+            "type": "sentence-builder",
+            "en": "I’d like a tea, please.",
+            "tiles": [
+              "Queria",
+              "um",
+              "chá",
+              "por",
+              "favor",
+              "quero",
+              "uma"
+            ],
+            "answer": "Queria um chá por favor",
+            "part": "grammar",
+            "id": "u2-gx25"
+          },
+          {
+            "type": "sentence-builder",
+            "en": "Do you want a coffee? (to a friend)",
+            "tiles": [
+              "Queres",
+              "um",
+              "café",
+              "Quer",
+              "uma"
+            ],
+            "answer": "Queres um café",
+            "part": "grammar",
+            "id": "u2-gx26"
+          },
+          {
+            "type": "translate",
+            "en": "I’d like a toast, please.",
+            "answers": [
+              "Queria uma torrada, por favor",
+              "Queria uma torrada, se faz favor"
+            ],
+            "part": "grammar",
+            "id": "u2-gx27"
+          },
+          {
+            "type": "translate",
+            "en": "We want two coffees.",
+            "answers": [
+              "Queremos dois cafés",
+              "Nós queremos dois cafés"
+            ],
+            "part": "grammar",
+            "id": "u2-gx28"
           }
         ]
       }
@@ -926,6 +1174,187 @@
         "Mais alguma coisa"
       ],
       "id": "u2-x13"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Uma água ___ gás, por favor.",
+      "en": "A sparkling water, please.",
+      "answers": [
+        "com"
+      ],
+      "options": [
+        "de",
+        "sem",
+        "com"
+      ],
+      "id": "u2-x14"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "A ___, por favor.",
+      "en": "The bill, please.",
+      "answers": [
+        "conta"
+      ],
+      "options": [
+        "coisa",
+        "conta",
+        "casa"
+      ],
+      "id": "u2-x15"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Tem pastéis de ___?",
+      "en": "Do you have custard tarts?",
+      "answers": [
+        "nata"
+      ],
+      "options": [
+        "queijo",
+        "nata",
+        "leite"
+      ],
+      "id": "u2-x16"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "É para comer ___.",
+      "en": "It’s to eat here.",
+      "answers": [
+        "aqui"
+      ],
+      "options": [
+        "levar",
+        "aqui",
+        "tudo"
+      ],
+      "id": "u2-x17"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "___ açúcar, por favor.",
+      "en": "No sugar, please.",
+      "answers": [
+        "Sem"
+      ],
+      "options": [
+        "Mais",
+        "Sem",
+        "Com"
+      ],
+      "id": "u2-x18"
+    },
+    {
+      "type": "choose",
+      "prompt": "The waiter says “O que deseja?”. He’s asking…",
+      "options": [
+        "What would you like?",
+        "What’s your name?",
+        "Is that all?"
+      ],
+      "answer": 0,
+      "id": "u2-x19"
+    },
+    {
+      "type": "choose",
+      "prompt": "You want milky coffee in a glass. You order…",
+      "options": [
+        "um café",
+        "um galão",
+        "uma meia de leite"
+      ],
+      "answer": 1,
+      "id": "u2-x20"
+    },
+    {
+      "type": "choose",
+      "prompt": "In Portugal, “um café” is…",
+      "options": [
+        "a big milky coffee",
+        "a small espresso",
+        "a cup of tea"
+      ],
+      "answer": 1,
+      "id": "u2-x21"
+    },
+    {
+      "type": "choose",
+      "prompt": "The waiter puts down your coffee: “Aqui tem.” It means…",
+      "options": [
+        "Do you have it?",
+        "Here you are.",
+        "It’s expensive here."
+      ],
+      "answer": 1,
+      "id": "u2-x22"
+    },
+    {
+      "type": "choose",
+      "prompt": "You’ve finished and want to pay. You say:",
+      "options": [
+        "Mais alguma coisa?",
+        "A conta, por favor.",
+        "É para levar."
+      ],
+      "answer": 1,
+      "id": "u2-x23"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "A cold water, please.",
+      "tiles": [
+        "Uma",
+        "água",
+        "fresca",
+        "por",
+        "favor",
+        "um",
+        "gás"
+      ],
+      "answer": "Uma água fresca por favor",
+      "id": "u2-x24"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Where is the toilet?",
+      "tiles": [
+        "Onde",
+        "é",
+        "a",
+        "casa",
+        "de",
+        "banho",
+        "o",
+        "conta"
+      ],
+      "answer": "Onde é a casa de banho",
+      "id": "u2-x25"
+    },
+    {
+      "type": "translate",
+      "en": "That’s all.",
+      "answers": [
+        "É tudo"
+      ],
+      "id": "u2-x26"
+    },
+    {
+      "type": "translate",
+      "en": "No sugar, please.",
+      "answers": [
+        "Sem açúcar, por favor",
+        "Sem açúcar, se faz favor"
+      ],
+      "id": "u2-x27"
+    },
+    {
+      "type": "translate",
+      "en": "It’s great!",
+      "answers": [
+        "Está ótimo"
+      ],
+      "id": "u2-x28"
     }
   ],
   "speaking": [
@@ -1076,6 +1505,79 @@
         "É para levar"
       ],
       "id": "u2-c08"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Queria ___ chá, por favor.",
+      "en": "I’d like a tea, please.",
+      "answers": [
+        "um"
+      ],
+      "options": [
+        "um",
+        "uma"
+      ],
+      "id": "u2-c09"
+    },
+    {
+      "type": "gap-fill",
+      "pt": "Tu ___ um bolo?",
+      "en": "Do you want a cake?",
+      "answers": [
+        "queres"
+      ],
+      "options": [
+        "quero",
+        "queres",
+        "quer"
+      ],
+      "id": "u2-c10"
+    },
+    {
+      "type": "choose",
+      "prompt": "The waiter asks “Mais alguma coisa?” You don’t want anything else. You say:",
+      "options": [
+        "Não, é tudo, obrigado.",
+        "Diga!",
+        "Aqui tem."
+      ],
+      "answer": 0,
+      "id": "u2-c11"
+    },
+    {
+      "type": "choose",
+      "prompt": "You want a white coffee in a cup:",
+      "options": [
+        "um galão",
+        "um chá",
+        "uma meia de leite"
+      ],
+      "answer": 2,
+      "id": "u2-c12"
+    },
+    {
+      "type": "sentence-builder",
+      "en": "Do you have custard tarts?",
+      "tiles": [
+        "Tem",
+        "pastéis",
+        "de",
+        "nata",
+        "pastel",
+        "leite"
+      ],
+      "answer": "Tem pastéis de nata",
+      "id": "u2-c13"
+    },
+    {
+      "type": "translate",
+      "en": "A sparkling water, please.",
+      "answers": [
+        "Uma água com gás, por favor",
+        "Uma água com gás, se faz favor",
+        "Queria uma água com gás, por favor"
+      ],
+      "id": "u2-c14"
     }
   ]
 }
