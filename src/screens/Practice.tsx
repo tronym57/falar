@@ -9,11 +9,12 @@ import { audio } from '../audio'
 import { CHIME_MS, playChime } from '../chime'
 import { PASS_MARK, logAttempt, markStepDone } from '../progress'
 import { unitSteps } from '../units'
-import { PARTS, partOf, scoreByPart } from '../test'
-import { addGrammarMistake } from '../review'
+import { PARTS, partOf, rng, scoreByPart, wordQuestions } from '../test'
+import { addGrammarMistake, cardFaces, markTricky } from '../review'
 import { useToast } from '../toast'
 import { newRound } from '../rounds'
 import { translationOf } from '../translation'
+import { wordOf, wordQuestionKind } from '../tricky'
 
 /**
  * exercises: a unit's exercise step (wrong answers come back at the end)
@@ -55,6 +56,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
   const [session, setSession] = useState<PracticeSession | null>(null)
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [toReview, setToReview] = useState(false) // this miss went into the daily review
+  const [more, setMore] = useState<'saving' | number | null>(null) // "Practise this more": extra questions added now
   const [finished, setFinished] = useState<{ score: number; firstTry: Record<string, boolean> } | null>(null)
 
   const start = async (fresh = false) => {
@@ -95,6 +97,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
   const onAnswer = (a: Answer) => {
     setAnswer(a)
     setToReview(false)
+    setMore(null)
     logAttempt(unit ?? -1, mode, current.id, a.result.ok, a.given).catch(() => {})
     // A missed grammar question also comes back in the daily review.
     if (!a.result.ok && partOf(current) === 'grammar') addGrammarMistake(current).then(setToReview).catch(() => {})
@@ -108,6 +111,37 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
     if (!clip) return
     if (chimed) replayTimer.current = window.setTimeout(() => audio.play(clip), CHIME_MS)
     else audio.play(clip)
+  }
+
+  // "Practise this more": the word joins the review as tricky; in a round with retries,
+  // two questions on it in other forms come at the end of this one too.
+  const word = wordOf(current)
+  const practiseMore = async () => {
+    if (!word || more !== null) return
+    setMore('saving')
+    try {
+      await markTricky(word)
+      let added = 0
+      if (requeue) {
+        const faces = cardFaces(await db.customWords.toArray())
+        const face = faces[word.id]
+        const kind = wordQuestionKind(current)
+        const extra = face ? wordQuestions([face, face, face], Object.values(faces).map(f => f.en), 'more', rng(Date.now()))
+          .filter((x, i, xs) => !x.id.endsWith(`-${kind}`) && !(x.id in byId) && xs.findIndex(y => y.id === x.id) === i)
+          .slice(0, 2) : []
+        if (extra.length) {
+          const s = { ...session!, queue: [...session!.queue, ...extra.map(x => x.id)], total: session!.total + extra.length, items: [...items, ...extra] }
+          await db.sessions.put(s)
+          setItems(s.items)
+          setSession(s)
+          added = extra.length
+        }
+      }
+      setMore(added)
+    } catch (e) {
+      setMore(null)
+      toast(`Couldn't save this: ${(e as Error).message}`, 'error')
+    }
   }
 
   const next = async () => {
@@ -168,6 +202,9 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
           {!answer.result.ok && (requeue || toReview) && (
             <p className="small">{requeue && toReview ? 'This one comes back at the end, and in your daily review.' : requeue ? 'This one comes back at the end.' : 'It comes back in your daily review.'}</p>
           )}
+          {word && (more === null || more === 'saving'
+            ? <button className="btn btn-ghost btn-block btn-sm practise-more" disabled={more === 'saving'} onClick={practiseMore}>🔁 Practise this more</button>
+            : <p className="small practise-more-note">✓ {more ? `${more} more on it at the end of this round. ` : ''}It also comes up first in your review and later practice, until you know it well.</p>)}
           <button className={'btn btn-block btn-big ' + (answer.result.ok ? 'btn-success' : 'btn-miss')} onClick={next}>Continue</button>
         </motion.div>
       )}

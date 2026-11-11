@@ -2,9 +2,11 @@
 // doesn't mean seeing the same questions in the same order.
 // Order of preference: the ones you're struggling with, then never seen, then the longest ago.
 // Struggling = wrong last time, or wrong in 2 of the last 3 tries: one lucky answer doesn't clear it.
+// Questions about a word you marked "Practise this more" count as struggling too.
 import type { Exercise } from './content/types'
 import { db } from './db'
 import { rng, shuffle } from './test'
+import { wordOf } from './tricky'
 
 /** Per question: when it was last answered, and its last answers (newest first). */
 export type History = Map<string, { at: string; recent: boolean[] }>
@@ -42,20 +44,28 @@ export function freshen(x: Exercise, rand: () => number): Exercise {
 }
 
 /** `n` questions from `pool`: the hardest for you first, then unseen, then the longest ago; shuffled. */
-export function pickRound(pool: Exercise[], n: number, history: History, seed = Date.now()): Exercise[] {
+export function pickRound(pool: Exercise[], n: number, history: History, seed = Date.now(), tricky = new Set<string>()): Exercise[] {
   const rand = rng(seed)
   const unique = [...new Map(pool.map(x => [x.id, x])).values()]
-  const hard = shuffle(unique.filter(x => struggle(history.get(x.id)) > 0), rand)
-    .sort((a, b) => struggle(history.get(b.id)) - struggle(history.get(a.id)))
-  const unseen = shuffle(unique.filter(x => !history.has(x.id)), rand)
-  const old = shuffle(unique.filter(x => history.has(x.id) && !struggle(history.get(x.id))), rand)
+  const hardness = (x: Exercise) => struggle(history.get(x.id)) || (tricky.size && tricky.has(wordOf(x)?.id ?? '') ? 1 : 0)
+  const hard = shuffle(unique.filter(x => hardness(x) > 0), rand)
+    .sort((a, b) => hardness(b) - hardness(a))
+  const unseen = shuffle(unique.filter(x => !history.has(x.id) && !hardness(x)), rand)
+  const old = shuffle(unique.filter(x => history.has(x.id) && !hardness(x)), rand)
     .sort((a, b) => history.get(a.id)!.at.localeCompare(history.get(b.id)!.at))
   // At most half the round is hard ones, so there's always room for something new.
   const cap = Math.ceil(n / 2)
   return shuffle([...hard.slice(0, cap), ...unseen, ...hard.slice(cap), ...old].slice(0, n), rand).map(x => freshen(x, rand))
 }
 
-/** A round with history read from your past answers. */
+/** A round with history read from your past answers, and the words you marked tricky. */
 export async function newRound(pool: Exercise[], n: number, seed = Date.now()) {
-  return pickRound(pool, n, await historyFor(pool.map(x => x.id)), seed)
+  const [history, tricky] = await Promise.all([historyFor(pool.map(x => x.id)), trickyWords()])
+  return pickRound(pool, n, history, seed, tricky)
+}
+
+/** Words marked tricky (read directly, to keep this module free of the review module). */
+async function trickyWords() {
+  const { trickyWords } = await import('./review')
+  return trickyWords()
 }

@@ -397,6 +397,8 @@ p { margin: 0 0 10px; }
 .feedback > b:first-child { display: block; font-size: 22px; margin-bottom: 6px; }
 .feedback .btn { margin-top: 10px; }
 .feedback .meaning { margin-top: 4px; }
+.feedback .practise-more { border: 1px solid color-mix(in oklab, currentColor 25%, transparent); }
+.feedback .practise-more-note { margin-top: 10px; }
 .feedback.ok { background: color-mix(in oklab, var(--color-success) 13%, var(--surface-1)); border-color: var(--color-success); }
 .feedback.ok > b:first-child { color: var(--color-success); }
 .feedback.bad { background: var(--miss-bg); border-color: var(--miss-line); }

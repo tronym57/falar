@@ -123,8 +123,33 @@ export function grade(card: Card, now: Date, g: Grade) {
   return scheduler.next(card, now, g).card
 }
 
-/** "Weak": forgotten at least twice, or currently being relearned. */
-export const isWeak = (c: ReviewCard) => c.fsrs.lapses >= 2 || c.fsrs.state === State.Relearning
+/** Days until the next review at which a tricky word counts as learned again. */
+const TRICKY_UNTIL_DAYS = 7
+/** Marked "Practise this more", and the review doesn't yet space it a week or more apart. */
+export const isTricky = (c: ReviewCard) => !!c.tricky && (c.fsrs.state !== State.Review || c.fsrs.scheduled_days < TRICKY_UNTIL_DAYS)
+
+/** "Weak": forgotten at least twice, currently being relearned, or marked as tricky. */
+export const isWeak = (c: ReviewCard) => c.fsrs.lapses >= 2 || c.fsrs.state === State.Relearning || isTricky(c)
+
+/**
+ * "Practise this more": both cards of the word come back in the review soon (graded Forgot),
+ * and stay tricky, so practice rounds and the Vocabulary drill bring it up first.
+ */
+export async function markTricky(word: { id: string; unit: number }, now = new Date()) {
+  await db.transaction('rw', db.cards, async () => {
+    for (const id of [word.id, reverseId(word.id)]) {
+      const prev = await db.cards.get(id)
+      const base: ReviewCard = prev ?? { id, unit: word.unit, fsrs: createEmptyCard(now), addedAt: now.toISOString() }
+      await db.cards.put({ ...base, tricky: now.toISOString(), fsrs: grade(base.fsrs, now, Rating.Again), introducedAt: base.introducedAt ?? now.toISOString() })
+    }
+  })
+}
+
+/** Ids of the words currently marked tricky. */
+export async function trickyWords() {
+  const cards = await db.cards.filter(c => !!c.tricky).toArray()
+  return new Set(cards.filter(isTricky).map(c => wordId(c.id)))
+}
 
 // ---------- database ----------
 /**

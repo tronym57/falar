@@ -4,7 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { db, type ReviewCard } from '../db'
 import { a1Content } from '../content'
 import { AudioRow, SlowToggle } from '../components/AudioRow'
-import { addCustomWord, cardFaces, deleteCustomWord, intervalLabel, isWeak, reverseId, State, type CardFace } from '../review'
+import { addCustomWord, cardFaces, deleteCustomWord, intervalLabel, isTricky, isWeak, reverseId, State, type CardFace } from '../review'
 import { useToast } from '../toast'
 import { rng, wordQuestions } from '../test'
 
@@ -21,6 +21,7 @@ function status(pair: ReviewCard[], unit: number, now: Date): { label: string; c
   // No review cards yet: the word joins your daily review once you finish its unit lesson.
   if (!pair.length) return { label: `Learn in Unit ${unit}`, cls: '' }
   if (pair.every(c => c.fsrs.state === State.New)) return { label: 'New', cls: 'badge-info' }
+  if (pair.some(isTricky)) return { label: 'Tricky', cls: 'badge-error' }
   if (pair.some(isWeak)) return { label: 'Weak', cls: 'badge-error' }
   if (pair.some(c => isDue(c, now))) return { label: 'Due', cls: 'badge-warning' }
   const next = Math.min(...pair.filter(c => c.fsrs.state !== State.New).map(c => +new Date(c.fsrs.due)))

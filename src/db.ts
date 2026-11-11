@@ -40,6 +40,7 @@ export type ReviewCard = {
   addedAt: string
   introducedAt?: string // first time it was shown in a review
   ex?: import('./content/types').Exercise // grammar cards (gx:…): the question, as asked when you missed it
+  tricky?: string // when you tapped "Practise this more": it comes up more until the review spaces it out
 }
 
 export type ReviewLog = { id?: number; cardId: string; rating: number; at: string }
