@@ -202,9 +202,12 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
           {!answer.result.ok && (requeue || toReview) && (
             <p className="small">{requeue && toReview ? 'This one comes back at the end, and in your daily review.' : requeue ? 'This one comes back at the end.' : 'It comes back in your daily review.'}</p>
           )}
-          {word && (more === null || more === 'saving'
-            ? <button className="btn btn-ghost btn-block btn-sm practise-more" disabled={more === 'saving'} onClick={practiseMore}>🔁 Practise this more</button>
-            : <p className="small practise-more-note">✓ {more ? `${more} more on it at the end of this round. ` : ''}It also comes up first in your review and later practice, until you know it well.</p>)}
+          {/* Only after a right answer: a wrong one comes back anyway. */}
+          {word && answer.result.ok && (
+            <button className="btn btn-ghost btn-block btn-sm practise-more" disabled={more !== null} onClick={practiseMore}>
+              {more === null ? '🔁 Practise this more' : more === 'saving' ? 'Adding…' : 'Added ✓'}
+            </button>
+          )}
           <button className={'btn btn-block btn-big ' + (answer.result.ok ? 'btn-success' : 'btn-miss')} onClick={next}>Continue</button>
         </motion.div>
       )}

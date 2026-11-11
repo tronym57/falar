@@ -145,3 +145,14 @@ describe('listening', () => {
     expect(new Set(t.map(x => x.type))).toEqual(new Set(['listen-choose', 'listen-pick', 'dictation', 'listen-gap', 'listen-dialogue']))
   })
 })
+
+describe('wrong options', () => {
+  it('look like the right one: a sentence gets sentences, a word gets words', async () => {
+    const { similarTo, rng } = await import('./test')
+    const pool = ['two', 'nine', 'a little bit', 'thank you', 'Where do you live?', 'I am from Germany.', 'Can you repeat, please?', 'See you tomorrow!']
+    const s = similarTo("I don't speak Portuguese well yet.", pool, rng(1))
+    expect(s.every(x => /[.?!]$/.test(x))).toBe(true)
+    const w = similarTo('three', pool, rng(2))
+    expect(w).toContain('two'); expect(w).toContain('nine')
+  })
+})

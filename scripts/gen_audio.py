@@ -9,26 +9,42 @@ Run via: npm run audio
 import asyncio
 import hashlib
 import json
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
 import edge_tts
 
 VOICES = {"raquel": "pt-PT-RaquelNeural", "duarte": "pt-PT-DuarteNeural"}
+# Duarte speaks fast and the start of a clip can get clipped on iOS: slower, with a little silence
+# before and after (needs ffmpeg: brew install ffmpeg).
+STYLE = {"duarte": {"rate": "-12%", "pad": (0.15, 0.25)}}
 AUDIO_DIR = Path(__file__).resolve().parent.parent / "public" / "audio"
 MANIFEST = AUDIO_DIR / "manifest.json"
 
 
 def digest(item):
-    return hashlib.sha1(f"{item['voice']}|{item['text']}".encode()).hexdigest()[:16]
+    style = STYLE.get(item["voice"])
+    return hashlib.sha1(f"{item['voice']}|{item['text']}{'|' + json.dumps(style) if style else ''}".encode()).hexdigest()[:16]
+
+
+def pad(path, before, after):
+    tmp = path.with_suffix(".tmp.mp3")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(path), "-af",
+                    f"adelay={int(before * 1000)},apad=pad_dur={after}", "-ar", "24000", "-ac", "1", "-b:a", "48k", str(tmp)], check=True)
+    tmp.replace(path)
 
 
 async def synth(item, path):
     # The free endpoint occasionally returns no audio; retry a few times.
     for attempt in range(5):
         try:
-            await edge_tts.Communicate(item["text"], VOICES[item["voice"]]).save(str(path))
+            style = STYLE.get(item["voice"], {})
+            await edge_tts.Communicate(item["text"], VOICES[item["voice"]], rate=style.get("rate", "+0%")).save(str(path))
             if path.stat().st_size > 0:
+                if "pad" in style:
+                    pad(path, *style["pad"])
                 return
         except edge_tts.exceptions.NoAudioReceived:
             pass
@@ -38,6 +54,8 @@ async def synth(item, path):
 
 async def main():
     items = json.load(sys.stdin)
+    if any(i["voice"] in STYLE for i in items) and not shutil.which("ffmpeg"):
+        sys.exit("ffmpeg is needed for the padded voices: brew install ffmpeg")
     AUDIO_DIR.mkdir(parents=True, exist_ok=True)
     manifest = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
 

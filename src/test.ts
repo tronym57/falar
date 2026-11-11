@@ -48,7 +48,7 @@ export type Extras = { verbs?: Verb[]; texts?: ReadingText[] }
 export function questionPool(units: Unit[], rand: () => number, extras: Extras = {}): Record<Part, Exercise[]> {
   const items = units.flatMap(u => [...u.phrases, ...u.vocab])
   const meanings = [...new Set(items.map(i => i.en))]
-  const distractors = (right: string) => shuffle(meanings.filter(m => m !== right), rand).slice(0, 3)
+  const distractors = (right: string) => similarTo(right, meanings, rand)
   const choice = (right: string) => {
     const options = shuffle([right, ...distractors(right)], rand)
     return { options, answer: options.indexOf(right) }
@@ -138,6 +138,20 @@ export function scoreByPart(items: Exercise[], firstTry: Record<string, boolean>
   return by
 }
 
+/**
+ * Wrong options that look like the right one: about as many words, and a sentence for a sentence,
+ * so you can't spot the answer by its shape ("two" next to "I don't speak Portuguese well yet.").
+ */
+export function similarTo(right: string, pool: string[], rand: () => number, n = 3) {
+  const words = (x: string) => x.split(/\s+/).length
+  const sentence = (x: string) => /[.?!]$/.test(x.trim())
+  return shuffle([...new Set(pool)].filter(m => m !== right), rand)
+    .map(m => ({ m, d: Math.abs(words(m) - words(right)) + (sentence(m) !== sentence(right) ? 3 : 0) + rand() * 1.5 }))
+    .sort((a, b) => a.d - b.d)
+    .slice(0, n)
+    .map(x => x.m)
+}
+
 // ---------- practice right after a lesson ----------
 export const LESSON_LENGTH = 10
 
@@ -149,7 +163,7 @@ export const LESSON_LENGTH = 10
 export function lessonQuestions(unit: Unit, step: string, seed = Date.now()): Exercise[] {
   const rand = rng(seed)
   const choiceFrom = (right: string, pool: string[]) => {
-    const others = shuffle([...new Set(pool)].filter(m => m !== right), rand).slice(0, 3)
+    const others = similarTo(right, pool, rand)
     const options = shuffle([right, ...others], rand)
     return { options, answer: options.indexOf(right) }
   }
@@ -189,7 +203,7 @@ export type Word = { id: string; pt: string; en: string; custom?: boolean }
  */
 export function wordQuestions(words: Word[], meanings: string[], prefix: string, rand: () => number): Exercise[] {
   const choiceFrom = (right: string) => {
-    const others = shuffle([...new Set(meanings)].filter(m => m !== right), rand).slice(0, 3)
+    const others = similarTo(right, meanings, rand)
     const options = shuffle([right, ...others], rand)
     return { options, answer: options.indexOf(right) }
   }
