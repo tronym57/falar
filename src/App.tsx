@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, NavLink, Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
 import Home from './screens/Home'
 import Course from './screens/Course'
@@ -28,6 +28,13 @@ const tabs = [
   { to: '/vocab', label: 'Vocab', icon: <path d="M4 6h16M4 12h16M4 18h10" /> },
   { to: '/settings', label: 'Settings', icon: <><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" /></> },
 ]
+
+/** The tab a screen belongs to (the Course tab owns the units, Practice its sub-screens). */
+function tabOf(path: string) {
+  if (path === '/course' || path.startsWith('/unit/')) return '/course'
+  if (/^\/(practice|grammar|verbs|reading|talk|drill)(\/|$)/.test(path)) return '/practice'
+  return tabs.some(t => t.to === path) ? path : null
+}
 
 // Full-screen modes (exercises, tests, review) hide the header and tab bar.
 const IMMERSIVE = /^\/(unit\/\d+\/(exercises|check|[a-z]+\/practice|grammar\/[^/]+\/practice)|review|practice\/test|drill\/.*|reading\/[^/]+\/questions|talk\/[^/]+)$/
@@ -71,6 +78,13 @@ export default function App() {
   }, [pathname, navType, jump])
   // Remember where you are, so reopening the app lands on the same screen (see main.tsx).
   useEffect(() => { kv.set(LAST_ROUTE, pathname) }, [pathname])
+  // Each tab remembers its last screen, so switching tabs and back returns there (like iOS apps).
+  // Full-screen practice isn't remembered: you come back to the screen you started it from.
+  const lastIn = useRef<Record<string, string>>({})
+  useEffect(() => {
+    const tab = tabOf(pathname)
+    if (tab && !IMMERSIVE.test(pathname)) lastIn.current[tab] = pathname
+  }, [pathname])
   useEffect(() => audio.onError(() => toast("Couldn't play this audio. If you're offline, open the app once with a connection.", 'error')), [toast])
   if (welcome === null) return null
   if (welcome) return <Welcome onDone={() => { kv.set('falar.onboarded', '1'); setWelcome(false) }} />
@@ -119,9 +133,10 @@ export default function App() {
       {!immersive && <nav className="dock">
         {tabs.map(t => {
           // Inside a unit, keep the Course tab highlighted; same for Practice sub-screens.
-          const active = pathname === t.to || (t.to === '/course' && pathname.startsWith('/unit/')) || (t.to === '/practice' && /^\/(practice\/|grammar\/|verbs\/|reading|talk)/.test(pathname))
+          const active = tabOf(pathname) === t.to
+          // Tapping the tab you're in goes to its start; another tab opens where you left it.
           return (
-          <NavLink key={t.to} to={t.to} end className={active ? 'dock-active' : ''}>
+          <NavLink key={t.to} to={active ? t.to : lastIn.current[t.to] ?? t.to} end className={active ? 'dock-active' : ''}>
             <span className="dock-icon">
               {active && <motion.span layoutId="dock-pill" className="dock-pill" transition={{ type: 'spring', stiffness: 500, damping: 38 }} />}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{t.icon}</svg>

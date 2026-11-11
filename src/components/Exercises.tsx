@@ -40,7 +40,7 @@ export function ExerciseView({ ex, locked, onAnswer }: { ex: Exercise; locked: b
     case 'sentence-builder':
       return <SentenceBuilder ex={ex} locked={locked} onAnswer={onAnswer} />
     case 'translate':
-      return <Typed ex={ex} locked={locked} onAnswer={onAnswer} prompt={<>Translate into Portuguese:<span className="ex-prompt">{ex.en}</span></>} answers={ex.answers} />
+      return <Typed ex={ex} locked={locked} onAnswer={onAnswer} prompt={<>Translate into Portuguese:<PromptText text={ex.en} /></>} answers={ex.answers} />
     case 'conjugation':
       return <Typed ex={ex} locked={locked} onAnswer={onAnswer} prompt={<>Conjugate <b>{ex.verb}</b>:<span className="ex-prompt">{ex.person} …</span></>} answers={ex.answers} />
     case 'verb-table':
@@ -88,7 +88,7 @@ function Choose({ ex, locked, onAnswer }: Props<'listen-choose' | 'listen-pick' 
           <BigPlay clip={ex.audio} />
         </>
       ) : (
-        <p className="ex-label"><span className="ex-prompt">{ex.prompt}</span></p>
+        <p className="ex-label"><PromptText text={ex.prompt} /></p>
       )}
       <div className="options">
         {ex.options.map((o, i) => (
@@ -224,10 +224,10 @@ function Speak({ ex, locked, onAnswer }: Props<'speak'>) {
               </button>
             </div>
           </div>
-          <p className="ex-label">Your reply, out loud:<span className="ex-prompt">{ex.prompt}</span></p>
+          <p className="ex-label">Your reply, out loud:<PromptText text={ex.prompt} /></p>
         </>
       ) : (
-        <p className="ex-label">Say it in Portuguese:<span className="ex-prompt">{ex.prompt}</span></p>
+        <p className="ex-label">Say it in Portuguese:<PromptText text={ex.prompt} /></p>
       )}
 
       {!selfCheck && !locked && (
@@ -351,7 +351,7 @@ function SentenceBuilder({ ex, locked, onAnswer }: Props<'sentence-builder'>) {
 
   return (
     <>
-      <p className="ex-label">Build the sentence:<span className="ex-prompt">{ex.en}</span></p>
+      <p className="ex-label">Build the sentence:<PromptText text={ex.en} /></p>
       <div className="built">
         {chosen.length === 0 && <span className="muted">Tap words to add them here</span>}
         {chosen.map(i => (
@@ -494,4 +494,10 @@ function TypedInput({ locked, onSubmit }: { locked: boolean; onSubmit: (v: strin
       )}
     </>
   )
+}
+
+/** The prompt in big type; a trailing note like "(said by a woman)" goes on its own smaller line. */
+function PromptText({ text }: { text: string }) {
+  const m = text.match(/^(.+?)\s*(\([^()]+\))$/)
+  return <span className="ex-prompt">{m ? <>{m[1]}<span className="ex-hint">{m[2]}</span></> : text}</span>
 }
