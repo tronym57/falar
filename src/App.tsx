@@ -19,6 +19,7 @@ import { registerSW } from 'virtual:pwa-register'
 import { MotionConfig, motion } from 'motion/react'
 import { hasLocalData, startAutoBackup } from './backup'
 import { Welcome } from './components/Backup'
+import Ask from './screens/Ask'
 import { LAST_ROUTE, kv } from './kv'
 
 const tabs = [
@@ -99,6 +100,7 @@ export default function App() {
             <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" width={28} height={28} />
             <span>Falo Português</span>
           </Link>
+          <Link to="/ask" className="appbar-ask" aria-label="Ask what to say">💬 Ask</Link>
         </header>
       )}
       {/* Each screen fades and rises in. Ends at transform: none, so fixed panels inside still work. */}
@@ -113,6 +115,7 @@ export default function App() {
         <Route path="/unit/:n/:step/practice" element={<LessonRunner />} />
         <Route path="/unit/:n/grammar/:topic/practice" element={<GrammarDrill inLesson />} />
         <Route path="/review" element={<Review />} />
+        <Route path="/ask" element={<Ask />} />
         <Route path="/practice" element={<PracticeHub />} />
         <Route path="/practice/test" element={<TestRunner />} />
         <Route path="/practice/grammar" element={<GrammarReference />} />

@@ -20,6 +20,8 @@ export type PracticeSession = {
   startedAt: string
   items?: import('./content/types').Exercise[] // this round's questions
   pool?: import('./content/types').Exercise[] // generated drills: everything a new round can draw from
+  route?: string // the screen it runs on, so Home can take you back to it
+  updatedAt?: string // last answer
 }
 
 export type Attempt = {

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { motion } from 'motion/react'
 import { StreakLine } from '../components/Streak'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import type { Exercise } from '../content/types'
 import { db, type PracticeSession } from '../db'
 import { ExerciseView, needsKeyboard, type Answer } from '../components/Exercises'
@@ -45,6 +45,7 @@ type Props = {
  */
 export default function Practice({ sessionKey, items: fixed, nextRound, mode, unit, step, closeTo, next: nextTopic }: Props) {
   const toast = useToast()
+  const route = useLocation().pathname
   const [items, setItems] = useState<Exercise[]>(fixed ?? [])
   const byId = Object.fromEntries(items.map(x => [x.id, x])) as Record<string, Exercise>
   const requeue = mode === 'exercises' || mode === 'drill' || mode === 'lesson'
@@ -68,7 +69,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
     const valid = (xs: Exercise[]) => !!s?.queue.length && s.queue.every(id => xs.some(x => x.id === id))
     if (!s || !valid(list)) {
       list = nextRound ? await nextRound() : pool.current ? await newRound(pool.current.items, pool.current.size) : fixed ?? []
-      s = { key: sessionKey, queue: list.map(x => x.id), total: list.length, firstTry: {}, startedAt: new Date().toISOString(), items: list, pool: pool.current?.items }
+      s = { key: sessionKey, queue: list.map(x => x.id), total: list.length, firstTry: {}, startedAt: new Date().toISOString(), items: list, pool: pool.current?.items, route }
       await db.sessions.put(s)
     }
     setItems(list)
@@ -153,7 +154,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
       const firstTry = current.id in session.firstTry ? session.firstTry : { ...session.firstTry, [current.id]: ok }
       const queue = session.queue.slice(1)
       if (!ok && requeue) queue.push(current.id)
-      const s = { ...session, queue, firstTry }
+      const s = { ...session, queue, firstTry, route, updatedAt: new Date().toISOString() }
 
       if (!queue.length) {
         const score = Object.values(firstTry).filter(Boolean).length / session.total

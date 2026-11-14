@@ -219,6 +219,19 @@ p { margin: 0 0 10px; }
 .appbar-home { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; transition: opacity 90ms ease, transform 90ms ease; }
 .appbar-home:active { opacity: 0.6; transform: scale(0.97); }
 .appbar + .screen { padding-top: 16px; }
+.appbar-ask { margin-left: auto; padding: 6px 14px; border-radius: 99px; background: var(--tonal-bg); color: var(--tonal-fg);
+  font-size: 15px; font-weight: 600; text-decoration: none; transition: transform 90ms ease, opacity 90ms ease; }
+.appbar-ask:active { transform: scale(0.95); opacity: 0.7; }
+/* Ask */
+.ask-form { display: flex; flex-direction: column; gap: 10px; }
+.ask-input { font-size: 17px; resize: none; }
+.ask-q { font-weight: 600; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.ask-say { padding: 10px 0; }
+.ask-say + .ask-say { border-top: 1px solid var(--line); }
+.ask-pt { font-size: 19px; font-weight: 600; line-height: 1.4; }
+.ask-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.ask-note { margin-top: 8px; color: var(--muted); }
+.continue-row { color: inherit; text-decoration: none; }
 .dock { border-top: 1px solid var(--line); height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
   background: var(--surface-1); box-shadow: 0 -2px 12px rgb(16 48 34 / 0.06); }
 .dock a { color: var(--muted); text-decoration: none; transition: transform 90ms ease; gap: 4px; }

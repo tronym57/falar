@@ -32,13 +32,18 @@ export class AiError extends Error {
 }
 
 async function call(path: string, key: string, init: RequestInit = {}) {
+  return (await request(path, key, init)).json()
+}
+
+/** The response when it's OK; otherwise a plain-English AiError. */
+async function request(path: string, key: string, init: RequestInit = {}) {
   let res: Response
   try {
     res = await fetch(`${API}/${path}`, { ...init, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key, ...init.headers } })
   } catch {
     throw new AiError('offline', navigator.onLine === false ? 'No connection. This needs the internet.' : "Couldn't reach Google. Check your connection and try again.")
   }
-  if (res.ok) return res.json()
+  if (res.ok) return res
   const body = await res.json().catch(() => null) as { error?: { message?: string; status?: string } } | null
   const msg = body?.error?.message ?? res.statusText
   if (res.status === 429) throw new AiError('quota', 'The free Gemini limit is reached for the moment. Wait a minute and try again.')
@@ -135,3 +140,55 @@ export const EUROPEAN_RULES = `Write ONLY European Portuguese as spoken in Portu
 - Portuguese words: pequeno-almoço, autocarro, comboio, telemóvel, casa de banho, sumo, gelado, ementa, empregado, talho, sandes, fixe, rapariga, miúdo, percebi.
 - Spelling from Portugal: facto, receção, ótimo, António, económico, ténis, bebé, catorze, dezasseis, dezanove.
 - Avoid "você" with strangers (use the verb alone or "o senhor / a senhora") and avoid "a gente".`
+
+// ---------- live text ----------
+/**
+ * Stream a plain-text answer: `onText` gets the whole text so far, as it arrives.
+ * Resolves with the full text. `signal` cancels it (e.g. when you leave the screen).
+ */
+export async function streamText(opts: { system: string; turns: Turn[]; temperature?: number; signal?: AbortSignal; onText: (text: string) => void }, retried = false): Promise<string> {
+  const key = aiKey()
+  if (!key) throw new AiError('key', 'Connect your Gemini API key first.')
+  const model = aiModel() ?? await pickModel(key)
+  const generationConfig: Record<string, unknown> = { temperature: opts.temperature ?? 0.4 }
+  if (/2\.5-flash/.test(model)) generationConfig.thinkingConfig = { thinkingBudget: 0 }
+  let res: Response
+  try {
+    res = await request(`${model}:streamGenerateContent?alt=sse`, key, {
+      method: 'POST',
+      signal: opts.signal,
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: opts.system }] },
+        contents: opts.turns.map(t => ({ role: t.role, parts: [{ text: t.text }] })),
+        generationConfig,
+      }),
+    })
+  } catch (e) {
+    if (!retried && e instanceof AiError && e.message.startsWith('not-found')) {
+      kv.remove(K.model)
+      return streamText(opts, true)
+    }
+    throw e
+  }
+  if (!res.body) throw new AiError('other', 'This browser cannot show answers live.')
+  const reader = res.body.pipeThrough(new TextDecoderStream()).getReader()
+  let text = '', buffer = '', reason = ''
+  for (;;) {
+    const { value, done } = await reader.read()
+    if (done) break
+    buffer += value
+    // Server-sent events: one "data: {json}" per chunk, separated by blank lines.
+    const events = buffer.split(/\r?\n\r?\n/)
+    buffer = events.pop() ?? ''
+    for (const ev of events) {
+      const data = ev.split(/\r?\n/).filter(l => l.startsWith('data:')).map(l => l.slice(5).trim()).join('')
+      if (!data) continue
+      const c = (JSON.parse(data) as { candidates?: { content?: { parts?: { text?: string }[] }; finishReason?: string }[] }).candidates?.[0]
+      text += c?.content?.parts?.map(p => p.text ?? '').join('') ?? ''
+      reason = c?.finishReason ?? reason
+      opts.onText(text)
+    }
+  }
+  if (!text) throw new AiError('blocked', reason === 'SAFETY' ? 'Gemini refused to answer that. Try saying it differently.' : 'Gemini sent an empty answer. Try again.')
+  return text
+}

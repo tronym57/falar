@@ -7,6 +7,7 @@ import { useToast } from '../toast'
 import { StreakCard } from '../components/Streak'
 import { useAi } from '../ai'
 import { dailyPhrase, greeting } from '../greeting'
+import { openPractices, practiceTitle } from '../openPractice'
 
 const standalone =
   (navigator as Navigator & { standalone?: boolean }).standalone === true ||
@@ -25,6 +26,7 @@ export default function Home() {
     .map(u => ({ u, step: nextStep(u.n, all.progress) }))
     .find(x => x.step)
   const session = target && all.sessions.find(s => s.key === `${target.u.n}:${target.step!.slug}`)
+  const open = all ? openPractices(all.sessions, all.progress) : []
 
   return (
     <main className="screen">
@@ -56,6 +58,27 @@ export default function Home() {
           <span className="sub">More units are coming</span>
         </button>
       )}
+
+      {open.length > 0 && <>
+        <p className="section-label">Pick up where you stopped</p>
+        <div className="card step-list">
+          {open.slice(0, 3).map(({ s, answered, to }) => (
+            <Link key={s.key} className="row tap continue-row" to={to}>
+              <span>
+                <span className="step-title">{practiceTitle(s.key)}</span>
+                <span className="small block muted">{answered} of {s.total} answered</span>
+              </span>
+              <span className="step-chev">›</span>
+            </Link>
+          ))}
+        </div>
+      </>}
+
+      <Link className="card tap" to="/ask">
+        <span className="chev">›</span>
+        <h2>💬 Not sure what to say?</h2>
+        <p className="muted">Ask for a phrase or a word, and save it to practise later.</p>
+      </Link>
 
       <p className="section-label">Practice</p>
 
