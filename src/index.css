@@ -223,6 +223,8 @@ p { margin: 0 0 10px; }
   font-size: 15px; font-weight: 600; text-decoration: none; transition: transform 90ms ease, opacity 90ms ease; }
 .appbar-ask:active { transform: scale(0.95); opacity: 0.7; }
 /* Ask */
+.title-row { display: flex; align-items: center; gap: 4px; margin-bottom: 16px; }
+.title-row h1 { margin: 0; }
 .ask-form { display: flex; flex-direction: column; gap: 10px; }
 .ask-input { font-size: 17px; resize: none; }
 .ask-q { font-weight: 600; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }

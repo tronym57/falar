@@ -54,8 +54,10 @@ export default function Ask() {
   return (
     <main className="screen">
       {/* Back to where you opened it from; Home if the app was opened straight here. */}
-      <button className="btn btn-ghost btn-sm -ml-3 text-primary" onClick={() => (window.history.state?.idx ?? 0) > 0 ? navigate(-1) : navigate('/')}>‹ Back</button>
-      <h1 style={{ marginTop: 12 }}>Ask</h1>
+      <div className="title-row">
+        <button className="btn btn-ghost btn-circle btn-sm text-2xl text-primary -ml-2" aria-label="Back" onClick={() => (window.history.state?.idx ?? 0) > 0 ? navigate(-1) : navigate('/')}>‹</button>
+        <h1>Ask</h1>
+      </div>
       {!connected ? <AiSetup /> : (
         <form className="card ask-form" onSubmit={e => { e.preventDefault(); ask() }}>
           <textarea className="textarea w-full ask-input" rows={2} value={q} onChange={e => setQ(e.target.value)} placeholder="A situation, question or word"
