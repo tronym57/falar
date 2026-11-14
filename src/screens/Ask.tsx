@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
+import { useNavigate } from 'react-router-dom'
 import { audio, useAudio } from '../audio'
 import { AiError, streamText, useAi } from '../ai'
 import { AiSetup } from '../components/AiSetup'
@@ -14,6 +15,7 @@ const fold = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,
 /** Ask what to say: answers stream in live; each phrase can be played and saved to My words. */
 export default function Ask() {
   const toast = useToast()
+  const navigate = useNavigate()
   const { connected } = useAi()
   const [list, setList] = useState<Asked[]>(loadAsked)
   const [q, setQ] = useState('')
@@ -51,8 +53,9 @@ export default function Ask() {
 
   return (
     <main className="screen">
-      <h1>Ask</h1>
-      <p className="muted" style={{ marginBottom: 16 }}>Not sure what to say? Describe the situation, ask a question, or type a word, in English or Portuguese.</p>
+      {/* Back to where you opened it from; Home if the app was opened straight here. */}
+      <button className="btn btn-ghost btn-sm -ml-3 text-primary" onClick={() => (window.history.state?.idx ?? 0) > 0 ? navigate(-1) : navigate('/')}>‹ Back</button>
+      <h1 style={{ marginTop: 12 }}>Ask</h1>
       {!connected ? <AiSetup /> : (
         <form className="card ask-form" onSubmit={e => { e.preventDefault(); ask() }}>
           <textarea className="textarea w-full ask-input" rows={2} value={q} onChange={e => setQ(e.target.value)} placeholder="e.g. At the pharmacy, I need something for a cough"
