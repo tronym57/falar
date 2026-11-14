@@ -58,7 +58,7 @@ export default function Ask() {
       <h1 style={{ marginTop: 12 }}>Ask</h1>
       {!connected ? <AiSetup /> : (
         <form className="card ask-form" onSubmit={e => { e.preventDefault(); ask() }}>
-          <textarea className="textarea w-full ask-input" rows={2} value={q} onChange={e => setQ(e.target.value)} placeholder="e.g. At the pharmacy, I need something for a cough"
+          <textarea className="textarea w-full ask-input" rows={2} value={q} onChange={e => setQ(e.target.value)} placeholder="A situation, question or word"
             onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask() } }} />
           <button className="btn btn-primary btn-block btn-big" disabled={!!live}>{live ? 'Answering…' : 'Ask'}</button>
           <p className="small muted">Your question goes to Google Gemini.</p>
