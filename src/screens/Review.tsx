@@ -172,6 +172,7 @@ function GrammarCard({ ex, unit, onGrade }: { ex: Exercise; unit: number; onGrad
           <b>{ok ? 'Correct! ✓' : 'Not quite'}</b>
           {answer.result.ok && answer.result.note && <p>{answer.result.note}</p>}
           {!ok && <p>Correct answer: <b>{answer.result.expected}</b></p>}
+          {!ok && answer.result.note && <p className="why">{answer.result.note}</p>}
           {t && <p className="meaning"><b lang="pt-PT">{t.pt}</b> = {t.en}</p>}
           <p className="small">{ok ? 'It comes back later, with a longer gap each time you get it right.' : 'It comes back again soon.'}</p>
           <button className={'btn btn-block btn-big ' + (ok ? 'btn-success' : 'btn-miss')} onClick={() => onGrade(ok ? Rating.Good : Rating.Again)}>Continue</button>

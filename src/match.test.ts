@@ -22,9 +22,28 @@ describe('check', () => {
   })
 
   it('accepts one typo in longer answers, with a note', () => {
-    const r = check('desculpe não percebe', answers)
+    const r = check('desculpe não percevi', answers)
     expect(r.ok).toBe(true)
     expect(r.ok && r.note).toMatch(/typo/)
+  })
+
+  it('a different real word is a mistake, not a typo, and says why', () => {
+    const r = check('de onde és', ['De onde é?'])
+    expect(r.ok).toBe(false)
+    expect(r.note).toMatch(/ser for tu.*“é” \(ele\/ela\/você\)/)
+    const r2 = check('como se chamas', ['Como te chamas?', 'Como se chama?'])
+    expect(r2).toMatchObject({ ok: false, expected: 'Como te chamas?' })
+    expect(r2.note).toMatch(/“se” goes with ele\/ela\/você. Here it’s “te” \(tu\)/)
+    expect(check('desculpe não percebe', answers).ok).toBe(false) // percebe (present) ≠ percebi (past)
+  })
+
+  it('accepts a subject pronoun that fits the verb, and leaving one out', () => {
+    const r = check('eu sou alemão', ['Sou alemão.'])
+    expect(r).toMatchObject({ ok: true, expected: 'Sou alemão.' })
+    expect(r.ok && r.note).toMatch(/“Eu” is fine/)
+    expect(check('sou alemão', ['Eu sou alemão.']).ok).toBe(true)
+    expect(check('tu sou alemão', ['Sou alemão.']).ok).toBe(false)
+    expect(check('eu sou alemao', ['Sou alemão.']).ok).toBe(true)
   })
 
   it('does not forgive typos in short answers', () => {

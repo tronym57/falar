@@ -576,3 +576,11 @@ p { margin: 0 0 10px; }
 .ask-refine { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
 .ask-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .ask-refine-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+/* Answer feedback: why a near-miss is wrong; "I don't know" under Check */
+.feedback .why { font-size: 15px; opacity: .9; }
+.dont-know { margin-top: 8px; color: var(--muted); }
+
+/* Desenrasca: the question is the card's title, stronger than the answers under it */
+.ask-q { font-size: 21px; font-weight: 700; line-height: 1.3; }
+.ask-refined .ask-q { font-size: 18px; }

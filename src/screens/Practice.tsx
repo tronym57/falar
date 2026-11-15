@@ -197,6 +197,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
             const same = t && t.pt === answer.result.expected
             return <>
               {!answer.result.ok && <p>Correct answer: <b>{answer.result.expected}</b>{same && <> = {t.en}</>}</p>}
+              {!answer.result.ok && answer.result.note && <p className="why">{answer.result.note}</p>}
               {t && !(same && !answer.result.ok) && <p className="meaning"><b lang="pt-PT">{t.pt}</b> = {t.en}</p>}
             </>
           })()}

@@ -367,7 +367,10 @@ function SentenceBuilder({ ex, locked, onAnswer }: Props<'sentence-builder'>) {
           }}>{t.v}</button>
         ))}
       </div>
-      {!locked && <button className="btn btn-primary btn-block btn-big check-btn" onClick={submit}>Check</button>}
+      {!locked && <>
+        <button className="btn btn-primary btn-block btn-big check-btn" onClick={submit}>Check</button>
+        <button className="btn btn-ghost btn-block dont-know" onClick={() => onAnswer({ given: '', result: check('', [ex.answer]) })}>I don’t know, show me</button>
+      </>}
     </>
   )
 }
@@ -490,6 +493,7 @@ function TypedInput({ locked, onSubmit }: { locked: boolean; onSubmit: (v: strin
             {ACCENTS.map(a => <button key={a} className="btn btn-sm tile" onPointerDown={e => e.preventDefault()} onClick={() => insert(a)}>{a}</button>)}
           </div>
           <button className="btn btn-primary btn-block btn-big check-btn" onClick={submit}>Check</button>
+          <button className="btn btn-ghost btn-block dont-know" onClick={() => onSubmit('')}>I don’t know, show me</button>
         </>
       )}
     </>
