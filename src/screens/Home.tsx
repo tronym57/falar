@@ -30,16 +30,18 @@ export default function Home() {
 
   return (
     <main className="screen">
+      {!standalone && (
+        <div className="info-banner" role="note">
+          <span className="info-icon" aria-hidden>ⓘ</span>
+          <div>
+            <b>Install the app</b>
+            <p>Tap Share → <b>Add to Home Screen</b>, then open Falo Português from the icon. Your progress is saved there, not in this browser tab.</p>
+          </div>
+        </div>
+      )}
       <h1 style={{ marginBottom: 2 }}>{greeting(name)} 👋</h1>
       <p className="muted" style={{ marginBottom: 16 }}><span lang="pt-PT">{phrase.pt}</span> · {phrase.en}</p>
       <StreakCard />
-
-      {!standalone && (
-        <div className="card">
-          <h2>Install the app</h2>
-          <p className="muted">Tap Share → <b>Add to Home Screen</b>, then open Falo Português from the icon. Your progress is saved there, not in this browser tab.</p>
-        </div>
-      )}
 
       {!all ? null : target ? (
         <Link className="hero-cta" to={`/unit/${target.u.n}/${target.step!.slug}`}>

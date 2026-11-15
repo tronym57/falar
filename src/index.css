@@ -560,3 +560,11 @@ p { margin: 0 0 10px; }
 /* A screen's back/Slow row that stays just under the sticky app bar (55px tall). */
 .sticky-head { position: sticky; top: calc(env(safe-area-inset-top) + 55px); z-index: 3; background: var(--surface);
   margin: -8px -20px 0; padding: 8px 20px; }
+
+/* Info banner: flat, blue-tinted, not tappable, so it doesn't read as a card. */
+.info-banner { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 20px; padding: 14px 16px;
+  border-radius: var(--radius-box); border-left: 4px solid var(--color-info);
+  background: color-mix(in oklab, var(--color-info) 10%, var(--surface)); }
+.info-banner b { color: var(--text); }
+.info-banner p { margin: 2px 0 0; font-size: 15px; line-height: 1.45; color: var(--muted); }
+.info-icon { font-size: 20px; line-height: 1.2; color: var(--color-info); font-weight: 700; }
