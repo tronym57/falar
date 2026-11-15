@@ -38,7 +38,8 @@ export default function UnitStep() {
 
   return (
     <main className="screen">
-      <div className="step-head">
+      {/* Stays under the app bar while you scroll, so back and Slow are always in reach. */}
+      <div className="step-head sticky-head">
         <Link className="btn btn-ghost btn-sm -ml-3 text-primary" to={`/unit/${unit.n}`} onClick={() => audio.stop()}>‹ Unit {unit.n}</Link>
         <SlowToggle />
       </div>

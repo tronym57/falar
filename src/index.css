@@ -556,3 +556,7 @@ p { margin: 0 0 10px; }
 .stat-bar .new, .dot.new { background: var(--line); }
 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
 .streak-more { font-size: 20px; color: var(--muted); margin-left: auto; }
+
+/* A screen's back/Slow row that stays just under the sticky app bar (55px tall). */
+.sticky-head { position: sticky; top: calc(env(safe-area-inset-top) + 55px); z-index: 3; background: var(--surface);
+  margin: -8px -20px 0; padding: 8px 20px; }
