@@ -568,3 +568,11 @@ p { margin: 0 0 10px; }
 .info-banner b { color: var(--text); }
 .info-banner p { margin: 2px 0 0; font-size: 15px; line-height: 1.45; color: var(--muted); }
 .info-icon { font-size: 20px; line-height: 1.2; color: var(--color-info); font-weight: 700; }
+
+/* Desenrasca: refinements, waiting */
+.ask-refined { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.ask-wait { display: flex; align-items: center; gap: 10px; color: var(--muted); margin: 4px 0; }
+.ask-refine-open { margin-top: 8px; margin-left: -8px; color: var(--tonal-fg); }
+.ask-refine { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.ask-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ask-refine-actions { display: flex; justify-content: flex-end; gap: 8px; }

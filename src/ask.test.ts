@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { contextTurns, parseAnswer } from './ask'
+import { contextTurns, parseAnswer, threadTurns } from './ask'
+import { quickThinking } from './ai'
 import { openPractices, practiceTitle } from './openPractice'
 import type { PracticeSession } from './db'
 
@@ -31,5 +32,23 @@ describe('pick up where you stopped', () => {
   it('leaves out an old practice of a step done since', () => {
     const progress = [{ key: '0:vocab', unit: 0, step: 'vocab', done: true, updatedAt: '2026-11-12' }]
     expect(openPractices([s('lesson-0-vocab', 2, '2026-11-10')], progress)).toEqual([])
+  })
+})
+
+describe('refining an answer', () => {
+  it('sends only that question’s thread, then the refinement', () => {
+    const x = { id: '1', q: 'parcel', a: 'PT: a', at: '', more: [{ q: 'more polite', a: 'PT: b' }] }
+    expect(threadTurns(x, 'it was ordered online').map(t => `${t.role}:${t.text}`))
+      .toEqual(['user:parcel', 'model:PT: a', 'user:more polite', 'model:PT: b', 'user:it was ordered online'])
+  })
+})
+
+describe('quick thinking', () => {
+  const cfg = (model: string) => { const c: Record<string, unknown> = {}; quickThinking(model, c); return c.thinkingConfig }
+  it('turns thinking off on 2.5 Flash and down on Gemini 3 and later', () => {
+    expect(cfg('models/gemini-2.5-flash')).toEqual({ thinkingBudget: 0 })
+    expect(cfg('models/gemini-3-flash')).toEqual({ thinkingLevel: 'low' })
+    expect(cfg('models/gemini-4.1-flash')).toEqual({ thinkingLevel: 'low' })
+    expect(cfg('models/gemini-2.0-flash')).toBeUndefined()
   })
 })

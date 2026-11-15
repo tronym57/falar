@@ -87,14 +87,22 @@ export async function connectAi(key: string) {
 // ---------- JSON generation ----------
 export type Turn = { role: 'user' | 'model'; text: string }
 
+/**
+ * Flash models "think" before the first word by default, which can take many seconds.
+ * 2.5 turns it off with a budget of 0; Gemini 3 and later take a level instead ("low" works on all of them).
+ */
+export function quickThinking(model: string, config: Record<string, unknown>) {
+  if (/gemini-2\.5-flash/.test(model)) config.thinkingConfig = { thinkingBudget: 0 }
+  else if (/gemini-([3-9]|\d{2,})/.test(model)) config.thinkingConfig = { thinkingLevel: 'low' }
+}
+
 /** One request; the reply must match `schema` (Gemini's OpenAPI subset). */
 export async function generateJson<T>(opts: { system: string; turns: Turn[]; schema: object; temperature?: number }, retried = false): Promise<T> {
   const key = aiKey()
   if (!key) throw new AiError('key', 'Connect your Gemini API key first.')
   const model = aiModel() ?? await pickModel(key)
   const generationConfig: Record<string, unknown> = { responseMimeType: 'application/json', responseSchema: opts.schema, temperature: opts.temperature ?? 0.7 }
-  // 2.5 Flash "thinks" before answering by default; a chat reply should be quick.
-  if (/2\.5-flash/.test(model)) generationConfig.thinkingConfig = { thinkingBudget: 0 }
+  quickThinking(model, generationConfig)
   try {
     const data = await call(`${model}:generateContent`, key, {
       method: 'POST',
@@ -151,7 +159,7 @@ export async function streamText(opts: { system: string; turns: Turn[]; temperat
   if (!key) throw new AiError('key', 'Connect your Gemini API key first.')
   const model = aiModel() ?? await pickModel(key)
   const generationConfig: Record<string, unknown> = { temperature: opts.temperature ?? 0.4 }
-  if (/2\.5-flash/.test(model)) generationConfig.thinkingConfig = { thinkingBudget: 0 }
+  quickThinking(model, generationConfig)
   let res: Response
   try {
     res = await request(`${model}:streamGenerateContent?alt=sse`, key, {

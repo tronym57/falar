@@ -37,7 +37,8 @@ export function parseAnswer(text: string): Block[] {
 }
 
 // ---------- your questions, kept on this phone ----------
-export type Asked = { id: string; q: string; a: string; at: string }
+/** A question, its answer, and any refinements you asked for after it ("more polite", "it's for a parcel I ordered online"). */
+export type Asked = { id: string; q: string; a: string; at: string; more?: { q: string; a: string }[] }
 const KEY = 'falar.ask.history'
 const KEEP = 30
 
@@ -49,4 +50,10 @@ export function saveAsked(list: Asked[]) { kv.set(KEY, JSON.stringify(list.slice
 /** The last few questions and answers (oldest first), so a follow-up like "and more polite?" works. */
 export function contextTurns(list: Asked[], q: string): Turn[] {
   return [...list.slice(0, 3).reverse().flatMap(x => [{ role: 'user', text: x.q }, { role: 'model', text: x.a }] as Turn[]), { role: 'user', text: q }]
+}
+
+/** A refinement: the whole thread of that one question (oldest first), then what you want changed or added. */
+export function threadTurns(x: Asked, q: string): Turn[] {
+  const pairs = [{ q: x.q, a: x.a }, ...(x.more ?? [])]
+  return [...pairs.flatMap(p => [{ role: 'user', text: p.q }, { role: 'model', text: p.a }] as Turn[]), { role: 'user', text: q }]
 }
