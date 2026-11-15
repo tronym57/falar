@@ -56,13 +56,13 @@ export default function Ask() {
       {/* Back to where you opened it from; Home if the app was opened straight here. */}
       <div className="title-row">
         <button className="btn btn-ghost btn-circle btn-sm text-2xl text-primary -ml-2" aria-label="Back" onClick={() => (window.history.state?.idx ?? 0) > 0 ? navigate(-1) : navigate('/')}>‹</button>
-        <h1>Ask</h1>
+        <h1>Desenrasca</h1>
       </div>
       {!connected ? <AiSetup /> : (
         <form className="card ask-form" onSubmit={e => { e.preventDefault(); ask() }}>
           <textarea className="textarea w-full ask-input" rows={2} value={q} onChange={e => setQ(e.target.value)} placeholder="A situation, question or word"
             onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask() } }} />
-          <button className="btn btn-primary btn-block btn-big" disabled={!!live}>{live ? 'Answering…' : 'Ask'}</button>
+          <button className="btn btn-primary btn-block btn-big" disabled={!!live}>{live ? 'Answering…' : 'Help me say it'}</button>
           <p className="small muted">Your question goes to Google Gemini.</p>
         </form>
       )}

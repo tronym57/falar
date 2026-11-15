@@ -77,7 +77,7 @@ export default function Home() {
       <Link className="card tap" to="/ask">
         <span className="chev">›</span>
         <h2>💬 Not sure what to say?</h2>
-        <p className="muted">Ask for a phrase or a word, and save it to practise later.</p>
+        <p className="muted">Desenrasca gives you a phrase or a word, and you can save it to practise later.</p>
       </Link>
 
       <p className="section-label">Practice</p>

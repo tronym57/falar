@@ -100,7 +100,7 @@ export default function App() {
             <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" width={28} height={28} />
             <span>Falo Português</span>
           </Link>
-          <Link to="/ask" className="appbar-ask" aria-label="Ask what to say">💬 Ask</Link>
+          <Link to="/ask" className="appbar-ask" aria-label="Desenrasca: help with what to say">💬 Desenrasca</Link>
         </header>
       )}
       {/* Each screen fades and rises in. Ends at transform: none, so fixed panels inside still work. */}
