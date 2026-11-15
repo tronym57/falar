@@ -70,6 +70,9 @@ export default function Ask() {
       {live && <AnswerCard q={live.q} a={live.a} id="live" streaming />}
       {list.map(x => <AnswerCard key={x.id} q={x.q} a={x.a} id={x.id} />)}
       {list.length > 0 && <button className="btn btn-ghost btn-block mt-2" onClick={clear}>Clear these questions</button>}
+      <p className="small muted ask-meaning">
+        <b lang="pt-PT">Desenrasca</b> (from <i lang="pt-PT">desenrascar</i>): to get yourself out of a tricky spot with whatever you have. Very Portuguese: <i lang="pt-PT">“Eu desenrasco-me.”</i> = I'll manage.
+      </p>
     </main>
   )
 }

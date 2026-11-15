@@ -20,6 +20,7 @@ import { MotionConfig, motion } from 'motion/react'
 import { hasLocalData, startAutoBackup } from './backup'
 import { Welcome } from './components/Backup'
 import Ask from './screens/Ask'
+import Stats from './screens/Stats'
 import { LAST_ROUTE, kv } from './kv'
 
 const tabs = [
@@ -116,6 +117,7 @@ export default function App() {
         <Route path="/unit/:n/grammar/:topic/practice" element={<GrammarDrill inLesson />} />
         <Route path="/review" element={<Review />} />
         <Route path="/ask" element={<Ask />} />
+        <Route path="/stats" element={<Stats />} />
         <Route path="/practice" element={<PracticeHub />} />
         <Route path="/practice/test" element={<TestRunner />} />
         <Route path="/practice/grammar" element={<GrammarReference />} />

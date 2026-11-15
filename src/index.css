@@ -233,6 +233,7 @@ p { margin: 0 0 10px; }
 .ask-pt { font-size: 19px; font-weight: 600; line-height: 1.4; }
 .ask-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 .ask-note { margin-top: 8px; color: var(--muted); }
+.ask-meaning { margin: 32px 4px 8px; text-align: center; }
 .continue-row { color: inherit; text-decoration: none; }
 .dock { border-top: 1px solid var(--line); height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
   background: var(--surface-1); box-shadow: 0 -2px 12px rgb(16 48 34 / 0.06); }
@@ -384,7 +385,7 @@ p { margin: 0 0 10px; }
 .talk-done { margin-top: 16px; }
 .talk-error { margin-top: 12px; border-color: var(--color-error); }
 /* streak (quiet on purpose) */
-.streak { display: flex; align-items: center; gap: 16px; width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer;
+.streak { display: flex; align-items: center; gap: 16px; width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer; text-decoration: none;
   padding: 14px 18px; margin-bottom: 16px; border-radius: var(--radius-box); background: var(--surface-1); border: 1px solid var(--line); }
 .streak-n { font-size: 22px; font-weight: 700; color: var(--muted); white-space: nowrap; }
 .streak-n.on { color: var(--color-warning); }
@@ -532,3 +533,26 @@ p { margin: 0 0 10px; }
 
 /* Holds the keyboard open between typed questions (iOS only opens it from a tap). Invisible, 16px so iOS doesn't zoom. */
 .keyboard-keeper { position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; font-size: 16px; border: 0; padding: 0; pointer-events: none; }
+
+/* stats */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-grid .card { margin: 0; }
+.stat-tile { display: flex; flex-direction: column; gap: 2px; text-align: left; font: inherit; color: inherit; padding: 16px; }
+.stat-n { font-size: 26px; font-weight: 700; line-height: 1.2; }
+.stat-label { font-size: 14px; color: var(--muted); }
+.stat-row { width: 100%; font: inherit; color: inherit; text-align: left; background: none; }
+.stat-row:last-child { border-bottom: 0; }
+.stat-readout { margin: 0 0 12px; }
+.stat-chart { display: flex; align-items: flex-end; gap: 2px; height: 120px; border-bottom: 1px solid var(--line); }
+.stat-col { flex: 1; height: 100%; display: flex; align-items: flex-end; padding: 0; background: none; border: 0; cursor: pointer; }
+.stat-col span { display: block; width: 100%; border-radius: 4px 4px 0 0; background: color-mix(in oklab, var(--color-primary) 45%, transparent); }
+.stat-col.sel span { background: var(--color-primary); }
+.stat-col.sel { box-shadow: inset 0 -3px 0 var(--color-primary); }
+.stat-axis { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 6px; }
+.stat-bar { display: flex; gap: 2px; height: 12px; margin-bottom: 8px; }
+.stat-bar span { border-radius: 4px; min-width: 4px; }
+.stat-bar .known, .dot.known { background: var(--color-primary); }
+.stat-bar .learning, .dot.learning { background: color-mix(in oklab, var(--color-primary) 45%, transparent); }
+.stat-bar .new, .dot.new { background: var(--line); }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
+.streak-more { font-size: 20px; color: var(--muted); margin-left: auto; }

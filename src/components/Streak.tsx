@@ -1,9 +1,8 @@
+import { Link } from 'react-router-dom'
 import { MILESTONES, useStreak } from '../streak'
-import { useToast } from '../toast'
 
-/** Home: the streak, the last 7 days, and one short line. Quiet on purpose. */
+/** Home: the streak, the last 7 days, and one short line. Quiet on purpose. Opens Your stats. */
 export function StreakCard() {
-  const toast = useToast()
   const s = useStreak()
   if (!s) return null
   const milestone = s.today && MILESTONES.includes(s.current)
@@ -12,9 +11,7 @@ export function StreakCard() {
       : s.current ? 'Practise a little today to keep it going.'
         : 'Any practice today starts a streak.'
   return (
-    <button className="streak tap" onClick={() => toast(s.current
-      ? `${s.current}-day streak. Any practice counts: a lesson, review, reading or a conversation. Your best: ${s.best} days.`
-      : 'A streak counts the days in a row you practise anything: a lesson, review, reading or a conversation.')}>
+    <Link className="streak tap" to="/stats">
       <span className={'streak-n' + (s.today ? ' on' : '')}>🔥 {s.current}</span>
       <span className="streak-body">
         <span className="streak-days" aria-label="The last 7 days">
@@ -22,7 +19,8 @@ export function StreakCard() {
         </span>
         <span className="streak-line">{line}</span>
       </span>
-    </button>
+      <span className="streak-more" aria-hidden>›</span>
+    </Link>
   )
 }
 
