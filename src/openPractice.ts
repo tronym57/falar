@@ -25,6 +25,31 @@ export function practiceTitle(key: string): string {
   return ({ vocab: 'Vocabulary training', verbs: 'Verb drill', lookalikes: 'Look-alikes', listening: 'Listening practice', speaking: 'Speaking practice', test: 'Mixed test' } as Record<string, string>)[key] ?? 'Practice'
 }
 
+/**
+ * The units a practice draws from, from its key and question ids (`u2-…`, verbs by their unit).
+ * Empty when it isn't tied to units (look-alikes) or the title already names the unit.
+ */
+export function practiceUnits(s: PracticeSession): number[] {
+  if (/^(lesson-\d+-|\d+:)/.test(s.key)) return []
+  const topic = s.key.match(/^drill:u(\d+)-/) // a grammar topic belongs to one unit, whatever words it uses
+  if (topic) return [+topic[1]]
+  const units = new Set<number>()
+  for (const id of [s.key, ...(s.items ?? []).map(x => x.id), ...s.queue]) {
+    for (const m of id.matchAll(/(?:^|[-:])u(\d+)-/g)) units.add(+m[1])
+    const v = id.match(/^(?:vb|verb)-([a-z]+)/)
+    if (v && verbById[v[1]]) units.add(verbById[v[1]].unit)
+  }
+  return [...units].sort((a, b) => a - b)
+}
+
+/** "Unit 0", "Units 0–2", "Units 0, 2". */
+export function unitsLabel(units: number[]): string {
+  if (!units.length) return ''
+  if (units.length === 1) return `Unit ${units[0]}`
+  const run = units.every((u, i) => i === 0 || u === units[i - 1] + 1)
+  return `Units ${run ? `${units[0]}–${units.at(-1)}` : units.join(', ')}`
+}
+
 /** Where a practice runs. Saved with the session; older sessions fall back to the key. */
 export function practiceRoute(s: PracticeSession): string | null {
   if (s.route) return s.route

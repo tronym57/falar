@@ -7,7 +7,7 @@ import { useToast } from '../toast'
 import { StreakCard } from '../components/Streak'
 import { useAi } from '../ai'
 import { dailyPhrase, greeting } from '../greeting'
-import { openPractices, practiceTitle } from '../openPractice'
+import { openPractices, practiceTitle, practiceUnits, unitsLabel } from '../openPractice'
 
 const standalone =
   (navigator as Navigator & { standalone?: boolean }).standalone === true ||
@@ -68,7 +68,7 @@ export default function Home() {
             <Link key={s.key} className="row tap continue-row" to={to}>
               <span>
                 <span className="step-title">{practiceTitle(s.key)}</span>
-                <span className="small block muted">{answered} of {s.total} answered</span>
+                <span className="small block muted">{[unitsLabel(practiceUnits(s)), `${answered} of ${s.total} answered`].filter(Boolean).join(' · ')}</span>
               </span>
               <span className="step-chev">›</span>
             </Link>
