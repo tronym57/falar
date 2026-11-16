@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { progressOf } from '../parts'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db'
@@ -154,7 +155,7 @@ export default function PracticeHub() {
 
         {openTest && (
           <div className="resume-banner">
-            <p><b>You have an unfinished test</b><span className="muted"> · {openTest.total - new Set(openTest.queue).size} of {openTest.total} answered</span></p>
+            <p><b>You have an unfinished test</b><span className="muted"> · {progressOf(openTest).answered} of {progressOf(openTest).total} answered</span></p>
             <div className="row-btns">
               <Link className="btn btn-primary" to="/practice/test" style={{ textDecoration: 'none' }}>Continue</Link>
               <button className="btn btn-tonal" onClick={async () => { await db.sessions.delete(TEST_KEY); setSetup(false); toast('Test discarded.') }}>Discard</button>

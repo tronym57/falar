@@ -4,6 +4,7 @@ import { a1Content } from './content'
 import { unitSteps } from './units'
 import { readingTexts } from './content/reading'
 import { verbById } from './verbs'
+import { progressOf } from './parts'
 
 const stepTitle = (slug: string) => unitSteps.find(s => s.slug === slug)?.title ?? slug
 
@@ -76,7 +77,7 @@ export function openPractices(sessions: PracticeSession[], progress: StepProgres
   const done = new Map(progress.filter(p => p.done).map(p => [p.key, p.updatedAt]))
   const stale = (s: PracticeSession) => { const k = stepKey(s.key); const at = k && done.get(k); return !!at && s.startedAt < at }
   return sessions
-    .map(s => ({ s, answered: Object.keys(s.firstTry).length, to: practiceRoute(s) }))
-    .filter((x): x is { s: PracticeSession; answered: number; to: string } => x.answered > 0 && !!x.to && !stale(x.s))
+    .map(s => ({ s, ...progressOf(s), to: practiceRoute(s) }))
+    .filter((x): x is { s: PracticeSession; answered: number; total: number; to: string } => x.answered > 0 && !!x.to && !stale(x.s))
     .sort((a, b) => (b.s.updatedAt ?? b.s.startedAt).localeCompare(a.s.updatedAt ?? a.s.startedAt))
 }

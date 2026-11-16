@@ -15,6 +15,7 @@ import { useToast } from '../toast'
 import { newRound } from '../rounds'
 import { translationOf } from '../translation'
 import { wordOf, wordQuestionKind } from '../tricky'
+import { allFirstTry, inParts, nextPart } from '../parts'
 
 /**
  * exercises: a unit's exercise step (wrong answers come back at the end)
@@ -59,6 +60,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
   const [toReview, setToReview] = useState(false) // this miss went into the daily review
   const [more, setMore] = useState<'saving' | number | null>(null) // "Practise this more": extra questions added now
   const [finished, setFinished] = useState<{ score: number; firstTry: Record<string, boolean> } | null>(null)
+  const [partDone, setPartDone] = useState<{ right: number; total: number } | null>(null) // break screen between parts
 
   const start = async (fresh = false) => {
     const saved = await db.sessions.get(sessionKey)
@@ -72,7 +74,11 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
       s = { key: sessionKey, queue: list.map(x => x.id), total: list.length, firstTry: {}, startedAt: new Date().toISOString(), items: list, pool: pool.current?.items, route }
       await db.sessions.put(s)
     }
+    // More than 20 questions: run them in parts, with a break in between.
+    const split = inParts(s)
+    if (split !== s) { s = split; await db.sessions.put(s) }
     setItems(list)
+    setPartDone(null)
     setAnswer(null)
     setFinished(null)
     setSession(s)
@@ -90,6 +96,24 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
     return <Results mode={mode} unit={unit} step={step} items={items} closeTo={closeTo} next={nextTopic} {...finished} onRetry={() => start(true)} />
   }
   if (!session) return <main className="screen"><p className="muted">Loading…</p></main>
+  if (partDone) {
+    const done = (session.part ?? 2) - 1
+    return (
+      <main className="screen">
+        <h1>Part {done} of {session.parts} done ✓</h1>
+        <div className="card text-center">
+          <p className="part-score"><b>{partDone.right}</b> of {partDone.total}</p>
+          <p className="muted">right on the first try</p>
+          <div className="part-dots" aria-label={`${done} of ${session.parts} parts done`}>
+            {Array.from({ length: session.parts ?? 0 }, (_, i) => <span key={i} className={i < done ? 'on' : ''} />)}
+          </div>
+        </div>
+        <button className="btn btn-primary btn-block btn-big" onClick={() => setPartDone(null)}>Start part {session.part} ›</button>
+        <Link className="btn btn-tonal btn-block btn-big" to={closeTo} style={{ textDecoration: 'none' }}>Take a break</Link>
+        <p className="small muted text-center mt-2">Your place is saved. Part {session.part} is waiting under “Pick up where you stopped” on Home.</p>
+      </main>
+    )
+  }
 
   const current = byId[session.queue[0]]
   const remaining = new Set(session.queue).size
@@ -151,18 +175,28 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
     if (upcoming && needsKeyboard(upcoming)) keeper.current?.focus({ preventScroll: true })
     try {
       const ok = answer!.result.ok
-      const firstTry = current.id in session.firstTry ? session.firstTry : { ...session.firstTry, [current.id]: ok }
+      const seen = current.id in session.firstTry || current.id in (session.earlier ?? {})
+      const firstTry = seen ? session.firstTry : { ...session.firstTry, [current.id]: ok }
       const queue = session.queue.slice(1)
       if (!ok && requeue) queue.push(current.id)
       const s = { ...session, queue, firstTry, route, updatedAt: new Date().toISOString() }
 
+      if (!queue.length && s.later?.length) {
+        const n = nextPart(s)
+        await db.sessions.put(n)
+        setSession(n)
+        setAnswer(null)
+        setPartDone({ right: Object.values(firstTry).filter(Boolean).length, total: Object.keys(firstTry).length })
+        return
+      }
       if (!queue.length) {
-        const score = Object.values(firstTry).filter(Boolean).length / session.total
+        const all = allFirstTry(s)
+        const score = Object.values(all).filter(Boolean).length / Math.max(1, Object.keys(all).length)
         if (unit !== undefined && (mode === 'exercises' || mode === 'check')) await markStepDone(unit, mode, score)
         if (unit !== undefined && mode === 'lesson' && step && score >= PASS_MARK) await markStepDone(unit, step, score)
         if (mode === 'reading' && step) await markStepDone(-1, step, score)
         await db.sessions.delete(sessionKey)
-        setFinished({ score, firstTry })
+        setFinished({ score, firstTry: all })
         return
       }
       await db.sessions.put(s)
@@ -179,6 +213,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
       <div className="practice-head">
         <Link className="btn btn-ghost btn-circle btn-sm text-xl" to={closeTo} aria-label="Close (progress is saved)">✕</Link>
         <div className="run-bar"><motion.div className="run-fill" initial={false} animate={{ width: `${progress * 100}%` }} transition={{ type: 'spring', stiffness: 180, damping: 26 }} /></div>
+        {session.parts && <span className="muted count part-tag">Part {session.part}/{session.parts}</span>}
         <span className="muted count">{Math.min(Object.keys(session.firstTry).length + 1, session.total)}/{session.total}</span>
       </div>
 

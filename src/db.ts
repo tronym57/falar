@@ -22,6 +22,12 @@ export type PracticeSession = {
   pool?: import('./content/types').Exercise[] // generated drills: everything a new round can draw from
   route?: string // the screen it runs on, so Home can take you back to it
   updatedAt?: string // last answer
+  // Long practices run in parts (see parts.ts): this part's number, how many, the ones to come, and what's done.
+  part?: number
+  parts?: number
+  later?: string[][]
+  earlier?: Record<string, boolean>
+  earlierTotal?: number
 }
 
 export type Attempt = {

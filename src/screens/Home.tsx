@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { progressOf } from '../parts'
 import { a1Units } from '../units'
 import { a1Content } from '../content'
 import { nextStep, useAllProgress } from '../progress'
@@ -48,7 +49,7 @@ export default function Home() {
           <span className="eyebrow">Unit {target.u.n} · {target.u.title}</span>
           <span className="title">{target.step!.title}</span>
           <span className="sub">
-            {session && Object.keys(session.firstTry).length ? `${Object.keys(session.firstTry).length} of ${session.total} answered` : target.u.scene}
+            {session && progressOf(session).answered ? `${progressOf(session).answered} of ${progressOf(session).total} answered` : target.u.scene}
           </span>
           <br />
           <span className="go">Continue ›</span>
@@ -64,11 +65,11 @@ export default function Home() {
       {open.length > 0 && <>
         <p className="section-label">Pick up where you stopped</p>
         <div className="card step-list">
-          {open.slice(0, 3).map(({ s, answered, to }) => (
+          {open.slice(0, 3).map(({ s, answered, total, to }) => (
             <Link key={s.key} className="row tap continue-row" to={to}>
               <span>
                 <span className="step-title">{practiceTitle(s.key)}</span>
-                <span className="small block muted">{[unitsLabel(practiceUnits(s)), `${answered} of ${s.total} answered`].filter(Boolean).join(' · ')}</span>
+                <span className="small block muted">{[unitsLabel(practiceUnits(s)), s.parts ? `Part ${s.part} of ${s.parts}` : '', `${answered} of ${total} answered`].filter(Boolean).join(' · ')}</span>
               </span>
               <span className="step-chev">›</span>
             </Link>

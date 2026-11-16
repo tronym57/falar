@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
+import { progressOf } from '../parts'
 import { a1Units, unitSteps } from '../units'
 import { a1Content } from '../content'
 import { useToast } from '../toast'
@@ -40,10 +41,10 @@ export default function Unit() {
           // Only counts as in progress once at least one question is answered,
           // and, for a done step, only a practice started after it was done.
           const stale = !!found && !!p?.done && found.startedAt < p.updatedAt
-          const answered = found && !stale ? Object.keys(found.firstTry).length : 0
+          const answered = found && !stale ? progressOf(found).answered : 0
           const s = answered > 0 ? found : undefined
           const sub = s
-            ? `In progress · ${answered} of ${s.total} answered`
+            ? `In progress · ${answered} of ${progressOf(s).total} answered`
             : p?.bestScore !== undefined ? `Best: ${Math.round(p.bestScore * 100)}%` : null
 
           if (!open) {
