@@ -592,3 +592,18 @@ p { margin: 0 0 10px; }
 .part-dots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
 .part-dots span { width: 28px; height: 6px; border-radius: 3px; background: var(--line); }
 .part-dots span.on { background: var(--color-primary); }
+
+/* ---------- feedback: a tab on the right edge, and its sheet ---------- */
+.fb-tab { position: fixed; right: 0; top: 46%; z-index: 40; width: 26px; height: 44px; border: 1px solid var(--line); border-right: 0;
+  border-radius: 10px 0 0 10px; background: var(--surface-1); color: var(--muted); font-size: 15px; display: grid; place-items: center;
+  box-shadow: -2px 2px 8px rgb(16 48 34 / 0.08); opacity: 0.85; }
+.fb-tab:active { transform: translateX(2px); }
+.fb-overlay { position: fixed; inset: 0; z-index: 60; background: rgb(0 0 0 / 0.4); display: flex; align-items: flex-end; }
+.fb-sheet { width: 100%; max-height: 92dvh; overflow-y: auto; background: var(--surface); border-radius: 20px 20px 0 0;
+  padding: 20px 20px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px; }
+.fb-sheet h2 { margin: 0; }
+.fb-shot { display: block; max-height: 180px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; padding: 0; background: var(--surface-1); }
+.fb-shot.big { max-height: none; }
+.fb-shot img { width: 100%; display: block; }
+.fb-shot:not(.big) img { width: 50%; margin: 0 auto; }
+.fb-actions { display: flex; justify-content: flex-end; gap: 8px; }

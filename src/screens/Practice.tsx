@@ -218,7 +218,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
       </div>
 
       {/* The next question slides in from the right. */}
-      <motion.div key={current.id + ':' + session.queue.length} initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}>
+      <motion.div key={current.id + ':' + session.queue.length} data-exercise={current.id} data-session={sessionKey} initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}>
         <ExerciseView ex={current} locked={!!answer} onAnswer={onAnswer} />
       </motion.div>
 

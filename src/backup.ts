@@ -21,7 +21,7 @@ export type BackupFile = {
 }
 
 const K = {
-  token: 'falar.gist.token',
+  token: 'falar.gist.token', // also used to send feedback (feedback.ts)
   gistId: 'falar.gist.id',
   last: 'falar.backup.last',
   error: 'falar.backup.error',
@@ -127,7 +127,7 @@ export class BackupError extends Error {
   constructor(message: string, status?: number) { super(message); this.status = status }
 }
 
-async function gh(path: string, init: RequestInit = {}, token = kv.get(K.token)) {
+export async function gh(path: string, init: RequestInit = {}, token = kv.get(K.token)) {
   if (!token) throw new BackupError('GitHub backup is not set up.')
   let r: Response
   try {

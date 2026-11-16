@@ -67,6 +67,7 @@ export const db = new Dexie('falar') as Dexie & {
   cards: EntityTable<ReviewCard, 'id'>
   reviewLogs: EntityTable<ReviewLog, 'id'>
   customWords: EntityTable<CustomWord, 'id'>
+  feedback: EntityTable<Feedback, 'id'>
 }
 
 db.version(1).stores({
@@ -82,6 +83,18 @@ db.version(2).stores({
 db.version(3).stores({
   aiTexts: 'id, createdAt',
 })
+db.version(4).stores({
+  feedback: 'id, createdAt',
+})
+
+/** Feedback on a screen, waiting to be sent to the feedback Gist (see feedback.ts). Not part of the backup. */
+export type Feedback = {
+  id: string
+  note: string
+  image: string // JPEG data URL
+  context: Record<string, unknown>
+  createdAt: string
+}
 
 // Ask iOS to keep our data (granted for home-screen apps, per the spike).
 navigator.storage?.persist?.().catch(() => {})

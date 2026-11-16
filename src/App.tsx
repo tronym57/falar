@@ -21,6 +21,8 @@ import { hasLocalData, startAutoBackup } from './backup'
 import { Welcome } from './components/Backup'
 import Ask from './screens/Ask'
 import Stats from './screens/Stats'
+import { FeedbackButton } from './components/Feedback'
+import { startFeedbackSync } from './feedback'
 import { LAST_ROUTE, kv } from './kv'
 
 const tabs = [
@@ -66,7 +68,7 @@ export default function App() {
     if (welcome !== null) return
     hasLocalData().then(has => { if (has) kv.set('falar.onboarded', '1'); setWelcome(!has) }).catch(() => setWelcome(false))
   }, [welcome])
-  useEffect(() => { startAutoBackup() }, [])
+  useEffect(() => { startAutoBackup(); startFeedbackSync() }, [])
   // A new screen opens at the top; going back (POP) keeps the browser's restored position.
   // Only a deliberate jump target (`?at=…`, e.g. back to the next grammar topic) may land lower.
   // Reset before paint, and once more after it: iOS can apply a leftover scroll after the first reset.
@@ -135,6 +137,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       </motion.div>
+      <FeedbackButton />
       {!immersive && <nav className="dock">
         {tabs.map(t => {
           // Inside a unit, keep the Course tab highlighted; same for Practice sub-screens.

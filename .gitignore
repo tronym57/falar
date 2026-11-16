@@ -25,3 +25,6 @@ dist-ssr
 
 # Python env for the audio script
 .venv
+
+# Feedback downloaded from the app (scripts/feedback.mjs)
+.feedback
