@@ -51,6 +51,23 @@ el.addEventListener('ended', () => {
 })
 el.addEventListener('error', () => { if (playing) fail(playing) })
 
+/**
+ * iOS: let sound play with the ring/silent switch on (it otherwise mutes the chime and the phone's voice),
+ * and unlock the shared player on the first tap, so clips that start by themselves (a listening question
+ * appearing, the phrase after an answer) aren't blocked for want of a tap.
+ */
+export function unlockAudio() {
+  const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession
+  if (session) try { session.type = 'playback' } catch { /* older Safari */ }
+  const wake = () => {
+    if (playing) return
+    el.src = 'data:audio/wav;base64,UklGRiwAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQgAAACAgICAgICAgA=='
+    el.play().catch(() => {})
+  }
+  document.addEventListener('touchend', wake, { once: true, passive: true })
+  document.addEventListener('click', wake, { once: true })
+}
+
 /** The best Portuguese (Portugal) voice on this device: an Enhanced/Premium download if there is one. */
 export function bestPtVoice() {
   const pt = speechSynthesis.getVoices().filter(v => v.lang.replace('_', '-') === 'pt-PT')

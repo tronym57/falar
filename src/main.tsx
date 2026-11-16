@@ -12,9 +12,11 @@ import { ToastProvider } from './toast.tsx'
 import { LAST_ROUTE, kv } from './kv'
 import { initTheme } from './theme'
 import { unlockChime } from './chime'
+import { unlockAudio } from './audio'
 
 initTheme()
 unlockChime()
+unlockAudio()
 
 // iOS Safari only applies :active (pressed) styles when a touch listener exists.
 document.addEventListener('touchstart', () => {}, { passive: true })

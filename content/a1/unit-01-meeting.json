@@ -270,116 +270,136 @@
       "id": "u1-p01",
       "pt": "Como te chamas?",
       "en": "What's your name?",
-      "note": "To a friend or someone your age."
+      "note": "To a friend or someone your age.",
+      "when": "Meeting someone your age at a party or the beach."
     },
     {
       "id": "u1-p02",
       "pt": "Como se chama?",
       "en": "What's your name?",
-      "note": "Polite: to strangers and older people."
+      "note": "Polite: to strangers and older people.",
+      "when": "Meeting an older neighbour, or at a reception desk."
     },
     {
       "id": "u1-p03",
       "pt": "Chamo-me Ana.",
       "en": "My name is Ana.",
-      "note": "In Portugal the me goes after the verb: chamo-me."
+      "note": "In Portugal the me goes after the verb: chamo-me.",
+      "when": "Introducing yourself: “Chamo-me Patrick.”"
     },
     {
       "id": "u1-p04",
       "pt": "Eu sou o Patrick.",
       "en": "I'm Patrick.",
-      "note": "Names usually take o or a: o Patrick, a Inês."
+      "note": "Names usually take o or a: o Patrick, a Inês.",
+      "when": "Introducing yourself to a group: “Olá, eu sou o Patrick.”"
     },
     {
       "id": "u1-p05",
       "pt": "Muito prazer.",
-      "en": "Nice to meet you."
+      "en": "Nice to meet you.",
+      "when": "Shaking hands right after you've been introduced."
     },
     {
       "id": "u1-p06",
       "pt": "De onde és?",
       "en": "Where are you from?",
-      "note": "To a friend."
+      "note": "To a friend.",
+      "when": "Chatting with someone your age at a bar."
     },
     {
       "id": "u1-p07",
       "pt": "De onde é?",
       "en": "Where are you from?",
-      "note": "Polite."
+      "note": "Polite.",
+      "when": "Talking to an older person or a stranger."
     },
     {
       "id": "u1-p08",
       "pt": "Sou da Alemanha.",
       "en": "I'm from Germany.",
-      "note": "da = de + a (a Alemanha). The UK is o Reino Unido: sou do Reino Unido."
+      "note": "da = de + a (a Alemanha). The UK is o Reino Unido: sou do Reino Unido.",
+      "when": "Someone asks where you're from."
     },
     {
       "id": "u1-p09",
       "pt": "Sou alemão.",
       "en": "I'm German.",
-      "note": "A woman says: sou alemã."
+      "note": "A woman says: sou alemã.",
+      "when": "Saying your nationality: “Sou alemão.”"
     },
     {
       "id": "u1-p10",
       "pt": "Sou de Lisboa.",
       "en": "I'm from Lisbon.",
-      "note": "Cities usually have no article: de Lisboa, de Peniche."
+      "note": "Cities usually have no article: de Lisboa, de Peniche.",
+      "when": "Saying which city you're from."
     },
     {
       "id": "u1-p11",
       "pt": "És daqui?",
       "en": "Are you from here?",
-      "note": "daqui = de + aqui."
+      "note": "daqui = de + aqui.",
+      "when": "Asking someone at the café if they're local."
     },
     {
       "id": "u1-p12",
       "pt": "Onde moras?",
       "en": "Where do you live?",
-      "note": "To a friend. Polite: Onde mora?"
+      "note": "To a friend. Polite: Onde mora?",
+      "when": "Asking a new friend where they live."
     },
     {
       "id": "u1-p13",
       "pt": "Moro aqui perto.",
-      "en": "I live nearby."
+      "en": "I live nearby.",
+      "when": "Someone asks where you live and it's just around the corner."
     },
     {
       "id": "u1-p14",
       "pt": "Moro em Peniche.",
-      "en": "I live in Peniche."
+      "en": "I live in Peniche.",
+      "when": "Saying which town you live in."
     },
     {
       "id": "u1-p15",
       "pt": "Estou a aprender português.",
       "en": "I'm learning Portuguese.",
-      "note": "Estar a + infinitive is the Portuguese way to say -ing."
+      "note": "Estar a + infinitive is the Portuguese way to say -ing.",
+      "when": "Explaining why your Portuguese is slow."
     },
     {
       "id": "u1-p16",
       "pt": "Fixe!",
       "en": "Cool!",
-      "note": "Informal and very Portuguese."
+      "note": "Informal and very Portuguese.",
+      "when": "A friend says they're coming to the beach with you."
     },
     {
       "id": "u1-p17",
       "pt": "Até já!",
       "en": "See you in a bit!",
-      "note": "Sooner than até logo: minutes, not hours."
+      "note": "Sooner than até logo: minutes, not hours.",
+      "when": "Leaving to get something and coming right back."
     },
     {
       "id": "u1-p18",
       "pt": "Esta cadeira está livre?",
-      "en": "Is this chair free?"
+      "en": "Is this chair free?",
+      "when": "In a full café, pointing at an empty chair."
     },
     {
       "id": "u1-p19",
       "pt": "Faça favor.",
       "en": "Go ahead. / Here you are.",
-      "note": "Polite. Also said when handing something over."
+      "note": "Polite. Also said when handing something over.",
+      "when": "Someone holds the door for you, or you hand over money at the till."
     },
     {
       "id": "u1-p20",
       "pt": "Tenha um bom dia!",
-      "en": "Have a good day!"
+      "en": "Have a good day!",
+      "when": "Leaving a shop or saying goodbye to the cashier."
     }
   ],
   "vocab": [

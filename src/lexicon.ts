@@ -51,13 +51,26 @@ const PERSON = [
 ]
 const REFLEXIVE: Record<string, number> = { me: 0, te: 1, se: 2, nos: 3 }
 
-/** Why one real word in place of another is wrong, in a short line. */
-export function explainSwap(typed: string, expected: string): string {
+/** Meanings of single course words ("perto" → "near"), from the word lists: "o dia" counts as "dia". */
+const gloss = new Map<string, string>()
+for (const u of Object.values(a1Content)) for (const v of u.vocab) {
+  for (const form of v.pt.split(' / ')) {
+    const w = form.toLowerCase().replace(/^(o|a|os|as) /, '')
+    if (!w.includes(' ')) gloss.set(stripAccents(w), v.en.replace(/^the /, ''))
+  }
+}
+export const meaningOf = (w: string) => gloss.get(stripAccents(w.toLowerCase()))
+
+/** Why one real word in place of another is wrong, in a short line; nothing when there's nothing useful to say. */
+export function explainSwap(typed: string, expected: string): string | undefined {
   const t = typed.toLowerCase(), e = expected.toLowerCase()
   for (const v of verbSet.verbs) {
     const i = v.forms.indexOf(t), j = v.forms.indexOf(e)
     if (i >= 0 && j >= 0) return `“${t}” is ${v.inf} for ${PERSON[i]}. Here it’s “${e}”: ${PERSON[j]}.`
   }
   if (t in REFLEXIVE && e in REFLEXIVE) return `“${t}” is for ${PERSON[REFLEXIVE[t]]}. Here it’s “${e}”: ${PERSON[REFLEXIVE[e]]}.`
-  return `“${t}” is a different word from “${e}”. One small change, a different meaning.`
+  // Otherwise only what each word means, when the course has it. "A different word" alone teaches nothing.
+  const mt = meaningOf(t), me = meaningOf(e)
+  if (me) return mt ? `“${t}” means “${mt}”. Here you need “${e}”: “${me}”.` : `Here you need “${e}”: “${me}”.`
+  return undefined
 }

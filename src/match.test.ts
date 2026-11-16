@@ -37,6 +37,13 @@ describe('check', () => {
     expect(check('desculpe não percebe', answers).ok).toBe(false) // percebe (present) ≠ percebi (past)
   })
 
+  it('says nothing vague: a meaning when the course has it, no line pairing words by position', () => {
+    const r = check('moro cerca daqui', ['Moro aqui perto.'])
+    expect(r).toMatchObject({ ok: false, expected: 'Moro aqui perto.' })
+    expect(r.note).toBeUndefined()
+    expect(check('hoje sim', ['Hoje não.']).note).toBe('“sim” means “yes”. Here you need “não”: “no, not”.')
+  })
+
   it('accepts a subject pronoun that fits the verb, and leaving one out', () => {
     const r = check('eu sou alemão', ['Sou alemão.'])
     expect(r).toMatchObject({ ok: true, expected: 'Sou alemão.' })

@@ -4,7 +4,8 @@ import { StreakLine } from '../components/Streak'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import type { Exercise } from '../content/types'
 import { db, type PracticeSession } from '../db'
-import { AnswerDiff, showsDiff } from '../components/AnswerDiff'
+import { AnswerDiff, isSlip, isTyped, okNote } from '../components/AnswerDiff'
+import { WhyWrong } from '../components/WhyWrong'
 import { ExerciseView, needsKeyboard, type Answer } from '../components/Exercises'
 import { audio } from '../audio'
 import { CHIME_MS, playChime } from '../chime'
@@ -14,7 +15,7 @@ import { PARTS, partOf, rng, scoreByPart, wordQuestions } from '../test'
 import { addGrammarMistake, cardFaces, markTricky } from '../review'
 import { useToast } from '../toast'
 import { newRound } from '../rounds'
-import { translationOf } from '../translation'
+import { phraseTips, translationOf } from '../translation'
 import { wordOf, wordQuestionKind } from '../tricky'
 import { allFirstTry, inParts, nextPart } from '../parts'
 
@@ -58,10 +59,10 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
 
   const [session, setSession] = useState<PracticeSession | null>(null)
   const [answer, setAnswer] = useState<Answer | null>(null)
-  const [toReview, setToReview] = useState(false) // this miss went into the daily review
   const [more, setMore] = useState<'saving' | number | null>(null) // "Practise this more": extra questions added now
   const [finished, setFinished] = useState<{ score: number; firstTry: Record<string, boolean> } | null>(null)
   const [partDone, setPartDone] = useState<{ right: number; total: number } | null>(null) // break screen between parts
+  const [turn, setTurn] = useState(0) // one per question shown, so the same question coming back starts fresh
 
   const start = async (fresh = false) => {
     const saved = await db.sessions.get(sessionKey)
@@ -122,18 +123,18 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
 
   const onAnswer = (a: Answer) => {
     setAnswer(a)
-    setToReview(false)
     setMore(null)
     logAttempt(unit ?? -1, mode, current.id, a.result.ok, a.given).catch(() => {})
     // A missed grammar question also comes back in the daily review.
-    if (!a.result.ok && partOf(current) === 'grammar') addGrammarMistake(current).then(setToReview).catch(() => {})
+    if (!a.result.ok && partOf(current) === 'grammar') addGrammarMistake(current).catch(() => {})
     // A soft chime when it's right; any replay below waits for it, so the two don't overlap.
     const chimed = a.result.ok && playChime()
-    // Replay the Portuguese for listening exercises so you hear it again with the answer.
+    // Hear the Portuguese with every answer: the clip of a listening question, or the recorded phrase or word asked about.
+    const recorded = wordOf(current)?.id
     const clip = current.type === 'listen-choose' ? current.audio ?? current.id
       : current.type === 'speak' ? current.audio // hear the model answer
         : current.type === 'dictation' || current.type === 'listen-pick' || current.type === 'listen-gap' ? current.audio
-          : null
+          : recorded && !recorded.startsWith('my-') ? recorded : null
     if (!clip) return
     if (chimed) replayTimer.current = window.setTimeout(() => audio.play(clip), CHIME_MS)
     else audio.play(clip)
@@ -203,6 +204,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
       await db.sessions.put(s)
       setSession(s)
       setAnswer(null)
+      setTurn(t => t + 1)
     } catch (e) {
       toast(`Couldn't save your progress: ${(e as Error).message}`, 'error')
     }
@@ -219,38 +221,42 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
       </div>
 
       {/* The next question slides in from the right. */}
-      <motion.div key={current.id + ':' + session.queue.length} data-exercise={current.id} data-session={sessionKey} initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}>
+      <motion.div key={current.id + ':' + turn} data-exercise={current.id} data-session={sessionKey} initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}>
         <ExerciseView ex={current} locked={!!answer} onAnswer={onAnswer} />
-        {answer && showsDiff(current, answer) && <AnswerDiff answer={answer} />}
+        {answer && isTyped(current) && <AnswerDiff answer={answer} />}
       </motion.div>
 
-      {answer && (
-        <motion.div className={'feedback ' + (answer.result.ok ? (answer.result.note && showsDiff(current, answer) ? 'ok slip' : 'ok') : 'bad')} role="status" initial={{ y: '100%' }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 420, damping: 36 }}>
-          <b>{answer.result.ok ? (answer.result.note && showsDiff(current, answer) ? 'Right, but check the spelling' : 'Correct! ✓') : 'Not quite'}</b>
-          {answer.result.ok && answer.result.note && <p>{answer.result.note}</p>}
-          {(() => {
-            // The meaning, after every answer. When the correct answer is that same sentence, one line says both.
-            const t = translationOf(current)
-            const same = t && t.pt === answer.result.expected
-            return <>
-              {/* Typed answers show the correct one under the field instead. */}
-              {!answer.result.ok && !showsDiff(current, answer) && <p>Correct answer: <b>{answer.result.expected}</b>{same && <> = {t.en}</>}</p>}
-              {!answer.result.ok && answer.result.note && <p className="why">{answer.result.note}</p>}
-              {t && !(same && !answer.result.ok) && <p className="meaning"><b lang="pt-PT">{t.pt}</b> = {t.en}</p>}
-            </>
-          })()}
-          {!answer.result.ok && (requeue || toReview) && (
-            <p className="small">{requeue && toReview ? 'This one comes back at the end, and in your daily review.' : requeue ? 'This one comes back at the end.' : 'It comes back in your daily review.'}</p>
-          )}
-          {/* Only after a right answer: a wrong one comes back anyway. */}
-          {word && answer.result.ok && (
-            <button className="btn btn-ghost btn-block btn-sm practise-more" disabled={more !== null} onClick={practiseMore}>
-              {more === null ? '🔁 Practise this more' : more === 'saving' ? 'Adding…' : 'Added ✓'}
-            </button>
-          )}
-          <button className={'btn btn-block btn-big ' + (answer.result.ok ? 'btn-success' : 'btn-miss')} onClick={next}>Continue</button>
-        </motion.div>
-      )}
+      {answer && (() => {
+        const ok = answer.result.ok
+        const slip = isSlip(current, answer)
+        // The meaning, after every answer. When the correct answer is that same sentence, one line says both.
+        const t = translationOf(current)
+        const same = t && t.pt === answer.result.expected
+        const tips = phraseTips(word?.id)
+        const points = [
+          okNote(current, answer),
+          // Typed answers show the correct one in the answer box instead.
+          !ok && !isTyped(current) && <>Correct answer: <b lang="pt-PT">{answer.result.expected}</b>{same && <> = {t.en}</>}</>,
+          !ok && answer.result.note,
+          t && !(same && !ok && !isTyped(current)) && <><b lang="pt-PT">{t.pt}</b> = {t.en}</>,
+          tips?.note,
+          tips?.when && <><span className="muted">When:</span> {tips.when}</>,
+        ].filter(Boolean)
+        return (
+          <motion.div className={'feedback ' + (ok ? (slip ? 'ok slip' : 'ok') : 'bad')} role="status" initial={{ y: '100%' }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 420, damping: 36 }}>
+            <b>{ok ? (slip ? 'Right, but check the spelling' : 'Correct! ✓') : 'Not quite'}</b>
+            {points.length > 0 && <ul className="fb-points">{points.map((p, i) => <li key={i}>{p}</li>)}</ul>}
+            {!ok && isTyped(current) && <WhyWrong key={turn} task={taskOf(current)} given={answer.given} expected={answer.result.expected} />}
+            <button className={'btn btn-block btn-big ' + (ok ? 'btn-success' : 'btn-miss')} onClick={next}>Continue</button>
+            {/* Only after a right answer: a wrong one comes back anyway. */}
+            {word && ok && (
+              <button className="btn btn-ghost btn-block btn-sm practise-more" disabled={more !== null} onClick={practiseMore}>
+                {more === null ? '🔁 Practise this more' : more === 'saving' ? 'Adding…' : 'Added ✓'}
+              </button>
+            )}
+          </motion.div>
+        )
+      })()}
     </main>
   )
 }
@@ -331,6 +337,19 @@ function Results({ mode, unit, step, items, closeTo, next, score, firstTry, onRe
         : <Link className="btn btn-tonal btn-block btn-big" to={closeTo} style={{ textDecoration: 'none' }}>Done</Link>}
     </main>
   )
+}
+
+/** The task in words, for Gemini's "Why?". */
+function taskOf(x: Exercise) {
+  switch (x.type) {
+    case 'translate': return `Translate into Portuguese: ${x.en}`
+    case 'sentence-builder': return `Build the sentence in Portuguese: ${x.en}`
+    case 'conjugation': return `Conjugate ${x.verb} for ${x.person}`
+    case 'gap-fill': return `Fill the gap: ${x.pt} (${x.en})`
+    case 'listen-gap': return `Listen and fill the gap: ${x.pt}`
+    case 'dictation': return 'Write the Portuguese sentence you hear'
+    default: return 'Answer in Portuguese'
+  }
 }
 
 /** One-line summary of an exercise and its answer, for the review list. */

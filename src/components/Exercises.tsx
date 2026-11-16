@@ -472,6 +472,8 @@ function TypedInput({ locked, onSubmit }: { locked: boolean; onSubmit: (v: strin
     onSubmit(value)
   }
 
+  // Once answered, the answer box below shows what you wrote and the correct answer, so the field goes.
+  if (locked) return null
   return (
     <>
       <input

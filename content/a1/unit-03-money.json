@@ -270,107 +270,127 @@
       "id": "u3-p01",
       "pt": "Quanto custa?",
       "en": "How much is it?",
-      "note": "For one thing. For several: Quanto custam?"
+      "note": "For one thing. For several: Quanto custam?",
+      "when": "Holding up one thing at the market."
     },
     {
       "id": "u3-p02",
       "pt": "Quanto custam?",
-      "en": "How much are they?"
+      "en": "How much are they?",
+      "when": "Pointing at a box of oranges at the market."
     },
     {
       "id": "u3-p03",
       "pt": "São cinco euros.",
       "en": "It's five euros.",
-      "note": "Prices take são: são cinco euros. Only for one: é um euro."
+      "note": "Prices take são: são cinco euros. Only for one: é um euro.",
+      "when": "The seller tells you the price."
     },
     {
       "id": "u3-p04",
       "pt": "É um euro.",
-      "en": "It's one euro."
+      "en": "It's one euro.",
+      "when": "The price of a single coffee or bread roll."
     },
     {
       "id": "u3-p05",
       "pt": "Custa dois euros o quilo.",
-      "en": "It's two euros a kilo."
+      "en": "It's two euros a kilo.",
+      "when": "The fruit seller tells you the price per kilo."
     },
     {
       "id": "u3-p06",
       "pt": "Posso pagar com cartão?",
-      "en": "Can I pay by card?"
+      "en": "Can I pay by card?",
+      "when": "Before you order, to check you can pay by card."
     },
     {
       "id": "u3-p07",
       "pt": "Tem multibanco?",
       "en": "Do you take cards?",
-      "note": "Multibanco is the Portuguese card network, and also the word for a cash machine."
+      "note": "Multibanco is the Portuguese card network, and also the word for a cash machine.",
+      "when": "At a small shop, to check they have a card machine."
     },
     {
       "id": "u3-p08",
       "pt": "Só aceito dinheiro.",
-      "en": "I only take cash."
+      "en": "I only take cash.",
+      "when": "The market seller tells you cards don't work."
     },
     {
       "id": "u3-p09",
       "pt": "Tem troco?",
-      "en": "Do you have change?"
+      "en": "Do you have change?",
+      "when": "You only have a 20 euro note for a 2 euro coffee."
     },
     {
       "id": "u3-p10",
       "pt": "Aqui tem o troco.",
-      "en": "Here's your change."
+      "en": "Here's your change.",
+      "when": "The cashier gives you your change."
     },
     {
       "id": "u3-p11",
       "pt": "Não faz mal.",
-      "en": "No problem. / Never mind."
+      "en": "No problem. / Never mind.",
+      "when": "Someone apologises for something small."
     },
     {
       "id": "u3-p12",
       "pt": "Está bem.",
-      "en": "OK."
+      "en": "OK.",
+      "when": "Agreeing to a plan or a price."
     },
     {
       "id": "u3-p13",
       "pt": "Levo dois.",
-      "en": "I'll take two."
+      "en": "I'll take two.",
+      "when": "At the market, buying two of something."
     },
     {
       "id": "u3-p14",
       "pt": "Meio quilo, por favor.",
-      "en": "Half a kilo, please."
+      "en": "Half a kilo, please.",
+      "when": "Buying cheese or fruit at the counter."
     },
     {
       "id": "u3-p15",
       "pt": "É caro.",
-      "en": "It's expensive."
+      "en": "It's expensive.",
+      "when": "Reacting to a high price."
     },
     {
       "id": "u3-p16",
       "pt": "É barato.",
-      "en": "It's cheap."
+      "en": "It's cheap.",
+      "when": "Reacting to a good price."
     },
     {
       "id": "u3-p17",
       "pt": "Qual é o seu número de telemóvel?",
       "en": "What's your mobile number?",
-      "note": "Polite. To a friend: Qual é o teu número?"
+      "note": "Polite. To a friend: Qual é o teu número?",
+      "when": "Asking someone you've just met for their number."
     },
     {
       "id": "u3-p18",
       "pt": "Pode repetir o número?",
-      "en": "Can you repeat the number?"
+      "en": "Can you repeat the number?",
+      "when": "You didn't catch all the digits."
     },
     {
       "id": "u3-p19",
       "pt": "Quantos anos tens?",
       "en": "How old are you?",
-      "note": "To a friend. Polite: Quantos anos tem?"
+      "note": "To a friend. Polite: Quantos anos tem?",
+      "when": "Asking a new friend's age."
     },
     {
       "id": "u3-p20",
       "pt": "Tenho trinta anos.",
       "en": "I'm thirty.",
-      "note": "Literally \"I have thirty years\"."
+      "note": "Literally \"I have thirty years\".",
+      "when": "Saying your age."
     }
   ],
   "vocab": [

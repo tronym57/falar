@@ -5,7 +5,7 @@ import { audio, useAudio } from '../audio'
 import { playItem } from '../components/AudioRow'
 import { buildQueue, isReverse, wordId, cardFaces, intervalLabel, preview, saveGrade, State, syncCards, isGrammarCard, grammarExercise, showable, Rating, type CardFace, type Grade } from '../review'
 import type { Exercise } from '../content/types'
-import { AnswerDiff, showsDiff } from '../components/AnswerDiff'
+import { AnswerDiff, isSlip, isTyped, okNote } from '../components/AnswerDiff'
 import { ExerciseView, type Answer } from '../components/Exercises'
 import { freshen } from '../rounds'
 import { rng } from '../test'
@@ -168,12 +168,12 @@ function GrammarCard({ ex, unit, onGrade }: { ex: Exercise; unit: number; onGrad
     <>
       <p className="section-label">Grammar you missed{unit >= 0 ? ` · Unit ${unit}` : ''}</p>
       <ExerciseView ex={shown} locked={!!answer} onAnswer={a => { setAnswer(a); if (a.result.ok) playChime() }} />
-      {answer && showsDiff(shown, answer) && <AnswerDiff answer={answer} />}
+      {answer && isTyped(shown) && <AnswerDiff answer={answer} />}
       {answer && (
-        <div className={'feedback ' + (ok ? (answer.result.note && showsDiff(shown, answer) ? 'ok slip' : 'ok') : 'bad')} role="status">
-          <b>{ok ? (answer.result.note && showsDiff(shown, answer) ? 'Right, but check the spelling' : 'Correct! ✓') : 'Not quite'}</b>
-          {answer.result.ok && answer.result.note && <p>{answer.result.note}</p>}
-          {!ok && !showsDiff(shown, answer) && <p>Correct answer: <b>{answer.result.expected}</b></p>}
+        <div className={'feedback ' + (ok ? (isSlip(shown, answer) ? 'ok slip' : 'ok') : 'bad')} role="status">
+          <b>{ok ? (isSlip(shown, answer) ? 'Right, but check the spelling' : 'Correct! ✓') : 'Not quite'}</b>
+          {okNote(shown, answer) && <p>{okNote(shown, answer)}</p>}
+          {!ok && !isTyped(shown) && <p>Correct answer: <b>{answer.result.expected}</b></p>}
           {!ok && answer.result.note && <p className="why">{answer.result.note}</p>}
           {t && <p className="meaning"><b lang="pt-PT">{t.pt}</b> = {t.en}</p>}
           <p className="small">{ok ? 'It comes back later, with a longer gap each time you get it right.' : 'It comes back again soon.'}</p>

@@ -270,110 +270,130 @@
       "id": "u2-p01",
       "pt": "Queria um café, por favor.",
       "en": "I'd like a coffee, please.",
-      "note": "Queria (literally \"I wanted\") is the polite way to order."
+      "note": "Queria (literally \"I wanted\") is the polite way to order.",
+      "when": "Ordering at the café counter."
     },
     {
       "id": "u2-p02",
       "pt": "Um galão, por favor.",
       "en": "A galão, please.",
-      "note": "Milky coffee in a tall glass."
+      "note": "Milky coffee in a tall glass.",
+      "when": "Ordering a milky coffee at breakfast."
     },
     {
       "id": "u2-p03",
       "pt": "Uma meia de leite, por favor.",
       "en": "A white coffee, please.",
-      "note": "Coffee with milk in a cup, half and half."
+      "note": "Coffee with milk in a cup, half and half.",
+      "when": "Ordering a coffee with milk in a cup."
     },
     {
       "id": "u2-p04",
       "pt": "O que deseja?",
       "en": "What would you like?",
-      "note": "What staff ask you."
+      "note": "What staff ask you.",
+      "when": "The waiter comes to your table and asks you this."
     },
     {
       "id": "u2-p05",
       "pt": "Diga!",
       "en": "Yes? / What can I get you?",
-      "note": "Literally \"say!\". Staff use it all the time; it isn't rude."
+      "note": "Literally \"say!\". Staff use it all the time; it isn't rude.",
+      "when": "Behind the counter, the staff look at you and say this."
     },
     {
       "id": "u2-p06",
       "pt": "Mais alguma coisa?",
-      "en": "Anything else?"
+      "en": "Anything else?",
+      "when": "After you order, the waiter checks if you want more."
     },
     {
       "id": "u2-p07",
       "pt": "É tudo.",
-      "en": "That's all."
+      "en": "That's all.",
+      "when": "Answering “Mais alguma coisa?” when you're done ordering."
     },
     {
       "id": "u2-p08",
       "pt": "Quanto é?",
-      "en": "How much is it?"
+      "en": "How much is it?",
+      "when": "Ready to pay at the counter."
     },
     {
       "id": "u2-p09",
       "pt": "É para comer aqui.",
-      "en": "It's to eat here."
+      "en": "It's to eat here.",
+      "when": "The staff ask if your order is to stay."
     },
     {
       "id": "u2-p10",
       "pt": "É para levar.",
-      "en": "It's to take away."
+      "en": "It's to take away.",
+      "when": "You want your pastel de nata in a bag."
     },
     {
       "id": "u2-p11",
       "pt": "Pode ser.",
       "en": "Sure. / That's fine.",
-      "note": "A very common way to say yes to an offer."
+      "note": "A very common way to say yes to an offer.",
+      "when": "The waiter offers a table outside, and it's fine."
     },
     {
       "id": "u2-p12",
       "pt": "Se faz favor.",
       "en": "Please.",
-      "note": "Same as por favor, and very Portuguese."
+      "note": "Same as por favor, and very Portuguese.",
+      "when": "Ordering, or getting the waiter's attention: “Se faz favor!”"
     },
     {
       "id": "u2-p13",
       "pt": "Aqui tem.",
-      "en": "Here you are."
+      "en": "Here you are.",
+      "when": "Handing over money, or giving someone what they asked for."
     },
     {
       "id": "u2-p14",
       "pt": "Sem açúcar, por favor.",
-      "en": "No sugar, please."
+      "en": "No sugar, please.",
+      "when": "Ordering a coffee without sugar."
     },
     {
       "id": "u2-p15",
       "pt": "Uma água fresca.",
       "en": "A cold water.",
-      "note": "Natural means room temperature. You'll be asked: fresca ou natural?"
+      "note": "Natural means room temperature. You'll be asked: fresca ou natural?",
+      "when": "Asking for a cold bottle of water."
     },
     {
       "id": "u2-p16",
       "pt": "Uma água com gás.",
-      "en": "A sparkling water."
+      "en": "A sparkling water.",
+      "when": "Ordering sparkling water with lunch."
     },
     {
       "id": "u2-p17",
       "pt": "Onde é a casa de banho?",
-      "en": "Where is the toilet?"
+      "en": "Where is the toilet?",
+      "when": "Asking the waiter where the toilet is."
     },
     {
       "id": "u2-p18",
       "pt": "A conta, por favor.",
       "en": "The bill, please.",
-      "note": "At the counter you usually just ask: Quanto é?"
+      "note": "At the counter you usually just ask: Quanto é?",
+      "when": "At the end of a restaurant meal, sitting at the table."
     },
     {
       "id": "u2-p19",
       "pt": "Tem pastéis de nata?",
-      "en": "Do you have custard tarts?"
+      "en": "Do you have custard tarts?",
+      "when": "Asking at a bakery if they have custard tarts."
     },
     {
       "id": "u2-p20",
       "pt": "Está ótimo!",
-      "en": "It's great!"
+      "en": "It's great!",
+      "when": "The waiter asks how the food is."
     }
   ],
   "vocab": [

@@ -246,109 +246,129 @@
       "id": "u0-p01",
       "pt": "Bom dia",
       "en": "Good morning",
-      "note": "Until about lunchtime."
+      "note": "Until about lunchtime.",
+      "when": "Walking into the bakery at 9 am: “Bom dia!”"
     },
     {
       "id": "u0-p02",
       "pt": "Boa tarde",
       "en": "Good afternoon",
-      "note": "From lunch until it gets dark."
+      "note": "From lunch until it gets dark.",
+      "when": "Greeting your neighbour on the stairs at 4 pm."
     },
     {
       "id": "u0-p03",
       "pt": "Boa noite",
       "en": "Good evening / good night",
-      "note": "After dark, both hello and goodbye."
+      "note": "After dark, both hello and goodbye.",
+      "when": "Arriving at a restaurant for dinner, or leaving a friend's place at night."
     },
     {
       "id": "u0-p04",
       "pt": "Olá",
       "en": "Hello",
-      "note": "Casual hello. \"Oi\" is Brazilian."
+      "note": "Casual hello. \"Oi\" is Brazilian.",
+      "when": "Meeting a friend or a shop assistant your age."
     },
     {
       "id": "u0-p05",
       "pt": "Tudo bem?",
-      "en": "All good? / How are you?"
+      "en": "All good? / How are you?",
+      "when": "Right after hello: “Olá, tudo bem?”"
     },
     {
       "id": "u0-p06",
       "pt": "Tudo bem, obrigado.",
       "en": "All good, thank you.",
-      "note": "Women say \"obrigada\"."
+      "note": "Women say \"obrigada\".",
+      "when": "Answering a neighbour who asks “Tudo bem?”"
     },
     {
       "id": "u0-p07",
       "pt": "Por favor",
-      "en": "Please"
+      "en": "Please",
+      "when": "At the end of any request: “Um café, por favor.”"
     },
     {
       "id": "u0-p08",
       "pt": "De nada",
-      "en": "You're welcome"
+      "en": "You're welcome",
+      "when": "Someone thanks you for holding the door."
     },
     {
       "id": "u0-p09",
       "pt": "Desculpe",
       "en": "Sorry / Excuse me",
-      "note": "Polite form. With friends: \"desculpa\"."
+      "note": "Polite form. With friends: \"desculpa\".",
+      "when": "You bump into someone, or want a stranger's attention to ask the way."
     },
     {
       "id": "u0-p10",
       "pt": "Com licença",
-      "en": "Excuse me (to get past)"
+      "en": "Excuse me (to get past)",
+      "when": "Squeezing past people on a crowded bus or in a narrow aisle."
     },
     {
       "id": "u0-p11",
       "pt": "Não percebi.",
       "en": "I didn't understand.",
-      "note": "Portugal uses \"perceber\", not \"entender\", in everyday speech."
+      "note": "Portugal uses \"perceber\", not \"entender\", in everyday speech.",
+      "when": "The cashier said something you didn't catch."
     },
     {
       "id": "u0-p12",
       "pt": "Pode repetir, por favor?",
-      "en": "Can you repeat, please?"
+      "en": "Can you repeat, please?",
+      "when": "Someone speaks too fast, or you missed a number."
     },
     {
       "id": "u0-p13",
       "pt": "Mais devagar, por favor.",
-      "en": "More slowly, please."
+      "en": "More slowly, please.",
+      "when": "The pharmacist explains the dose quickly."
     },
     {
       "id": "u0-p14",
       "pt": "Como se diz isto em português?",
-      "en": "How do you say this in Portuguese?"
+      "en": "How do you say this in Portuguese?",
+      "when": "Pointing at something in a shop you don't know the word for."
     },
     {
       "id": "u0-p15",
       "pt": "Fala inglês?",
-      "en": "Do you speak English?"
+      "en": "Do you speak English?",
+      "when": "At the doctor's or the bank, when you're stuck."
     },
     {
       "id": "u0-p16",
       "pt": "Ainda não falo bem português.",
-      "en": "I don't speak Portuguese well yet."
+      "en": "I don't speak Portuguese well yet.",
+      "when": "To explain why you're slow, so people speak more simply."
     },
     {
       "id": "u0-p17",
       "pt": "Pois é.",
       "en": "That's right. / Indeed.",
-      "note": "Very common filler in Portugal."
+      "note": "Very common filler in Portugal.",
+      "when": "A neighbour says it's hot today, and you agree."
     },
     {
       "id": "u0-p18",
       "pt": "Até logo!",
-      "en": "See you later!"
+      "en": "See you later!",
+      "when": "Leaving a colleague you'll see again later that day."
     },
     {
       "id": "u0-p19",
       "pt": "Até amanhã!",
-      "en": "See you tomorrow!"
+      "en": "See you tomorrow!",
+      "when": "Leaving work, or saying bye to your surf teacher."
     },
     {
       "id": "u0-p20",
       "pt": "Igualmente.",
-      "en": "Likewise. / You too."
+      "en": "Likewise. / You too.",
+      "when": "Someone says “Bom fim de semana!” and you wish it back."
     }
   ],
   "vocab": [

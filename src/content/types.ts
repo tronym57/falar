@@ -17,7 +17,7 @@ export type Dialogue = {
   questions?: { id: string; q: string; options: string[]; answer: number; lines?: [number, number] }[]
 }
 
-export type Phrase = { id: string; pt: string; en: string; note?: string }
+export type Phrase = { id: string; pt: string; en: string; note?: string; when?: string } // when: a situation to use it in
 
 export type VocabItem = { id: string; pt: string; en: string; gender?: 'm' | 'f'; note?: string }
 

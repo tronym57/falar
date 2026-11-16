@@ -99,6 +99,8 @@ export function check(input: string, answers: string[], { strict = false } = {})
   }
   // Wrong: show the closest accepted answer, and explain a swapped word if that's what it was.
   const closest = verdicts.filter(x => x.v.kind === 'wrong').sort((x, y) => (x.v as { diffs: number }).diffs - (y.v as { diffs: number }).diffs)[0]
-  const sv = closest.v as { swap?: [string, string] }
-  return { ok: false, expected: closest.a, ...(sv.swap && { note: explainSwap(...sv.swap) }) }
+  // Only when that word is the one difference: with several, the pairing by position is often wrong ("daqui" vs "perto").
+  const sv = closest.v as { swap?: [string, string]; diffs: number }
+  const note = sv.swap && sv.diffs === 1 ? explainSwap(...sv.swap) : undefined
+  return { ok: false, expected: closest.a, ...(note && { note }) }
 }

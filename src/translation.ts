@@ -31,3 +31,7 @@ export function translationOf(ex: Exercise): Pair | null {
     default: return null
   }
 }
+
+/** A key phrase's tips: its note and a situation to use it in. */
+const phrases = Object.fromEntries(Object.values(a1Content).flatMap(u => u.phrases).map(p => [p.id, p]))
+export const phraseTips = (id: string | undefined) => (id ? phrases[id] : undefined)
