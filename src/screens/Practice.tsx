@@ -4,6 +4,7 @@ import { StreakLine } from '../components/Streak'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import type { Exercise } from '../content/types'
 import { db, type PracticeSession } from '../db'
+import { AnswerDiff, showsDiff } from '../components/AnswerDiff'
 import { ExerciseView, needsKeyboard, type Answer } from '../components/Exercises'
 import { audio } from '../audio'
 import { CHIME_MS, playChime } from '../chime'
@@ -220,18 +221,20 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
       {/* The next question slides in from the right. */}
       <motion.div key={current.id + ':' + session.queue.length} data-exercise={current.id} data-session={sessionKey} initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}>
         <ExerciseView ex={current} locked={!!answer} onAnswer={onAnswer} />
+        {answer && showsDiff(current, answer) && <AnswerDiff answer={answer} />}
       </motion.div>
 
       {answer && (
-        <motion.div className={'feedback ' + (answer.result.ok ? 'ok' : 'bad')} role="status" initial={{ y: '100%' }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 420, damping: 36 }}>
-          <b>{answer.result.ok ? 'Correct! ✓' : 'Not quite'}</b>
+        <motion.div className={'feedback ' + (answer.result.ok ? (answer.result.note && showsDiff(current, answer) ? 'ok slip' : 'ok') : 'bad')} role="status" initial={{ y: '100%' }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 420, damping: 36 }}>
+          <b>{answer.result.ok ? (answer.result.note && showsDiff(current, answer) ? 'Right, but check the spelling' : 'Correct! ✓') : 'Not quite'}</b>
           {answer.result.ok && answer.result.note && <p>{answer.result.note}</p>}
           {(() => {
             // The meaning, after every answer. When the correct answer is that same sentence, one line says both.
             const t = translationOf(current)
             const same = t && t.pt === answer.result.expected
             return <>
-              {!answer.result.ok && <p>Correct answer: <b>{answer.result.expected}</b>{same && <> = {t.en}</>}</p>}
+              {/* Typed answers show the correct one under the field instead. */}
+              {!answer.result.ok && !showsDiff(current, answer) && <p>Correct answer: <b>{answer.result.expected}</b>{same && <> = {t.en}</>}</p>}
               {!answer.result.ok && answer.result.note && <p className="why">{answer.result.note}</p>}
               {t && !(same && !answer.result.ok) && <p className="meaning"><b lang="pt-PT">{t.pt}</b> = {t.en}</p>}
             </>

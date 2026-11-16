@@ -41,15 +41,23 @@ export function personsOf(form: string): number[] {
   return [...out]
 }
 
-const REFLEXIVE: Record<string, string> = { me: 'eu', te: 'tu', se: 'ele/ela/você', nos: 'nós' }
+/** Who each person is, spelled out: "2nd" alone doesn't tell you tu is the informal "you". */
+const PERSON = [
+  'eu (1st person, “I”)',
+  'tu (2nd person, informal “you”)',
+  'ele/ela/você (3rd person; você is the polite “you”)',
+  'nós (1st person plural, “we”)',
+  'eles/elas/vocês (3rd person plural)',
+]
+const REFLEXIVE: Record<string, number> = { me: 0, te: 1, se: 2, nos: 3 }
 
 /** Why one real word in place of another is wrong, in a short line. */
 export function explainSwap(typed: string, expected: string): string {
   const t = typed.toLowerCase(), e = expected.toLowerCase()
   for (const v of verbSet.verbs) {
     const i = v.forms.indexOf(t), j = v.forms.indexOf(e)
-    if (i >= 0 && j >= 0) return `“${t}” is ${v.inf} for ${verbSet.persons[i]}. Here it’s “${e}” (${verbSet.persons[j]}).`
+    if (i >= 0 && j >= 0) return `“${t}” is ${v.inf} for ${PERSON[i]}. Here it’s “${e}”: ${PERSON[j]}.`
   }
-  if (REFLEXIVE[t] && REFLEXIVE[e]) return `“${t}” goes with ${REFLEXIVE[t]}. Here it’s “${e}” (${REFLEXIVE[e]}).`
+  if (t in REFLEXIVE && e in REFLEXIVE) return `“${t}” is for ${PERSON[REFLEXIVE[t]]}. Here it’s “${e}”: ${PERSON[REFLEXIVE[e]]}.`
   return `“${t}” is a different word from “${e}”. One small change, a different meaning.`
 }

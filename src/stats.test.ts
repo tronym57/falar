@@ -17,6 +17,8 @@ describe('statsFrom', () => {
     expect(s.minutes).toBe(5) // 4.5 min, rounded
     expect(s.days.at(-1)!.count).toBe(3)
     expect(s.days.at(-2)!.count).toBe(2)
+    expect(s.days.at(-1)!.minutes).toBe(4) // 3.5 min today
+    expect(s.days.at(-2)!.minutes).toBe(1) // 2 × 30 s yesterday
     expect(s.thisWeek).toBe(5)
     expect(s.streak).toBe(2)
     expect(s.rightShare).toBeCloseTo(0.8)

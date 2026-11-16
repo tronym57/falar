@@ -25,7 +25,7 @@ export function useAi() {
 }
 
 // ---------- errors in plain English ----------
-export type AiErrorKind = 'key' | 'quota' | 'offline' | 'blocked' | 'other'
+export type AiErrorKind = 'key' | 'quota' | 'busy' | 'offline' | 'blocked' | 'other'
 export class AiError extends Error {
   kind: AiErrorKind
   constructor(kind: AiErrorKind, message: string) { super(message); this.kind = kind }
@@ -49,6 +49,7 @@ async function request(path: string, key: string, init: RequestInit = {}) {
   if (res.status === 429) throw new AiError('quota', 'The free Gemini limit is reached for the moment. Wait a minute and try again.')
   if (res.status === 403 || (res.status === 400 && /api key/i.test(msg))) throw new AiError('key', "Google didn't accept the API key. Check it in Settings → Conversation partner.")
   if (res.status === 404) throw new AiError('other', `not-found: ${msg}`)
+  if (res.status >= 500) throw new AiError('busy', 'Gemini is very busy right now. Try again in a minute.')
   throw new AiError('other', `Gemini error (${res.status}): ${msg}`)
 }
 
@@ -63,6 +64,46 @@ export function chooseModel(models: ModelInfo[]): string | undefined {
   if (stable.length) return stable.sort((a, b) => version(b.name) - version(a.name))[0].name
   const other = usable.filter(m => /flash/.test(m.name) && !/tts|image|live|audio|embed|lite|thinking|exp/.test(m.name))
   return other.sort((a, b) => version(b.name) - version(a.name))[0]?.name
+}
+
+/**
+ * Other models to try when the chosen one is overloaded or out of free quota: the fast "lite" ones first,
+ * then older flash models; newest first. Exported for tests.
+ */
+export function fallbackModels(models: ModelInfo[], current: string): string[] {
+  const version = (n: string) => Number(/gemini-(\d+(?:\.\d+)?)/.exec(n)?.[1] ?? 0)
+  const usable = models.filter(m => m.supportedGenerationMethods?.includes('generateContent') && m.name !== current)
+  const pick = (re: RegExp) => usable.filter(m => re.test(m.name)).sort((a, b) => version(b.name) - version(a.name)).map(m => m.name)
+  return [...pick(/^models\/gemini-\d+(\.\d+)?-flash-lite$/), ...pick(/^models\/gemini-\d+(\.\d+)?-flash$/)].slice(0, 3)
+}
+
+let fallbacks: string[] | null = null
+
+/**
+ * Runs `send` with the chosen model; when Gemini is overloaded or the free quota is used up,
+ * tries the fallback models in turn before giving up. A retired model is replaced once.
+ */
+async function withModels<T>(key: string, send: (model: string) => Promise<T>): Promise<T> {
+  let model = aiModel() ?? await pickModel(key)
+  try {
+    return await send(model)
+  } catch (e) {
+    if (!(e instanceof AiError)) throw e
+    if (e.message.startsWith('not-found')) {
+      kv.remove(K.model)
+      model = await pickModel(key)
+      return send(model)
+    }
+    if (e.kind !== 'busy' && e.kind !== 'quota') throw e
+    if (!fallbacks) {
+      const data = await call('models?pageSize=200', key).catch(() => null) as { models?: ModelInfo[] } | null
+      fallbacks = fallbackModels(data?.models ?? [], model)
+    }
+    for (const other of fallbacks) {
+      try { return await send(other) } catch (e2) { if (!(e2 instanceof AiError) || (e2.kind !== 'busy' && e2.kind !== 'quota' && !e2.message.startsWith('not-found'))) throw e2 }
+    }
+    throw e.kind === 'busy' ? new AiError('busy', 'Gemini is very busy right now (every model tried). Try again in a minute.') : e
+  }
 }
 
 async function pickModel(key: string) {
@@ -97,13 +138,16 @@ export function quickThinking(model: string, config: Record<string, unknown>) {
 }
 
 /** One request; the reply must match `schema` (Gemini's OpenAPI subset). */
-export async function generateJson<T>(opts: { system: string; turns: Turn[]; schema: object; temperature?: number }, retried = false): Promise<T> {
+export async function generateJson<T>(opts: { system: string; turns: Turn[]; schema: object; temperature?: number }): Promise<T> {
   const key = aiKey()
   if (!key) throw new AiError('key', 'Connect your Gemini API key first.')
-  const model = aiModel() ?? await pickModel(key)
+  return withModels(key, model => generateJsonWith<T>(key, model, opts))
+}
+
+async function generateJsonWith<T>(key: string, model: string, opts: { system: string; turns: Turn[]; schema: object; temperature?: number }): Promise<T> {
   const generationConfig: Record<string, unknown> = { responseMimeType: 'application/json', responseSchema: opts.schema, temperature: opts.temperature ?? 0.7 }
   quickThinking(model, generationConfig)
-  try {
+  {
     const data = await call(`${model}:generateContent`, key, {
       method: 'POST',
       body: JSON.stringify({
@@ -116,13 +160,6 @@ export async function generateJson<T>(opts: { system: string; turns: Turn[]; sch
     const text = c?.content?.parts?.map(p => p.text ?? '').join('') ?? ''
     if (!text) throw new AiError('blocked', c?.finishReason === 'SAFETY' ? 'Gemini refused to answer that. Try saying it differently.' : 'Gemini sent an empty answer. Try again.')
     try { return JSON.parse(text) as T } catch { throw new AiError('other', 'Gemini sent an answer the app could not read. Try again.') }
-  } catch (e) {
-    // The saved model was retired: pick a new one once.
-    if (!retried && e instanceof AiError && e.message.startsWith('not-found')) {
-      kv.remove(K.model)
-      return generateJson<T>(opts, true)
-    }
-    throw e
   }
 }
 
@@ -154,15 +191,14 @@ export const EUROPEAN_RULES = `Write ONLY European Portuguese as spoken in Portu
  * Stream a plain-text answer: `onText` gets the whole text so far, as it arrives.
  * Resolves with the full text. `signal` cancels it (e.g. when you leave the screen).
  */
-export async function streamText(opts: { system: string; turns: Turn[]; temperature?: number; signal?: AbortSignal; onText: (text: string) => void }, retried = false): Promise<string> {
+export async function streamText(opts: { system: string; turns: Turn[]; temperature?: number; signal?: AbortSignal; onText: (text: string) => void }): Promise<string> {
   const key = aiKey()
   if (!key) throw new AiError('key', 'Connect your Gemini API key first.')
-  const model = aiModel() ?? await pickModel(key)
-  const generationConfig: Record<string, unknown> = { temperature: opts.temperature ?? 0.4 }
-  quickThinking(model, generationConfig)
-  let res: Response
-  try {
-    res = await request(`${model}:streamGenerateContent?alt=sse`, key, {
+  // Only the request is retried on another model; once text arrives, it's this one.
+  const res = await withModels(key, model => {
+    const generationConfig: Record<string, unknown> = { temperature: opts.temperature ?? 0.4 }
+    quickThinking(model, generationConfig)
+    return request(`${model}:streamGenerateContent?alt=sse`, key, {
       method: 'POST',
       signal: opts.signal,
       body: JSON.stringify({
@@ -171,13 +207,7 @@ export async function streamText(opts: { system: string; turns: Turn[]; temperat
         generationConfig,
       }),
     })
-  } catch (e) {
-    if (!retried && e instanceof AiError && e.message.startsWith('not-found')) {
-      kv.remove(K.model)
-      return streamText(opts, true)
-    }
-    throw e
-  }
+  })
   if (!res.body) throw new AiError('other', 'This browser cannot show answers live.')
   const reader = res.body.pipeThrough(new TextDecoderStream()).getReader()
   let text = '', buffer = '', reason = ''

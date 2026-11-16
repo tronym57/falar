@@ -52,3 +52,12 @@ describe('quick thinking', () => {
     expect(cfg('models/gemini-2.0-flash')).toBeUndefined()
   })
 })
+
+describe('fallbackModels', () => {
+  it('tries lite models first, then older flash, never the one that failed', async () => {
+    const { fallbackModels } = await import('./ai')
+    const m = (name: string) => ({ name, supportedGenerationMethods: ['generateContent'] })
+    expect(fallbackModels([m('models/gemini-3-flash'), m('models/gemini-2.5-flash'), m('models/gemini-2.5-flash-lite'), m('models/gemini-3-flash-lite'), m('models/gemini-3-pro')], 'models/gemini-3-flash'))
+      .toEqual(['models/gemini-3-flash-lite', 'models/gemini-2.5-flash-lite', 'models/gemini-2.5-flash'])
+  })
+})

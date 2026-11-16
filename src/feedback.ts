@@ -12,10 +12,13 @@ const TOKEN = 'falar.gist.token'
 /** Elements left out of the screenshot (the feedback button and sheet). */
 export const NO_CAPTURE = 'no-capture'
 
-/** The whole page as a JPEG, without the feedback button. */
+/** The whole page (at least one screen tall) as a JPEG, without the feedback button. */
 export async function capture(): Promise<string> {
   const body = document.body
   return domToJpeg(body, {
+    // At least the full screen, so panels fixed to the bottom (like the answer panel) are in it on short pages.
+    width: innerWidth,
+    height: Math.max(body.scrollHeight, innerHeight),
     scale: Math.min(2, devicePixelRatio || 1),
     quality: 0.72,
     backgroundColor: getComputedStyle(body).backgroundColor,

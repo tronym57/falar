@@ -83,17 +83,31 @@ function Row({ k, v, onTap }: { k: React.ReactNode; v: React.ReactNode; onTap?: 
   return onTap ? <button className="row stat-row tap" onClick={onTap}>{inner}</button> : <div className="row stat-row">{inner}</div>
 }
 
-/** One bar per day; tap a bar to read it. Today is selected at first. */
+/** One bar per day, as minutes or as answers; tap a bar to read it. Today is selected at first. */
 function Activity({ days }: { days: S['days'] }) {
   const [sel, setSel] = useState(days.length - 1)
-  const max = Math.max(1, ...days.map(d => d.count))
+  const [by, setBy] = useState<'minutes' | 'count'>('minutes')
+  const value = (x: S['days'][number]) => by === 'minutes' ? x.minutes : x.count
+  const max = Math.max(1, ...days.map(value))
   const d = days[sel]
+  const when = <span className="muted">{sel === days.length - 1 ? 'today' : d.label}</span>
   return <>
-    <p className="stat-readout"><b>{d.count}</b> {d.count === 1 ? 'answer or review' : 'answers and reviews'} · <span className="muted">{sel === days.length - 1 ? 'today' : d.label}</span></p>
-    <div className="stat-chart" role="list" aria-label="Answers and reviews per day">
+    <div className="row stat-head">
+      <p className="stat-readout">
+        {by === 'minutes'
+          ? <><b>{d.minutes ? `≈ ${duration(d.minutes)}` : '0 min'}</b> active · {when}</>
+          : <><b>{d.count}</b> {d.count === 1 ? 'answer or review' : 'answers and reviews'} · {when}</>}
+      </p>
+      <div className="join" role="group" aria-label="Show per day">
+        <button className={'btn btn-xs join-item ' + (by === 'minutes' ? 'btn-primary' : 'btn-tonal')} onClick={() => setBy('minutes')}>Minutes</button>
+        <button className={'btn btn-xs join-item ' + (by === 'count' ? 'btn-primary' : 'btn-tonal')} onClick={() => setBy('count')}>Answers</button>
+      </div>
+    </div>
+    <div className="stat-chart" role="list" aria-label={by === 'minutes' ? 'Minutes active per day' : 'Answers and reviews per day'}>
       {days.map((x, i) => (
-        <button key={x.day} role="listitem" className={'stat-col' + (i === sel ? ' sel' : '')} onClick={() => setSel(i)} aria-label={`${x.label}: ${x.count}`}>
-          <span style={{ height: x.count ? `max(4px, ${(x.count / max) * 100}%)` : 0 }} />
+        <button key={x.day} role="listitem" className={'stat-col' + (i === sel ? ' sel' : '')} onClick={() => setSel(i)}
+          aria-label={`${x.label}: ${by === 'minutes' ? `${x.minutes} min` : x.count}`}>
+          <span style={{ height: value(x) ? `max(4px, ${(value(x) / max) * 100}%)` : 0 }} />
         </button>
       ))}
     </div>

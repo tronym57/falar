@@ -30,10 +30,10 @@ describe('check', () => {
   it('a different real word is a mistake, not a typo, and says why', () => {
     const r = check('de onde és', ['De onde é?'])
     expect(r.ok).toBe(false)
-    expect(r.note).toMatch(/ser for tu.*“é” \(ele\/ela\/você\)/)
+    expect(r.note).toMatch(/ser for tu \(2nd person.*“é”: ele\/ela\/você \(3rd person/)
     const r2 = check('como se chamas', ['Como te chamas?', 'Como se chama?'])
     expect(r2).toMatchObject({ ok: false, expected: 'Como te chamas?' })
-    expect(r2.note).toMatch(/“se” goes with ele\/ela\/você. Here it’s “te” \(tu\)/)
+    expect(r2.note).toMatch(/“se” is for ele\/ela\/você \(3rd person.*Here it’s “te”: tu \(2nd person, informal “you”\)/)
     expect(check('desculpe não percebe', answers).ok).toBe(false) // percebe (present) ≠ percebi (past)
   })
 

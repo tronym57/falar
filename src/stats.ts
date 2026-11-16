@@ -19,7 +19,7 @@ export type Stats = {
   daysPractised: number
   minutes: number
   minutesThisWeek: number
-  days: { day: string; label: string; count: number }[] // last 30 days, oldest first
+  days: { day: string; label: string; count: number; minutes: number }[] // last 30 days, oldest first
   thisWeek: number
   lastWeek: number
   answers: number
@@ -42,11 +42,14 @@ export function statsFrom(
   const times = [...attempts.map(a => +new Date(a.at)), ...logs.map(l => +new Date(l.at))].sort((a, b) => a - b)
   const weekStart = +shift(new Date(now.getFullYear(), now.getMonth(), now.getDate()), -6)
   let ms = 0, msWeek = 0
+  const msPerDay = new Map<string, number>()
   times.forEach((t, i) => {
     const gap = i > 0 ? t - times[i - 1] : Infinity
     const spent = gap <= SITTING_GAP ? gap : FIRST_ANSWER
     ms += spent
     if (t >= weekStart) msWeek += spent
+    const k = localDay(new Date(t))
+    msPerDay.set(k, (msPerDay.get(k) ?? 0) + spent)
   })
 
   const perDay = new Map<string, number>()
@@ -57,7 +60,7 @@ export function statsFrom(
 
   const days = Array.from({ length: 30 }, (_, i) => {
     const d = shift(now, i - 29)
-    return { day: localDay(d), label: d.toLocaleDateString('en', { day: 'numeric', month: 'short' }), count: perDay.get(localDay(d)) ?? 0 }
+    return { day: localDay(d), label: d.toLocaleDateString('en', { day: 'numeric', month: 'short' }), count: perDay.get(localDay(d)) ?? 0, minutes: Math.round((msPerDay.get(localDay(d)) ?? 0) / 60_000) }
   })
   const sum = (from: number, to: number) => days.slice(from, to).reduce((n, d) => n + d.count, 0)
 
