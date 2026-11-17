@@ -9,13 +9,13 @@ import { WhyWrong } from '../components/WhyWrong'
 import { ExerciseView, needsKeyboard, type Answer } from '../components/Exercises'
 import { audio } from '../audio'
 import { CHIME_MS, playChime } from '../chime'
-import { PASS_MARK, logAttempt, markStepDone } from '../progress'
+import { PASS_MARK, logAttempt, markStepDone, saveScore } from '../progress'
 import { unitSteps } from '../units'
 import { PARTS, partOf, rng, scoreByPart, wordQuestions } from '../test'
 import { addGrammarMistake, cardFaces, markTricky } from '../review'
 import { useToast } from '../toast'
 import { newRound } from '../rounds'
-import { phraseTips, translationOf } from '../translation'
+import { pairOnScreen, phraseTips, translationOf } from '../translation'
 import { wordOf, wordQuestionKind } from '../tricky'
 import { allFirstTry, inParts, nextPart } from '../parts'
 
@@ -59,7 +59,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
 
   const [session, setSession] = useState<PracticeSession | null>(null)
   const [answer, setAnswer] = useState<Answer | null>(null)
-  const [more, setMore] = useState<'saving' | number | null>(null) // "Practise this more": extra questions added now
+  const [more, setMore] = useState<'saving' | null>(null) // "Practise this more" is saving
   const [finished, setFinished] = useState<{ score: number; firstTry: Record<string, boolean> } | null>(null)
   const [partDone, setPartDone] = useState<{ right: number; total: number } | null>(null) // break screen between parts
   const [turn, setTurn] = useState(0) // one per question shown, so the same question coming back starts fresh
@@ -141,14 +141,15 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
   }
 
   // "Practise this more": the word joins the review as tricky; in a round with retries,
-  // two questions on it in other forms come at the end of this one too.
+  // two questions on it in other forms come at the end of this one too. Then straight on to the next question.
   const word = wordOf(current)
   const practiseMore = async () => {
     if (!word || more !== null) return
+    keepKeyboard(session)
     setMore('saving')
     try {
       await markTricky(word)
-      let added = 0
+      let base = session
       if (requeue) {
         const faces = cardFaces(await db.customWords.toArray())
         const face = faces[word.id]
@@ -157,31 +158,35 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
           .filter((x, i, xs) => !x.id.endsWith(`-${kind}`) && !(x.id in byId) && xs.findIndex(y => y.id === x.id) === i)
           .slice(0, 2) : []
         if (extra.length) {
-          const s = { ...session!, queue: [...session!.queue, ...extra.map(x => x.id)], total: session!.total + extra.length, items: [...items, ...extra] }
-          await db.sessions.put(s)
-          setItems(s.items)
-          setSession(s)
-          added = extra.length
+          base = { ...session, queue: [...session.queue, ...extra.map(x => x.id)], total: session.total + extra.length, items: [...items, ...extra] }
+          setItems(base.items!)
         }
       }
-      setMore(added)
+      toast(base === session ? 'Added to your review ✓' : 'Added ✓ It comes back at the end, and in your review.')
+      await next(base)
     } catch (e) {
       setMore(null)
       toast(`Couldn't save this: ${(e as Error).message}`, 'error')
     }
   }
 
-  const next = async () => {
-    clearTimeout(replayTimer.current)
-    const upcoming = byId[session.queue[1] ?? (answer && !answer.result.ok && requeue ? current.id : '')]
+  // On iPhone the keyboard only opens from a tap, so focus a hidden field now if the next question is typed.
+  const keepKeyboard = (base: PracticeSession) => {
+    const id = base.queue[1] ?? (answer && !answer.result.ok && requeue ? current.id : '')
+    const upcoming = byId[id] ?? base.items?.find(x => x.id === id)
     if (upcoming && needsKeyboard(upcoming)) keeper.current?.focus({ preventScroll: true })
+  }
+
+  const next = async (base: PracticeSession = session) => {
+    clearTimeout(replayTimer.current)
+    keepKeyboard(base)
     try {
       const ok = answer!.result.ok
-      const seen = current.id in session.firstTry || current.id in (session.earlier ?? {})
-      const firstTry = seen ? session.firstTry : { ...session.firstTry, [current.id]: ok }
-      const queue = session.queue.slice(1)
+      const seen = current.id in base.firstTry || current.id in (base.earlier ?? {})
+      const firstTry = seen ? base.firstTry : { ...base.firstTry, [current.id]: ok }
+      const queue = base.queue.slice(1)
       if (!ok && requeue) queue.push(current.id)
-      const s = { ...session, queue, firstTry, route, updatedAt: new Date().toISOString() }
+      const s = { ...base, queue, firstTry, route, updatedAt: new Date().toISOString() }
 
       if (!queue.length && s.later?.length) {
         const n = nextPart(s)
@@ -195,7 +200,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
         const all = allFirstTry(s)
         const score = Object.values(all).filter(Boolean).length / Math.max(1, Object.keys(all).length)
         if (unit !== undefined && (mode === 'exercises' || mode === 'check')) await markStepDone(unit, mode, score)
-        if (unit !== undefined && mode === 'lesson' && step && score >= PASS_MARK) await markStepDone(unit, step, score)
+        if (unit !== undefined && mode === 'lesson' && step) await (score >= PASS_MARK ? markStepDone : saveScore)(unit, step, score)
         if (mode === 'reading' && step) await markStepDone(-1, step, score)
         await db.sessions.delete(sessionKey)
         setFinished({ score, firstTry: all })
@@ -229,7 +234,8 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
       {answer && (() => {
         const ok = answer.result.ok
         const slip = isSlip(current, answer)
-        // The meaning, after every answer. When the correct answer is that same sentence, one line says both.
+        // The meaning, after every answer, unless the screen already shows both languages.
+        // When the correct answer is that same sentence, one line says both.
         const t = translationOf(current)
         const same = t && t.pt === answer.result.expected
         const tips = phraseTips(word?.id)
@@ -238,7 +244,7 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
           // Typed answers show the correct one in the answer box instead.
           !ok && !isTyped(current) && <>Correct answer: <b lang="pt-PT">{answer.result.expected}</b>{same && <> = {t.en}</>}</>,
           !ok && answer.result.note,
-          t && !(same && !ok && !isTyped(current)) && <><b lang="pt-PT">{t.pt}</b> = {t.en}</>,
+          t && !pairOnScreen(current) && !(same && !ok && !isTyped(current)) && <><b lang="pt-PT">{t.pt}</b> = {t.en}</>,
           tips?.note,
           tips?.when && <><span className="muted">When:</span> {tips.when}</>,
         ].filter(Boolean)
@@ -247,11 +253,11 @@ export default function Practice({ sessionKey, items: fixed, nextRound, mode, un
             <b>{ok ? (slip ? 'Right, but check the spelling' : 'Correct! ✓') : 'Not quite'}</b>
             {points.length > 0 && <ul className="fb-points">{points.map((p, i) => <li key={i}>{p}</li>)}</ul>}
             {!ok && isTyped(current) && <WhyWrong key={turn} task={taskOf(current)} given={answer.given} expected={answer.result.expected} />}
-            <button className={'btn btn-block btn-big ' + (ok ? 'btn-success' : 'btn-miss')} onClick={next}>Continue</button>
+            <button className={'btn btn-block btn-big ' + (ok ? 'btn-success' : 'btn-miss')} onClick={() => next()}>Continue</button>
             {/* Only after a right answer: a wrong one comes back anyway. */}
             {word && ok && (
               <button className="btn btn-ghost btn-block btn-sm practise-more" disabled={more !== null} onClick={practiseMore}>
-                {more === null ? '🔁 Practise this more' : more === 'saving' ? 'Adding…' : 'Added ✓'}
+                {more === null ? '🔁 Practise this more' : 'Adding…'}
               </button>
             )}
           </motion.div>

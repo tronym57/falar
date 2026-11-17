@@ -3,7 +3,7 @@ import { progressOf } from '../parts'
 import { a1Units, unitSteps } from '../units'
 import { a1Content } from '../content'
 import { useToast } from '../toast'
-import { lessonKey, markStepNotDone, useUnitProgress } from '../progress'
+import { PASS_MARK, lessonKey, markStepNotDone, useUnitProgress } from '../progress'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db'
 
@@ -45,7 +45,7 @@ export default function Unit() {
           const s = answered > 0 ? found : undefined
           const sub = s
             ? `In progress · ${answered} of ${progressOf(s).total} answered`
-            : p?.bestScore !== undefined ? `Best: ${Math.round(p.bestScore * 100)}%` : null
+            : p?.bestScore !== undefined ? `Best: ${Math.round(p.bestScore * 100)}%${p.done ? '' : ` · ${Math.round(PASS_MARK * 100)}% to complete`}` : null
 
           if (!open) {
             return (

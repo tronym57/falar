@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { db } from './db'
-import { lessonKey, markStepDone, markStepNotDone, nextStep, PASS_MARK } from './progress'
+import { lessonKey, markStepDone, markStepNotDone, nextStep, PASS_MARK, saveScore } from './progress'
 
 beforeEach(async () => { await Promise.all(db.tables.map(t => t.clear())) })
 
@@ -46,5 +46,15 @@ describe('marking steps done / not done', () => {
     expect((await db.progress.get('0:check'))!.done).toBe(false)
     await markStepDone(0, 'check', 1)
     expect((await db.progress.get('0:check'))!.done).toBe(true)
+  })
+
+  it('a practice below the pass mark keeps its best score but is not done', async () => {
+    await saveScore(1, 'phrases', 0.6)
+    await saveScore(1, 'phrases', 0.4)
+    expect(await db.progress.get('1:phrases')).toMatchObject({ done: false, score: 0.4, bestScore: 0.6 })
+    expect(nextStep(1, await db.progress.toArray())!.slug).toBe('dialogue')
+    await markStepDone(1, 'phrases', 0.9)
+    await saveScore(1, 'phrases', 0.5) // a weaker practice later doesn't undo it
+    expect(await db.progress.get('1:phrases')).toMatchObject({ done: true, bestScore: 0.9 })
   })
 })

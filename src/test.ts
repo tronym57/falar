@@ -145,7 +145,10 @@ export function scoreByPart(items: Exercise[], firstTry: Record<string, boolean>
 export function similarTo(right: string, pool: string[], rand: () => number, n = 3) {
   const words = (x: string) => x.split(/\s+/).length
   const sentence = (x: string) => /[.?!]$/.test(x.trim())
-  return shuffle([...new Set(pool)].filter(m => m !== right), rand)
+  // Same meaning written another way ("Please." / "Please") would be a second right answer.
+  const same = (x: string) => x.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
+  const seen = new Set([same(right)])
+  return shuffle(pool, rand).filter(m => !seen.has(same(m)) && !!seen.add(same(m)))
     .map(m => ({ m, d: Math.abs(words(m) - words(right)) + (sentence(m) !== sentence(right) ? 3 : 0) + rand() * 1.5 }))
     .sort((a, b) => a.d - b.d)
     .slice(0, n)

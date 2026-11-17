@@ -10,7 +10,7 @@ import { ExerciseView, type Answer } from '../components/Exercises'
 import { freshen } from '../rounds'
 import { rng } from '../test'
 import { playChime } from '../chime'
-import { translationOf } from '../translation'
+import { pairOnScreen, translationOf } from '../translation'
 import { useToast } from '../toast'
 import { StreakLine } from '../components/Streak'
 
@@ -175,7 +175,7 @@ function GrammarCard({ ex, unit, onGrade }: { ex: Exercise; unit: number; onGrad
           {okNote(shown, answer) && <p>{okNote(shown, answer)}</p>}
           {!ok && !isTyped(shown) && <p>Correct answer: <b>{answer.result.expected}</b></p>}
           {!ok && answer.result.note && <p className="why">{answer.result.note}</p>}
-          {t && <p className="meaning"><b lang="pt-PT">{t.pt}</b> = {t.en}</p>}
+          {t && !pairOnScreen(shown) && <p className="meaning"><b lang="pt-PT">{t.pt}</b> = {t.en}</p>}
           <p className="small">{ok ? 'It comes back later, with a longer gap each time you get it right.' : 'It comes back again soon.'}</p>
           <button className={'btn btn-block btn-big ' + (ok ? 'btn-success' : 'btn-miss')} onClick={() => onGrade(ok ? Rating.Good : Rating.Again)}>Continue</button>
         </div>

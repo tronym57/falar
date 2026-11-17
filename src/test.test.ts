@@ -155,4 +155,11 @@ describe('wrong options', () => {
     const w = similarTo('three', pool, rng(2))
     expect(w).toContain('two'); expect(w).toContain('nine')
   })
+
+  it('never offer the right meaning written another way, or the same option twice', async () => {
+    const { similarTo, rng } = await import('./test')
+    const s = similarTo('Please', ['Please.', 'please', 'Thank you', 'Thank you.', 'Hello', 'Bye'], rng(3))
+    expect(s.map(x => x.replace('.', '').toLowerCase())).not.toContain('please')
+    expect(new Set(s.map(x => x.replace('.', ''))).size).toBe(s.length)
+  })
 })

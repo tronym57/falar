@@ -21,6 +21,13 @@ export async function markStepDone(unit: number, step: string, score?: number) {
   if (step === 'phrases' || step === 'vocab') await syncCards()
 }
 
+/** A practice below the pass mark: keep its best score, so the step shows it was tried. Doesn't mark it done. */
+export async function saveScore(unit: number, step: string, score: number) {
+  const k = key(unit, step)
+  const prev = await db.progress.get(k)
+  await db.progress.put({ key: k, unit, step, done: !!prev?.done, score, bestScore: Math.max(score, prev?.bestScore ?? 0), updatedAt: prev?.updatedAt ?? now() })
+}
+
 /** Session key for practising a reading step right after it (dialogue, phrases, vocab, grammar). */
 export const lessonKey = (unit: number, step: string) => `lesson-${unit}-${step}`
 

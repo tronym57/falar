@@ -35,3 +35,6 @@ export function translationOf(ex: Exercise): Pair | null {
 /** A key phrase's tips: its note and a situation to use it in. */
 const phrases = Object.fromEntries(Object.values(a1Content).flatMap(u => u.phrases).map(p => [p.id, p]))
 export const phraseTips = (id: string | undefined) => (id ? phrases[id] : undefined)
+
+/** The question and the answer box already show both languages, so a "pt = en" line would only repeat them. */
+export const pairOnScreen = (ex: Exercise) => ex.type === 'translate' || ex.type === 'sentence-builder' || ex.type === 'listen-choose'
